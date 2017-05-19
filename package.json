@@ -1,6 +1,6 @@
 {
   "name": "vue-router-store",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "vue router store plug-in",
   "main": "dist/vue-router-store.js",
   "scripts": {
