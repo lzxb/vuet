@@ -12,7 +12,6 @@ export default new VueRouterStore({
         }
       },
       listFetch (next) {
-        console.log(this)
         // this 指向到组件实例，意味着你可以使用 this.$route 的参数
         const search = this.$route.fullPath.split('?')[1] || ''
         fetch(`https://cnodejs.org/api/v1/topics?${search}`)
