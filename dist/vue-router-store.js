@@ -116,20 +116,7 @@ var createClass = function () {
 
 
 
-var defineProperty = function (obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
 
-  return obj;
-};
 
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -363,7 +350,11 @@ var VueRouterStore$1 = function () {
               // search('key', val)
               query[arg[0]] = arg[1];
             }
-            query = Object.assign({}, vm.$route.query, defineProperty({}, options$$1.pagekey, '1'), vm[options$$1.queryKey], query);
+            var myQuery = {};
+            if (vm.$route[options$$1.pagekey]) {
+              myQuery[options$$1.pagekey] = '1';
+            }
+            query = Object.assign({}, vm.$route.query, myQuery, vm[options$$1.queryKey], query);
             vm.$router.push(_extends({}, vm.$route, {
               query: query
             }));
@@ -398,8 +389,10 @@ var VueRouterStore$1 = function () {
           var key = self._getFetchKey(name, type);
           var toKey = to.fullPath;
           if (!key) {
+            // The first visit of the page
             self._setFetchKey(name, type, toKey);
           } else if (key !== toKey) {
+            // If the current access page is different from the previously accessed page
             self._clearStore(name, type);
             self._setFetchKey(name, type, toKey);
           }

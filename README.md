@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/lzxb/vue-router-store.svg?branch=master)](https://travis-ci.org/lzxb/vue-router-store)
+[![dependencies Status](https://david-dm.org/lzxb/vue-router-store/status.svg)](https://david-dm.org/lzxb/vue-router-store)
+[![devDependencies Status](https://david-dm.org/lzxb/vue-router-store/dev-status.svg)](https://david-dm.org/lzxb/vue-router-store?type=dev)
 [![npm](https://img.shields.io/npm/v/vue-router-store.svg?style=flat-square)](https://www.npmjs.com/package/vue-router-store) 
 [![npm](https://img.shields.io/npm/dt/vue-router-store.svg?style=flat-square)](https://www.npmjs.com/package/vue-router-store)
 

@@ -150,7 +150,11 @@ export default class VueRouterStore {
           } else if (typeof arg[0] === 'string') { // search('key', val)
             query[arg[0]] = arg[1]
           }
-          query = Object.assign({}, vm.$route.query, { [options.pagekey]: '1' }, vm[options.queryKey], query)
+          let myQuery = {}
+          if (vm.$route[options.pagekey]) {
+            myQuery[options.pagekey] = '1'
+          }
+          query = Object.assign({}, vm.$route.query, myQuery, vm[options.queryKey], query)
           vm.$router.push({
             ...vm.$route,
             query
@@ -178,9 +182,10 @@ export default class VueRouterStore {
       beforeRouteEnter (to, from, next) {
         const key = self._getFetchKey(name, type)
         const toKey = to.fullPath
-        if (!key) {
+        if (!key) { // The first visit of the page
           self._setFetchKey(name, type, toKey)
         } else if (key !== toKey) {
+          // If the current access page is different from the previously accessed page
           self._clearStore(name, type)
           self._setFetchKey(name, type, toKey)
         }
