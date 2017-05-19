@@ -93,6 +93,7 @@ e：错误的信息
 ### modules 模块的可选参数
 ```javascript
   new VueRouterStore({
+    // ...其他的可选参数
     modules: {
       ['模块名称']: {
         pagekey: 'page', // 分页的参数，不设置默认为全局的pagekey
