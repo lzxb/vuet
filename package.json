@@ -1,0 +1,64 @@
+{
+  "name": "vue-router-store",
+  "version": "0.0.1",
+  "description": "vue router store plug-in",
+  "main": "dist/vue-router-store.js",
+  "scripts": {
+    "cross-env": "node_modules/.bin/cross-env",
+    "gulp": "node_modules/.bin/gulp",
+    "dev": "npm run gulp",
+    "dist": "npm run cross-env NODE_ENV=production npm run gulp"
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/medevicex/vue-router-store.git"
+  },
+  "homepage": "https://github.com/medevicex/vue-router-store#readme",
+  "bugs": {
+    "url": "https://github.com/medevicex/vue-router-store/issues"
+  },
+  "Keywords": [
+    "vue",
+    "vue2",
+    "vue-router",
+    "vuex"
+  ],
+  "author": "medevicex",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "clear": "0.0.1",
+    "cross-env": "^5.0.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "gulp": "^3.9.1",
+    "gulp-ava": "^0.17.1",
+    "gulp-eslint": "^3.0.1",
+    "jsdom": "^10.1.0",
+    "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-plugin-uglify": "^1.0.2",
+    "vue": "^2.3.3"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-0"
+    ]
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ]
+  }
+}
