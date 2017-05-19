@@ -45,6 +45,8 @@ export default class VueRouterStore {
       name = name.replace(/^(\w)/, (v) => v.toLowerCase()) // 首字母大写
       if (name) {
         defaults[name] = options[k]
+      } else {
+        defaults[name] = options[k]
       }
     })
     return defaults

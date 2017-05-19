@@ -233,6 +233,8 @@ var VueRouterStore$1 = function () {
         }); // 首字母大写
         if (name) {
           defaults$$1[name] = options$$1[k];
+        } else {
+          defaults$$1[name] = options$$1[k];
         }
       });
       return defaults$$1;
