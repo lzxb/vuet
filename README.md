@@ -24,7 +24,7 @@ npm install --save vue-router-store
 #### pagekey
 类型：String  
 默认值：page  
-描述：调用**this.rsList.search()**方法时，会重置this.$route.query[pagekey]参数为1
+描述：调用this.rsList.search()方法时，会重置this.$route.query[pagekey]参数为1
 
 #### queryKey
 类型：String
