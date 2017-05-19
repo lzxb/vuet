@@ -39,31 +39,31 @@ function options() {
   var options = {
     pagekey: 'page', // this.$route.query[pagekey]
     queryKey: 'query', // this.$data[queryKey]
-    fetchBefore: function fetchBefore() {
+    fetchBefore: function fetchBefore(name, type) {
       // Callback method before requesting to send
       // This points to the component instance
     },
-    fetchAfter: function fetchAfter() {
+    fetchAfter: function fetchAfter(name, type) {
       // After the request ends, the callback method, regardless of success or failure
       // This points to the component instance
     },
-    baseData: function baseData() {
+    fetchSuccess: function fetchSuccess(res, name, type) {
+      // Request successful callback
+    },
+    fetchError: function fetchError(e, name, type) {
+      // Request failed callback
+    },
+    baseData: function baseData(name, type) {
       // All use
       return {};
     },
-    baseListData: function baseListData() {
+    baseListData: function baseListData(name) {
       // List all use
       return {};
     },
-    baseDetailData: function baseDetailData() {
+    baseDetailData: function baseDetailData(name) {
       // Detail all use
       return {};
-    },
-    fetchSuccess: function fetchSuccess(res, type) {
-      // Request successful callback
-    },
-    fetchError: function fetchError(e, type) {
-      // Request failed callback
     },
 
     modules: {}
@@ -219,7 +219,7 @@ var VueRouterStore$1 = function () {
       var defaults$$1 = {
         pagekey: this.options.pagekey,
         queryKey: this.options.queryKey,
-        fetch: function fetch() {
+        fetch: function fetch(next) {
           return {};
         },
         data: function data() {

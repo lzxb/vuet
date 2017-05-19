@@ -13,7 +13,7 @@ export default function options (opt = {}) {
     fetchSuccess (res, name, type) {
       // Request successful callback
     },
-    fetchError ( e, name, type) {
+    fetchError (e, name, type) {
       // Request failed callback
     },
     baseData (name, type) {
