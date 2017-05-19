@@ -89,3 +89,37 @@ res： modules的fetch钩子执行完成后返回的数据
 name：模块的名称  
 type：模块的类型  
 e：错误的信息  
+
+### modules 模块的可选参数
+```javascript
+  new VueRouterStore({
+    modules: {
+      ['模块名称']: {
+        pagekey: 'page', // 分页的参数，不设置默认为全局的pagekey
+        queryKey: 'query', // this.$route.query同步到this.$data[queryKey]，不设置默认为全局的queryKey
+        ListData () {
+          return {
+            // 单独定制当前模块的字段，模块的数据 = Object.assign(基本数据, 列表基本数据, 当前模块的基本数据)
+          }
+        },
+        listFetch (next) {
+          // 支持直接返回Promise
+          next({
+            // 更新的data
+          })
+        },
+        detailData () {
+          return {
+            // 单独定制当前模块的字段，模块的数据 = Object.assign(基本数据, 列表基本数据, 当前模块的基本数据)
+          }
+        },
+        detailFetch (next) {
+          // 支持直接返回Promise
+          next({
+            // 更新的data
+          })
+        }
+      }
+    }
+  })
+```

@@ -33,7 +33,7 @@ export default class VueRouterStore {
     const defaults = {
       pagekey: this.options.pagekey,
       queryKey: this.options.queryKey,
-      fetch () {
+      fetch (next) {
         return {}
       },
       data () {
