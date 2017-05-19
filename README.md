@@ -1,3 +1,6 @@
+[![npm](https://img.shields.io/npm/v/vue-router-store.svg?style=flat-square)](https://www.npmjs.com/package/vue-router-store) 
+[![npm](https://img.shields.io/npm/dt/vue-router-store.svg?style=flat-square)](https://www.npmjs.com/package/vue-router-store)
+
 ## vue-router-store
 一个和vue-router配合使用的数据管理插件
 
