@@ -43,39 +43,39 @@ export default {
 
 #### fetchBefore
 类型：Function  
-默认值：(name, type) => ()  
+传入参数：name, type  
 描述：请求发送之前调用的钩子函数，this 指向到组件的实例中，无论成功失败
 
 #### fetchAfter
 类型：Function  
-默认值：(name, type) => ()  
+传入参数：name, type  
 描述：请求结束之后调用的钩子函数，this 指向到组件的实例中，无论成功失败
 
 #### fetchSuccess
 类型：Function  
-默认值：(res, name, type) => ()  
+传入参数：res, name, type  
 描述：请求成功之后调用的钩子函数，this 指向到组件的实例中，无论成功失败
 
 #### fetchError
 类型：Function  
-默认值：(e, name, type) => ()  
+传入参数：e, name, type  
 描述：请求失败之后调用的钩子函数，this 指向到组件的实例中，无论成功失败
 
 #### baseData
 类型：Function  
-默认值：(name, type) => ({})  
+传入参数：name, type  
 返回值类型：Object  
 描述：基本的数据
 
 #### baseListData
 类型：Function  
-默认值：(name) => ({})  
+传入参数：name  
 返回值类型：Object  
 描述：列表的基本字段
 
 #### baseDetailData
 类型：Function  
-默认值：(name) => ({})  
+传入参数：name  
 返回值类型：Object  
 描述：详情的基本字段
 
