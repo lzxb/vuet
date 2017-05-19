@@ -100,7 +100,7 @@ e：错误的信息
         queryKey: 'query', // this.$route.query同步到this.$data[queryKey]，不设置默认为全局的queryKey
         ListData () {
           return {
-            // 单独定制当前模块的字段，模块的数据 = Object.assign(基本数据, 列表基本数据, 当前模块的基本数据)
+            // 单独定制当前模块的字段，模块的数据 = Object.assign(baseData, baseListData, 当前模块的基本数据)
           }
         },
         listFetch (next) {
@@ -111,7 +111,7 @@ e：错误的信息
         },
         detailData () {
           return {
-            // 单独定制当前模块的字段，模块的数据 = Object.assign(基本数据, 列表基本数据, 当前模块的基本数据)
+            // 单独定制当前模块的字段，模块的数据 = Object.assign(baseData, baseDetailData, 当前模块的基本数据)
           }
         },
         detailFetch (next) {
