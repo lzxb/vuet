@@ -33,6 +33,7 @@ export default class VueRouterStore {
     const defaults = {
       pagekey: this.options.pagekey,
       queryKey: this.options.queryKey,
+      paramsKey: this.options.detailParamsKey,
       fetch (next) {
         return {}
       },
@@ -203,14 +204,15 @@ export default class VueRouterStore {
   detailStore (name, ...diy) {
     const self = this
     const type = 'detail'
+    const options = self._getModuleOptions(name, type)
     const computed = {
       ...self._getComputed(name, type),
       $rsDetail () {
         const vm = this
         function rsDetail () {
           const key = vm.$route.path
-          if (!key) return
-          const fetch = self._getModuleOptions(name, type).fetch
+          if (!vm.$route.params[options.paramsKey]) return
+          const fetch = options.fetch
           if (!utils.isFunction(fetch)) {
             return debug.error(`${type} fetch method is undefined`)
           }

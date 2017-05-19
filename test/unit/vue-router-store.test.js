@@ -296,7 +296,10 @@ test('detailStore ($rsDetail && init)', t => {
     name: 'vue-router-store'
   })
   vm.$router.push({
-    path: `/${name}/1000`
+    path: `/${name}/1000`,
+    params: {
+      id: 1000
+    }
   })
   vm.$rsDetail()
   t.is(vm.title, 'title')

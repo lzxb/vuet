@@ -39,6 +39,7 @@ function options() {
   var options = {
     pagekey: 'page', // this.$route.query[pagekey]
     queryKey: 'query', // this.$data[queryKey]
+    detailParamsKey: 'id', // this.$route.params[detailParamsKey]
     fetchBefore: function fetchBefore(name, type) {
       // Callback method before requesting to send
       // This points to the component instance
@@ -219,6 +220,7 @@ var VueRouterStore$1 = function () {
       var defaults$$1 = {
         pagekey: this.options.pagekey,
         queryKey: this.options.queryKey,
+        paramsKey: this.options.detailParamsKey,
         fetch: function fetch(next) {
           return {};
         },
@@ -425,13 +427,14 @@ var VueRouterStore$1 = function () {
     value: function detailStore(name) {
       var self = this;
       var type = 'detail';
+      var options$$1 = self._getModuleOptions(name, type);
       var computed = _extends({}, self._getComputed(name, type), {
         $rsDetail: function $rsDetail() {
           var vm = this;
           function rsDetail() {
             var key = vm.$route.path;
-            if (!key) return;
-            var fetch = self._getModuleOptions(name, type).fetch;
+            if (!vm.$route.params[options$$1.paramsKey]) return;
+            var fetch = options$$1.fetch;
             if (!utils.isFunction(fetch)) {
               return debug.error(type + ' fetch method is undefined');
             }

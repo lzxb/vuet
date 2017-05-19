@@ -2,6 +2,7 @@ export default function options (opt = {}) {
   const options = {
     pagekey: 'page', // this.$route.query[pagekey]
     queryKey: 'query', // this.$data[queryKey]
+    detailParamsKey: 'id', // this.$route.params[detailParamsKey]
     fetchBefore (name, type) {
       // Callback method before requesting to send
       // This points to the component instance
