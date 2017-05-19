@@ -64,19 +64,19 @@ export default {
 #### baseData
 类型：Function  
 传入参数：name, type  
-返回值类型：Object  
+返回类型：Object  
 描述：基本的数据
 
 #### baseListData
 类型：Function  
 传入参数：name  
-返回值类型：Object  
+返回类型：Object  
 描述：列表的基本字段
 
 #### baseDetailData
 类型：Function  
 传入参数：name  
-返回值类型：Object  
+返回类型：Object  
 描述：详情的基本字段
 
 #### modules
