@@ -51,8 +51,7 @@ export default new Vuet({
             }
           },
           watch: 'params.id',
-          fetch () { // list 类型的会监听 $route.path 改变来更新数据
-            // this 指向到组件实例，意味着你可以使用 this.$route 的参数
+          fetch () {
             return fetch(`https://cnodejs.org/api/v1/topic/${this.app.$route.params.id}`)
               .then(response => response.json())
               .then((res) => {

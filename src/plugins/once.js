@@ -2,20 +2,22 @@ const name = 'once'
 
 export default {
   name,
-  install (Vue, Vuet) {
-  },
   mixin (path) {
     return {
       beforeCreate () {
-        if (this.$vuet.__fired_once__ === false) {
+        if (this.$vuet.__once__ === false) {
           this.$vuet.fetch(path, { current: this }).then(() => {
-            this.$vuet.__fired_once__ = true
+            this.$vuet.__once__ = true
           })
         }
       }
     }
-  }, 
-  destroy () {
-    this.__fired_once__ = false
+  },
+  install (Vue, Vuet) {},
+  init (vuet) {
+    vuet.__once__ = false
+  },
+  destroy (vuet) {
+    vuet.__once__ = true
   }
 }

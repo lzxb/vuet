@@ -1,7 +1,6 @@
 import test from 'ava'
 import Vue from 'vue'
 import Vuet from '../../dist/vuet'
-// import { plugins } from '../../src/vuet'
 
 Vue.use(Vuet)
 

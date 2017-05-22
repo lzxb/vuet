@@ -2,8 +2,6 @@ const name = 'route'
 
 export default {
   name,
-  install (Vue, Vuet) {
-  },
   mixin (path) {
     function set (obj, key, value) {
       Object.defineProperty(obj, key, {

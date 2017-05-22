@@ -1,9 +1,7 @@
-const name = 'local'
+const name = 'need'
 
 export default {
   name,
-  install (Vue, Vuet) {
-  },
   mixin (path) {
     return {
       beforeCreate () {

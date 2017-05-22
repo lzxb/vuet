@@ -1,23 +1,27 @@
 import { _Vue } from './install'
 import utils from './utils'
-// import debug from './debug'
-
+import debug from './debug'
 export const plugins = {}
+
+const pluginCallHook = (vuet, hook) => {
+  for (let k in plugins) {
+    if (utils.isFunction(plugins[k][hook])) {
+      plugins[k][hook](vuet)
+    }
+  }
+}
 
 export default class Vuet {
   constructor (options) {
+    if (!utils.isObject(options)) {
+      debug.error('Parameter is the object type')
+    }
     this.options = options || {}
     this.app = null
     this.store = {}
     this.beforeHooks = [] // Before the request begins
     this.afterHooks = [] // After the request begins
     this.vm = null
-    // Call plugins init hook
-    for (let plugin in plugins) {
-      if (utils.isFunction(plugin.init)) {
-        plugin.init.call(this)
-      }
-    }
   }
   beforeEach (fn) {
     this.beforeHooks.push(fn)
@@ -34,7 +38,7 @@ export default class Vuet {
       }
     })
     this._options = {
-      data: this.options.data || function () { return {} },
+      data: this.options.data || function data () { return {} },
       modules: {}
     }
     utils.forEachObj(this.options.modules, (myModule, myModuleName) => {
@@ -46,6 +50,7 @@ export default class Vuet {
         })
       })
     })
+    pluginCallHook(this, 'init')
   }
   setState (path, data) {
     if (!this.store[path]) {
@@ -54,7 +59,7 @@ export default class Vuet {
     Object.assign(this.store[path], data)
   }
   getState (path) {
-    return this.store[path]
+    return this.store[path] || {}
   }
   reset (path) {
     const data = this.options.data()
@@ -66,6 +71,7 @@ export default class Vuet {
   }
   fetch (path, params) {
     const store = this._options.modules[path]
+    if (!utils.isFunction(store.fetch)) return false
     const data = {
       path,
       params,
@@ -91,12 +97,8 @@ export default class Vuet {
     })
   }
   destroy () {
-    for (let plugin in plugins) {
-      if (utils.isFunction(plugin.destroy)) {
-        plugin.destroy.call(this)
-      }
-    }
     this.vm.$destroy()
+    pluginCallHook(this, 'destroy')
   }
 }
 

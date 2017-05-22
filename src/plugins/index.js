@@ -1,11 +1,11 @@
-import route from './route'
 import local from './local'
 import need from './need'
 import once from './once'
+import route from './route'
 
 export default {
-  route,
   local,
-  need, 
-  once
+  need,
+  once,
+  route
 }

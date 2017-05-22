@@ -4,11 +4,58 @@
 	(factory((global.Vuet = global.Vuet || {})));
 }(this, (function (exports) { 'use strict';
 
-var name = 'route';
+var name = 'local';
+
+var local = {
+  name: name,
+  mixin: function mixin(path) {
+    return {};
+  }
+};
+
+var name$1 = 'need';
+
+var need = {
+  name: name$1,
+  mixin: function mixin(path) {
+    return {
+      beforeCreate: function beforeCreate() {
+        this.$vuet.fetch(path, { current: this });
+      }
+    };
+  }
+};
+
+var name$2 = 'once';
+
+var once = {
+  name: name$2,
+  mixin: function mixin(path) {
+    return {
+      beforeCreate: function beforeCreate() {
+        var _this = this;
+
+        if (this.$vuet.__once__ === false) {
+          this.$vuet.fetch(path, { current: this }).then(function () {
+            _this.$vuet.__once__ = true;
+          });
+        }
+      }
+    };
+  },
+  install: function install(Vue, Vuet) {},
+  init: function init(vuet) {
+    vuet.__once__ = false;
+  },
+  destroy: function destroy(vuet) {
+    vuet.__once__ = true;
+  }
+};
+
+var name$3 = 'route';
 
 var route = {
-  name: name,
-  install: function install(Vue, Vuet) {},
+  name: name$3,
   mixin: function mixin(path) {
     function set(obj, key, value) {
       Object.defineProperty(obj, key, {
@@ -100,34 +147,11 @@ var route = {
   }
 };
 
-var name$1 = 'local';
-
-var local = {
-  name: name$1,
-  install: function install(Vue, Vuet) {},
-  mixin: function mixin(path) {
-    return {};
-  }
-};
-
-var name$2 = 'local';
-
-var need = {
-  name: name$2,
-  install: function install(Vue, Vuet) {},
-  mixin: function mixin(path) {
-    return {
-      beforeCreate: function beforeCreate() {
-        this.$vuet.fetch(path, { current: this });
-      }
-    };
-  }
-};
-
 var plugins$1 = {
-  route: route,
   local: local,
-  need: need
+  need: need,
+  once: once,
+  route: route
 };
 
 var _Vue = null;
@@ -188,6 +212,17 @@ var utils = {
   }
 };
 
+var debug = {
+  error: function error(msg) {
+    throw new Error('[vuet] ' + msg);
+  },
+  warn: function warn(msg) {
+    if (process.env.NODE_ENV !== 'production') {
+      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
+    }
+  }
+};
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -212,14 +247,23 @@ var createClass = function () {
   };
 }();
 
-// import debug from './debug'
-
 var plugins = {};
+
+var pluginCallHook = function pluginCallHook(vuet, hook) {
+  for (var k in plugins) {
+    if (utils.isFunction(plugins[k][hook])) {
+      plugins[k][hook](vuet);
+    }
+  }
+};
 
 var Vuet$1 = function () {
   function Vuet(options) {
     classCallCheck(this, Vuet);
 
+    if (!utils.isObject(options)) {
+      debug.error('Parameter is the object type');
+    }
     this.options = options || {};
     this.app = null;
     this.store = {};
@@ -251,7 +295,7 @@ var Vuet$1 = function () {
         }
       });
       this._options = {
-        data: this.options.data || function () {
+        data: this.options.data || function data() {
           return {};
         },
         modules: {}
@@ -265,6 +309,7 @@ var Vuet$1 = function () {
           });
         });
       });
+      pluginCallHook(this, 'init');
     }
   }, {
     key: 'setState',
@@ -277,7 +322,7 @@ var Vuet$1 = function () {
   }, {
     key: 'getState',
     value: function getState(path) {
-      return this.store[path];
+      return this.store[path] || {};
     }
   }, {
     key: 'reset',
@@ -295,6 +340,7 @@ var Vuet$1 = function () {
       var _this2 = this;
 
       var store = this._options.modules[path];
+      if (!utils.isFunction(store.fetch)) return false;
       var data = {
         path: path,
         params: params,
@@ -327,6 +373,7 @@ var Vuet$1 = function () {
     key: 'destroy',
     value: function destroy() {
       this.vm.$destroy();
+      pluginCallHook(this, 'destroy');
     }
   }]);
   return Vuet;
