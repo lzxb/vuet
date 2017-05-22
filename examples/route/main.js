@@ -29,5 +29,3 @@ export default new Vue({
     return h('router-view')
   }
 })
-// 调用 vrs.listMixin('myModule') 方法来向组件注入mixin
-// 调用 vrs.detailMixin('myModule') 方法来向组件注入mixin
