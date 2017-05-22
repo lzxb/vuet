@@ -5,8 +5,8 @@ import utils from './utils'
 export const plugins = {}
 
 export default class Vuet {
-  constructor (options = {}) {
-    this.options = options
+  constructor (options) {
+    this.options = options || {}
     this.app = null
     this.store = {}
     this.beforeHooks = [] // Before the request begins
@@ -72,7 +72,7 @@ export default class Vuet {
         }
       }
     }
-    if (callHook('beforeHooks', data) === false) Promise.resolve(data.store)
+    if (callHook('beforeHooks', data) === false) return Promise.resolve(data.store)
     return store.fetch.call(this)
     .then(res => {
       if (callHook('afterHooks', null, data, res) === false) return data.store

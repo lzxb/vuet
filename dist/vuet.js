@@ -191,11 +191,10 @@ var createClass = function () {
 var plugins = {};
 
 var Vuet$1 = function () {
-  function Vuet() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  function Vuet(options) {
     classCallCheck(this, Vuet);
 
-    this.options = options;
+    this.options = options || {};
     this.app = null;
     this.store = {};
     this.beforeHooks = []; // Before the request begins
@@ -288,7 +287,7 @@ var Vuet$1 = function () {
           }
         }
       };
-      if (callHook('beforeHooks', data) === false) Promise.resolve(data.store);
+      if (callHook('beforeHooks', data) === false) return Promise.resolve(data.store);
       return store.fetch.call(this).then(function (res) {
         if (callHook('afterHooks', null, data, res) === false) return data.store;
         _this2.setState(path, res);
