@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/dt/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet)
 
 # vuet
-简单易用，功能强大Vue 状态管理插件。目前暂时只支持一个插件
+简单易用，功能强大Vue 状态管理插件。目前暂时只支持一个插件 **注：demo正在制作中**
 
 #### 功能开发列表
 - [x]  route 插件，每次组件beforeCreate钩子会触发一次fetch，根据配置的规则来监听$route的变化来决定是否更新fetch（适合存储页面之间的数据）
