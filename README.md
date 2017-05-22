@@ -29,7 +29,7 @@ const vuet = new Vuet({
             return { list: [] }
           },
           fetch () { // 插件更新数据时，调用的钩子，必须返回一个Promsie
-            return Promise.resolve([1,2,3])
+            return Promise.resolve({ list: [1,2,3] })
           }
         }
       }
