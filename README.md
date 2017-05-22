@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/medevicex/vuet.svg?branch=master)](https://travis-ci.org/medevicex/vuet)  
+[![Build Status](https://travis-ci.org/medevicex/vuet.svg?branch=master)](https://travis-ci.org/medevicex/vuet)
 [![dependencies Status](https://david-dm.org/lzxb/vuet/status.svg)](https://david-dm.org/lzxb/vuet)
 [![devDependencies Status](https://david-dm.org/lzxb/vuet/dev-status.svg)](https://david-dm.org/lzxb/vuet?type=dev)
 [![Known Vulnerabilities](https://snyk.io/test/npm/vuet/badge.svg)](https://snyk.io/test/npm/vuet)
