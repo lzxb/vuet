@@ -1,4 +1,9 @@
-[![Build Status](https://travis-ci.org/medevicex/vuet.svg?branch=master)](https://travis-ci.org/medevicex/vuet)
+[![Build Status](https://travis-ci.org/medevicex/vuet.svg?branch=master)](https://travis-ci.org/medevicex/vuet)  
+[![dependencies Status](https://david-dm.org/lzxb/vuet/status.svg)](https://david-dm.org/lzxb/vuet)
+[![devDependencies Status](https://david-dm.org/lzxb/vuet/dev-status.svg)](https://david-dm.org/lzxb/vuet?type=dev)
+[![Known Vulnerabilities](https://snyk.io/test/npm/vuet/badge.svg)](https://snyk.io/test/npm/vuet)
+[![npm](https://img.shields.io/npm/v/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet) 
+[![npm](https://img.shields.io/npm/dt/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet)
 
 # vuet
 简单易用，功能强大Vue 状态管理插件。文档正在更新中
