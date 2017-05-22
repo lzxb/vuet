@@ -21,7 +21,7 @@ const vuet = new Vuet({
   modules: {
     myModule: { // 模块名称
       route: { // 要使用的插件，这个插件是配合vue-router使用的
-        ArticleList: {
+        articleList: {
           // 更新数据的规则设置，默认是$route.fullPath
           // 如果有多个条件，可以传入一个数组['query.name', 'params.id']
           watch: 'fullPath',
@@ -50,5 +50,20 @@ new Vue({
   el: '#app',
   vuet
 })
+
+```
+
+### 组件注入处理逻辑和模块的数据
+```javascript
+import { mapMixins, mapStores } from 'vuet'
+
+export default {
+ // ...options
+ mixins: [...mapMixins('myModule/route/articleList')], // 向组件注入处理数据的逻辑
+ computed: mapStores({ articleList: 'myModule/route/articleList' }), // 使用键值的方式，和数据进行连接
+ created () {
+  console.log(this.articleList.loading, this.articleList.loaded, this.articleList.list)
+ }
+}
 
 ```
