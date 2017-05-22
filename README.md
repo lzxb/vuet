@@ -88,3 +88,22 @@ this.$vuet.search({
  false // true是调用this.$router.replace方法更新，false是调用this.$router.query来更新，默认为false
 )
 ```
+
+### 自定义插件
+```
+const myPlugin = {
+ name: 'myPlugin', // 插件的名称
+ install (Vue, Vuet) {
+  // ...调用Vuet.use()方法时会执行
+ },
+ mixin (path) { // 会传入一个模块路径的参
+  return {
+   // ....options，你可以根据自己的需求，定义数据的处理方式
+   created () {
+    console.log(this._options.modules[path]) // 取得当前模块的配置
+    console.log(this.getState(path)) // 取得当前模块的状态
+   }
+  }
+ }
+}
+```
