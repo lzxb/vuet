@@ -81,12 +81,6 @@ this.$vuet.reset('myModule/route/articleList')
 this.$vuet.fetch('myModule/route/articleList', {
  // 自定义参数，在beforeEach、beforeEach钩子中能接收到对应的参数
 })
-// 更新$route.query的参数
-this.$vuet.search({
- // 参数
-}, 
- false // true是调用this.$router.replace方法更新，false是调用this.$router.query来更新，默认为false
-)
 ```
 
 ### 自定义插件
@@ -129,4 +123,31 @@ const vuet = new Vuet({
  }
 })
 
+```
+
+### 内置的插件
+#### route
+描述：配合vue-router使用的页面数据管理插件,会监听$route的变化来确定是否需要请求数据，每次渲染组件渲染时，在beforeCreate钩子函数中也会触发一次请求。他可以轻易实现页面后退时显示原来的列表数据  
+有一个watch的参数，来确定$route变化时是否需要重新请求数据  
+例子：
+```javascript
+new Vuet({
+  modules: {
+    myModule: { // 模块名称
+      route: { // 要使用的插件，这个插件是配合vue-router使用的
+        articleList: {
+          // 更新数据的规则设置，默认是$route.fullPath
+          // 如果有多个条件，可以传入一个数组['query.name', 'params.id']
+          watch: 'fullPath',
+          data () { // 会和全局的data合并到一起
+            return { list: [] }
+          },
+          fetch () { // 插件更新数据时，调用的钩子，必须返回一个Promsie
+            return Promise.resolve({ list: [1,2,3] })
+          }
+        }
+      }
+    }
+  }
+})
 ```

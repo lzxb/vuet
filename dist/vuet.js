@@ -4,20 +4,6 @@
 	(factory((global.Vuet = global.Vuet || {})));
 }(this, (function (exports) { 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-};
-
-
-
-
-
-
-
-
-
 var asyncToGenerator = function (fn) {
   return function () {
     var gen = fn.apply(this, arguments);
@@ -70,26 +56,6 @@ var createClass = function () {
     return Constructor;
   };
 }();
-
-
-
-
-
-
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];
-
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  return target;
-};
 
 var name = 'route';
 
@@ -223,68 +189,8 @@ var route = {
   }
 };
 
-var utils = {
-  isObject: function isObject(obj) {
-    return Object.prototype.toString.call(obj) === '[object Object]';
-  },
-  isFunction: function isFunction(fn) {
-    return Object.prototype.toString.call(fn) === '[object Function]';
-  },
-  forEachObj: function forEachObj(obj, cb) {
-    if (!utils.isObject(obj)) return;
-    Object.keys(obj).forEach(function (k) {
-      cb(obj[k], k);
-    });
-  },
-  getArgMerge: function getArgMerge() {
-    var opt = {};
-    if (typeof arguments[0] === 'string') {
-      opt[arguments[0]] = arguments[1];
-    } else if (utils.isObject(arguments[0])) {
-      opt = arguments[0];
-    }
-    return opt;
-  }
-};
-
-var name$1 = 'syncQuery';
-function syncQuery() {
-  var _this = this;
-
-  if (!this.$vuet) return;
-  var _$vuet$options$syncQu = this.$vuet.options.syncQuery,
-      syncQuery = _$vuet$options$syncQu === undefined ? 'query' : _$vuet$options$syncQu;
-
-  var query = this[syncQuery];
-  if (utils.isObject(query)) {
-    Object.keys(query).forEach(function (k) {
-      if (Object.prototype.hasOwnProperty.call(_this.$route.query, k)) {
-        query[k] = _this.$route.query[k];
-      }
-    });
-  }
-}
-
-var syncQuery$1 = {
-  name: name$1,
-  install: function install(Vue, Vuet) {
-    Vue.mixin({
-      created: function created() {
-        syncQuery.call(this);
-      },
-
-      watch: {
-        $route: function $route() {
-          syncQuery.call(this);
-        }
-      }
-    });
-  }
-};
-
 var plugins$1 = {
-  route: route,
-  syncQuery: syncQuery$1
+  route: route
 };
 
 var _Vue = null;
@@ -320,6 +226,30 @@ function install(Vue) {
     Vuet$1.use(plugins$1[k]);
   });
 }
+
+var utils = {
+  isObject: function isObject(obj) {
+    return Object.prototype.toString.call(obj) === '[object Object]';
+  },
+  isFunction: function isFunction(fn) {
+    return Object.prototype.toString.call(fn) === '[object Function]';
+  },
+  forEachObj: function forEachObj(obj, cb) {
+    if (!utils.isObject(obj)) return;
+    Object.keys(obj).forEach(function (k) {
+      cb(obj[k], k);
+    });
+  },
+  getArgMerge: function getArgMerge() {
+    var opt = {};
+    if (typeof arguments[0] === 'string') {
+      opt[arguments[0]] = arguments[1];
+    } else if (utils.isObject(arguments[0])) {
+      opt = arguments[0];
+    }
+    return opt;
+  }
+};
 
 // import debug from './debug'
 
@@ -432,31 +362,6 @@ var Vuet$1 = function () {
         if (callHook('afterHooks', e, data) === false) return Promise.resolve(data.store);
         return Promise.reject(e);
       });
-    }
-  }, {
-    key: 'search',
-    value: function search(data, action) {
-      var _app$$route = this.app.$route,
-          hash = _app$$route.hash,
-          query = _app$$route.query,
-          params = _app$$route.params,
-          name = _app$$route.name;
-      /* eslint-disable no-undef */
-
-      if ((typeof event === 'undefined' ? 'undefined' : _typeof(event)) === 'object' && event === data || !utils.isObject(data)) {
-        data = {};
-      }
-      var route = {
-        hash: hash,
-        query: _extends({}, query, data),
-        params: _extends({}, params),
-        name: name
-      };
-      if (action) {
-        this.app.$router.replace(route);
-      } else {
-        this.app.$router.push(route);
-      }
     }
   }, {
     key: 'destroy',

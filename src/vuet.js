@@ -84,24 +84,6 @@ export default class Vuet {
       return Promise.reject(e)
     })
   }
-  search (data, action) {
-    const { hash, query, params, name } = this.app.$route
-    /* eslint-disable no-undef */
-    if ((typeof event === 'object' && event === data) || !utils.isObject(data)) {
-      data = {}
-    }
-    const route = {
-      hash,
-      query: { ...query, ...data },
-      params: { ...params },
-      name
-    }
-    if (action) {
-      this.app.$router.replace(route)
-    } else {
-      this.app.$router.push(route)
-    }
-  }
   destroy () {
     this.vm.$destroy()
   }
