@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/medevicex/vuet.svg?branch=master)](https://travis-ci.org/medevicex/vuet)
+
 # vuet
 简单易用，功能强大Vue 状态管理插件。文档正在更新中
 
