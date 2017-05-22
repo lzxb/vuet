@@ -100,8 +100,34 @@ var route = {
   }
 };
 
+var name$1 = 'local';
+
+var local = {
+  name: name$1,
+  install: function install(Vue, Vuet) {},
+  mixin: function mixin(path) {
+    return {};
+  }
+};
+
+var name$2 = 'local';
+
+var need = {
+  name: name$2,
+  install: function install(Vue, Vuet) {},
+  mixin: function mixin(path) {
+    return {
+      beforeCreate: function beforeCreate() {
+        this.$vuet.fetch(path, { current: this });
+      }
+    };
+  }
+};
+
 var plugins$1 = {
-  route: route
+  route: route,
+  local: local,
+  need: need
 };
 
 var _Vue = null;
