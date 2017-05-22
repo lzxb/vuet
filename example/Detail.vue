@@ -5,9 +5,10 @@
   </div>
 </template>
 <script>
-  import vrs from './vrs'
+  import { mapMixins, mapState } from 'vuet'
 
   export default {
-    mixins: [vrs.detailMixin('cnode')]
+    mixins: [...mapMixins('cnode/route/detail')],
+    computed: mapState({ detail: 'cnode/route/detail' })
   }
 </script>

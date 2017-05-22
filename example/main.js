@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import vrs from './vrs'
+import vuet from './vuet'
 import List from './List'
 import Detail from './Detail'
 
@@ -23,7 +23,7 @@ const router = new VueRouter({
 
 export default new Vue({
   el: '#app',
-  vrs,
+  vuet,
   router,
   render (h) {
     return h('router-view')

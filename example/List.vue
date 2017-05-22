@@ -8,7 +8,7 @@
       </span>
     </header>
     <ul>
-      <li v-for="(item, $index) in list" :key="item.id">
+      <li v-for="(item, $index) in list.list" :key="item.id">
         <router-link :to="{ name: 'detail', params: { id: item.id } }">
           {{ item.title }}
         </router-link>
@@ -17,10 +17,10 @@
   </div>
 </template>
 <script>
-  import vrs from './vrs'
+  import { mapMixins, mapState } from 'vuet'
 
   export default {
-    mixins: [vrs.listMixin('cnode')],
+    mixins: [...mapMixins('cnode/route/list')],
     data () {
       return {
         tabs: [
@@ -46,6 +46,7 @@
           }
         ]
       }
-    }
+    },
+    computed: mapState({ list: 'cnode/route/list' })
   }
 </script>
