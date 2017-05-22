@@ -22,7 +22,7 @@ const vuet = new Vuet({
     myModule: { // 模块名称
       route: { // 要使用的插件
         ArticleList: {
-          watch: 'fullPath', 更新数据的规则设置，默认是$route.fullPath，如果有多个条件，可以传入一个数组['query.name', 'params.id']
+          watch: 'fullPath', // 更新数据的规则设置，默认是$route.fullPath，如果有多个条件，可以传入一个数组['query.name', 'params.id']
           data () { // 会和全局的data合并到一起
             return { list: [] }
           },
