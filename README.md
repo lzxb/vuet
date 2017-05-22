@@ -17,6 +17,20 @@ Vue.use(Vuet)
 const vuet = new Vuet({
   data () {
     return { loading: true, loaded: true }
+  },
+  modules: {
+    myModule: {
+      route: {
+        ArticleList: {
+          data () {
+            return { list: [] }
+          },
+          fetch () {
+            return Promise.resolve([1,2,3])
+          }
+        }
+      }
+    }
   }
 })
 
@@ -29,7 +43,7 @@ vuet.afterEach (function (err, { store }) {
   store.loaded = (err === null)
 })
 
-new Vuew({
+new Vue({
   vuet
 })
 
