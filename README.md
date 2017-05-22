@@ -9,7 +9,7 @@ vuet是一个跨页面、跨组件的状态管理插件，提供了模块化的�
 
 ### 快速上手
 ```javascript
-import Vue from 'vue
+import Vue from 'vue'
 import Vuet from 'vuet'
 
 Vue.use(Vuet)
