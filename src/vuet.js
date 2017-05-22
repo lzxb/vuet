@@ -41,13 +41,13 @@ export default class Vuet {
       })
     })
   }
-  setStore (path, data) {
+  setState (path, data) {
     if (!this.store[path]) {
       return _Vue.set(this.store, path, data)
     }
     Object.assign(this.store[path], data)
   }
-  getStore (path) {
+  getState (path) {
     return this.store[path]
   }
   reset (path) {
@@ -56,14 +56,14 @@ export default class Vuet {
     if (utils.isFunction(store.data)) {
       Object.assign(data, store.data.call(this, path))
     }
-    this.setStore(path, data)
+    this.setState(path, data)
   }
   fetch (path, params) {
     const store = this._options.modules[path]
     const data = {
       path,
       params,
-      store: this.getStore(path)
+      store: this.getState(path)
     }
     const callHook = (hook, ...arg) => {
       for (let i = 0; i < this[hook].length; i++) {
@@ -75,8 +75,8 @@ export default class Vuet {
     if (callHook('beforeHooks', data) === false) Promise.resolve(data.store)
     return store.fetch.call(this)
     .then(res => {
-      if (callHook('afterHooks', null, data) === false) return data.store
-      this.setStore(path, res)
+      if (callHook('afterHooks', null, data, res) === false) return data.store
+      this.setState(path, res)
       return data.store
     })
     .catch(e => {

@@ -4,7 +4,7 @@ export default {
   name,
   install (Vue, Vuet) {
   },
-  mixin (path, moduleName, type) {
+  mixin (path) {
     function set (obj, key, value) {
       Object.defineProperty(obj, key, {
         value,
@@ -14,8 +14,7 @@ export default {
       })
     }
     function getOpt () {
-      const [moduleName, name, type] = path.split('/')
-      return this.$vuet.options.modules[moduleName][name][type]
+      return this.$vuet._options.modules[path]
     }
 
     function getWatchs (obj, list) {

@@ -91,70 +91,12 @@ var _extends = Object.assign || function (target) {
   return target;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var slicedToArray = function () {
-  function sliceIterator(arr, i) {
-    var _arr = [];
-    var _n = true;
-    var _d = false;
-    var _e = undefined;
-
-    try {
-      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-        _arr.push(_s.value);
-
-        if (i && _arr.length === i) break;
-      }
-    } catch (err) {
-      _d = true;
-      _e = err;
-    } finally {
-      try {
-        if (!_n && _i["return"]) _i["return"]();
-      } finally {
-        if (_d) throw _e;
-      }
-    }
-
-    return _arr;
-  }
-
-  return function (arr, i) {
-    if (Array.isArray(arr)) {
-      return arr;
-    } else if (Symbol.iterator in Object(arr)) {
-      return sliceIterator(arr, i);
-    } else {
-      throw new TypeError("Invalid attempt to destructure non-iterable instance");
-    }
-  };
-}();
-
 var name = 'route';
 
 var route = {
   name: name,
   install: function install(Vue, Vuet) {},
-  mixin: function mixin(path, moduleName, type) {
+  mixin: function mixin(path) {
     function set$$1(obj, key, value) {
       Object.defineProperty(obj, key, {
         value: value,
@@ -164,13 +106,7 @@ var route = {
       });
     }
     function getOpt() {
-      var _path$split = path.split('/'),
-          _path$split2 = slicedToArray(_path$split, 3),
-          moduleName = _path$split2[0],
-          name = _path$split2[1],
-          type = _path$split2[2];
-
-      return this.$vuet.options.modules[moduleName][name][type];
+      return this.$vuet._options.modules[path];
     }
 
     function getWatchs(obj, list) {
@@ -299,6 +235,15 @@ var utils = {
     Object.keys(obj).forEach(function (k) {
       cb(obj[k], k);
     });
+  },
+  getArgMerge: function getArgMerge() {
+    var opt = {};
+    if (typeof arguments[0] === 'string') {
+      opt[arguments[0]] = arguments[1];
+    } else if (utils.isObject(arguments[0])) {
+      opt = arguments[0];
+    }
+    return opt;
   }
 };
 
@@ -432,16 +377,16 @@ var Vuet$1 = function () {
       });
     }
   }, {
-    key: 'setStore',
-    value: function setStore(path, data) {
+    key: 'setState',
+    value: function setState(path, data) {
       if (!this.store[path]) {
         return _Vue.set(this.store, path, data);
       }
       Object.assign(this.store[path], data);
     }
   }, {
-    key: 'getStore',
-    value: function getStore(path) {
+    key: 'getState',
+    value: function getState(path) {
       return this.store[path];
     }
   }, {
@@ -452,7 +397,7 @@ var Vuet$1 = function () {
       if (utils.isFunction(store.data)) {
         Object.assign(data, store.data.call(this, path));
       }
-      this.setStore(path, data);
+      this.setState(path, data);
     }
   }, {
     key: 'fetch',
@@ -463,7 +408,7 @@ var Vuet$1 = function () {
       var data = {
         path: path,
         params: params,
-        store: this.getStore(path)
+        store: this.getState(path)
       };
       var callHook = function callHook(hook) {
         for (var _len = arguments.length, arg = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -480,8 +425,8 @@ var Vuet$1 = function () {
       };
       if (callHook('beforeHooks', data) === false) Promise.resolve(data.store);
       return store.fetch.call(this).then(function (res) {
-        if (callHook('afterHooks', null, data) === false) return data.store;
-        _this2.setStore(path, res);
+        if (callHook('afterHooks', null, data, res) === false) return data.store;
+        _this2.setState(path, res);
         return data.store;
       }).catch(function (e) {
         if (callHook('afterHooks', e, data) === false) return Promise.resolve(data.store);
@@ -534,12 +479,7 @@ Vuet$1.use = function use(plugin, opt) {
 function mapStores() {
   // mapStores(xxx, 'xxx/route/xxx')
   // mapStores({ xxx, 'xxx/route/xxx', xxx, 'xxx/route/xxx' })
-  var opt = {};
-  if (typeof arguments[0] === 'string') {
-    opt[arguments[0]] = arguments[1];
-  } else if (utils.isObject(arguments[0])) {
-    opt = arguments[0];
-  }
+  var opt = utils.getArgMerge.apply(null, arguments);
   var computed = {};
   Object.keys(opt).forEach(function (k) {
     var path = opt[k];
@@ -565,14 +505,9 @@ function mapMixins() {
   }
 
   paths.forEach(function (path) {
-    var _path$split = path.split('/'),
-        _path$split2 = slicedToArray(_path$split, 3),
-        moduleName = _path$split2[0],
-        pluginName = _path$split2[1],
-        type = _path$split2[2];
-
+    var pluginName = path.split('/')[1];
     var plugin = plugins[pluginName];
-    mixins.push(plugin.mixin(path, moduleName, type));
+    mixins.push(plugin.mixin(path));
   });
   return mixins;
 }

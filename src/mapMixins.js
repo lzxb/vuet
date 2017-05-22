@@ -5,9 +5,9 @@ export default function mapMixins (...paths) {
   // mapMixins(['xxx/route/xxx', 'xxx/route/xxx'])
   const mixins = []
   paths.forEach(path => {
-    const [moduleName, pluginName, type] = path.split('/')
+    const pluginName = path.split('/')[1]
     const plugin = plugins[pluginName]
-    mixins.push(plugin.mixin(path, moduleName, type))
+    mixins.push(plugin.mixin(path))
   })
   return mixins
 }
