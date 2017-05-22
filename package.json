@@ -1,8 +1,8 @@
 {
-  "name": "vue-router-store",
+  "name": "vuet",
   "version": "0.0.2",
   "description": "vue router store plug-in",
-  "main": "dist/vue-router-store.js",
+  "main": "dist/vuet.js",
   "scripts": {
     "cross-env": "node_modules/.bin/cross-env",
     "gulp": "node_modules/.bin/gulp",
@@ -16,16 +16,18 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/medevicex/vue-router-store.git"
+    "url": "git+https://github.com/medevicex/vuet.git"
   },
-  "homepage": "https://github.com/medevicex/vue-router-store#readme",
+  "homepage": "https://github.com/medevicex/vuet#readme",
   "bugs": {
-    "url": "https://github.com/medevicex/vue-router-store/issues"
+    "url": "https://github.com/medevicex/vuet/issues"
   },
   "Keywords": [
     "vue",
     "vue2",
     "vue-router",
+    "vuex",
+    "vuet",
     "vuex"
   ],
   "author": "medevicex",

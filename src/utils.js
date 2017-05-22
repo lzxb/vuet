@@ -2,24 +2,14 @@ const utils = {
   isObject (obj) {
     return Object.prototype.toString.call(obj) === '[object Object]'
   },
-  isArray (arr) {
-    return Object.prototype.toString.call(arr) === '[object Array]'
+  isFunction (fn) {
+    return Object.prototype.toString.call(fn) === '[object Function]'
   },
-  isFunction (arr) {
-    return Object.prototype.toString.call(arr) === '[object Function]'
-  },
-  next (fn, resolve, reject = (e) => {}) {
-    let btn = false
-    const back = fn(resolve, reject)
-    if (typeof back === 'object' && utils.isFunction(back.then)) {
-      back
-        .then((res) => {
-          if (btn) return
-          btn = true
-          resolve(res)
-        })
-        .catch(reject)
-    }
+  forEachObj (obj, cb) {
+    if (!utils.isObject(obj)) return
+    Object.keys(obj).forEach(k => {
+      cb(obj[k], k)
+    })
   }
 }
 export default utils

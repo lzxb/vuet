@@ -1,6 +1,8 @@
-import VueRouterStore from './vue-router-store'
+import Vuet from './vuet'
 import install from './install'
+export { default as mapStores } from './mapStores'
+export { default as mapMixins } from './mapMixins'
 
-VueRouterStore.install = install
+Vuet.install = install
 
-export default VueRouterStore
+export default Vuet

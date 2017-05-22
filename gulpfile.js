@@ -14,8 +14,8 @@ const uglify = require('rollup-plugin-uglify')
 const { minify } = require('uglify-js')
 const replace = require('rollup-plugin-replace')
 
-const moduleName = 'VueRouterStore'
-const destName = 'vue-router-store'
+const moduleName = 'Vuet'
+const destName = 'vuet'
 
 gulp.task('lint', () => {
   clear()

@@ -1,11 +1,11 @@
 import Vue from 'vue'
-import VueRouterStore from 'vue-router-store'
+import Vuet from 'vuet'
 
-Vue.use(VueRouterStore)
+Vue.use(Vuet)
 
 const { fetch } = window
 
-export default new VueRouterStore({
+export default new Vuet({
   modules: {
     cnode: {
       listData () { // list 类型的会监听 $route.fullPath 改变来更新数据
