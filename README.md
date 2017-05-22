@@ -68,7 +68,7 @@ export default {
 
 ```
 ### 组件内注入的方法
-```
+```javascript
 this.$vuet.setState('myModule/route/articleList', {
  // ...要更新的状态，以键值方式传入
 })
