@@ -20,13 +20,13 @@ const vuet = new Vuet({
   },
   modules: {
     myModule: { // 模块名称
-      route: { // 要使用的插件
+      route: { // 要使用的插件，这个插件是配合vue-router使用的
         ArticleList: {
           watch: 'fullPath', // 更新数据的规则设置，默认是$route.fullPath，如果有多个条件，可以传入一个数组['query.name', 'params.id']
           data () { // 会和全局的data合并到一起
             return { list: [] }
           },
-          fetch () { // 插件更新数据时，调用的钩子
+          fetch () { // 插件更新数据时，调用的钩子，必须返回一个Promsie
             return Promise.resolve([1,2,3])
           }
         }
