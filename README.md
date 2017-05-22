@@ -82,7 +82,7 @@ this.$vuet.fetch('myModule/route/articleList', {
  // 自定义参数，在beforeEach、beforeEach钩子中能接收到对应的参数
 })
 // 更新$route.query的参数
-this.$vuet.search('myModule/route/articleList', {
+this.$vuet.search({
  // 参数
 }, 
  false // true是调用this.$router.replace方法更新，false是调用this.$router.query来更新，默认为false
