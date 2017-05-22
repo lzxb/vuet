@@ -55,12 +55,12 @@ new Vue({
 
 #### 组件注入处理逻辑和模块的数据
 ```javascript
-import { mapMixins, mapStores } from 'vuet'
+import { mapMixins, mapState } from 'vuet'
 
 export default {
  // ...options
  mixins: [...mapMixins('myModule/route/articleList')], // 向组件注入处理数据的逻辑
- computed: mapStores({ articleList: 'myModule/route/articleList' }), // 使用键值的方式，和数据进行连接
+ computed: mapState({ articleList: 'myModule/route/articleList' }), // 使用键值的方式，和数据进行连接
  created () {
   console.log(this.articleList.loading, this.articleList.loaded, this.articleList.list)
  }
