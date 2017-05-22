@@ -90,10 +90,11 @@ this.$vuet.search({
 ```
 
 ### 自定义插件
-```
+```javascript
+import Vuet from 'vuet'
 const myPlugin = {
  name: 'myPlugin', // 插件的名称
- install (Vue, Vuet) {
+ install (Vue, Vuet, options) {
   // ...调用Vuet.use()方法时会执行
  },
  mixin (path) { // 会传入一个模块路径的参
@@ -102,8 +103,30 @@ const myPlugin = {
    created () {
     console.log(this._options.modules[path]) // 取得当前模块的配置
     console.log(this.getState(path)) // 取得当前模块的状态
+    this.$vuet.fetch(path) // 向服务器请求更新状态
    }
   }
  }
 }
+Vuet.use(myPlugin, {
+ // ...options
+})
+
+const vuet = new Vuet({
+ modules: {
+  myModule: {
+   myPlugin: {
+    data () {
+     return {
+      state: false
+     }
+    },
+    fetch () {
+     return Promise.resolve({ state: true })
+    }
+   }
+  }
+ }
+})
+
 ```
