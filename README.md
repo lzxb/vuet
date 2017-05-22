@@ -15,18 +15,18 @@ import Vuet from 'vuet'
 Vue.use(Vuet)
 
 const vuet = new Vuet({
-  data () {
-    return { loading: true, loaded: true }
+  data () { // 基本的数据，会注入到所有的module中
+    return { loading: true, loaded: true }
   },
   modules: {
-    myModule: {
-      route: {
+    myModule: { // 模块名称
+      route: { // 要使用的插件
         ArticleList: {
-          data () {
+          data () { // 会和全局的data合并到一起
             return { list: [] }
           },
-          fetch () {
-            return Promise.resolve([1,2,3])
+          fetch () { // 插件更新数据时，调用的钩子
+            return Promise.resolve([1,2,3])
           }
         }
       }
@@ -44,6 +44,7 @@ vuet.afterEach (function (err, { store }) {
 })
 
 new Vue({
+  el: '#app',
   vuet
 })
 
