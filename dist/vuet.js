@@ -476,9 +476,9 @@ Vuet$1.use = function use(plugin, opt) {
   return this;
 };
 
-function mapStores() {
-  // mapStores(xxx, 'xxx/route/xxx')
-  // mapStores({ xxx, 'xxx/route/xxx', xxx, 'xxx/route/xxx' })
+function mapState() {
+  // mapState(xxx, 'xxx/route/xxx')
+  // mapState({ xxx, 'xxx/route/xxx', xxx, 'xxx/route/xxx' })
   var opt = utils.getArgMerge.apply(null, arguments);
   var computed = {};
   Object.keys(opt).forEach(function (k) {
@@ -515,7 +515,7 @@ function mapMixins() {
 Vuet$1.install = install;
 
 exports['default'] = Vuet$1;
-exports.mapStores = mapStores;
+exports.mapState = mapState;
 exports.mapMixins = mapMixins;
 
 Object.defineProperty(exports, '__esModule', { value: true });
