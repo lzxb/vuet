@@ -67,3 +67,22 @@ export default {
 }
 
 ```
+### 组件内注入的方法
+```
+this.$vuet.setState('myModule/route/articleList', {
+ // ...要更新的状态，以键值方式传入
+})
+// 获取模块的状态
+this.$vuet.getState('myModule/route/articleList')
+// 重置模块的状态
+this.$vuet.reset('myModule/route/articleList')
+// 向服务器请求更新模块的状态
+this.$vuet.fetch('myModule/route/articleList', {
+ // 自定义参数，在beforeEach、beforeEach钩子中能接收到对应的参数
+})
+this.$vuet.search('myModule/route/articleList', {
+ // 更新this.$route.query的参数
+}, 
+ false // true是调用this.$router.replace方法更新，false是调用this.$router.query来更新，默认为false
+)
+```
