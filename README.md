@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/dt/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet)
 
 # vuet
-简单易用，功能强大Vue 状态管理插件。目前暂时只支持一个插件 **注：demo正在制作中**
+简单易用，功能强大Vue 状态管理插件。目前暂时只支持一个插件
 
 #### 功能开发列表
 - [x]  route 插件，每次组件beforeCreate钩子会触发一次fetch，根据配置的规则来监听$route的变化来决定是否更新fetch（适合存储页面之间的数据）
@@ -18,7 +18,7 @@ npm install vuet
 ```
 
 #### 使用须知
-程序必须要支持Promise  
+程序必须要支持Promise，[完整的例子请看这里](https://github.com/medevicex/vuet/tree/master/example)
 
 #### 介绍
 vuet是一个跨页面、跨组件的状态管理插件，提供了模块化的数据管理，可以自定义mixin来维护模块的数据以及和服务器之间的通信、如何在本地进行更新。
