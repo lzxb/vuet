@@ -83,7 +83,7 @@ this.$vuet.fetch('myModule/route/articleList', {
 })
 ```
 
-### 自定义插件
+#### 自定义插件
 ```javascript
 import Vuet from 'vuet'
 const myPlugin = {
@@ -125,8 +125,8 @@ const vuet = new Vuet({
 
 ```
 
-### 内置的插件
-#### route
+#### 内置的插件
+##### route
 描述：配合vue-router使用的页面数据管理插件,会监听$route的变化来确定是否需要请求数据，每次渲染组件渲染时，在beforeCreate钩子函数中也会触发一次请求。他可以轻易实现页面后退时显示原来的列表数据  
 有一个watch的参数，来确定$route变化时是否需要重新请求数据  
 例子：
