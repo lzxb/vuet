@@ -48,7 +48,7 @@ export default {
       return false
     }
     return {
-      async beforeCreate () {
+      beforeCreate () {
         if (!this.$vuet.__route__) {
           set(this.$vuet, '__route__', {})
         }
@@ -61,19 +61,21 @@ export default {
           this.$vuet.reset(path)
           this.$vuet.__route__[path] = toWatch
         }
-        await this.$vuet.fetch(path, { current: this })
-        this.$vuet.__route__[path] = toWatch
+        this.$vuet.fetch(path, { current: this }).then(() => {
+          this.$vuet.__route__[path] = toWatch
+        })
       },
       watch: {
         $route: {
           deep: true,
-          async handler (to, from) {
+          handler (to, from) {
             const { watch = 'fullPath' } = getOpt.call(this)
             const toWatch = getWatchs(to, watch)
             const fromWatch = getWatchs(from, watch)
             if (!diffWatch(toWatch, fromWatch)) return false
-            await this.$vuet.fetch(path, this)
-            this.$vuet.__route__[path] = toWatch
+            this.$vuet.fetch(path, this).then(() => {
+              this.$vuet.__route__[path] = toWatch
+            })
           }
         }
       }

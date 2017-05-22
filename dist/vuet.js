@@ -4,66 +4,13 @@
 	(factory((global.Vuet = global.Vuet || {})));
 }(this, (function (exports) { 'use strict';
 
-var asyncToGenerator = function (fn) {
-  return function () {
-    var gen = fn.apply(this, arguments);
-    return new Promise(function (resolve, reject) {
-      function step(key, arg) {
-        try {
-          var info = gen[key](arg);
-          var value = info.value;
-        } catch (error) {
-          reject(error);
-          return;
-        }
-
-        if (info.done) {
-          resolve(value);
-        } else {
-          return Promise.resolve(value).then(function (value) {
-            step("next", value);
-          }, function (err) {
-            step("throw", err);
-          });
-        }
-      }
-
-      return step("next");
-    });
-  };
-};
-
-var classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
-
-var createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-
 var name = 'route';
 
 var route = {
   name: name,
   install: function install(Vue, Vuet) {},
   mixin: function mixin(path) {
-    function set$$1(obj, key, value) {
+    function set(obj, key, value) {
       Object.defineProperty(obj, key, {
         value: value,
         enumerable: false,
@@ -109,39 +56,25 @@ var route = {
       beforeCreate: function beforeCreate() {
         var _this = this;
 
-        return asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-          var _getOpt$call, _getOpt$call$watch, watch, toWatch;
+        if (!this.$vuet.__route__) {
+          set(this.$vuet, '__route__', {});
+        }
 
-          return regeneratorRuntime.wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  if (!_this.$vuet.__route__) {
-                    set$$1(_this.$vuet, '__route__', {});
-                  }
-                  _getOpt$call = getOpt.call(_this), _getOpt$call$watch = _getOpt$call.watch, watch = _getOpt$call$watch === undefined ? 'fullPath' : _getOpt$call$watch;
-                  toWatch = getWatchs(_this.$route, watch);
+        var _getOpt$call = getOpt.call(this),
+            _getOpt$call$watch = _getOpt$call.watch,
+            watch = _getOpt$call$watch === undefined ? 'fullPath' : _getOpt$call$watch;
 
-                  if (!_this.$vuet.__route__[path]) {
-                    _this.$vuet.__route__[path] = toWatch;
-                  }
-                  if (diffWatch(toWatch, _this.$vuet.__route__[path])) {
-                    _this.$vuet.reset(path);
-                    _this.$vuet.__route__[path] = toWatch;
-                  }
-                  _context.next = 7;
-                  return _this.$vuet.fetch(path, { current: _this });
-
-                case 7:
-                  _this.$vuet.__route__[path] = toWatch;
-
-                case 8:
-                case 'end':
-                  return _context.stop();
-              }
-            }
-          }, _callee, _this);
-        }))();
+        var toWatch = getWatchs(this.$route, watch);
+        if (!this.$vuet.__route__[path]) {
+          this.$vuet.__route__[path] = toWatch;
+        }
+        if (diffWatch(toWatch, this.$vuet.__route__[path])) {
+          this.$vuet.reset(path);
+          this.$vuet.__route__[path] = toWatch;
+        }
+        this.$vuet.fetch(path, { current: this }).then(function () {
+          _this.$vuet.__route__[path] = toWatch;
+        });
       },
 
       watch: {
@@ -150,38 +83,16 @@ var route = {
           handler: function handler(to, from) {
             var _this2 = this;
 
-            return asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-              var _getOpt$call2, _getOpt$call2$watch, watch, toWatch, fromWatch;
+            var _getOpt$call2 = getOpt.call(this),
+                _getOpt$call2$watch = _getOpt$call2.watch,
+                watch = _getOpt$call2$watch === undefined ? 'fullPath' : _getOpt$call2$watch;
 
-              return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                while (1) {
-                  switch (_context2.prev = _context2.next) {
-                    case 0:
-                      _getOpt$call2 = getOpt.call(_this2), _getOpt$call2$watch = _getOpt$call2.watch, watch = _getOpt$call2$watch === undefined ? 'fullPath' : _getOpt$call2$watch;
-                      toWatch = getWatchs(to, watch);
-                      fromWatch = getWatchs(from, watch);
-
-                      if (diffWatch(toWatch, fromWatch)) {
-                        _context2.next = 5;
-                        break;
-                      }
-
-                      return _context2.abrupt('return', false);
-
-                    case 5:
-                      _context2.next = 7;
-                      return _this2.$vuet.fetch(path, _this2);
-
-                    case 7:
-                      _this2.$vuet.__route__[path] = toWatch;
-
-                    case 8:
-                    case 'end':
-                      return _context2.stop();
-                  }
-                }
-              }, _callee2, _this2);
-            }))();
+            var toWatch = getWatchs(to, watch);
+            var fromWatch = getWatchs(from, watch);
+            if (!diffWatch(toWatch, fromWatch)) return false;
+            this.$vuet.fetch(path, this).then(function () {
+              _this2.$vuet.__route__[path] = toWatch;
+            });
           }
         }
       }
@@ -250,6 +161,30 @@ var utils = {
     return opt;
   }
 };
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
 
 // import debug from './debug'
 
