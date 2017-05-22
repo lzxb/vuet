@@ -37,12 +37,12 @@ const vuet = new Vuet({
   }
 })
 
-vuet.beforeEach(function ({ store }) {
-  store.loading = true
+vuet.beforeEach(function ({ store }) { // 请求发送前调用钩子，return false 则取消本次请求
+  store.loading = true
   store.loaded = true
 })
-vuet.afterEach (function (err, { store }) {
-  store.loading = false
+vuet.afterEach (function (err, { store }, res) { // 请求结束后调用钩子，return false 则取消更新数据
+  store.loading = false
   store.loaded = (err === null)
 })
 
