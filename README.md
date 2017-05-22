@@ -3,7 +3,7 @@
 
 #### 安装
 ```
-npm install
+npm install vuet
 ```
 
 #### 使用须知
