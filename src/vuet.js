@@ -92,7 +92,7 @@ export default class Vuet {
   }
   destroy () {
     for (let plugin in plugins) {
-      if (util.isFunction(plugin.destroy)) {
+      if (utils.isFunction(plugin.destroy)) {
         plugin.destroy.call(this)
       }
     }
