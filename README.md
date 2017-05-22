@@ -115,8 +115,8 @@ Vuet.use(myPlugin, {
 const vuet = new Vuet({
  modules: {
   myModule: {
-   myPlugin: {
-    data () {
+   myPlugin: { // 使用自定义插件来处理数据
+    data () {
      return {
       state: false
      }
