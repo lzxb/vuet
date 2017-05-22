@@ -12,6 +12,12 @@ export default class Vuet {
     this.beforeHooks = [] // Before the request begins
     this.afterHooks = [] // After the request begins
     this.vm = null
+    // Call plugins init hook
+    for (let plugin in plugins) {
+      if (utils.isFunction(plugin.init)) {
+        plugin.init.call(this)
+      }
+    }
   }
   beforeEach (fn) {
     this.beforeHooks.push(fn)
@@ -85,6 +91,11 @@ export default class Vuet {
     })
   }
   destroy () {
+    for (let plugin in plugins) {
+      if (util.isFunction(plugin.destroy)) {
+        plugin.destroy.call(this)
+      }
+    }
     this.vm.$destroy()
   }
 }
