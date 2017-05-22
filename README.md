@@ -18,7 +18,7 @@ npm install vuet
 ```
 
 #### 使用须知
-程序必须要支持Promise，完整的例子请看[这里](https://github.com/medevicex/vuet/tree/master/example)
+程序必须要支持Promise，[完整的例子请看这里](https://github.com/medevicex/vuet/tree/master/example)
 
 #### 介绍
 vuet是一个跨页面、跨组件的状态管理插件，提供了模块化的数据管理，可以自定义mixin来维护模块的数据以及和服务器之间的通信、如何在本地进行更新。
