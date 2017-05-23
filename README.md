@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/dt/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet)
 
 # vuet
-简单易用，功能强大Vue 状态管理插件。目前已经完成功能开发，近期将会完善单元测试。
+简单易用，功能强大Vue 状态管理插件
 
 #### 功能开发列表
 - [x]  route 插件，每次组件beforeCreate钩子会触发一次fetch，根据配置的规则来监听$route的变化来决定是否更新fetch（适合存储页面之间的数据）
@@ -12,6 +12,19 @@
 - [x]  need  插件，每一次组件使用的时候，beforeCreate钩子会触发一次fetch（适合存储一次性拿到全部的数据，比如某个模块的统计）
 - [x]  local 插件，不会调用任何钩子，只是单纯的存储本地的数据（适合写死在程序中的数据，比如某个下拉框）
 - [x]  life  插件，组件销毁时，数据将会被重置（适合跨组件进行通信，比如一个组件是编辑数据，另外一个兄弟组件则预览数据）
+
+#### 单元测试
+- [ ] debug.js
+- [x] install.js
+- [ ] mapMixins.js
+- [ ] mapState.js
+- [ ] utils.js
+- [x] vuet.js
+- [ ] plugins/life.js
+- [ ] plugins/local.js
+- [ ] plugins/need.js
+- [ ] plugins/once.js
+- [ ] plugins/route.js
 
 #### 安装
 ```
