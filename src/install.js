@@ -1,9 +1,8 @@
 import Vuet from './vuet'
 import plugins from './plugins/index'
+import utils from './utils'
 
 export let _Vue = null
-
-const isDef = v => v !== undefined
 
 export default function install (Vue) {
   if (install.installed) return
@@ -14,13 +13,13 @@ export default function install (Vue) {
   })
   Vue.mixin({
     beforeCreate () {
-      if (isDef(this.$options.vuet)) {
+      if (!utils.isUndefined(this.$options.vuet)) {
         this._vuet = this.$options.vuet
         this._vuet.init(this)
       }
     },
     destroyed () {
-      if (isDef(this.$options.vuet)) {
+      if (!utils.isUndefined(this.$options.vuet)) {
         this._vuet = this.$options.vuet
         this._vuet.destroy(this)
       }
