@@ -51,9 +51,9 @@ var once = {
       beforeCreate: function beforeCreate() {
         var _this = this;
 
-        if (this.$vuet.__once__ === false) {
+        if (this.$vuet.__fired_once__ === false) {
           this.$vuet.fetch(path, { current: this }).then(function () {
-            _this.$vuet.__once__ = true;
+            _this.$vuet.__fired_once__ = true;
           });
         }
       }
@@ -61,10 +61,10 @@ var once = {
   },
   install: function install(Vue, Vuet) {},
   init: function init(vuet) {
-    vuet.__once__ = false;
+    vuet.__fired_once__ = false;
   },
   destroy: function destroy(vuet) {
-    vuet.__once__ = true;
+    vuet.__fired_once__ = true;
   }
 };
 

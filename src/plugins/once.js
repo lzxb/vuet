@@ -5,9 +5,9 @@ export default {
   mixin (path) {
     return {
       beforeCreate () {
-        if (this.$vuet.__once__ === false) {
+        if (this.$vuet.__fired_once__ === false) {
           this.$vuet.fetch(path, { current: this }).then(() => {
-            this.$vuet.__once__ = true
+            this.$vuet.__fired_once__ = true
           })
         }
       }
@@ -15,9 +15,9 @@ export default {
   },
   install (Vue, Vuet) {},
   init (vuet) {
-    vuet.__once__ = false
+    vuet.__fired_once__ = false
   },
   destroy (vuet) {
-    vuet.__once__ = true
+    vuet.__fired_once__ = true
   }
 }
