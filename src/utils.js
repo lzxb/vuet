@@ -1,24 +1,32 @@
+const toString = Object.prototype.toString
+// Cached type string
+const typeStrings = ['Object', 'Function', 'String', 'Undefined', 'Null']
+
 const utils = {
-  isObject (obj) {
-    return Object.prototype.toString.call(obj) === '[object Object]'
-  },
-  isFunction (fn) {
-    return Object.prototype.toString.call(fn) === '[object Function]'
-  },
   forEachObj (obj, cb) {
-    if (!utils.isObject(obj)) return
+    if (!obj || !utils.isObject(obj)) return
     Object.keys(obj).forEach(k => {
-      cb(obj[k], k)
+      cb(obj[k], k, obj)
     })
   },
   getArgMerge () {
     let opt = {}
-    if (typeof arguments[0] === 'string') {
-      opt[arguments[0]] = arguments[1]
-    } else if (utils.isObject(arguments[0])) {
-      opt = arguments[0]
+    const args = arguments
+    if (utils.isString(args[0])) {
+      opt[args[0]] = args.length > 1 ? args[1] : args[0]
+    } else if (args[0] && utils.isObject(args[0])) {
+      opt = args[0]
     }
     return opt
   }
 }
+
+// Add isXXX function
+typeStrings.forEach(type => {
+  const typeString = `[object ${type}]`
+  utils[`is${type}`] = obj => {
+    toString.call(obj) === typeString
+  }
+})
+
 export default utils
