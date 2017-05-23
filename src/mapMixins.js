@@ -1,4 +1,4 @@
-import { plugins } from './vuet'
+import Vuet from './vuet'
 
 export default function mapMixins (...paths) {
   // mapMixins('xxx/route/xxx')
@@ -6,7 +6,7 @@ export default function mapMixins (...paths) {
   const mixins = []
   paths.forEach(path => {
     const pluginName = path.split('/')[1]
-    const plugin = plugins[pluginName]
+    const plugin = Vuet.plugins[pluginName]
     mixins.push(plugin.mixin(path))
   })
   return mixins

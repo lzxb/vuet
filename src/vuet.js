@@ -1,15 +1,6 @@
 import { _Vue } from './install'
 import utils from './utils'
 import debug from './debug'
-export const plugins = {}
-
-const pluginCallHook = (vuet, hook) => {
-  for (let k in plugins) {
-    if (utils.isFunction(plugins[k][hook])) {
-      plugins[k][hook](vuet)
-    }
-  }
-}
 
 export default class Vuet {
   constructor (options) {
@@ -30,7 +21,7 @@ export default class Vuet {
     this.afterHooks.push(fn)
   }
   init (app) {
-    if (this.app) return
+    if (this.app || !app) return
     this.app = app
     this.vm = new _Vue({
       data: {
@@ -50,7 +41,7 @@ export default class Vuet {
         })
       })
     })
-    pluginCallHook(this, 'init')
+    Vuet.pluginCallHook(this, 'init')
   }
   setState (path, data) {
     if (!this.store[path]) {
@@ -74,7 +65,7 @@ export default class Vuet {
     if (!utils.isFunction(store.fetch)) return false
     const data = {
       path,
-      params,
+      params: { ...params },
       store: this.getState(path)
     }
     const callHook = (hook, ...arg) => {
@@ -98,15 +89,23 @@ export default class Vuet {
   }
   destroy () {
     this.vm.$destroy()
-    pluginCallHook(this, 'destroy')
+    Vuet.pluginCallHook(this, 'destroy')
+  }
+}
+Vuet.plugins = {}
+Vuet.pluginCallHook = (vuet, hook) => {
+  for (let k in Vuet.plugins) {
+    if (utils.isFunction(Vuet.plugins[k][hook])) {
+      Vuet.plugins[k][hook](vuet)
+    }
   }
 }
 
-Vuet.use = function use (plugin, opt) {
+Vuet.use = (plugin, opt) => {
   if (utils.isFunction(plugin.install)) {
     plugin.install(_Vue, Vuet, opt)
   }
-  if (typeof plugin.name !== 'string' && !plugin.name) return this
-  plugins[plugin.name] = plugin
-  return this
+  if (typeof plugin.name !== 'string' || !plugin.name) return Vuet
+  Vuet.plugins[plugin.name] = plugin
+  return Vuet
 }

@@ -13,7 +13,6 @@ export default {
       }
     }
   },
-  install (Vue, Vuet) {},
   init (vuet) {
     vuet.__fired_once__ = false
   },

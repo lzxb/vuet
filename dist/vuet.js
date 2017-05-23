@@ -4,6 +4,37 @@
 	(factory((global.Vuet = global.Vuet || {})));
 }(this, (function (exports) { 'use strict';
 
+var toString = Object.prototype.toString;
+// Cached type string
+var typeStrings = ['Object', 'Function', 'String', 'Undefined', 'Null'];
+
+var utils = {
+  forEachObj: function forEachObj(obj, cb) {
+    if (!obj || !utils.isObject(obj)) return;
+    Object.keys(obj).forEach(function (k) {
+      cb(obj[k], k, obj);
+    });
+  },
+  getArgMerge: function getArgMerge() {
+    var opt = {};
+    var args = arguments;
+    if (utils.isString(args[0])) {
+      opt[args[0]] = args.length > 1 ? args[1] : args[0];
+    } else if (args[0] && utils.isObject(args[0])) {
+      opt = args[0];
+    }
+    return opt;
+  }
+};
+
+// Add isXXX function
+typeStrings.forEach(function (type) {
+  var typeString = '[object ' + type + ']';
+  utils['is' + type] = function (obj) {
+    return toString.call(obj) === typeString;
+  };
+});
+
 var name = 'life';
 
 var life = {
@@ -59,7 +90,6 @@ var once = {
       }
     };
   },
-  install: function install(Vue, Vuet) {},
   init: function init(vuet) {
     vuet.__fired_once__ = false;
   },
@@ -163,44 +193,13 @@ var route = {
   }
 };
 
-var plugins$1 = {
+var plugins = {
   life: life,
   local: local,
   need: need,
   once: once,
   route: route
 };
-
-var toString = Object.prototype.toString;
-// Cached type string
-var typeStrings = ['Object', 'Function', 'String', 'Undefined', 'Null'];
-
-var utils = {
-  forEachObj: function forEachObj(obj, cb) {
-    if (!obj || !utils.isObject(obj)) return;
-    Object.keys(obj).forEach(function (k) {
-      cb(obj[k], k, obj);
-    });
-  },
-  getArgMerge: function getArgMerge() {
-    var opt = {};
-    var args = arguments;
-    if (utils.isString(args[0])) {
-      opt[args[0]] = args.length > 1 ? args[1] : args[0];
-    } else if (args[0] && utils.isObject(args[0])) {
-      opt = args[0];
-    }
-    return opt;
-  }
-};
-
-// Add isXXX function
-typeStrings.forEach(function (type) {
-  var typeString = '[object ' + type + ']';
-  utils['is' + type] = function (obj) {
-    return toString.call(obj) === typeString;
-  };
-});
 
 var _Vue = null;
 
@@ -227,8 +226,8 @@ function install(Vue) {
       }
     }
   });
-  Object.keys(plugins$1).forEach(function (k) {
-    Vuet$1.use(plugins$1[k]);
+  Object.keys(plugins).forEach(function (k) {
+    Vuet$1.use(plugins[k]);
   });
 }
 
@@ -267,14 +266,24 @@ var createClass = function () {
   };
 }();
 
-var plugins = {};
 
-var pluginCallHook = function pluginCallHook(vuet, hook) {
-  for (var k in plugins) {
-    if (utils.isFunction(plugins[k][hook])) {
-      plugins[k][hook](vuet);
+
+
+
+
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
     }
   }
+
+  return target;
 };
 
 var Vuet$1 = function () {
@@ -307,7 +316,7 @@ var Vuet$1 = function () {
     value: function init(app) {
       var _this = this;
 
-      if (this.app) return;
+      if (this.app || !app) return;
       this.app = app;
       this.vm = new _Vue({
         data: {
@@ -329,7 +338,7 @@ var Vuet$1 = function () {
           });
         });
       });
-      pluginCallHook(this, 'init');
+      Vuet.pluginCallHook(this, 'init');
     }
   }, {
     key: 'setState',
@@ -363,7 +372,7 @@ var Vuet$1 = function () {
       if (!utils.isFunction(store.fetch)) return false;
       var data = {
         path: path,
-        params: params,
+        params: _extends({}, params),
         store: this.getState(path)
       };
       var callHook = function callHook(hook) {
@@ -393,19 +402,28 @@ var Vuet$1 = function () {
     key: 'destroy',
     value: function destroy() {
       this.vm.$destroy();
-      pluginCallHook(this, 'destroy');
+      Vuet.pluginCallHook(this, 'destroy');
     }
   }]);
   return Vuet;
 }();
 
-Vuet$1.use = function use(plugin, opt) {
+Vuet$1.plugins = {};
+Vuet$1.pluginCallHook = function (vuet, hook) {
+  for (var k in Vuet$1.plugins) {
+    if (utils.isFunction(Vuet$1.plugins[k][hook])) {
+      Vuet$1.plugins[k][hook](vuet);
+    }
+  }
+};
+
+Vuet$1.use = function (plugin, opt) {
   if (utils.isFunction(plugin.install)) {
     plugin.install(_Vue, Vuet$1, opt);
   }
-  if (typeof plugin.name !== 'string' && !plugin.name) return this;
-  plugins[plugin.name] = plugin;
-  return this;
+  if (typeof plugin.name !== 'string' || !plugin.name) return Vuet$1;
+  Vuet$1.plugins[plugin.name] = plugin;
+  return Vuet$1;
 };
 
 function mapState() {
@@ -438,7 +456,7 @@ function mapMixins() {
 
   paths.forEach(function (path) {
     var pluginName = path.split('/')[1];
-    var plugin = plugins[pluginName];
+    var plugin = Vuet$1.plugins[pluginName];
     mixins.push(plugin.mixin(path));
   });
   return mixins;

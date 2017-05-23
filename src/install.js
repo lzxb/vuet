@@ -1,6 +1,6 @@
 import Vuet from './vuet'
-import plugins from './plugins/index'
 import utils from './utils'
+import plugins from './plugins/index'
 
 export let _Vue = null
 
