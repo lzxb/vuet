@@ -94,6 +94,7 @@ test('base', async t => {
   let afterCount = 0
   let path = listPath
   vuet.beforeEach((params) => {
+    if (beforeCount === 3) return false
     t.is(params.path, path)
     t.is(params.store, vuet.getState(path))
     t.is(params.store, vuet.getState(params.path))
@@ -103,6 +104,7 @@ test('base', async t => {
     store.loaded = true
   })
   vuet.afterEach((err, params) => {
+    if (afterCount === 2) return false
     t.is(params.path, path)
     t.is(params.store, vuet.getState(path))
     t.is(params.store, vuet.getState(params.path))
@@ -129,6 +131,16 @@ test('base', async t => {
     t.false(vuet.getState(listPath).loading)
     t.false(vuet.getState(listPath).loaded)
   }
+
+  path = listPath
+  const store2 = await vuet.fetch(listPath)
+  t.is(beforeCount, 3)
+  t.is(afterCount, 2)
+  t.is(vuet.getState(listPath), store2)
+  const store3 = await vuet.fetch(listPath)
+  t.is(beforeCount, 3)
+  t.is(afterCount, 2)
+  t.is(vuet.getState(listPath), store3)
 })
 
 test('use plugins', t => {
