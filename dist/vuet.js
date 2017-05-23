@@ -171,11 +171,38 @@ var plugins$1 = {
   route: route
 };
 
-var _Vue = null;
+var toString = Object.prototype.toString;
+// Cached type string
+var typeStrings = ['Object', 'Function', 'String', 'Undefined', 'Null'];
 
-var isDef = function isDef(v) {
-  return v !== undefined;
+var utils = {
+  forEachObj: function forEachObj(obj, cb) {
+    if (!obj || !utils.isObject(obj)) return;
+    Object.keys(obj).forEach(function (k) {
+      cb(obj[k], k, obj);
+    });
+  },
+  getArgMerge: function getArgMerge() {
+    var opt = {};
+    var args = arguments;
+    if (utils.isString(args[0])) {
+      opt[args[0]] = args.length > 1 ? args[1] : args[0];
+    } else if (args[0] && utils.isObject(args[0])) {
+      opt = args[0];
+    }
+    return opt;
+  }
 };
+
+// Add isXXX function
+typeStrings.forEach(function (type) {
+  var typeString = '[object ' + type + ']';
+  utils['is' + type] = function (obj) {
+    return toString.call(obj) === typeString;
+  };
+});
+
+var _Vue = null;
 
 function install(Vue) {
   if (install.installed) return;
@@ -188,13 +215,13 @@ function install(Vue) {
   });
   Vue.mixin({
     beforeCreate: function beforeCreate() {
-      if (isDef(this.$options.vuet)) {
+      if (!utils.isUndefined(this.$options.vuet)) {
         this._vuet = this.$options.vuet;
         this._vuet.init(this);
       }
     },
     destroyed: function destroyed() {
-      if (isDef(this.$options.vuet)) {
+      if (!utils.isUndefined(this.$options.vuet)) {
         this._vuet = this.$options.vuet;
         this._vuet.destroy(this);
       }
@@ -204,30 +231,6 @@ function install(Vue) {
     Vuet$1.use(plugins$1[k]);
   });
 }
-
-var utils = {
-  isObject: function isObject(obj) {
-    return Object.prototype.toString.call(obj) === '[object Object]';
-  },
-  isFunction: function isFunction(fn) {
-    return Object.prototype.toString.call(fn) === '[object Function]';
-  },
-  forEachObj: function forEachObj(obj, cb) {
-    if (!utils.isObject(obj)) return;
-    Object.keys(obj).forEach(function (k) {
-      cb(obj[k], k);
-    });
-  },
-  getArgMerge: function getArgMerge() {
-    var opt = {};
-    if (typeof arguments[0] === 'string') {
-      opt[arguments[0]] = arguments[1];
-    } else if (utils.isObject(arguments[0])) {
-      opt = arguments[0];
-    }
-    return opt;
-  }
-};
 
 var debug = {
   error: function error(msg) {

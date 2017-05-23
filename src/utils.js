@@ -25,7 +25,7 @@ const utils = {
 typeStrings.forEach(type => {
   const typeString = `[object ${type}]`
   utils[`is${type}`] = obj => {
-    toString.call(obj) === typeString
+    return toString.call(obj) === typeString
   }
 })
 
