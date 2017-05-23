@@ -4,19 +4,35 @@
 	(factory((global.Vuet = global.Vuet || {})));
 }(this, (function (exports) { 'use strict';
 
-var name = 'local';
+var name = 'life';
+
+var life = {
+  name: name,
+  mixin: function mixin(path) {
+    return {
+      beforeCreate: function beforeCreate() {
+        this.$vuet.fetch(path, { current: this });
+      },
+      destroyed: function destroyed() {
+        this.$vuet.reset(path, { current: this });
+      }
+    };
+  }
+};
+
+var name$1 = 'local';
 
 var local = {
-  name: name,
+  name: name$1,
   mixin: function mixin(path) {
     return {};
   }
 };
 
-var name$1 = 'need';
+var name$2 = 'need';
 
 var need = {
-  name: name$1,
+  name: name$2,
   mixin: function mixin(path) {
     return {
       beforeCreate: function beforeCreate() {
@@ -26,10 +42,10 @@ var need = {
   }
 };
 
-var name$2 = 'once';
+var name$3 = 'once';
 
 var once = {
-  name: name$2,
+  name: name$3,
   mixin: function mixin(path) {
     return {
       beforeCreate: function beforeCreate() {
@@ -52,10 +68,10 @@ var once = {
   }
 };
 
-var name$3 = 'route';
+var name$4 = 'route';
 
 var route = {
-  name: name$3,
+  name: name$4,
   mixin: function mixin(path) {
     function set(obj, key, value) {
       Object.defineProperty(obj, key, {
@@ -148,6 +164,7 @@ var route = {
 };
 
 var plugins$1 = {
+  life: life,
   local: local,
   need: need,
   once: once,

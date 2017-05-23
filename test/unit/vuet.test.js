@@ -63,7 +63,9 @@ test('install', t => {
       }
     }
   })
+
   t.is(vuet, vm.$options.vuet)
   t.is(vuet, vm._vuet)
   t.is(vuet, vm.$vuet)
+  t.deepEqual(Object.keys(vuet._options.modules), Object.keys(vuet.store))
 })
