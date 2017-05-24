@@ -3,14 +3,11 @@ import utils from '../../src/utils'
 
 test('forEachObj', t => {
   const testObj = { name: 'vuet', info: 'test' }
-  const valArr = []
-  const nameArr = []
+  const newObj = {}
   utils.forEachObj(testObj, (val, k) => {
-    valArr.push(val)
-    nameArr.push(k)
+    newObj[k] = val
   })
-  t.deepEqual(valArr, ['vuet', 'test'])
-  t.deepEqual(nameArr, ['name', 'info'])
+  t.deepEqual(testObj, newObj)
 })
 
 test('getArgMerge', t => {

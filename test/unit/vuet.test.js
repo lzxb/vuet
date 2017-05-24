@@ -7,9 +7,10 @@ Vue.use(Vuet)
 const myModule = 'myModule'
 const listPath = `${myModule}/route/list`
 const detailPath = `${myModule}/route/detail`
-const newVuet = () => {
-  return new Vuet({
+const newVuet = (t) => {
+  const vuet = new Vuet({
     data () {
+      t.is(vuet, this)
       return {
         laoding: true,
         loaded: true
@@ -20,16 +21,19 @@ const newVuet = () => {
         route: {
           list: {
             data () {
+              t.is(vuet, this)
               return {
                 list: []
               }
             },
             fetch () {
+              t.is(vuet, this)
               return Promise.resolve({ list: [1, 0] })
             }
           },
           detail: {
             data () {
+              t.is(vuet, this)
               return {
                 detail: {
                   id: null,
@@ -40,6 +44,7 @@ const newVuet = () => {
               }
             },
             fetch () {
+              t.is(vuet, this)
               return Promise.reject(new Error('Error msg'))
             }
           }
@@ -47,10 +52,11 @@ const newVuet = () => {
       }
     }
   })
+  return vuet
 }
 
 test('base', async t => {
-  const vuet = newVuet()
+  const vuet = newVuet(t)
   const vm = new Vue({
     vuet
   })
@@ -93,7 +99,8 @@ test('base', async t => {
   let beforeCount = 0
   let afterCount = 0
   let path = listPath
-  vuet.beforeEach((params) => {
+  vuet.beforeEach(function (params) {
+    t.is(vuet, this)
     if (beforeCount === 3) return false
     t.is(params.path, path)
     t.is(params.store, vuet.getState(path))
@@ -103,7 +110,8 @@ test('base', async t => {
     store.laoding = true
     store.loaded = true
   })
-  vuet.afterEach((err, params) => {
+  vuet.afterEach(function (err, params) {
+    t.is(vuet, this)
     if (afterCount === 2) return false
     t.is(params.path, path)
     t.is(params.store, vuet.getState(path))
@@ -144,7 +152,7 @@ test('base', async t => {
 })
 
 test('use plugins', t => {
-  const vuet = newVuet()
+  const vuet = newVuet(t)
   const arr = ['life', 'local', 'need', 'once', 'route']
   t.deepEqual(Object.keys(Vuet.plugins), arr)
   arr.forEach(name => {
@@ -154,23 +162,27 @@ test('use plugins', t => {
   let useCount = 0
   let initCount = 0
   let destroyCount = 0
-  Vuet.use({
+  const testPlugin = {
     name: 'testPlugin',
     install (_Vue, _Vuet, opt) {
       useCount++
       t.is(Vue, _Vue)
       t.is(Vuet, _Vuet)
+      t.is(testPlugin, this)
       t.deepEqual(opt, { msg: 'ok' })
     },
     init (_vuet) {
       initCount++
       t.is(vuet, _vuet)
+      t.is(testPlugin, this)
     },
     destroy (_vuet) {
       destroyCount++
       t.is(vuet, _vuet)
+      t.is(testPlugin, this)
     }
-  }, { msg: 'ok' })
+  }
+  Vuet.use(testPlugin, { msg: 'ok' })
   arr.push('testPlugin')
   t.is(useCount, 1)
   t.is(initCount, 0)

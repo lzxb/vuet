@@ -53,7 +53,7 @@ export default class Vuet {
     return this.store[path] || {}
   }
   reset (path) {
-    const data = this.options.data()
+    const data = this.options.data.call(this)
     const store = this._options.modules[path]
     if (utils.isFunction(store.data)) {
       Object.assign(data, store.data.call(this, path))
@@ -70,7 +70,7 @@ export default class Vuet {
     }
     const callHook = (hook, ...arg) => {
       for (let i = 0; i < this[hook].length; i++) {
-        if (this[hook][i].call(this, ...arg)) {
+        if (this[hook][i].apply(this, arg)) {
           return false
         }
       }

@@ -356,7 +356,7 @@ var Vuet$1 = function () {
   }, {
     key: 'reset',
     value: function reset(path) {
-      var data = this.options.data();
+      var data = this.options.data.call(this);
       var store = this._options.modules[path];
       if (utils.isFunction(store.data)) {
         Object.assign(data, store.data.call(this, path));
@@ -381,9 +381,7 @@ var Vuet$1 = function () {
         }
 
         for (var i = 0; i < _this2[hook].length; i++) {
-          var _hook$i;
-
-          if ((_hook$i = _this2[hook][i]).call.apply(_hook$i, [_this2].concat(arg))) {
+          if (_this2[hook][i].apply(_this2, arg)) {
             return false;
           }
         }
