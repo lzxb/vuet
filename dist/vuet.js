@@ -12,13 +12,13 @@ var utils = {
   forEachObj: function forEachObj(obj, cb) {
     if (!obj || !utils.isObject(obj)) return;
     Object.keys(obj).forEach(function (k) {
-      cb(obj[k], k, obj);
+      cb(obj[k], k);
     });
   },
   getArgMerge: function getArgMerge() {
     var opt = {};
     var args = arguments;
-    if (utils.isString(args[0])) {
+    if (utils.isString(args[0]) && utils.isString(args[1])) {
       opt[args[0]] = args.length > 1 ? args[1] : args[0];
     } else if (args[0] && utils.isObject(args[0])) {
       opt = args[0];
