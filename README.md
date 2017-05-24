@@ -17,8 +17,8 @@
 - [ ] debug.js
 - [x] install.js
 - [ ] mapMixins.js
-- [ ] mapState.js
-- [ ] utils.js
+- [x] mapState.js
+- [x] utils.js
 - [x] vuet.js
 - [ ] plugins/life.js
 - [ ] plugins/local.js

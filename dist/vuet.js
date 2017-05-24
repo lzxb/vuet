@@ -445,7 +445,7 @@ function mapState() {
 
 function mapMixins() {
   // mapMixins('xxx/route/xxx')
-  // mapMixins(['xxx/route/xxx', 'xxx/route/xxx'])
+  // mapMixins('xxx/route/xxx', 'xxx/route/xxx')
   var mixins = [];
 
   for (var _len = arguments.length, paths = Array(_len), _key = 0; _key < _len; _key++) {

@@ -1,12 +1,32 @@
 import test from 'ava'
 import Vue from 'vue'
-import Vuet from '../../dist/vuet'
+import Vuet, { mapState } from '../../dist/vuet'
 
 Vue.use(Vuet)
 
 const myModule = 'myModule'
 const listPath = `${myModule}/route/list`
 const detailPath = `${myModule}/route/detail`
+const listState = {
+  laoding: true,
+  loaded: true,
+  list: []
+}
+const detailState = {
+  laoding: true,
+  loaded: true,
+  detail: {
+    id: null,
+    name: '',
+    age: 0,
+    sex: ''
+  }
+}
+const countState = {
+  laoding: true,
+  loaded: true,
+  count: 0
+}
 const newVuet = (t) => {
   const vuet = new Vuet({
     data () {
@@ -47,6 +67,16 @@ const newVuet = (t) => {
               t.is(vuet, this)
               return Promise.reject(new Error('Error msg'))
             }
+          },
+          count: {
+            data () {
+              return {
+                count: 0
+              }
+            },
+            async fetch ({ path }) {
+              return { count: ++this.getState(path).count }
+            }
           }
         }
       }
@@ -60,23 +90,9 @@ test('base', async t => {
   const vm = new Vue({
     vuet
   })
-  const listState = {
-    laoding: true,
-    loaded: true,
-    list: []
-  }
-  const detailState = {
-    laoding: true,
-    loaded: true,
-    detail: {
-      id: null,
-      name: '',
-      age: 0,
-      sex: ''
-    }
-  }
   t.deepEqual(vuet.store, {
     [`${myModule}/route/list`]: listState,
+    [`${myModule}/route/count`]: countState,
     [`${myModule}/route/detail`]: detailState
   })
   t.deepEqual(vuet.getState(listPath), listState)
@@ -205,4 +221,29 @@ test('use plugins', t => {
     install () {}
   })
   t.deepEqual(Object.keys(Vuet.plugins), arr)
+})
+
+test('mapState object parameter', t => {
+  const vuet = newVuet(t)
+  let vm = new Vue({
+    vuet,
+    computed: mapState({
+      list: `${myModule}/route/list`,
+      detail: `${myModule}/route/detail`
+    })
+  })
+  t.is(vm.list, vuet.getState(listPath))
+  t.is(vm.detail, vuet.getState(detailPath))
+  t.deepEqual(vm.list, listState)
+  t.deepEqual(vm.detail, detailState)
+})
+
+test('mapState string parameter', t => {
+  const vuet = newVuet(t)
+  let vm = new Vue({
+    vuet,
+    computed: mapState('detail', `${myModule}/route/detail`)
+  })
+  t.is(vm.detail, vuet.getState(detailPath))
+  t.deepEqual(vm.detail, detailState)
 })
