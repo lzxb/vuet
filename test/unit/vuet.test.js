@@ -1,6 +1,6 @@
 import test from 'ava'
 import Vue from 'vue'
-import Vuet, { mapState } from '../../dist/vuet'
+import Vuet, { mapState, mapMixins } from '../../dist/vuet'
 
 Vue.use(Vuet)
 
@@ -246,4 +246,29 @@ test('mapState string parameter', t => {
   })
   t.is(vm.detail, vuet.getState(detailPath))
   t.deepEqual(vm.detail, detailState)
+})
+
+test.cb('mapMixins', t => {
+  const vuet = newVuet(t)
+  Object.defineProperty(Vue.prototype, '$route', {
+    get () {
+      return {
+        path: '/',
+        fullPath: '/?tab=all',
+        query: {},
+        params: {}
+      }
+    }
+  })
+  const vm = new Vue({
+    vuet,
+    mixins: [...mapMixins(`${myModule}/route/list`)]
+  })
+  setTimeout(() => {
+    t.deepEqual(vuet.getState(listPath), { laoding: true, loaded: true, list: [1, 0] })
+    t.is(vm.$vuet, vuet)
+    t.is(vm._vuet, vuet)
+    t.is(vm._vuet, vm.$vuet)
+    t.end()
+  }, 300)
 })
