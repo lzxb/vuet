@@ -46,7 +46,9 @@ const newVuet = (t) => {
                 list: []
               }
             },
-            fetch () {
+            fetch (params) {
+              t.is(params.path, listPath)
+              t.is(params.store, vuet.getState(listPath))
               t.is(vuet, this)
               return Promise.resolve({ list: [1, 0] })
             }
