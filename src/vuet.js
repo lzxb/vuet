@@ -76,7 +76,7 @@ export default class Vuet {
       }
     }
     if (callHook('beforeHooks', data) === false) return Promise.resolve(data.store)
-    return store.fetch.call(this)
+    return store.fetch.apply(this, Array.prototype.slice.call(arguments))
     .then(res => {
       if (callHook('afterHooks', null, data, res) === false) return data.store
       this.setState(path, res)
