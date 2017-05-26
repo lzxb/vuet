@@ -387,7 +387,7 @@ var Vuet$1 = function () {
         }
       };
       if (callHook('beforeHooks', data) === false) return Promise.resolve(data.store);
-      return store.fetch.apply(this, Array.prototype.slice.call(arguments)).then(function (res) {
+      return store.fetch.call(this, data).then(function (res) {
         if (callHook('afterHooks', null, data, res) === false) return data.store;
         _this2.setState(path, res);
         return data.store;
