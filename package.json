@@ -6,7 +6,7 @@
   "scripts": {
     "cross-env": "node_modules/.bin/cross-env",
     "gulp": "node_modules/.bin/gulp",
-    "dev": "npm run cross-env NODE_ENV=development npm run gulp",
+    "dev": "node examples/server.js",
     "dist": "npm run cross-env NODE_ENV=production npm run gulp",
     "test": "npm run cross-env NODE_ENV=testing npm run gulp"
   },
@@ -33,6 +33,8 @@
   "author": "medevicex",
   "license": "MIT",
   "devDependencies": {
+    "babel-loader": "^7.0.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.24.1",
@@ -43,6 +45,8 @@
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "express": "^4.15.3",
+    "express-urlrewrite": "^1.2.0",
     "gulp": "^3.9.1",
     "gulp-ava": "^0.17.1",
     "gulp-eslint": "^3.0.1",
@@ -51,7 +55,12 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-replace": "^1.1.1",
     "rollup-plugin-uglify": "^1.0.2",
-    "vue": "^2.3.3"
+    "vue": "^2.3.3",
+    "vue-loader": "^12.1.1",
+    "vue-router": "^2.5.3",
+    "vue-template-compiler": "^2.3.3",
+    "webpack": "^2.6.1",
+    "webpack-dev-middleware": "^1.10.2"
   },
   "babel": {
     "presets": [
