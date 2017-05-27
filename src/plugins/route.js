@@ -11,9 +11,6 @@ export default {
         configurable: false
       })
     }
-    function getOpt () {
-      return this.$vuet._options.modules[path]
-    }
 
     function getWatchs (obj, list) {
       if (typeof list === 'string') {
@@ -50,7 +47,7 @@ export default {
         if (!this.$vuet.__route__) {
           set(this.$vuet, '__route__', {})
         }
-        const { watch = 'fullPath' } = getOpt.call(this)
+        const { watch = 'fullPath' } = this.$vuet._options.modules[path]
         const toWatch = getWatchs(this.$route, watch)
         if (!this.$vuet.__route__[path]) {
           this.$vuet.__route__[path] = toWatch
@@ -67,7 +64,7 @@ export default {
         $route: {
           deep: true,
           handler (to, from) {
-            const { watch = 'fullPath' } = getOpt.call(this)
+            const { watch = 'fullPath' } = this.$vuet._options.modules[path]
             const toWatch = getWatchs(to, watch)
             const fromWatch = getWatchs(from, watch)
             if (!diffWatch(toWatch, fromWatch)) return false

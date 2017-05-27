@@ -111,9 +111,6 @@ var route = {
         configurable: false
       });
     }
-    function getOpt() {
-      return this.$vuet._options.modules[path];
-    }
 
     function getWatchs(obj, list) {
       if (typeof list === 'string') {
@@ -152,10 +149,8 @@ var route = {
         if (!this.$vuet.__route__) {
           set(this.$vuet, '__route__', {});
         }
-
-        var _getOpt$call = getOpt.call(this),
-            _getOpt$call$watch = _getOpt$call.watch,
-            watch = _getOpt$call$watch === undefined ? 'fullPath' : _getOpt$call$watch;
+        var _$vuet$_options$modul = this.$vuet._options.modules[path].watch,
+            watch = _$vuet$_options$modul === undefined ? 'fullPath' : _$vuet$_options$modul;
 
         var toWatch = getWatchs(this.$route, watch);
         if (!this.$vuet.__route__[path]) {
@@ -176,9 +171,8 @@ var route = {
           handler: function handler(to, from) {
             var _this2 = this;
 
-            var _getOpt$call2 = getOpt.call(this),
-                _getOpt$call2$watch = _getOpt$call2.watch,
-                watch = _getOpt$call2$watch === undefined ? 'fullPath' : _getOpt$call2$watch;
+            var _$vuet$_options$modul2 = this.$vuet._options.modules[path].watch,
+                watch = _$vuet$_options$modul2 === undefined ? 'fullPath' : _$vuet$_options$modul2;
 
             var toWatch = getWatchs(to, watch);
             var fromWatch = getWatchs(from, watch);
