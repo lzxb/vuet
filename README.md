@@ -5,7 +5,6 @@
 
 # vuet
 简单易用，功能强大Vue 状态管理插件
-
 #### 功能开发列表
 - [x]  route 插件，每次组件beforeCreate钩子会触发一次fetch，根据配置的规则来监听$route的变化来决定是否更新fetch（适合存储页面之间的数据）
 - [x]  once  插件，只有第一次组件使用的时候beforeCreate钩子会触发一次fetch，以后永远不会重新触发请求（适合存储不变的数据，比如省市区的数据）
@@ -37,7 +36,7 @@ npm install vuet
 #### 介绍
 vuet是一个跨页面、跨组件的状态管理插件，提供了模块化的数据管理，可以自定义mixin来维护模块的数据以及和服务器之间的通信、如何在本地进行更新。
 
-#### 快速上手
+#### 定义数据结构
 ```javascript
 import Vue from 'vue'
 import Vuet from 'vuet'
@@ -49,20 +48,19 @@ const vuet = new Vuet({
     return { loading: true, loaded: true }
   },
   modules: {
-    myModule: { // 模块名称
-      route: { // 要使用的插件，这个插件是配合vue-router使用的，具体请查看内置插件相关
-        articleList: {
-          // 更新数据的规则设置，默认是$route.fullPath
-          // 如果有多个条件，可以传入一个数组['query.name', 'params.id']
-          watch: 'fullPath',
-          data () { // 会和全局的data合并到一起
-            return { list: [] }
-          },
-          fetch () { // 插件更新数据时，调用的钩子，必须返回一个Promsie
-            return Promise.resolve({ list: [1,2,3] })
-          }
+    myModule: { // 定义模块名称
+       articleList: { // 定义模块的子级
+        // 更新数据的规则设置，默认是$route.fullPath
+        // 如果有多个条件，可以传入一个数组['query.name', 'params.id']
+         watch: 'fullPath',
+         data () { // 会和全局的data合并到一起
+           return { list: [] }
+         },
+         fetch () { // 插件更新数据时，调用的钩子，必须返回一个Promsie
+           return Promise.resolve({ list: [1,2,3] })
         }
       }
+      // ...可以定义多个模块的子级
     }
   }
 })
@@ -83,13 +81,18 @@ new Vue({
 
 ```
 
-#### 组件注入处理逻辑和模块的数据
+#### 组件更新和获取
 ```javascript
 import { mapMixins, mapState } from 'vuet'
 
 export default {
  // ...options
- mixins: [...mapMixins('myModule/route/articleList')], // 向组件注入处理数据的逻辑
+ // mixin来负责更新组件的数据，支持多种传参，内转载了route、once、need、local、life 这几种常见的插件
+ // mapMixins('route', 'myModule/articleList')
+ // mapMixins('route', ['myModule/articleList'])
+ // mapMixins({ route: 'myModule/articleList' })
+ // mapMixins({ route: ['myModule/articleList] })
+ mixins: [...mapMixins('route', 'myModule/articleList')],
  computed: mapState({ articleList: 'myModule/route/articleList' }), // 使用键值的方式，和数据进行连接
  created () {
   console.log(this.articleList.loading, this.articleList.loaded, this.articleList.list)
@@ -100,84 +103,15 @@ export default {
 #### 组件内注入的方法
 ```javascript
 // 直接设置模块的状态
-this.$vuet.setState('myModule/route/articleList', {
+this.$vuet.setState('myModule/articleList', {
  // ...参数
 })
 // 获取模块的状态
-this.$vuet.getState('myModule/route/articleList')
+this.$vuet.getState('myModule/articleList')
 // 重置模块的状态
-this.$vuet.reset('myModule/route/articleList')
+this.$vuet.reset('myModule/articleList')
 // 向服务器请求更新模块的状态
-this.$vuet.fetch('myModule/route/articleList', {
+this.$vuet.fetch('myModule/articleList', {
  // 自定义参数，在beforeEach、beforeEach钩子中能接收到对应的参数
-})
-```
-
-#### 自定义插件
-```javascript
-import Vuet from 'vuet'
-const myPlugin = {
- name: 'myPlugin', // 插件的名称
- install (Vue, Vuet, options) {
-  // ...调用Vuet.use()方法时会执行
- },
- mixin (path) { // 会传入一个模块路径的参
-  return {
-   // ....options，你可以根据自己的需求，定义数据的处理方式
-   created () {
-    console.log(this._options.modules[path]) // 取得当前模块的配置
-    console.log(this.getState(path)) // 取得当前模块的状态
-    this.$vuet.fetch(path) // 向服务器请求更新状态
-   }
-  }
- }
-}
-Vuet.use(myPlugin, {
- // ...options
-})
-
-const vuet = new Vuet({
- modules: {
-  myModule: {
-   myPlugin: { // 使用自定义插件来处理数据
-    data () {
-     return {
-      state: false
-     }
-    },
-    fetch () {
-     return Promise.resolve({ state: true })
-    }
-   }
-  }
- }
-})
-
-```
-
-#### 内置的插件
-##### route
-描述：配合vue-router使用的页面数据管理插件,会监听$route的变化来确定是否需要请求数据，每次渲染组件渲染时，在beforeCreate钩子函数中也会触发一次请求。他可以轻易实现页面后退时显示原来的列表数据  
-有一个watch的参数，来确定$route变化时是否需要重新请求数据  
-例子：
-```javascript
-new Vuet({
-  modules: {
-    myModule: { // 模块名称
-      route: { // 要使用的插件，这个插件是配合vue-router使用的
-        articleList: {
-          // 更新数据的规则设置，默认是$route.fullPath
-          // 如果有多个条件，可以传入一个数组['query.name', 'params.id']
-          watch: 'fullPath',
-          data () { // 会和全局的data合并到一起
-            return { list: [] }
-          },
-          fetch () { // 插件更新数据时，调用的钩子，必须返回一个Promsie
-            return Promise.resolve({ list: [1,2,3] })
-          }
-        }
-      }
-    }
-  }
 })
 ```

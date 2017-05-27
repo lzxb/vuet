@@ -20,7 +20,7 @@
   import { mapMixins, mapState } from 'vuet'
 
   export default {
-    mixins: [...mapMixins('cnode/route/list')],
+    mixins: [...mapMixins({ route: 'topic/list' })],
     data () {
       return {
         tabs: [
@@ -47,6 +47,6 @@
         ]
       }
     },
-    computed: mapState({ list: 'cnode/route/list' })
+    computed: mapState({ list: 'topic/list' })
   }
 </script>

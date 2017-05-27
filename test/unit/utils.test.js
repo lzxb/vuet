@@ -14,8 +14,6 @@ test('getArgMerge', t => {
   t.deepEqual(utils.getArgMerge('name', 'vuet'), { name: 'vuet' })
   t.deepEqual(utils.getArgMerge({ name: 'vuet' }), { name: 'vuet' })
   t.deepEqual(utils.getArgMerge(), {})
-  t.deepEqual(utils.getArgMerge('name'), {})
-  t.deepEqual(utils.getArgMerge('name', true), {})
   t.deepEqual(utils.getArgMerge({}), {})
 })
 

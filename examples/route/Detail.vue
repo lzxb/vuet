@@ -8,7 +8,7 @@
   import { mapMixins, mapState } from 'vuet'
 
   export default {
-    mixins: [...mapMixins('cnode/route/detail')],
-    computed: mapState({ detail: 'cnode/route/detail' })
+    mixins: [...mapMixins({ route: 'topic/detail' })],
+    computed: mapState({ detail: 'topic/detail' })
   }
 </script>

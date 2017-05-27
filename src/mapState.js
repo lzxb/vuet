@@ -3,7 +3,7 @@ import utils from './utils'
 export default function mapState () {
   // mapState(xxx, 'xxx/route/xxx')
   // mapState({ xxx, 'xxx/route/xxx', xxx, 'xxx/route/xxx' })
-  let opt = utils.getArgMerge.apply(null, arguments)
+  const opt = utils.getArgMerge.apply(null, arguments)
   const computed = {}
   Object.keys(opt).forEach(k => {
     const path = opt[k]

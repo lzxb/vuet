@@ -1,13 +1,19 @@
 import Vuet from './vuet'
+import utils from './utils'
 
 export default function mapMixins (...paths) {
-  // mapMixins('xxx/route/xxx')
-  // mapMixins('xxx/route/xxx', 'xxx/route/xxx')
+  const opt = utils.getArgMerge.apply(null, arguments)
   const mixins = []
-  paths.forEach(path => {
-    const pluginName = path.split('/')[1]
+  Object.keys(opt).forEach(pluginName => {
+    const any = opt[pluginName]
+    if (Array.isArray(any)) {
+      return any.forEach(path => {
+        const plugin = Vuet.plugins[pluginName]
+        mixins.push(plugin.mixin(path))
+      })
+    }
     const plugin = Vuet.plugins[pluginName]
-    mixins.push(plugin.mixin(path))
+    mixins.push(plugin.mixin(any))
   })
   return mixins
 }

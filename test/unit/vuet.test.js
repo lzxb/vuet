@@ -4,9 +4,20 @@ import Vuet, { mapState, mapMixins } from '../../dist/vuet'
 
 Vue.use(Vuet)
 
+Object.defineProperty(Vue.prototype, '$route', {
+  get () {
+    return {
+      path: '/',
+      fullPath: '/?tab=all',
+      query: {},
+      params: {}
+    }
+  }
+})
+
 const myModule = 'myModule'
-const listPath = `${myModule}/route/list`
-const detailPath = `${myModule}/route/detail`
+const listPath = `${myModule}/list`
+const detailPath = `${myModule}/detail`
 const listState = {
   laoding: true,
   loaded: true,
@@ -38,47 +49,45 @@ const newVuet = (t) => {
     },
     modules: {
       [myModule]: {
-        route: {
-          list: {
-            data () {
-              t.is(vuet, this)
-              return {
-                list: []
-              }
-            },
-            fetch (params) {
-              t.is(params.path, listPath)
-              t.is(params.store, vuet.getState(listPath))
-              t.is(vuet, this)
-              return Promise.resolve({ list: [1, 0] })
+        list: {
+          data () {
+            t.is(vuet, this)
+            return {
+              list: []
             }
           },
-          detail: {
-            data () {
-              t.is(vuet, this)
-              return {
-                detail: {
-                  id: null,
-                  name: '',
-                  age: 0,
-                  sex: ''
-                }
+          fetch (params) {
+            t.is(params.path, listPath)
+            t.is(params.store, vuet.getState(listPath))
+            t.is(vuet, this)
+            return Promise.resolve({ list: [1, 0] })
+          }
+        },
+        detail: {
+          data () {
+            t.is(vuet, this)
+            return {
+              detail: {
+                id: null,
+                name: '',
+                age: 0,
+                sex: ''
               }
-            },
-            fetch () {
-              t.is(vuet, this)
-              return Promise.reject(new Error('Error msg'))
             }
           },
-          count: {
-            data () {
-              return {
-                count: 0
-              }
-            },
-            async fetch ({ path }) {
-              return { count: ++this.getState(path).count }
+          fetch () {
+            t.is(vuet, this)
+            return Promise.reject(new Error('Error msg'))
+          }
+        },
+        count: {
+          data () {
+            return {
+              count: 0
             }
+          },
+          async fetch ({ path }) {
+            return { count: ++this.getState(path).count }
           }
         }
       }
@@ -93,9 +102,9 @@ test('base', async t => {
     vuet
   })
   t.deepEqual(vuet.store, {
-    [`${myModule}/route/list`]: listState,
-    [`${myModule}/route/count`]: countState,
-    [`${myModule}/route/detail`]: detailState
+    [`${myModule}/list`]: listState,
+    [`${myModule}/count`]: countState,
+    [`${myModule}/detail`]: detailState
   })
   t.deepEqual(vuet.getState(listPath), listState)
   t.deepEqual(vuet.getState(detailPath), detailState)
@@ -230,8 +239,8 @@ test('mapState object parameter', t => {
   let vm = new Vue({
     vuet,
     computed: mapState({
-      list: `${myModule}/route/list`,
-      detail: `${myModule}/route/detail`
+      list: `${myModule}/list`,
+      detail: `${myModule}/detail`
     })
   })
   t.is(vm.list, vuet.getState(listPath))
@@ -244,33 +253,30 @@ test('mapState string parameter', t => {
   const vuet = newVuet(t)
   let vm = new Vue({
     vuet,
-    computed: mapState('detail', `${myModule}/route/detail`)
+    computed: mapState('detail', `${myModule}/detail`)
   })
   t.is(vm.detail, vuet.getState(detailPath))
   t.deepEqual(vm.detail, detailState)
 })
 
-test.cb('mapMixins', t => {
-  const vuet = newVuet(t)
-  Object.defineProperty(Vue.prototype, '$route', {
-    get () {
-      return {
-        path: '/',
-        fullPath: '/?tab=all',
-        query: {},
-        params: {}
-      }
-    }
-  })
-  const vm = new Vue({
-    vuet,
-    mixins: [...mapMixins(`${myModule}/route/list`)]
-  })
-  setTimeout(() => {
-    t.deepEqual(vuet.getState(listPath), { laoding: true, loaded: true, list: [1, 0] })
-    t.is(vm.$vuet, vuet)
-    t.is(vm._vuet, vuet)
-    t.is(vm._vuet, vm.$vuet)
-    t.end()
-  }, 300)
+test('mapMixins', async t => {
+  const test = (mixins) => {
+    const vuet = newVuet(t)
+    const vm = new Vue({
+      vuet,
+      mixins
+    })
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        t.deepEqual(vuet.getState(listPath), { laoding: true, loaded: true, list: [1, 0] })
+        t.is(vm.$vuet, vuet)
+        t.is(vm._vuet, vuet)
+        t.is(vm._vuet, vm.$vuet)
+        resolve()
+      }, 300)
+    })
+  }
+  await test(mapMixins('route', `${myModule}/list`))
+  await test(mapMixins('route', [`${myModule}/list`]))
+  await test(mapMixins({ route: `${myModule}/list` }))
 })

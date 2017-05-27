@@ -33,14 +33,13 @@ export default class Vuet {
       modules: {}
     }
     utils.forEachObj(this.options.modules, (myModule, myModuleName) => {
-      utils.forEachObj(myModule, (plugin, pluginName) => {
-        utils.forEachObj(plugin, (store, storeName) => {
-          const path = `${myModuleName}/${pluginName}/${storeName}`
-          this._options.modules[path] = this.options.modules[myModuleName][pluginName][storeName]
-          this.reset(path)
-        })
+      utils.forEachObj(myModule, (store, storeName) => {
+        const path = `${myModuleName}/${storeName}`
+        this._options.modules[path] = this.options.modules[myModuleName][storeName]
+        this.reset(path)
       })
     })
+
     Vuet.pluginCallHook(this, 'init')
   }
   setState (path, data) {

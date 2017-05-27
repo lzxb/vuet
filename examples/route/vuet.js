@@ -10,23 +10,21 @@ export default new Vuet({
     return {}
   },
   modules: {
-    cnode: {
-      route: {
-        list: {
-          data () {
-            return {
-              list: []
-            }
-          },
-          watch: 'query',
-          fetch () {
-            const search = this.app.$route.fullPath.split('?')[1] || ''
-            return fetch(`https://cnodejs.org/api/v1/topics?${search}`)
-              .then(response => response.json())
-              .then((res) => {
-                return { list: res.data }
-              })
+    topic: {
+      list: {
+        data () {
+          return {
+            list: []
           }
+        },
+        watch: 'query',
+        fetch () {
+          const search = this.app.$route.fullPath.split('?')[1] || ''
+          return fetch(`https://cnodejs.org/api/v1/topics?${search}`)
+            .then(response => response.json())
+            .then((res) => {
+              return { list: res.data }
+            })
         },
         detail: {
           data () {

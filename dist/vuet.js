@@ -18,7 +18,7 @@ var utils = {
   getArgMerge: function getArgMerge() {
     var opt = {};
     var args = arguments;
-    if (utils.isString(args[0]) && utils.isString(args[1])) {
+    if (utils.isString(args[0])) {
       opt[args[0]] = args.length > 1 ? args[1] : args[0];
     } else if (args[0] && utils.isObject(args[0])) {
       opt = args[0];
@@ -324,14 +324,13 @@ var Vuet$1 = function () {
         modules: {}
       };
       utils.forEachObj(this.options.modules, function (myModule, myModuleName) {
-        utils.forEachObj(myModule, function (plugin, pluginName) {
-          utils.forEachObj(plugin, function (store, storeName) {
-            var path = myModuleName + '/' + pluginName + '/' + storeName;
-            _this._options.modules[path] = _this.options.modules[myModuleName][pluginName][storeName];
-            _this.reset(path);
-          });
+        utils.forEachObj(myModule, function (store, storeName) {
+          var path = myModuleName + '/' + storeName;
+          _this._options.modules[path] = _this.options.modules[myModuleName][storeName];
+          _this.reset(path);
         });
       });
+
       Vuet.pluginCallHook(this, 'init');
     }
   }, {
@@ -438,18 +437,22 @@ function mapState() {
 }
 
 function mapMixins() {
-  // mapMixins('xxx/route/xxx')
-  // mapMixins('xxx/route/xxx', 'xxx/route/xxx')
-  var mixins = [];
-
   for (var _len = arguments.length, paths = Array(_len), _key = 0; _key < _len; _key++) {
     paths[_key] = arguments[_key];
   }
 
-  paths.forEach(function (path) {
-    var pluginName = path.split('/')[1];
+  var opt = utils.getArgMerge.apply(null, arguments);
+  var mixins = [];
+  Object.keys(opt).forEach(function (pluginName) {
+    var any = opt[pluginName];
+    if (Array.isArray(any)) {
+      return any.forEach(function (path) {
+        var plugin = Vuet$1.plugins[pluginName];
+        mixins.push(plugin.mixin(path));
+      });
+    }
     var plugin = Vuet$1.plugins[pluginName];
-    mixins.push(plugin.mixin(path));
+    mixins.push(plugin.mixin(any));
   });
   return mixins;
 }

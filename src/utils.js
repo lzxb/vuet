@@ -12,7 +12,7 @@ const utils = {
   getArgMerge () {
     let opt = {}
     const args = arguments
-    if (utils.isString(args[0]) && utils.isString(args[1])) {
+    if (utils.isString(args[0])) {
       opt[args[0]] = args.length > 1 ? args[1] : args[0]
     } else if (args[0] && utils.isObject(args[0])) {
       opt = args[0]
