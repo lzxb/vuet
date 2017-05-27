@@ -5,7 +5,7 @@
 
 # vuet
 简单易用，功能强大Vue 状态管理插件
-#### 功能开发列表
+#### 数据更新规则
 - [x]  route 插件，每次组件beforeCreate钩子会触发一次fetch，根据配置的规则来监听$route的变化来决定是否更新fetch（适合存储页面之间的数据）
 - [x]  once  插件，只有第一次组件使用的时候beforeCreate钩子会触发一次fetch，以后永远不会重新触发请求（适合存储不变的数据，比如省市区的数据）
 - [x]  need  插件，每一次组件使用的时候，beforeCreate钩子会触发一次fetch（适合存储一次性拿到全部的数据，比如某个模块的统计）
@@ -87,12 +87,15 @@ import { mapMixins, mapState } from 'vuet'
 
 export default {
  // ...options
- // mixin来负责更新组件的数据，支持多种传参，内转载了route、once、need、local、life 这几种常见的插件
+ // mixins 来负责更新组件的数据，支持多种传参，内置了route、once、need、local、life 这几种常见的数据更新规则
  // mapMixins('route', 'myModule/articleList')
  // mapMixins('route', ['myModule/articleList'])
  // mapMixins({ route: 'myModule/articleList' })
  // mapMixins({ route: ['myModule/articleList] })
  mixins: [...mapMixins('route', 'myModule/articleList')],
+ // computed 来负责获取组件的状态，支持多种传参
+ // mapState(articleList, 'myModule/route/articleList')
+ // mapState({ articleList: 'myModule/route/articleList' })
  computed: mapState({ articleList: 'myModule/route/articleList' }), // 使用键值的方式，和数据进行连接
  created () {
   console.log(this.articleList.loading, this.articleList.loaded, this.articleList.list)
