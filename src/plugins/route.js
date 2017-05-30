@@ -8,7 +8,7 @@ export default {
   init (vuet) {
     utils.set(vuet, key, {})
     Object.keys(vuet.store).forEach(k => {
-      utils.set(vuet[key], k, '{}')
+      utils.set(vuet[key], k, [])
     })
   },
   mixin (path) {

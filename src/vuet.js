@@ -30,16 +30,24 @@ export default class Vuet {
     })
     this._options = {
       data: this.options.data || function data () { return {} },
+      pathJoin: this.options.pathJoin || '/',
       modules: {}
     }
-    utils.forEachObj(this.options.modules, (myModule, myModuleName) => {
-      utils.forEachObj(myModule, (store, storeName) => {
-        const path = `${myModuleName}/${storeName}`
-        this._options.modules[path] = this.options.modules[myModuleName][storeName]
-        this.reset(path)
+    const { pathJoin } = this._options
+    const initModule = (path, modules) => {
+      Object.keys(modules).forEach(k => {
+        const item = modules[k]
+        const _path = [...path, k]
+        if (utils.isFunction(item.fetch) && utils.isFunction(item.data)) {
+          this._options.modules[_path.join(pathJoin)] = item
+          this.reset(_path.join(pathJoin))
+        }
+        if (utils.isObject(item)) {
+          initModule(_path, item)
+        }
       })
-    })
-
+    }
+    initModule([], this.options.modules)
     Vuet.pluginCallHook(this, 'init')
   }
   setState (path, data) {

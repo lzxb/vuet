@@ -25,6 +25,16 @@ export default new Vuet({
             .then((res) => {
               return { list: res.data }
             })
+        },
+        test: {
+          data () {
+            return {
+              test: 'ok'
+            }
+          },
+          fetch () {
+            return Promise.resolve({})
+          }
         }
       },
       detail: {

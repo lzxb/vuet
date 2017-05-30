@@ -115,7 +115,7 @@ var route = {
   init: function init(vuet) {
     utils.set(vuet, key$1, {});
     Object.keys(vuet.store).forEach(function (k) {
-      utils.set(vuet[key$1], k, '{}');
+      utils.set(vuet[key$1], k, []);
     });
   },
   mixin: function mixin(path) {
@@ -281,6 +281,50 @@ var _extends = Object.assign || function (target) {
   return target;
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+};
+
 var Vuet$1 = function () {
   function Vuet(options) {
     classCallCheck(this, Vuet);
@@ -322,16 +366,25 @@ var Vuet$1 = function () {
         data: this.options.data || function data() {
           return {};
         },
+        pathJoin: this.options.pathJoin || '/',
         modules: {}
       };
-      utils.forEachObj(this.options.modules, function (myModule, myModuleName) {
-        utils.forEachObj(myModule, function (store, storeName) {
-          var path = myModuleName + '/' + storeName;
-          _this._options.modules[path] = _this.options.modules[myModuleName][storeName];
-          _this.reset(path);
-        });
-      });
+      var pathJoin = this._options.pathJoin;
 
+      var initModule = function initModule(path, modules) {
+        Object.keys(modules).forEach(function (k) {
+          var item = modules[k];
+          var _path = [].concat(toConsumableArray(path), [k]);
+          if (utils.isFunction(item.fetch) && utils.isFunction(item.data)) {
+            _this._options.modules[_path.join(pathJoin)] = item;
+            _this.reset(_path.join(pathJoin));
+          }
+          if (utils.isObject(item)) {
+            initModule(_path, item);
+          }
+        });
+      };
+      initModule([], this.options.modules);
       Vuet.pluginCallHook(this, 'init');
     }
   }, {
