@@ -60,7 +60,7 @@ export default class Vuet {
     return this.store[path] || {}
   }
   reset (path) {
-    const data = this.options.data.call(this)
+    const data = this._options.data.call(this)
     const store = this._options.modules[path]
     if (utils.isFunction(store.data)) {
       Object.assign(data, store.data.call(this, path))

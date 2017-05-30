@@ -403,7 +403,7 @@ var Vuet$1 = function () {
   }, {
     key: 'reset',
     value: function reset(path) {
-      var data = this.options.data.call(this);
+      var data = this._options.data.call(this);
       var store = this._options.modules[path];
       if (utils.isFunction(store.data)) {
         Object.assign(data, store.data.call(this, path));

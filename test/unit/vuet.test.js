@@ -280,3 +280,34 @@ test('mapMixins', async t => {
   await test(mapMixins('route', [`${myModule}/list`]))
   await test(mapMixins({ route: `${myModule}/list` }))
 })
+
+test('pathJoin', t => {
+  const vuet = new Vuet({
+    pathJoin: '-',
+    modules: {
+      test1: {
+        test2: {
+          test3: {
+            data () {
+              return {
+                ok: true
+              }
+            },
+            fetch () {
+              return {
+                ok: false
+              }
+            }
+          }
+        }
+      }
+    }
+  })
+  const vm = new Vue({
+    vuet
+  })
+  t.deepEqual(vuet.getState('test1-test2-test3'), {
+    ok: true
+  })
+  t.is(vm.$vuet, vuet)
+})
