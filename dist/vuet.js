@@ -24,6 +24,14 @@ var utils = {
       opt = args[0];
     }
     return opt;
+  },
+  set: function set(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: false,
+      writable: true,
+      configurable: false
+    });
   }
 };
 
@@ -74,44 +82,43 @@ var need = {
 };
 
 var name$3 = 'once';
+var key = '__' + name$3 + '__';
 
 var once = {
   name: name$3,
+  init: function init(vuet) {
+    utils.set(vuet, key, {});
+    Object.keys(vuet.store).forEach(function (k) {
+      utils.set(vuet[key], k, false);
+    });
+  },
   mixin: function mixin(path) {
     return {
       beforeCreate: function beforeCreate() {
         var _this = this;
 
-        if (this.$vuet.__fired_once__ === false) {
+        if (this.$vuet[key][path] === false) {
           this.$vuet.fetch(path, { current: this }).then(function () {
-            _this.$vuet.__fired_once__ = true;
+            _this.$vuet[key][path] = true;
           });
         }
       }
     };
-  },
-  init: function init(vuet) {
-    vuet.__fired_once__ = false;
-  },
-  destroy: function destroy(vuet) {
-    vuet.__fired_once__ = true;
   }
 };
 
 var name$4 = 'route';
+var key$1 = '__' + name$4 + '__';
 
 var route = {
   name: name$4,
+  init: function init(vuet) {
+    utils.set(vuet, key$1, {});
+    Object.keys(vuet.store).forEach(function (k) {
+      utils.set(vuet[key$1], k, '{}');
+    });
+  },
   mixin: function mixin(path) {
-    function set(obj, key, value) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: false,
-        writable: true,
-        configurable: false
-      });
-    }
-
     function getWatchs(obj, list) {
       if (typeof list === 'string') {
         list = [list];
@@ -146,22 +153,16 @@ var route = {
       beforeCreate: function beforeCreate() {
         var _this = this;
 
-        if (!this.$vuet.__route__) {
-          set(this.$vuet, '__route__', {});
-        }
         var _$vuet$_options$modul = this.$vuet._options.modules[path].watch,
             watch = _$vuet$_options$modul === undefined ? 'fullPath' : _$vuet$_options$modul;
 
         var toWatch = getWatchs(this.$route, watch);
-        if (!this.$vuet.__route__[path]) {
-          this.$vuet.__route__[path] = toWatch;
-        }
-        if (diffWatch(toWatch, this.$vuet.__route__[path])) {
+        if (diffWatch(toWatch, this.$vuet[key$1][path])) {
           this.$vuet.reset(path);
-          this.$vuet.__route__[path] = toWatch;
+          this.$vuet[key$1][path] = toWatch;
         }
         this.$vuet.fetch(path, { current: this }).then(function () {
-          _this.$vuet.__route__[path] = toWatch;
+          _this.$vuet[key$1][path] = toWatch;
         });
       },
 
@@ -178,7 +179,7 @@ var route = {
             var fromWatch = getWatchs(from, watch);
             if (!diffWatch(toWatch, fromWatch)) return false;
             this.$vuet.fetch(path, this).then(function () {
-              _this2.$vuet.__route__[path] = toWatch;
+              _this2.$vuet[key$1][path] = toWatch;
             });
           }
         }

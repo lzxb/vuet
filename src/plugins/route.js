@@ -1,17 +1,17 @@
+import utils from '../utils'
+
 const name = 'route'
+const key = `__${name}__`
 
 export default {
   name,
+  init (vuet) {
+    utils.set(vuet, key, {})
+    Object.keys(vuet.store).forEach(k => {
+      utils.set(vuet[key], k, '{}')
+    })
+  },
   mixin (path) {
-    function set (obj, key, value) {
-      Object.defineProperty(obj, key, {
-        value,
-        enumerable: false,
-        writable: true,
-        configurable: false
-      })
-    }
-
     function getWatchs (obj, list) {
       if (typeof list === 'string') {
         list = [list]
@@ -44,20 +44,14 @@ export default {
     }
     return {
       beforeCreate () {
-        if (!this.$vuet.__route__) {
-          set(this.$vuet, '__route__', {})
-        }
         const { watch = 'fullPath' } = this.$vuet._options.modules[path]
         const toWatch = getWatchs(this.$route, watch)
-        if (!this.$vuet.__route__[path]) {
-          this.$vuet.__route__[path] = toWatch
-        }
-        if (diffWatch(toWatch, this.$vuet.__route__[path])) {
+        if (diffWatch(toWatch, this.$vuet[key][path])) {
           this.$vuet.reset(path)
-          this.$vuet.__route__[path] = toWatch
+          this.$vuet[key][path] = toWatch
         }
         this.$vuet.fetch(path, { current: this }).then(() => {
-          this.$vuet.__route__[path] = toWatch
+          this.$vuet[key][path] = toWatch
         })
       },
       watch: {
@@ -69,7 +63,7 @@ export default {
             const fromWatch = getWatchs(from, watch)
             if (!diffWatch(toWatch, fromWatch)) return false
             this.$vuet.fetch(path, this).then(() => {
-              this.$vuet.__route__[path] = toWatch
+              this.$vuet[key][path] = toWatch
             })
           }
         }

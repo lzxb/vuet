@@ -18,6 +18,14 @@ const utils = {
       opt = args[0]
     }
     return opt
+  },
+  set (obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value,
+      enumerable: false,
+      writable: true,
+      configurable: false
+    })
   }
 }
 
