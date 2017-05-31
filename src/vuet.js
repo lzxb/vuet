@@ -1,6 +1,7 @@
 import { _Vue } from './install'
 import utils from './utils'
 import debug from './debug'
+import plugins from './plugins/index'
 
 export default class Vuet {
   constructor (options) {
@@ -99,7 +100,11 @@ export default class Vuet {
     Vuet.pluginCallHook(this, 'destroy')
   }
 }
-Vuet.plugins = {}
+
+Vuet.plugins = {
+  ...plugins
+}
+
 Vuet.pluginCallHook = (vuet, hook) => {
   for (let k in Vuet.plugins) {
     if (utils.isFunction(Vuet.plugins[k][hook])) {

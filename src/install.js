@@ -1,6 +1,4 @@
-import Vuet from './vuet'
 import utils from './utils'
-import plugins from './plugins/index'
 
 export let _Vue = null
 
@@ -24,8 +22,5 @@ export default function install (Vue) {
         this._vuet.destroy(this)
       }
     }
-  })
-  Object.keys(plugins).forEach(k => {
-    Vuet.use(plugins[k])
   })
 }

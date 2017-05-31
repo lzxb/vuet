@@ -37,6 +37,44 @@ typeStrings.forEach(function (type) {
   };
 });
 
+var _Vue = null;
+
+function install(Vue) {
+  if (install.installed) return;
+  install.installed = true;
+  _Vue = Vue;
+  Object.defineProperty(Vue.prototype, '$vuet', {
+    get: function get() {
+      return this.$root._vuet;
+    }
+  });
+  Vue.mixin({
+    beforeCreate: function beforeCreate() {
+      if (!utils.isUndefined(this.$options.vuet)) {
+        this._vuet = this.$options.vuet;
+        this._vuet.init(this);
+      }
+    },
+    destroyed: function destroyed() {
+      if (!utils.isUndefined(this.$options.vuet)) {
+        this._vuet = this.$options.vuet;
+        this._vuet.destroy(this);
+      }
+    }
+  });
+}
+
+var debug = {
+  error: function error(msg) {
+    throw new Error('[vuet] ' + msg);
+  },
+  warn: function warn(msg) {
+    if (process.env.NODE_ENV !== 'production') {
+      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
+    }
+  }
+};
+
 var name = 'life';
 
 var life = {
@@ -178,47 +216,6 @@ var plugins = {
   need: need,
   once: once,
   route: route
-};
-
-var _Vue = null;
-
-function install(Vue) {
-  if (install.installed) return;
-  install.installed = true;
-  _Vue = Vue;
-  Object.defineProperty(Vue.prototype, '$vuet', {
-    get: function get() {
-      return this.$root._vuet;
-    }
-  });
-  Vue.mixin({
-    beforeCreate: function beforeCreate() {
-      if (!utils.isUndefined(this.$options.vuet)) {
-        this._vuet = this.$options.vuet;
-        this._vuet.init(this);
-      }
-    },
-    destroyed: function destroyed() {
-      if (!utils.isUndefined(this.$options.vuet)) {
-        this._vuet = this.$options.vuet;
-        this._vuet.destroy(this);
-      }
-    }
-  });
-  Object.keys(plugins).forEach(function (k) {
-    Vuet$1.use(plugins[k]);
-  });
-}
-
-var debug = {
-  error: function error(msg) {
-    throw new Error('[vuet] ' + msg);
-  },
-  warn: function warn(msg) {
-    if (process.env.NODE_ENV !== 'production') {
-      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
-    }
-  }
 };
 
 var classCallCheck = function (instance, Constructor) {
@@ -437,7 +434,8 @@ var Vuet$1 = function () {
   return Vuet;
 }();
 
-Vuet$1.plugins = {};
+Vuet$1.plugins = _extends({}, plugins);
+
 Vuet$1.pluginCallHook = function (vuet, hook) {
   for (var k in Vuet$1.plugins) {
     if (utils.isFunction(Vuet$1.plugins[k][hook])) {
