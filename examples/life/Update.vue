@@ -7,7 +7,7 @@
   import Vuet, { mapMixins, mapState } from 'vuet'
 
   export default {
-    mixins: mapMixins('once', 'test'),
+    mixins: mapMixins('life', 'test'),
     computed: mapState('test')
   }
 </script>
