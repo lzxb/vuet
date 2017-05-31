@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>once</h2>
+    <h2>need</h2>
     <div>{{ test.count }}</div>
     <button @click="show = !show">switch</button>
     <update v-if="show"></update>
