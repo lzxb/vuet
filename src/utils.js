@@ -3,12 +3,6 @@ const toString = Object.prototype.toString
 const typeStrings = ['Object', 'Function', 'String', 'Undefined', 'Null']
 
 const utils = {
-  forEachObj (obj, cb) {
-    if (!obj || !utils.isObject(obj)) return
-    Object.keys(obj).forEach(k => {
-      cb(obj[k], k)
-    })
-  },
   getArgMerge () {
     let opt = {}
     const args = arguments

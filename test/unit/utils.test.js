@@ -1,15 +1,6 @@
 import test from 'ava'
 import utils from '../../src/utils'
 
-test('forEachObj', t => {
-  const testObj = { name: 'vuet', info: 'test' }
-  const newObj = {}
-  utils.forEachObj(testObj, (val, k) => {
-    newObj[k] = val
-  })
-  t.deepEqual(testObj, newObj)
-})
-
 test('getArgMerge', t => {
   t.deepEqual(utils.getArgMerge('name', 'vuet'), { name: 'vuet' })
   t.deepEqual(utils.getArgMerge({ name: 'vuet' }), { name: 'vuet' })

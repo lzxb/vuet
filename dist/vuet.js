@@ -9,12 +9,6 @@ var toString = Object.prototype.toString;
 var typeStrings = ['Object', 'Function', 'String', 'Undefined', 'Null'];
 
 var utils = {
-  forEachObj: function forEachObj(obj, cb) {
-    if (!obj || !utils.isObject(obj)) return;
-    Object.keys(obj).forEach(function (k) {
-      cb(obj[k], k);
-    });
-  },
   getArgMerge: function getArgMerge() {
     var opt = {};
     var args = arguments;
@@ -59,19 +53,10 @@ var life = {
   }
 };
 
-var name$1 = 'local';
-
-var local = {
-  name: name$1,
-  mixin: function mixin(path) {
-    return {};
-  }
-};
-
-var name$2 = 'need';
+var name$1 = 'need';
 
 var need = {
-  name: name$2,
+  name: name$1,
   mixin: function mixin(path) {
     return {
       beforeCreate: function beforeCreate() {
@@ -81,11 +66,11 @@ var need = {
   }
 };
 
-var name$3 = 'once';
-var key = '__' + name$3 + '__';
+var name$2 = 'once';
+var key = '__' + name$2 + '__';
 
 var once = {
-  name: name$3,
+  name: name$2,
   init: function init(vuet) {
     utils.set(vuet, key, {});
     Object.keys(vuet.store).forEach(function (k) {
@@ -107,11 +92,11 @@ var once = {
   }
 };
 
-var name$4 = 'route';
-var key$1 = '__' + name$4 + '__';
+var name$3 = 'route';
+var key$1 = '__' + name$3 + '__';
 
 var route = {
-  name: name$4,
+  name: name$3,
   init: function init(vuet) {
     utils.set(vuet, key$1, {});
     Object.keys(vuet.store).forEach(function (k) {
@@ -190,7 +175,6 @@ var route = {
 
 var plugins = {
   life: life,
-  local: local,
   need: need,
   once: once,
   route: route

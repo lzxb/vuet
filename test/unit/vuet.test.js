@@ -180,7 +180,7 @@ test('base', async t => {
 
 test('use plugins', t => {
   const vuet = newVuet(t)
-  const arr = ['life', 'local', 'need', 'once', 'route']
+  const arr = ['life', 'need', 'once', 'route']
   t.deepEqual(Object.keys(Vuet.plugins), arr)
   arr.forEach(name => {
     t.is(Vuet.plugins[name].name, name)
