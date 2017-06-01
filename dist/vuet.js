@@ -184,7 +184,9 @@ var route = {
           this.$vuet.reset(path);
           this.$vuet[key$1][path] = toWatch;
         }
-        this.$vuet.fetch(path, { current: this }).then(function () {
+        this.$vuet.fetch(path, { current: this }, false).then(function (res) {
+          if (diffWatch(toWatch, getWatchs(_this.$route, watch))) return;
+          _this.$vuet.setState(path, res);
           _this.$vuet[key$1][path] = toWatch;
         });
       },
@@ -201,7 +203,9 @@ var route = {
             var toWatch = getWatchs(to, watch);
             var fromWatch = getWatchs(from, watch);
             if (!diffWatch(toWatch, fromWatch)) return false;
-            this.$vuet.fetch(path, this).then(function () {
+            this.$vuet.fetch(path, { current: this }).then(function (res) {
+              if (diffWatch(toWatch, getWatchs(_this2.$route, watch))) return;
+              _this2.$vuet.setState(path, res);
               _this2.$vuet[key$1][path] = toWatch;
             });
           }

@@ -50,7 +50,9 @@ export default {
           this.$vuet.reset(path)
           this.$vuet[key][path] = toWatch
         }
-        this.$vuet.fetch(path, { current: this }).then(() => {
+        this.$vuet.fetch(path, { current: this }, false).then((res) => {
+          if (diffWatch(toWatch, getWatchs(this.$route, watch))) return
+          this.$vuet.setState(path, res)
           this.$vuet[key][path] = toWatch
         })
       },
@@ -62,7 +64,9 @@ export default {
             const toWatch = getWatchs(to, watch)
             const fromWatch = getWatchs(from, watch)
             if (!diffWatch(toWatch, fromWatch)) return false
-            this.$vuet.fetch(path, this).then(() => {
+            this.$vuet.fetch(path, { current: this }).then((res) => {
+              if (diffWatch(toWatch, getWatchs(this.$route, watch))) return
+              this.$vuet.setState(path, res)
               this.$vuet[key][path] = toWatch
             })
           }
