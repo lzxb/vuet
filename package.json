@@ -1,7 +1,7 @@
 {
   "name": "vuet",
-  "version": "0.0.1-alpha.20",
-  "description": "vue router store plug-in",
+  "version": "0.0.1-alpha.21",
+  "description": "Vue state management plugin",
   "main": "dist/vuet.js",
   "scripts": {
     "cross-env": "node_modules/.bin/cross-env",
