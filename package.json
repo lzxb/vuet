@@ -1,6 +1,6 @@
 {
   "name": "vuet",
-  "version": "0.0.1-alpha.19",
+  "version": "0.0.1-alpha.20",
   "description": "vue router store plug-in",
   "main": "dist/vuet.js",
   "scripts": {
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/medevicex/vuet/issues"
   },
-  "Keywords": [
+  "keywords": [
     "vue",
     "vue2",
     "vue-router",

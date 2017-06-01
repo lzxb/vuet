@@ -49,7 +49,7 @@ export default class Vuet {
       })
     }
     initModule([], this.options.modules)
-    Vuet.pluginCallHook(this, 'init')
+    Vuet.pluginCallHook('init', this)
   }
   setState (path, data) {
     if (!this.store[path]) {
@@ -68,7 +68,7 @@ export default class Vuet {
     }
     this.setState(path, data)
   }
-  fetch (path, params) {
+  fetch (path, params, setStateBtn) {
     const store = this._options.modules[path]
     if (!utils.isFunction(store.fetch)) return false
     const data = {
@@ -87,6 +87,7 @@ export default class Vuet {
     return store.fetch.call(this, data)
     .then(res => {
       if (callHook('afterHooks', null, data, res) === false) return data.store
+      if (setStateBtn === false) return res
       this.setState(path, res)
       return data.store
     })
@@ -97,7 +98,7 @@ export default class Vuet {
   }
   destroy () {
     this.vm.$destroy()
-    Vuet.pluginCallHook(this, 'destroy')
+    Vuet.pluginCallHook('destroy', this)
   }
 }
 
@@ -105,10 +106,10 @@ Vuet.plugins = {
   ...plugins
 }
 
-Vuet.pluginCallHook = (vuet, hook) => {
+Vuet.pluginCallHook = (hook, ...arg) => {
   for (let k in Vuet.plugins) {
     if (utils.isFunction(Vuet.plugins[k][hook])) {
-      Vuet.plugins[k][hook](vuet)
+      Vuet.plugins[k][hook].apply(Vuet.plugins[k], arg)
     }
   }
 }

@@ -366,7 +366,7 @@ var Vuet$1 = function () {
         });
       };
       initModule([], this.options.modules);
-      Vuet.pluginCallHook(this, 'init');
+      Vuet.pluginCallHook('init', this);
     }
   }, {
     key: 'setState',
@@ -393,7 +393,7 @@ var Vuet$1 = function () {
     }
   }, {
     key: 'fetch',
-    value: function fetch(path, params) {
+    value: function fetch(path, params, setStateBtn) {
       var _this2 = this;
 
       var store = this._options.modules[path];
@@ -417,6 +417,7 @@ var Vuet$1 = function () {
       if (callHook('beforeHooks', data) === false) return Promise.resolve(data.store);
       return store.fetch.call(this, data).then(function (res) {
         if (callHook('afterHooks', null, data, res) === false) return data.store;
+        if (setStateBtn === false) return res;
         _this2.setState(path, res);
         return data.store;
       }).catch(function (e) {
@@ -428,7 +429,7 @@ var Vuet$1 = function () {
     key: 'destroy',
     value: function destroy() {
       this.vm.$destroy();
-      Vuet.pluginCallHook(this, 'destroy');
+      Vuet.pluginCallHook('destroy', this);
     }
   }]);
   return Vuet;
@@ -436,10 +437,14 @@ var Vuet$1 = function () {
 
 Vuet$1.plugins = _extends({}, plugins);
 
-Vuet$1.pluginCallHook = function (vuet, hook) {
+Vuet$1.pluginCallHook = function (hook) {
+  for (var _len2 = arguments.length, arg = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    arg[_key2 - 1] = arguments[_key2];
+  }
+
   for (var k in Vuet$1.plugins) {
     if (utils.isFunction(Vuet$1.plugins[k][hook])) {
-      Vuet$1.plugins[k][hook](vuet);
+      Vuet$1.plugins[k][hook].apply(Vuet$1.plugins[k], arg);
     }
   }
 };

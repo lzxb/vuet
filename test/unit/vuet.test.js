@@ -172,10 +172,18 @@ test('base', async t => {
   t.is(beforeCount, 3)
   t.is(afterCount, 2)
   t.is(vuet.getState(listPath), store2)
+
   const store3 = await vuet.fetch(listPath)
   t.is(beforeCount, 3)
   t.is(afterCount, 2)
   t.is(vuet.getState(listPath), store3)
+
+  beforeCount = 0
+  afterCount = 0
+  const store4 = await vuet.fetch(listPath, {}, false)
+  t.deepEqual(store4, { list: [1, 0] })
+  t.is(beforeCount, 1)
+  t.is(afterCount, 1)
 })
 
 test('use plugins', t => {
