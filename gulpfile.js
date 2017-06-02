@@ -78,9 +78,6 @@ gulp.task('e2e', () => {
   if (process.env.NODE_ENV !== 'development') return
   return gulp.src('test/e2e/**.test.js')
     .pipe(testcafe({ browsers: ['nightmare'] }))
-    .catch(e => {
-      console.log(e)
-    })
 })
 
 gulp.task('default', ['lint', 'build', 'test', 'e2e'], () => {

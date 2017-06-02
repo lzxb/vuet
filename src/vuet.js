@@ -39,7 +39,7 @@ export default class Vuet {
       Object.keys(modules).forEach(k => {
         const item = modules[k]
         const _path = [...path, k]
-        if (utils.isFunction(item.fetch) && utils.isFunction(item.data)) {
+        if (utils.isFunction(item.data)) {
           this._options.modules[_path.join(pathJoin)] = item
           this.reset(_path.join(pathJoin))
         }
@@ -70,7 +70,7 @@ export default class Vuet {
   }
   fetch (path, params, setStateBtn) {
     const store = this._options.modules[path]
-    if (!utils.isFunction(store.fetch)) return false
+    if (!utils.isFunction(store.fetch)) return Promise.resolve(store)
     const data = {
       path,
       params: { ...params },

@@ -360,7 +360,7 @@ var Vuet$1 = function () {
         Object.keys(modules).forEach(function (k) {
           var item = modules[k];
           var _path = [].concat(toConsumableArray(path), [k]);
-          if (utils.isFunction(item.fetch) && utils.isFunction(item.data)) {
+          if (utils.isFunction(item.data)) {
             _this._options.modules[_path.join(pathJoin)] = item;
             _this.reset(_path.join(pathJoin));
           }
@@ -401,7 +401,7 @@ var Vuet$1 = function () {
       var _this2 = this;
 
       var store = this._options.modules[path];
-      if (!utils.isFunction(store.fetch)) return false;
+      if (!utils.isFunction(store.fetch)) return Promise.resolve(store);
       var data = {
         path: path,
         params: _extends({}, params),
