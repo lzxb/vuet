@@ -1,8 +1,8 @@
 <template>
   <div>
     <header>
-      <span v-for="(item, $index) in tabs" :key="item.value">
-        <router-link :to="{ name: 'index', query: { tab: item.value } }">
+      <span v-for="(item, $index) in types" :key="item.value">
+        <router-link :to="{ name: 'index', query: { type: item.value } }">
           {{ item.label }}
         </router-link>
       </span>
@@ -23,25 +23,21 @@
     mixins: [...mapMixins({ route: 'topic/list' })],
     data () {
       return {
-        tabs: [
+        types: [
           {
-            label: '全部',
+            label: 'All',
             value: 'all'
           },
           {
-            label: '精华',
+            label: 'Good',
             value: 'good'
           },
           {
-            label: '分享',
+            label: 'Share',
             value: 'share'
           },
           {
-            label: '问答',
-            value: 'ask'
-          },
-          {
-            label: '招聘',
+            label: 'Job',
             value: 'job'
           }
         ]
