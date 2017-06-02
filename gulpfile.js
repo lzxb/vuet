@@ -76,7 +76,7 @@ const testcafe = require('gulp-testcafe')
 const server = require('./examples/server')
 gulp.task('e2e', () => {
   return gulp.src('test/e2e/**.test.js')
-    .pipe(testcafe({ browsers: ['chrome'] }))
+    .pipe(testcafe({ browsers: ['nightmare'] }))
 })
 
 gulp.task('default', ['lint', 'build', 'test', 'e2e'], () => {
@@ -87,5 +87,5 @@ gulp.task('default', ['lint', 'build', 'test', 'e2e'], () => {
 })
 
 if (process.env.NODE_ENV === 'development') {
-  gulp.watch(['**/*.js', '!node_modules/**', '!dist/**'], ['dev'])
+  gulp.watch(['**/*.js', '!node_modules/**', '!dist/**'], ['default'])
 }
