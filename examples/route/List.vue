@@ -7,11 +7,9 @@
         </router-link>
       </span>
     </header>
-    <ul>
+    <ul id="ul">
       <li v-for="(item, $index) in list.list" :key="item.id">
-        <router-link :to="{ name: 'detail', params: { id: item.id } }">
-          {{ item.title }}
-        </router-link>
+        <router-link :to="{ name: 'detail', params: { id: item.id } }">{{ item.title }}</router-link>
       </li>
     </ul>
   </div>

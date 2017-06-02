@@ -1,4 +1,5 @@
 module.exports = {
   root: true,
-  extends: ['standard']
+  plugins: ['testcafe'],
+  extends: ['standard', 'plugin:testcafe/recommended']
 }

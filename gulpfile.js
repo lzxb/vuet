@@ -1,6 +1,17 @@
 const gulp = require('gulp')
+
+const moduleName = 'Vuet'
+const destName = 'vuet'
+
 const eslint = require('gulp-eslint')
 const clear = require('clear')
+gulp.task('lint', () => {
+  clear()
+  return gulp.src(['**/*.js', '!node_modules/**', '!dist/**'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+})
+
 const { rollup } = require('rollup')
 const babel = require('rollup-plugin-babel')({
   babelrc: false,
@@ -9,22 +20,10 @@ const babel = require('rollup-plugin-babel')({
     'stage-0'
   ]
 })
-const ava = require('gulp-ava')
 const uglify = require('rollup-plugin-uglify')
 const { minify } = require('uglify-js')
 const replace = require('rollup-plugin-replace')
-
-const moduleName = 'Vuet'
-const destName = 'vuet'
-
-gulp.task('lint', () => {
-  clear()
-  return gulp.src(['**/*.js', '!node_modules/**', '!dist/**'])
-    .pipe(eslint())
-    .pipe(eslint.format())
-})
-
-gulp.task('build', ['lint'], () => {
+gulp.task('build', () => {
   // Development environment version
   return rollup({
     entry: 'src/index.js',
@@ -65,16 +64,28 @@ gulp.task('build', ['lint'], () => {
   })
 })
 
-gulp.task('test', ['build'], () => {
-  return gulp.src('test/**.test.js')
+const ava = require('gulp-ava')
+gulp.task('test', () => {
+  return gulp.src('test/unit/**.test.js')
   .pipe(ava({
     verbose: true // Enable verbose output
   }))
 })
 
-gulp.task('default', ['test'])
+const testcafe = require('gulp-testcafe')
+const server = require('./examples/server')
+gulp.task('e2e', () => {
+  return gulp.src('test/e2e/**.test.js')
+    .pipe(testcafe({ browsers: ['chrome'] }))
+})
+
+gulp.task('default', ['lint', 'build', 'test', 'e2e'], () => {
+  if (process.env.NODE_ENV !== 'development') {
+    server && server.close()
+    process.exit()
+  }
+})
 
 if (process.env.NODE_ENV === 'development') {
-  require('./examples/server')
-  gulp.watch(['**/*.js', '!node_modules/**', '!dist/**'], ['default'])
+  gulp.watch(['**/*.js', '!node_modules/**', '!dist/**'], ['dev'])
 }
