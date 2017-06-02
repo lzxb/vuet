@@ -58,7 +58,7 @@ const newVuet = (t) => {
           },
           fetch (params) {
             t.is(params.path, listPath)
-            t.is(params.store, vuet.getState(listPath))
+            t.is(params.state, vuet.getState(listPath))
             t.is(vuet, this)
             return Promise.resolve({ list: [1, 0] })
           }
@@ -130,8 +130,8 @@ test('base', async t => {
     t.is(vuet, this)
     if (beforeCount === 3) return false
     t.is(params.path, path)
-    t.is(params.store, vuet.getState(path))
-    t.is(params.store, vuet.getState(params.path))
+    t.is(params.state, vuet.getState(path))
+    t.is(params.state, vuet.getState(params.path))
     t.deepEqual(params.params, {})
     beforeCount++
     store.laoding = true
@@ -141,8 +141,8 @@ test('base', async t => {
     t.is(vuet, this)
     if (afterCount === 2) return false
     t.is(params.path, path)
-    t.is(params.store, vuet.getState(path))
-    t.is(params.store, vuet.getState(params.path))
+    t.is(params.state, vuet.getState(path))
+    t.is(params.state, vuet.getState(params.path))
     t.deepEqual(params.params, {})
     store.loading = false
     store.loaded = (err === null)

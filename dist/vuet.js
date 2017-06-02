@@ -389,9 +389,9 @@ var Vuet$1 = function () {
     key: 'reset',
     value: function reset(path) {
       var data = this._options.data.call(this);
-      var store = this._options.modules[path];
-      if (utils.isFunction(store.data)) {
-        Object.assign(data, store.data.call(this, path));
+      var module = this._options.modules[path];
+      if (utils.isFunction(module.data)) {
+        Object.assign(data, module.data.call(this, path));
       }
       this.setState(path, data);
     }
@@ -400,12 +400,12 @@ var Vuet$1 = function () {
     value: function fetch(path, params, setStateBtn) {
       var _this2 = this;
 
-      var store = this._options.modules[path];
-      if (!utils.isFunction(store.fetch)) return Promise.resolve(store);
+      var module = this._options.modules[path];
+      if (!utils.isFunction(module.fetch)) return Promise.resolve(this.getState(path));
       var data = {
         path: path,
         params: _extends({}, params),
-        store: this.getState(path)
+        state: this.getState(path)
       };
       var callHook = function callHook(hook) {
         for (var _len = arguments.length, arg = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -418,14 +418,14 @@ var Vuet$1 = function () {
           }
         }
       };
-      if (callHook('beforeHooks', data) === false) return Promise.resolve(data.store);
-      return store.fetch.call(this, data).then(function (res) {
-        if (callHook('afterHooks', null, data, res) === false) return data.store;
+      if (callHook('beforeHooks', data) === false) return Promise.resolve(data.state);
+      return module.fetch.call(this, data).then(function (res) {
+        if (callHook('afterHooks', null, data, res) === false) return data.state;
         if (setStateBtn === false) return res;
         _this2.setState(path, res);
-        return data.store;
+        return data.state;
       }).catch(function (e) {
-        if (callHook('afterHooks', e, data) === false) return Promise.resolve(data.store);
+        if (callHook('afterHooks', e, data) === false) return Promise.resolve(data.state);
         return Promise.reject(e);
       });
     }

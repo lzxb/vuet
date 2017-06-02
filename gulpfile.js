@@ -77,7 +77,7 @@ const server = require('./examples/server')
 gulp.task('e2e', () => {
   if (process.env.NODE_ENV !== 'development') return
   return gulp.src('test/e2e/**.test.js')
-    .pipe(testcafe({ browsers: ['nightmare'] }))
+    .pipe(testcafe({ browsers: ['chrome'] }))
 })
 
 gulp.task('default', ['lint', 'build', 'test', 'e2e'], () => {

@@ -62,19 +62,19 @@ export default class Vuet {
   }
   reset (path) {
     const data = this._options.data.call(this)
-    const store = this._options.modules[path]
-    if (utils.isFunction(store.data)) {
-      Object.assign(data, store.data.call(this, path))
+    const module = this._options.modules[path]
+    if (utils.isFunction(module.data)) {
+      Object.assign(data, module.data.call(this, path))
     }
     this.setState(path, data)
   }
   fetch (path, params, setStateBtn) {
-    const store = this._options.modules[path]
-    if (!utils.isFunction(store.fetch)) return Promise.resolve(store)
+    const module = this._options.modules[path]
+    if (!utils.isFunction(module.fetch)) return Promise.resolve(this.getState(path))
     const data = {
       path,
       params: { ...params },
-      store: this.getState(path)
+      state: this.getState(path)
     }
     const callHook = (hook, ...arg) => {
       for (let i = 0; i < this[hook].length; i++) {
@@ -83,16 +83,16 @@ export default class Vuet {
         }
       }
     }
-    if (callHook('beforeHooks', data) === false) return Promise.resolve(data.store)
-    return store.fetch.call(this, data)
+    if (callHook('beforeHooks', data) === false) return Promise.resolve(data.state)
+    return module.fetch.call(this, data)
     .then(res => {
-      if (callHook('afterHooks', null, data, res) === false) return data.store
+      if (callHook('afterHooks', null, data, res) === false) return data.state
       if (setStateBtn === false) return res
       this.setState(path, res)
-      return data.store
+      return data.state
     })
     .catch(e => {
-      if (callHook('afterHooks', e, data) === false) return Promise.resolve(data.store)
+      if (callHook('afterHooks', e, data) === false) return Promise.resolve(data.state)
       return Promise.reject(e)
     })
   }

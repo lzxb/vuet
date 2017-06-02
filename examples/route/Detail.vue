@@ -1,7 +1,10 @@
 <template>
   <div>
+    <button @click="$router.go(-1)">Back</button>
     <h2>{{ detail.title }}</h2>
     <article v-html="detail.content"></article>
+    <div class="count">{{ detail.fetchCount }}</div>
+    <router-link class="to-one" :to="{ name: 'detail', params: { id: 1 } }">to one</router-link>
   </div>
 </template>
 <script>

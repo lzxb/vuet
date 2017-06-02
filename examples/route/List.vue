@@ -12,6 +12,7 @@
         <router-link :to="{ name: 'detail', params: { id: item.id } }">{{ item.title }}</router-link>
       </li>
     </ul>
+  <div class="count">{{ list.fetchCount }}</div>
   </div>
 </template>
 <script>
