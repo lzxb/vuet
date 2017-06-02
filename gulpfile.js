@@ -65,7 +65,7 @@ gulp.task('build', () => {
 })
 
 const ava = require('gulp-ava')
-gulp.task('test', () => {
+gulp.task('test', ['lint', 'build'], () => {
   return gulp.src('test/unit/**.test.js')
   .pipe(ava({
     verbose: true // Enable verbose output
