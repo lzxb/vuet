@@ -74,6 +74,7 @@ gulp.task('test', ['build'], () => {
 
 gulp.task('default', ['test'])
 
-if (process.env.NODE_ENV !== 'testing' && process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
+  require('./examples/server')
   gulp.watch(['**/*.js', '!node_modules/**', '!dist/**'], ['default'])
 }
