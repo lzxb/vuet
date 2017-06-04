@@ -64,13 +64,13 @@ const vuet = new Vuet({
   }
 })
 
-vuet.beforeEach(function ({ store }) { // 请求发送前调用钩子，return false 则取消本次请求
-  store.loading = true
-  store.loaded = true
+vuet.beforeEach(function ({ state }) { // 请求发送前调用钩子，return false 则取消本次请求
+  state.loading = true
+  state.loaded = true
 })
-vuet.afterEach (function (err, { store }, res) { // 请求结束后调用钩子，return false 则取消更新数据
-  store.loading = false
-  store.loaded = (err === null)
+vuet.afterEach (function (err, { state }, res) { // 请求结束后调用钩子，return false 则取消更新数据
+  state.loading = false
+  state.loaded = (err === null)
 })
 
 new Vue({
