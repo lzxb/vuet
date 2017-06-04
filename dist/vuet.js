@@ -176,16 +176,16 @@ var route = {
       beforeCreate: function beforeCreate() {
         var _this = this;
 
-        var _$vuet$_options$modul = this.$vuet._options.modules[path].watch,
-            watch = _$vuet$_options$modul === undefined ? 'fullPath' : _$vuet$_options$modul;
+        var _$vuet$_options$modul = this.$vuet._options.modules[path].routeWatch,
+            routeWatch = _$vuet$_options$modul === undefined ? 'fullPath' : _$vuet$_options$modul;
 
-        var toWatch = getWatchs(this.$route, watch);
+        var toWatch = getWatchs(this.$route, routeWatch);
         if (diffWatch(toWatch, this.$vuet[key$1][path])) {
           this.$vuet.reset(path);
           this.$vuet[key$1][path] = toWatch;
         }
         this.$vuet.fetch(path, { current: this }, false).then(function (res) {
-          if (diffWatch(toWatch, getWatchs(_this.$route, watch))) return;
+          if (diffWatch(toWatch, getWatchs(_this.$route, routeWatch))) return;
           _this.$vuet.setState(path, res);
           _this.$vuet[key$1][path] = toWatch;
         });
@@ -197,14 +197,14 @@ var route = {
           handler: function handler(to, from) {
             var _this2 = this;
 
-            var _$vuet$_options$modul2 = this.$vuet._options.modules[path].watch,
-                watch = _$vuet$_options$modul2 === undefined ? 'fullPath' : _$vuet$_options$modul2;
+            var _$vuet$_options$modul2 = this.$vuet._options.modules[path].routeWatch,
+                routeWatch = _$vuet$_options$modul2 === undefined ? 'fullPath' : _$vuet$_options$modul2;
 
-            var toWatch = getWatchs(to, watch);
-            var fromWatch = getWatchs(from, watch);
+            var toWatch = getWatchs(to, routeWatch);
+            var fromWatch = getWatchs(from, routeWatch);
             if (!diffWatch(toWatch, fromWatch)) return false;
             this.$vuet.fetch(path, { current: this }).then(function (res) {
-              if (diffWatch(toWatch, getWatchs(_this2.$route, watch))) return;
+              if (diffWatch(toWatch, getWatchs(_this2.$route, routeWatch))) return;
               _this2.$vuet.setState(path, res);
               _this2.$vuet[key$1][path] = toWatch;
             });
@@ -356,6 +356,7 @@ var Vuet$1 = function () {
       };
       var pathJoin = this._options.pathJoin;
 
+      var keys = ['data', 'fetch', 'getters', 'routeWatch'];
       var initModule = function initModule(path, modules) {
         Object.keys(modules).forEach(function (k) {
           var item = modules[k];
@@ -364,7 +365,7 @@ var Vuet$1 = function () {
             _this._options.modules[_path.join(pathJoin)] = item;
             _this.reset(_path.join(pathJoin));
           }
-          if (utils.isObject(item)) {
+          if (keys.indexOf(k) === -1 && utils.isObject(item)) {
             initModule(_path, item);
           }
         });

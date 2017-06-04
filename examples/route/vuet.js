@@ -43,7 +43,7 @@ export default new Vuet({
             fetchCount: 0
           }
         },
-        watch: 'query',
+        routeWwatch: 'query',
         async fetch ({ state }) {
           const { type = 'all' } = this.app.$route.query
           let list = listData()
@@ -71,7 +71,7 @@ export default new Vuet({
             fetchCount: 0
           }
         },
-        watch: 'params.id',
+        routeWwatch: 'params.id',
         async fetch ({ state }) {
           const { id } = this.app.$route.params
           await new Promise((resolve, reject) => {

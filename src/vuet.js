@@ -35,6 +35,7 @@ export default class Vuet {
       modules: {}
     }
     const { pathJoin } = this._options
+    const keys = ['data', 'fetch', 'getters', 'routeWatch']
     const initModule = (path, modules) => {
       Object.keys(modules).forEach(k => {
         const item = modules[k]
@@ -43,7 +44,7 @@ export default class Vuet {
           this._options.modules[_path.join(pathJoin)] = item
           this.reset(_path.join(pathJoin))
         }
-        if (utils.isObject(item)) {
+        if (keys.indexOf(k) === -1 && utils.isObject(item)) {
           initModule(_path, item)
         }
       })
