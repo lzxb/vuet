@@ -49,9 +49,9 @@ const vuet = new Vuet({
   modules: {
     myModule: { // 定义模块名称
        articleList: { // 定义模块的子级
-        // 更新数据的规则设置，默认是$route.fullPath
+        // 路由数据的规则设置，默认是$route.fullPath
         // 如果有多个条件，可以传入一个数组['query.name', 'params.id']
-         watch: 'fullPath',
+         routeWatch: 'fullPath',
          data () { // 会和全局的data合并到一起
            return { list: [] }
          },
