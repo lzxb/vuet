@@ -23,7 +23,7 @@ const babel = require('rollup-plugin-babel')({
 const uglify = require('rollup-plugin-uglify')
 const { minify } = require('uglify-js')
 const replace = require('rollup-plugin-replace')
-gulp.task('build', () => {
+gulp.task('build', ['lint'], () => {
   // Development environment version
   return rollup({
     entry: 'src/index.js',
@@ -65,7 +65,7 @@ gulp.task('build', () => {
 })
 
 const ava = require('gulp-ava')
-gulp.task('test', ['lint', 'build'], () => {
+gulp.task('test', ['build'], () => {
   return gulp.src('test/unit/**.test.js')
   .pipe(ava({
     verbose: true // Enable verbose output
@@ -74,10 +74,10 @@ gulp.task('test', ['lint', 'build'], () => {
 
 const testcafe = require('gulp-testcafe')
 const server = require('./examples/server')
-gulp.task('e2e', () => {
+gulp.task('e2e', ['test'], () => {
   if (process.env.NODE_ENV !== 'development') return
   return gulp.src('test/e2e/**.test.js')
-    .pipe(testcafe({ browsers: ['chrome'] }))
+    .pipe(testcafe({ browsers: ['nightmare'] }))
 })
 
 gulp.task('default', ['lint', 'build', 'test', 'e2e'], () => {

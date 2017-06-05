@@ -1,7 +1,8 @@
 <template>
   <div>
     <h2>need</h2>
-    <div>{{ test.count }}</div>
+    <div class="count">{{ test.count }}</div>
+    <div class="fetch-count">{{ test.fetchCount }}</div>
     <button @click="show = !show">switch</button>
     <update v-if="show"></update>
   </div>
