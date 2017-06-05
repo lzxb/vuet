@@ -21,7 +21,7 @@ import Vuet from 'vuet'
 Vue.use(vuet)
 
 const vuet = new Vuet({
-  // ...
+  // ... 选项
 })
 
 new Vue({
