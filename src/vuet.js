@@ -35,7 +35,7 @@ export default class Vuet {
       modules: {}
     }
     const { pathJoin } = this._options
-    const keys = ['data', 'fetch', 'getters', 'routeWatch']
+    const keys = ['data', 'fetch', 'routeWatch']
     const initModule = (path, modules) => {
       Object.keys(modules).forEach(k => {
         const item = modules[k]

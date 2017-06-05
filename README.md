@@ -3,117 +3,151 @@
 [![npm](https://img.shields.io/npm/v/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet) 
 [![npm](https://img.shields.io/npm/dt/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet)
 
-# vuet
-简单易用，功能强大Vue 状态管理插件
-#### 数据更新规则
-- [x]  route 插件，每次组件beforeCreate钩子会触发一次fetch，根据配置的规则来监听$route的变化来决定是否更新fetch（适合存储页面之间的数据）
-- [x]  once  插件，只有第一次组件使用的时候beforeCreate钩子会触发一次fetch，以后永远不会重新触发请求（适合存储不变的数据，比如省市区的数据）
-- [x]  need  插件，每一次组件使用的时候，beforeCreate钩子会触发一次fetch（适合存储一次性拿到全部的数据，比如某个模块的统计）
-- [x]  life  插件，组件销毁时，数据将会被重置（适合跨组件进行通信，比如一个组件是编辑数据，另外一个兄弟组件则预览数据）
-
-#### 单元测试
-- [ ] debug.js
-- [x] install.js
-- [ ] mapMixins.js
-- [x] mapState.js
-- [x] utils.js
-- [x] vuet.js
-- [ ] plugins/life.js
-- [ ] plugins/local.js
-- [ ] plugins/need.js
-- [ ] plugins/once.js
-- [ ] plugins/route.js
+# vuet是什么？
+vuet是一个专门为Vue.js应用程序开发的**状态管理模式**，它与vuex不同，它没有action更新的概念，它由定制的规则来更新状态，也可以在任何地方手动更新状态，放下一切包袱，只是为了敏捷开发而生
+state => view  
+view[注入更新规则 | 手动更新] => state  
 
 #### 安装
 ```
 npm install vuet
 ```
 
-#### 使用须知
-程序必须要支持Promise，[完整的例子请看这里](https://github.com/medevicex/vuet/tree/master/examples)
-
-#### 介绍
-vuet是一个跨页面、跨组件的状态管理插件，提供了模块化的数据管理，可以自定义mixin来维护模块的数据以及和服务器之间的通信、如何在本地进行更新。
-
-#### 定义数据结构
+#### 使用
 ```javascript
 import Vue from 'vue'
 import Vuet from 'vuet'
 
-Vue.use(Vuet)
+Vue.use(vuet)
 
 const vuet = new Vuet({
-  data () { // 基本的数据，会注入到所有的module中
-    return { loading: true, loaded: true }
-  },
-  modules: {
-    myModule: { // 定义模块名称
-       articleList: { // 定义模块的子级
-        // 路由数据的规则设置，默认是$route.fullPath
-        // 如果有多个条件，可以传入一个数组['query.name', 'params.id']
-         routeWatch: 'fullPath',
-         data () { // 会和全局的data合并到一起
-           return { list: [] }
-         },
-         fetch () { // 插件更新数据时，调用的钩子，必须返回一个Promsie
-           return Promise.resolve({ list: [1,2,3] })
-        }
-      }
-      // ...可以定义多个模块的子级
-    }
-  }
-})
-
-vuet.beforeEach(function ({ state }) { // 请求发送前调用钩子，return false 则取消本次请求
-  state.loading = true
-  state.loaded = true
-})
-vuet.afterEach (function (err, { state }, res) { // 请求结束后调用钩子，return false 则取消更新数据
-  state.loading = false
-  state.loaded = (err === null)
+  // ...
 })
 
 new Vue({
-  el: '#app',
+  // ...
   vuet
 })
 
 ```
 
-#### 组件更新和获取
-```javascript
-import { mapMixins, mapState } from 'vuet'
+#### 选项
+- **data**
 
-export default {
- // ...options
- // mixins 来负责更新组件的数据，支持多种传参，内置了route、once、need、life 这几种常见的数据更新规则
- // mapMixins('route', 'myModule/articleList')
- // mapMixins('route', ['myModule/articleList'])
- // mapMixins({ route: 'myModule/articleList' })
- // mapMixins({ route: ['myModule/articleList] })
- mixins: [...mapMixins('route', 'myModule/articleList')],
- // computed 来负责获取组件的状态，支持多种传参
- // mapState(articleList, 'myModule/route/articleList')
- // mapState({ articleList: 'myModule/route/articleList' })
- computed: mapState({ articleList: 'myModule/route/articleList' }), // 使用键值的方式，和数据进行连接
- created () {
-  console.log(this.articleList.loading, this.articleList.loaded, this.articleList.list)
- }
-}
+  - 类型: `Function`
+  - 返回值: `Object`
+  - 默认值: `{}`
+  - 描述: 所有的模块状态，都会调用data方法，将返回的对象合并到一起
 
-```
-#### 组件内注入的方法
-```javascript
-// 直接设置模块的状态
-this.$vuet.setState('myModule/articleList', {
- // ...参数
-})
-// 获取模块的状态
-this.$vuet.getState('myModule/articleList')
-// 重置模块的状态
-this.$vuet.reset('myModule/articleList')
-// 向服务器请求更新模块的状态
-this.$vuet.fetch('myModule/articleList', {
- // 自定义参数，在beforeEach、beforeEach钩子中能接收到对应的参数
-})
-```
+- **pathJoin**
+
+  - 类型: `String`
+  - 默认值: `/`
+  - 描述: 父子模块之间的路径分隔符
+
+- **modules**
+
+  - 类型: `Object`
+  - 默认值: `{}`
+  - 描述: 程序会递归遍历，发现一个`Object`对象里面包含了一个`data`方法，则会被认为是一个模块
+  - 例子:
+    ```javascript
+    new Vuet({
+      modules: {
+        myModule: {
+          // ...模块选项
+          data () {
+            return {
+              // ...
+            }
+          },
+          chlidrenModule: {
+            // ...模块选项
+            data () {
+              return {
+                // ...
+              }
+            }
+          }
+        },
+      }
+    })
+    ```
+
+#### 模块选项
+
+- **data**
+
+  - 类型: `Function`
+  - 返回值: `Object`
+  - 描述: 定义一个模块状态的初始值，它和全局选项中`data`方法的返回值合并到一起
+  - 例子:
+  ```javascript
+  const vuet = new Vuet({
+    data () {
+      return {
+        loading: true
+      }
+    },
+    modules: {
+      myModule: {
+        data () {
+          return {
+            count: 0
+          }
+        }
+      }
+    }
+  })
+  vuet.getState('myModule') // { loading:true, count: 0 }
+  ```
+
+  - **fetch**
+
+  - 类型: `Function`
+  - 返回值: `Promise`
+  - 描述: 向服务器请求模块的数据
+  - 例子:
+  ```javascript
+  const vuet = new Vuet({
+    modules: {
+      myModule: {
+        data () {
+          return {
+            count: 0
+          }
+        },
+        fetch () {
+          return Promise.resolve({
+            count: 100
+          })
+        }
+      }
+    }
+  })
+  vuet
+    .fetch('myModule')
+    .then((store) => {
+      console.log(store) // { count: 100 }
+    })
+  ```
+
+ - **routeWatch**
+
+  - 类型: `String | Array`
+  - 描述: `route插件时有效配合vue-router是有效`，定义了页面改变的规则，更多的规则可以插件vue-router的route对象
+  - 例子:
+  ```javascript
+  const vuet = new Vuet({
+    modules: {
+      list: {
+        // ...
+        routeWatch: 'query'
+      },
+      detail: {
+        // ...
+        routeWatch: ['params.id']
+      }
+    }
+  })
+  ```
