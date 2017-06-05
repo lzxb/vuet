@@ -33,7 +33,6 @@ new Vue({
 
 ### 选项
 - **data**
-
   - 类型: `Function`
   - 返回值: `Object`
   - 默认值: `{}`
@@ -46,7 +45,6 @@ new Vue({
   - 描述: 父子模块之间的路径分隔符
 
 - **modules**
-
   - 类型: `Object`
   - 默认值: `{}`
   - 描述: 程序会递归遍历，发现一个`Object`对象里面包含了一个`data`方法，则会被认为是一个模块
@@ -77,77 +75,74 @@ new Vue({
 ### 模块选项
 
 - **data**
-
   - 类型: `Function`
   - 返回值: `Object`
   - 描述: 定义一个模块状态的初始值，它和全局选项中`data`方法的返回值合并到一起
   - 例子:
-  ```javascript
-  const vuet = new Vuet({
-    data () {
-      return {
-        loading: true
-      }
-    },
-    modules: {
-      myModule: {
-        data () {
-          return {
-            count: 0
+    ```javascript
+    const vuet = new Vuet({
+      data () {
+        return {
+          loading: true
+        }
+      },
+      modules: {
+        myModule: {
+          data () {
+            return {
+              count: 0
+            }
           }
         }
       }
-    }
-  })
-  vuet.getState('myModule') // { loading:true, count: 0 }
-  ```
+    })
+    vuet.getState('myModule') // { loading:true, count: 0 }
+    ```
 
-  - **fetch**
-
+- **fetch**
   - 类型: `Function`
   - 返回值: `Promise`
   - 描述: 向服务器请求模块的数据
   - 例子:
-  ```javascript
-  const vuet = new Vuet({
-    modules: {
-      myModule: {
-        data () {
-          return {
-            count: 0
+    ```javascript
+    const vuet = new Vuet({
+      modules: {
+        myModule: {
+          data () {
+            return {
+              count: 0
+            }
+          },
+          fetch () {
+            return Promise.resolve({
+              count: 100
+            })
           }
-        },
-        fetch () {
-          return Promise.resolve({
-            count: 100
-          })
         }
       }
-    }
-  })
-  vuet
-    .fetch('myModule')
-    .then((store) => {
-      console.log(store) // { count: 100 }
     })
-  ```
+    vuet
+      .fetch('myModule')
+      .then((store) => {
+        console.log(store) // { count: 100 }
+      })
+    ```
 
  - **routeWatch**
-
-  - 类型: `String | Array`
-  - 描述: `route插件时有效配合vue-router是有效`，定义了页面改变的规则，更多的规则可以插件vue-router的route对象
-  - 例子:
-  ```javascript
-  const vuet = new Vuet({
-    modules: {
-      list: {
-        // ...
-        routeWatch: 'query'
-      },
-      detail: {
-        // ...
-        routeWatch: ['params.id']
-      }
-    }
-  })
+    - 类型: `String | Array`
+    - 描述: `route插件时有效配合vue-router是有效`，定义了页面改变的规则，更多的规则可以插件vue-router的route对象
+    - 例子:
+      ```javascript
+      const vuet = new Vuet({
+        modules: {
+          list: {
+            // ...
+            routeWatch: 'query'
+          },
+          detail: {
+            // ...
+            routeWatch: ['params.id']
+          }
+        }
+      })
   ```
