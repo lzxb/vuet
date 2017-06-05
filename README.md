@@ -3,17 +3,17 @@
 [![npm](https://img.shields.io/npm/v/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet) 
 [![npm](https://img.shields.io/npm/dt/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet)
 
-#### vuet是什么？
+### vuet是什么？
 vuet是一个专门为Vue.js应用程序开发的**状态管理模式**，它与vuex不同，它没有action更新的概念，它由定制的规则来更新状态，也可以在任何地方手动更新状态，放下一切包袱，只是为了敏捷开发而生
 state => view  
 view[注入更新规则 | 手动更新] => state  
 
-#### 安装
+### 安装
 ```
 npm install vuet
 ```
 
-#### 使用
+### 使用
 ```javascript
 import Vue from 'vue'
 import Vuet from 'vuet'
@@ -31,7 +31,7 @@ new Vue({
 
 ```
 
-#### 选项
+### 选项
 - **data**
 
   - 类型: `Function`
@@ -74,7 +74,7 @@ new Vue({
     })
     ```
 
-#### 模块选项
+### 模块选项
 
 - **data**
 
