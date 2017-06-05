@@ -21,7 +21,7 @@ export default class Vuet {
   afterEach (fn) {
     this.afterHooks.push(fn)
   }
-  init (app) {
+  _init (app) {
     if (this.app || !app) return
     this.app = app
     this.vm = new _Vue({

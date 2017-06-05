@@ -1,13 +1,14 @@
 {
   "name": "vuet",
-  "version": "0.0.1-alpha.27",
+  "version": "0.0.1-alpha.28",
   "description": "Vue state management plugin",
   "main": "dist/vuet.js",
   "scripts": {
     "cross-env": "node_modules/.bin/cross-env",
     "gulp": "node_modules/.bin/gulp",
-    "dev": "npm run cross-env NODE_ENV=development npm run gulp",
-    "test": "npm run cross-env NODE_ENV=testing npm run gulp"
+    "dev": " node examples/server",
+    "dev:test": "npm run cross-env NODE_ENV=development npm run gulp",
+    "test": "npm run cross-env NODE_ENV=testing npm run gulp test"
   },
   "files": [
     "dist/",
@@ -57,7 +58,7 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-replace": "^1.1.1",
     "rollup-plugin-uglify": "^1.0.2",
-    "testcafe-browser-provider-nightmare": "0.0.4",
+    "testcafe": "^0.15.0",
     "vue": "^2.3.3",
     "vue-loader": "^12.1.1",
     "vue-router": "^2.5.3",
@@ -75,6 +76,5 @@
     "require": [
       "babel-register"
     ]
-  },
-  "dependencies": {}
+  }
 }

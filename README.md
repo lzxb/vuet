@@ -130,7 +130,7 @@ new Vue({
 
  - **routeWatch**
     - 类型: `String | Array`
-    - 描述: `route插件时有效配合vue-router是有效`，定义了页面改变的规则，更多的规则可以插件vue-router的route对象
+    - 描述: `vuet route插件时有效配合vue-router时有效`，定义了页面改变的规则，更多的规则可以插件vue-router的route对象
     - 例子:
       ```javascript
       const vuet = new Vuet({
@@ -146,3 +146,31 @@ new Vue({
         }
       })
       ```
+### Vuet实例属性
+- **store**
+  - 类型: 只读
+  - 描述: 所有的模块状态存储在这里
+
+- **beforeHooks**
+  - 类型: 只读
+  - 描述: 在调用实例的fetch方法之前，会调用里面的钩子
+
+- **afterHooks**
+  - 类型: 只读
+  - 描述: 在调用实例的fetch方法之后，会调用里面的钩子
+
+- **app**
+  - 类型: 只读
+  - 描述: Vuet实例挂载到vue应用程序中的根组件
+
+- **options**
+  - 类型: 只读
+  - 描述: Vuet实例初始化时，传入的选项
+
+- **_options**
+  - 类型: 只读
+  - 描述: 根据传入的选项，生成全局和模块的选项
+
+- **vm**
+  - 类型: 只读
+  - 描述: Vuet内部的Vue实例

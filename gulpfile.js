@@ -65,7 +65,7 @@ gulp.task('build', ['lint'], () => {
 })
 
 const ava = require('gulp-ava')
-gulp.task('test', ['build'], () => {
+gulp.task('unit', ['build'], () => {
   return gulp.src('test/unit/**.test.js')
   .pipe(ava({
     verbose: true // Enable verbose output
@@ -73,19 +73,13 @@ gulp.task('test', ['build'], () => {
 })
 
 const testcafe = require('gulp-testcafe')
-const server = require('./examples/server')
-gulp.task('e2e', ['test'], () => {
-  if (process.env.NODE_ENV !== 'development') return
+gulp.task('e2e', ['unit'], () => {
   return gulp.src('test/e2e/**.test.js')
-    .pipe(testcafe({ browsers: ['nightmare'] }))
+    .pipe(testcafe({ browsers: ['chrome'] }))
 })
 
-gulp.task('default', ['lint', 'build', 'test', 'e2e'], () => {
-  if (process.env.NODE_ENV !== 'development') {
-    server && server.close()
-    process.exit()
-  }
-})
+gulp.task('test', ['lint', 'build', 'unit'])
+gulp.task('default', ['lint', 'build', 'unit', 'e2e'])
 
 if (process.env.NODE_ENV === 'development') {
   gulp.watch(['**/*.js', '!node_modules/**', '!dist/**'], ['default'])

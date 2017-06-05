@@ -52,7 +52,7 @@ function install(Vue) {
     beforeCreate: function beforeCreate() {
       if (!utils.isUndefined(this.$options.vuet)) {
         this._vuet = this.$options.vuet;
-        this._vuet.init(this);
+        this._vuet._init(this);
       }
     },
     destroyed: function destroyed() {
@@ -336,8 +336,8 @@ var Vuet$1 = function () {
       this.afterHooks.push(fn);
     }
   }, {
-    key: 'init',
-    value: function init(app) {
+    key: '_init',
+    value: function _init(app) {
       var _this = this;
 
       if (this.app || !app) return;
@@ -356,7 +356,7 @@ var Vuet$1 = function () {
       };
       var pathJoin = this._options.pathJoin;
 
-      var keys = ['data', 'fetch', 'getters', 'routeWatch'];
+      var keys = ['data', 'fetch', 'routeWatch'];
       var initModule = function initModule(path, modules) {
         Object.keys(modules).forEach(function (k) {
           var item = modules[k];
