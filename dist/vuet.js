@@ -222,6 +222,46 @@ var plugins = {
   route: route
 };
 
+function mapState$1() {
+  // mapState(xxx, 'xxx/route/xxx')
+  // mapState({ xxx, 'xxx/route/xxx', xxx, 'xxx/route/xxx' })
+  var opt = utils.getArgMerge.apply(null, arguments);
+  var computed = {};
+  Object.keys(opt).forEach(function (k) {
+    var path = opt[k];
+    computed[k] = {
+      get: function get() {
+        return this.$vuet.store[path];
+      },
+      set: function set(val) {
+        this.$vuet.store[path] = val;
+      }
+    };
+  });
+  return computed;
+}
+
+function mapMixins$1() {
+  for (var _len = arguments.length, paths = Array(_len), _key = 0; _key < _len; _key++) {
+    paths[_key] = arguments[_key];
+  }
+
+  var opt = utils.getArgMerge.apply(null, arguments);
+  var mixins = [];
+  Object.keys(opt).forEach(function (pluginName) {
+    var any = opt[pluginName];
+    if (Array.isArray(any)) {
+      return any.forEach(function (path) {
+        var plugin = Vuet$1.plugins[pluginName];
+        mixins.push(plugin.mixin(path));
+      });
+    }
+    var plugin = Vuet$1.plugins[pluginName];
+    mixins.push(plugin.mixin(any));
+  });
+  return mixins;
+}
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -468,51 +508,17 @@ Vuet$1.use = function (plugin, opt) {
   return Vuet$1;
 };
 
-function mapState() {
-  // mapState(xxx, 'xxx/route/xxx')
-  // mapState({ xxx, 'xxx/route/xxx', xxx, 'xxx/route/xxx' })
-  var opt = utils.getArgMerge.apply(null, arguments);
-  var computed = {};
-  Object.keys(opt).forEach(function (k) {
-    var path = opt[k];
-    computed[k] = {
-      get: function get() {
-        return this.$vuet.store[path];
-      },
-      set: function set(val) {
-        this.$vuet.store[path] = val;
-      }
-    };
-  });
-  return computed;
-}
-
-function mapMixins() {
-  for (var _len = arguments.length, paths = Array(_len), _key = 0; _key < _len; _key++) {
-    paths[_key] = arguments[_key];
-  }
-
-  var opt = utils.getArgMerge.apply(null, arguments);
-  var mixins = [];
-  Object.keys(opt).forEach(function (pluginName) {
-    var any = opt[pluginName];
-    if (Array.isArray(any)) {
-      return any.forEach(function (path) {
-        var plugin = Vuet$1.plugins[pluginName];
-        mixins.push(plugin.mixin(path));
-      });
-    }
-    var plugin = Vuet$1.plugins[pluginName];
-    mixins.push(plugin.mixin(any));
-  });
-  return mixins;
-}
+Vuet$1.mapState = mapState$1;
+Vuet$1.mapMixins = mapMixins$1;
 
 Vuet$1.install = install;
 
-exports['default'] = Vuet$1;
-exports.mapState = mapState;
+var mapMixins = Vuet$1.mapMixins;
+var mapState = Vuet$1.mapState;
+
 exports.mapMixins = mapMixins;
+exports.mapState = mapState;
+exports['default'] = Vuet$1;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

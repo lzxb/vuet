@@ -263,3 +263,5 @@ new Vue({
     - `setStateBtn` 请求成功后，是否自动设置状态，如果为false，则会直接返回fetch请求回来的对象，而不是模块的状态，可选参，默认为`true`
   - 返回值: Promise
   - 描述: 向服务器取得数据更新
+- `destroy()`  
+  - 描述: 销毁vuet，释放内存

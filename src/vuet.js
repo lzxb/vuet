@@ -2,6 +2,8 @@ import { _Vue } from './install'
 import utils from './utils'
 import debug from './debug'
 import plugins from './plugins/index'
+import mapState from './mapState'
+import mapMixins from './mapMixins'
 
 export default class Vuet {
   constructor (options) {
@@ -128,3 +130,6 @@ Vuet.use = (plugin, opt) => {
   Vuet.plugins[plugin.name] = plugin
   return Vuet
 }
+
+Vuet.mapState = mapState
+Vuet.mapMixins = mapMixins
