@@ -265,3 +265,16 @@ new Vue({
   - 描述: 向服务器取得数据更新
 - `destroy()`  
   - 描述: 销毁vuet，释放内存
+
+### Vue组件连接Vuet模块
+为了简化组件和模块之间的连接，Vuet提供了`mapState`的辅助方法
+```javascript
+import { mapState } from 'mapState'
+
+export default {
+  computed: mapState({ '组件注入的名称': '模块的路径' })
+  // 同时还支持以下两种写法
+  // mapState('test') 等同于  mapState({ test: 'test' })
+  // mapState('test', 'test/chlidren') 等同于  mapState({ 'test': 'test/chlidren' })
+}
+```
