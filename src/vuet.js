@@ -17,9 +17,11 @@ export default class Vuet {
   }
   beforeEach (fn) {
     this.beforeHooks.push(fn)
+    return this
   }
   afterEach (fn) {
     this.afterHooks.push(fn)
+    return this
   }
   _init (app) {
     if (this.app || !app) return
@@ -52,14 +54,16 @@ export default class Vuet {
     initModule([], this.options.modules)
     Vuet.pluginCallHook('init', this)
   }
-  setState (path, data) {
-    if (!this.store[path]) {
-      return _Vue.set(this.store, path, data)
-    }
-    Object.assign(this.store[path], data)
-  }
   getState (path) {
     return this.store[path] || {}
+  }
+  setState (path, data) {
+    if (!this.store[path]) {
+      _Vue.set(this.store, path, data)
+      return this
+    }
+    Object.assign(this.store[path], data)
+    return this
   }
   reset (path) {
     const data = this._options.data.call(this)
@@ -68,6 +72,7 @@ export default class Vuet {
       Object.assign(data, module.data.call(this, path))
     }
     this.setState(path, data)
+    return this
   }
   fetch (path, params, setStateBtn) {
     const module = this._options.modules[path]

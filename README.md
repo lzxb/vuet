@@ -146,6 +146,7 @@ new Vue({
         }
       })
       ```
+
 ### Vuet实例属性
 - **store**
   - 类型: `只读`
@@ -174,3 +175,67 @@ new Vue({
 - **vm**
   - 类型: `只读`
   - 描述: Vuet内部的Vue实例
+
+### Vuet实例方法
+- `beforeEach(fn: Function)`  
+  每次组件实例fetch方法调用之前执行钩子
+  ```javascript
+  const vuet = new Vuet({
+    // ... 选项
+  })
+  vuet.beforeEach(({ path, params, state }) => {
+    console.log(path) // 当前更新的模块路径
+    console.log(params) // 组件实例fetch方法传入的自定义参数
+    console.log(state) // 当前更新的模块状态
+  })
+  ```
+- `afterEach(fn: Function)`  
+  每次组件实例fetch方法调用之后执行ch钩子
+  ```javascript
+  const vuet = new Vuet({
+    // ... 选项
+  })
+  vuet.beforeEach((err, { path, params, state }) => {
+    console.log(err) // 如果请求失败，会传入错误的信息
+    console.log(path) // 当前更新的模块路径
+    console.log(params) // 组件实例fetch方法传入的自定义参数
+    console.log(state) // 当前更新的模块状态
+  })
+  ```
+- `getState(path: String)`  
+  获取某个模块的状态
+  ```javascript
+  const vuet = new Vuet({
+    // ... 选项
+    modules: {
+      myModule: {
+        data () {
+          return {
+            count: 0
+          }
+        }
+      }
+    }
+  })
+  vuet.getState('myModule') // { count: 0 }
+  ```
+- `setState(path: String, data: Object)`  
+  设置某个模块的状态
+  ```javascript
+  const vuet = new Vuet({
+    // ... 选项
+    modules: {
+      myModule: {
+        data () {
+          return {
+            count: 0,
+            text: 'ok'
+          }
+        }
+      }
+    }
+  })
+  vuet
+    .setState('myModule', { count: 100 })
+    .getState('myModule') // { count: 100, text: 'ok' }
+  ```
