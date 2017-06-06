@@ -186,7 +186,7 @@ new Vue({
   vuet.beforeEach(({ path, params, state }) => {
     console.log(path) // 当前更新的模块路径
     console.log(params) // 组件实例fetch方法传入的自定义参数
-    console.log(state) // 当前更新的模块状态
+    console.log(state) // 当前更新的模块状态
   })
   ```
 - `afterEach(fn: Function)`  
