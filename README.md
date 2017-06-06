@@ -178,7 +178,8 @@ new Vue({
 
 ### Vuet实例方法
 - `beforeEach(fn: Function)`  
-  每次组件实例fetch方法调用之前执行钩子
+  - 描述: 每次组件实例fetch方法调用之前执行钩子
+  - 例子: 
   ```javascript
   const vuet = new Vuet({
     // ... 选项
@@ -190,7 +191,8 @@ new Vue({
   })
   ```
 - `afterEach(fn: Function)`  
-  每次组件实例fetch方法调用之后执行ch钩子
+  - 描述: 每次组件实例fetch方法调用之后执行ch钩子
+  - 例子: 
   ```javascript
   const vuet = new Vuet({
     // ... 选项
@@ -203,7 +205,8 @@ new Vue({
   })
   ```
 - `getState(path: String)`  
-  获取某个模块的状态
+  - 描述: 获取某个模块的状态
+  - 例子: 
   ```javascript
   const vuet = new Vuet({
     // ... 选项
@@ -220,7 +223,8 @@ new Vue({
   vuet.getState('myModule') // { count: 0 }
   ```
 - `setState(path: String, data: Object)`  
-  设置某个模块的状态
+  - 描述: 设置某个模块的状态
+  - 例子: 
   ```javascript
   const vuet = new Vuet({
     // ... 选项
