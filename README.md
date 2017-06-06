@@ -259,7 +259,7 @@ new Vue({
 - `fetch(path: String, params: Object, setStateBtn: true)`  
   - 参数:   
     - `path` 模块的路径，必选参  
-    - `params` 自定义参数，在`beforeEach`和`afterEach`钩子中接收到，可选参  
-    - `setStateBtn` 请求成功后，是否自动设置状态，可选参  
+    - `params` 自定义参数，在`beforeEach`和`afterEach`钩子中接收到，可选参，默认为`{}`
+    - `setStateBtn` 请求成功后，是否自动设置状态，如果为false，则会直接返回fetch请求回来的对象，而不是模块的状态，可选参，默认为`true`
   - 返回值: Promise
   - 描述: 向服务器取得数据更新
