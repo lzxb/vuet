@@ -18,7 +18,7 @@ npm install vuet
 import Vue from 'vue'
 import Vuet from 'vuet'
 
-Vue.use(vuet)
+Vue.use(Vuet)
 
 const vuet = new Vuet({
   // ... 选项
