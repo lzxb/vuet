@@ -21,7 +21,7 @@ import Vuet from 'vuet'
 Vue.use(Vuet)
 
 const vuet = new Vuet({
-  // ... options
+  // ... base options
 })
 
 new Vue({
