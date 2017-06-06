@@ -382,12 +382,12 @@ var Vuet$1 = function () {
     }
   }, {
     key: 'setState',
-    value: function setState(path, data) {
+    value: function setState(path, newState) {
       if (!this.store[path]) {
-        _Vue.set(this.store, path, data);
+        _Vue.set(this.store, path, newState);
         return this;
       }
-      Object.assign(this.store[path], data);
+      Object.assign(this.store[path], newState);
       return this;
     }
   }, {

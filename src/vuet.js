@@ -57,12 +57,12 @@ export default class Vuet {
   getState (path) {
     return this.store[path] || {}
   }
-  setState (path, data) {
+  setState (path, newState) {
     if (!this.store[path]) {
-      _Vue.set(this.store, path, data)
+      _Vue.set(this.store, path, newState)
       return this
     }
-    Object.assign(this.store[path], data)
+    Object.assign(this.store[path], newState)
     return this
   }
   fetch (path, params, setStateBtn) {
