@@ -329,11 +329,13 @@ var Vuet$1 = function () {
     key: 'beforeEach',
     value: function beforeEach(fn) {
       this.beforeHooks.push(fn);
+      return this;
     }
   }, {
     key: 'afterEach',
     value: function afterEach(fn) {
       this.afterHooks.push(fn);
+      return this;
     }
   }, {
     key: '_init',
@@ -374,27 +376,19 @@ var Vuet$1 = function () {
       Vuet.pluginCallHook('init', this);
     }
   }, {
-    key: 'setState',
-    value: function setState(path, data) {
-      if (!this.store[path]) {
-        return _Vue.set(this.store, path, data);
-      }
-      Object.assign(this.store[path], data);
-    }
-  }, {
     key: 'getState',
     value: function getState(path) {
       return this.store[path] || {};
     }
   }, {
-    key: 'reset',
-    value: function reset(path) {
-      var data = this._options.data.call(this);
-      var module = this._options.modules[path];
-      if (utils.isFunction(module.data)) {
-        Object.assign(data, module.data.call(this, path));
+    key: 'setState',
+    value: function setState(path, data) {
+      if (!this.store[path]) {
+        _Vue.set(this.store, path, data);
+        return this;
       }
-      this.setState(path, data);
+      Object.assign(this.store[path], data);
+      return this;
     }
   }, {
     key: 'fetch',
@@ -429,6 +423,17 @@ var Vuet$1 = function () {
         if (callHook('afterHooks', e, data) === false) return Promise.resolve(data.state);
         return Promise.reject(e);
       });
+    }
+  }, {
+    key: 'reset',
+    value: function reset(path) {
+      var data = this._options.data.call(this);
+      var module = this._options.modules[path];
+      if (utils.isFunction(module.data)) {
+        Object.assign(data, module.data.call(this, path));
+      }
+      this.setState(path, data);
+      return this;
     }
   }, {
     key: 'destroy',

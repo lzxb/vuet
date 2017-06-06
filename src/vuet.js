@@ -65,15 +65,6 @@ export default class Vuet {
     Object.assign(this.store[path], data)
     return this
   }
-  reset (path) {
-    const data = this._options.data.call(this)
-    const module = this._options.modules[path]
-    if (utils.isFunction(module.data)) {
-      Object.assign(data, module.data.call(this, path))
-    }
-    this.setState(path, data)
-    return this
-  }
   fetch (path, params, setStateBtn) {
     const module = this._options.modules[path]
     if (!utils.isFunction(module.fetch)) return Promise.resolve(this.getState(path))
@@ -101,6 +92,15 @@ export default class Vuet {
       if (callHook('afterHooks', e, data) === false) return Promise.resolve(data.state)
       return Promise.reject(e)
     })
+  }
+  reset (path) {
+    const data = this._options.data.call(this)
+    const module = this._options.modules[path]
+    if (utils.isFunction(module.data)) {
+      Object.assign(data, module.data.call(this, path))
+    }
+    this.setState(path, data)
+    return this
   }
   destroy () {
     this.vm.$destroy()
