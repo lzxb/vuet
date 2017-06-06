@@ -266,7 +266,7 @@ new Vue({
 - `destroy()`  
   - 描述: 销毁vuet，释放内存
 
-### Vue组件连接Vuet模块
+### 获取Vuet模块状态
 为了简化组件和模块之间的连接，Vuet提供了`mapState`的辅助方法
 ```javascript
 import { mapState } from 'mapState'
