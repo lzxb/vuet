@@ -4,4 +4,4 @@
 - [模块选项](./modules-options.md)
 - [实例属性](./instance-attr.md)
 - [实例方法](./instance-function.md)
-- [静态方法](./static-function.md)
+- [全局方法](./global-function.md)

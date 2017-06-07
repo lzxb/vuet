@@ -31,4 +31,4 @@ new Vue({
 
 ```
 ### Full document
-- [简体中文](./docs/zh-cn/index.md)
+- [简体中文](./docs/zh-cn/README.md)

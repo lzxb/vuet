@@ -1,4 +1,4 @@
-### 静态方法
+### 全局方法
 - Vuet.mapState 简化组件和Vuet的连接
   ```javascript
   import { mapState } from 'vuet' // 等同于 Vuet.mapState
