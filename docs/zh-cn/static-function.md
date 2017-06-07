@@ -11,7 +11,7 @@
     // mapState('test', 'test/chlidren') 等同于  mapState({ 'test': 'test/chlidren' })
   }
   ```
-- mapMixins 向组件混入模块更新的逻辑，Vuet内置了`route`，`once`，`need`，`life`这几种常见的数据更新插件
+- mapMixins 向组件混入模块更新的逻辑，Vuet内置了`route`，`once`，`need`，`life`这几种常见的数据更新插件
   ```javascript
   import { mapMixins } from 'vuet' // 等同于 Vuet.mapMixins
 
