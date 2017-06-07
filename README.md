@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/dt/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet)
 
 ### What is the Vuet?
-Vuet is aimed at managing the status of Vue.js. Modular management is its core, and you can choose between updating automatically and regularly and updating by hand to update the status of
+Vuet is aimed at managing the status of `Vue.js`. Modular management is its core, and you can choose between updating automatically and regularly and updating by hand to update the status of
 the modules. Anyway, it's all up to you.
 
 ### Usage
