@@ -7,6 +7,13 @@
 Vuet is aimed at managing the status of `Vue.js`. Modular management is its core, and you can choose between updating automatically and regularly and updating by hand to update the status of
 the modules. Anyway, it's all up to you.
 
+### Development and test
+```bash
+npm install
+npm run dev
+npm run dev:test
+```
+
 ### Usage
 - install
   ```
@@ -31,10 +38,3 @@ the modules. Anyway, it's all up to you.
   ```
 ### Full document
 - [简体中文](./docs/zh-cn/README.md)
-
-### Development and test
-```bash
-npm install
-npm run dev
-npm run dev:test
-```
