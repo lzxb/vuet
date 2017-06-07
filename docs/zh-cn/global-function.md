@@ -15,7 +15,7 @@
     }
     ```
 - `Vuet.mapRules(any)`
-  - 描述: 向组件混入模块更新的规则，Vuet内置了`route`，`once`，`need`，`life`这几种常见的数据更新规则
+  - 描述: 向组件混入模块更新的规则，Vuet内置了`route`，`once`，`need`，`life`这几种常见的数据[更新规则](./global-update-rules.md)
   - 返回值: `Object`
   - 例子:
     ```javascript
