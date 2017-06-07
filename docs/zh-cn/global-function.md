@@ -1,5 +1,5 @@
 ### 全局方法
-- Vuet.mapModules(any)
+- `Vuet.mapModules(any)`
   - 描述: 组件和Vuet的模块连接起来
   - 返回值: `Array`
   - 例子:
@@ -14,7 +14,7 @@
       // mapModules('test', 'test/chlidren') 等同于  mapModules({ 'test': 'test/chlidren' })
     }
     ```
-- Vuet.mapRules(any)
+- `Vuet.mapRules(any)`
   - 描述: 向组件混入模块更新的规则，Vuet内置了`route`，`once`，`need`，`life`这几种常见的数据更新规则
   - 返回值: `Object`
   - 例子:
