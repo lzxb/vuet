@@ -14,7 +14,7 @@
 
   export default {
     components: { OutputContent, InputContent },
-    computed: mapModules('test'),
+    computed: mapModules({ test: 'test' }),
     data () {
       return {
         show: true

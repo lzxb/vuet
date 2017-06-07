@@ -13,7 +13,7 @@
 
   export default {
     components: { OutputContent },
-    computed: mapModules('test'),
+    computed: mapModules({ test: 'test' }),
     data () {
       return {
         show: false

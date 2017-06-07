@@ -8,6 +8,6 @@
 
   export default {
     mixins: mapRules('need', 'test'),
-    computed: mapModules('test')
+    computed: mapModules({ test: 'test' })
   }
 </script>

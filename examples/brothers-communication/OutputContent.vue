@@ -5,6 +5,6 @@
   import Vuet, { mapRules, mapModules } from 'vuet'
 
   export default {
-    computed: mapModules('test')
+    computed: mapModules({ test: 'test' })
   }
 </script>
