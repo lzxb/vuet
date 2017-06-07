@@ -1,5 +1,5 @@
-### 辅助方法
-- mapState 简化组件和Vuet的连接
+### 静态方法
+- Vuet.mapState 简化组件和Vuet的连接
   ```javascript
   import { mapState } from 'vuet' // 等同于 Vuet.mapState
 
@@ -11,7 +11,7 @@
     // mapState('test', 'test/chlidren') 等同于  mapState({ 'test': 'test/chlidren' })
   }
   ```
-- mapMixins 向组件混入模块更新的逻辑，Vuet内置了`route`，`once`，`need`，`life`这几种常见的数据更新插件
+- Vuet.mapMixins 向组件混入模块更新的逻辑，Vuet内置了`route`，`once`，`need`，`life`这几种常见的数据更新插件
   ```javascript
   import { mapMixins } from 'vuet' // 等同于 Vuet.mapMixins
 
