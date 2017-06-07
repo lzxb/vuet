@@ -5,8 +5,8 @@ import route from './route'
 
 export default function install (_Vue, Vuet) {
   Vuet
-    .mixin('life', life)
-    .mixin('need', need)
-    .mixin('once', once)
-    .mixin('route', route)
+    .rule('life', life)
+    .rule('need', need)
+    .rule('once', once)
+    .rule('route', route)
 }

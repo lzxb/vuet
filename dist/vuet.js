@@ -208,7 +208,7 @@ var route = {
 };
 
 function install$1(_Vue, Vuet) {
-  Vuet.mixin('life', life).mixin('need', need).mixin('once', once).mixin('route', route);
+  Vuet.rule('life', life).rule('need', need).rule('once', once).rule('route', route);
 }
 
 var classCallCheck = function (instance, Constructor) {
@@ -362,7 +362,7 @@ var Vuet$1 = function () {
         });
       };
       initModule([], this.options.modules);
-      callMixinHook('init', this);
+      callRuleHook('init', this);
     }
   }, {
     key: 'getState',
@@ -428,7 +428,7 @@ var Vuet$1 = function () {
     key: 'destroy',
     value: function destroy() {
       this.vm.$destroy();
-      callMixinHook('destroy', this);
+      callRuleHook('destroy', this);
     }
   }]);
   return Vuet;
@@ -436,13 +436,13 @@ var Vuet$1 = function () {
 
 Object.assign(Vuet$1, {
   options: {
-    mixins: {}
+    rules: {}
   },
   install: install,
-  mixin: function mixin(name, _mixin) {
-    if (this.options.mixins[name]) return this;
-    this.options.mixins[name] = _mixin;
-    callMixinHook('install', _Vue, Vuet$1);
+  rule: function rule(name, _rule) {
+    if (this.options.rules[name]) return this;
+    this.options.rules[name] = _rule;
+    callRuleHook('install', _Vue, Vuet$1);
     return this;
   },
   mapRules: function mapRules() {
@@ -451,19 +451,19 @@ Object.assign(Vuet$1, {
     }
 
     var opt = utils.getArgMerge.apply(null, arguments);
-    var vueMixins = [];
+    var vueRules = [];
     Object.keys(opt).forEach(function (mixinName) {
       var any = opt[mixinName];
       if (Array.isArray(any)) {
         return any.forEach(function (path) {
-          var mixins = Vuet$1.options.mixins[mixinName];
-          vueMixins.push(mixins.mixin(path));
+          var rules = Vuet$1.options.rules[mixinName];
+          vueRules.push(rules.mixin(path));
         });
       }
-      var mixins = Vuet$1.options.mixins[mixinName];
-      vueMixins.push(mixins.mixin(any));
+      var rules = Vuet$1.options.rules[mixinName];
+      vueRules.push(rules.mixin(any));
     });
-    return vueMixins;
+    return vueRules;
   },
   mapModules: function mapModules() {
     var opt = utils.getArgMerge.apply(null, arguments);
@@ -491,16 +491,16 @@ Object.assign(Vuet$1, {
   }
 });
 
-function callMixinHook(hook) {
-  var mixins = Vuet$1.options.mixins;
+function callRuleHook(hook) {
+  var rules = Vuet$1.options.rules;
 
   for (var _len3 = arguments.length, arg = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
     arg[_key3 - 1] = arguments[_key3];
   }
 
-  for (var k in mixins) {
-    if (utils.isFunction(mixins[k][hook])) {
-      mixins[k][hook].apply(mixins[k], arg);
+  for (var k in rules) {
+    if (utils.isFunction(rules[k][hook])) {
+      rules[k][hook].apply(rules[k], arg);
     }
   }
 }

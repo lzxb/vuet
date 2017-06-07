@@ -1,7 +1,7 @@
 import install, { _Vue } from './install'
 import utils from './utils'
 import debug from './debug'
-import mixins from './mixins/index'
+import rules from './rules/index'
 
 export default class Vuet {
   constructor (options) {
@@ -52,7 +52,7 @@ export default class Vuet {
       })
     }
     initModule([], this.options.modules)
-    callMixinHook('init', this)
+    callRuleHook('init', this)
   }
   getState (path) {
     return this.store[path] || {}
@@ -104,36 +104,36 @@ export default class Vuet {
   }
   destroy () {
     this.vm.$destroy()
-    callMixinHook('destroy', this)
+    callRuleHook('destroy', this)
   }
 }
 
 Object.assign(Vuet, {
   options: {
-    mixins: {}
+    rules: {}
   },
   install,
-  mixin (name, mixin) {
-    if (this.options.mixins[name]) return this
-    this.options.mixins[name] = mixin
-    callMixinHook('install', _Vue, Vuet)
+  rule (name, rule) {
+    if (this.options.rules[name]) return this
+    this.options.rules[name] = rule
+    callRuleHook('install', _Vue, Vuet)
     return this
   },
   mapRules (...paths) {
     const opt = utils.getArgMerge.apply(null, arguments)
-    const vueMixins = []
+    const vueRules = []
     Object.keys(opt).forEach(mixinName => {
       const any = opt[mixinName]
       if (Array.isArray(any)) {
         return any.forEach(path => {
-          const mixins = Vuet.options.mixins[mixinName]
-          vueMixins.push(mixins.mixin(path))
+          const rules = Vuet.options.rules[mixinName]
+          vueRules.push(rules.mixin(path))
         })
       }
-      const mixins = Vuet.options.mixins[mixinName]
-      vueMixins.push(mixins.mixin(any))
+      const rules = Vuet.options.rules[mixinName]
+      vueRules.push(rules.mixin(any))
     })
-    return vueMixins
+    return vueRules
   },
   mapModules () {
     const opt = utils.getArgMerge.apply(null, arguments)
@@ -161,13 +161,13 @@ Object.assign(Vuet, {
   }
 })
 
-function callMixinHook (hook, ...arg) {
-  const { mixins } = Vuet.options
-  for (let k in mixins) {
-    if (utils.isFunction(mixins[k][hook])) {
-      mixins[k][hook].apply(mixins[k], arg)
+function callRuleHook (hook, ...arg) {
+  const { rules } = Vuet.options
+  for (let k in rules) {
+    if (utils.isFunction(rules[k][hook])) {
+      rules[k][hook].apply(rules[k], arg)
     }
   }
 }
 
-Vuet.use(mixins)
+Vuet.use(rules)

@@ -189,31 +189,31 @@ test('base', async t => {
 test('use mixins', t => {
   const vuet = newVuet(t)
   const arr = ['life', 'need', 'once', 'route']
-  t.deepEqual(Object.keys(Vuet.options.mixins), arr)
+  t.deepEqual(Object.keys(Vuet.options.rules), arr)
 
   let useCount = 0
   let initCount = 0
   let destroyCount = 0
-  const testPlugin = {
+  const testRule = {
     install (_Vue, _Vuet) {
       useCount++
       t.is(Vue, _Vue)
       t.is(Vuet, _Vuet)
-      t.is(testPlugin, this)
+      t.is(testRule, this)
     },
     init (_vuet) {
       initCount++
       t.is(vuet, _vuet)
-      t.is(testPlugin, this)
+      t.is(testRule, this)
     },
     destroy (_vuet) {
       destroyCount++
       t.is(vuet, _vuet)
-      t.is(testPlugin, this)
+      t.is(testRule, this)
     }
   }
-  Vuet.mixin('testPlugin', testPlugin)
-  arr.push('testPlugin')
+  Vuet.rule('testRule', testRule)
+  arr.push('testRule')
   t.is(useCount, 1)
   t.is(initCount, 0)
   t.is(destroyCount, 0)
@@ -234,7 +234,7 @@ test('use mixins', t => {
     name: '',
     install () {}
   })
-  t.deepEqual(Object.keys(Vuet.options.mixins), arr)
+  t.deepEqual(Object.keys(Vuet.options.rules), arr)
 })
 
 test('mapModules object parameter', t => {
