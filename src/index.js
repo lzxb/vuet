@@ -1,8 +1,6 @@
 import Vuet from './vuet'
-import install from './install'
-Vuet.install = install
 
-export const mapMixins = Vuet.mapMixins
-export const mapState = Vuet.mapState
+export const mapMixins = Vuet.mapMixins.bind(Vuet)
+export const mapState = Vuet.mapState.bind(Vuet)
 
 export default Vuet

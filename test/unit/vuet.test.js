@@ -186,25 +186,20 @@ test('base', async t => {
   t.is(afterCount, 1)
 })
 
-test('use plugins', t => {
+test('use mixins', t => {
   const vuet = newVuet(t)
   const arr = ['life', 'need', 'once', 'route']
-  t.deepEqual(Object.keys(Vuet.plugins), arr)
-  arr.forEach(name => {
-    t.is(Vuet.plugins[name].name, name)
-  })
+  t.deepEqual(Object.keys(Vuet.options.mixins), arr)
 
   let useCount = 0
   let initCount = 0
   let destroyCount = 0
   const testPlugin = {
-    name: 'testPlugin',
-    install (_Vue, _Vuet, opt) {
+    install (_Vue, _Vuet) {
       useCount++
       t.is(Vue, _Vue)
       t.is(Vuet, _Vuet)
       t.is(testPlugin, this)
-      t.deepEqual(opt, { msg: 'ok' })
     },
     init (_vuet) {
       initCount++
@@ -217,7 +212,7 @@ test('use plugins', t => {
       t.is(testPlugin, this)
     }
   }
-  Vuet.use(testPlugin, { msg: 'ok' })
+  Vuet.mixin('testPlugin', testPlugin)
   arr.push('testPlugin')
   t.is(useCount, 1)
   t.is(initCount, 0)
@@ -239,7 +234,7 @@ test('use plugins', t => {
     name: '',
     install () {}
   })
-  t.deepEqual(Object.keys(Vuet.plugins), arr)
+  t.deepEqual(Object.keys(Vuet.options.mixins), arr)
 })
 
 test('mapState object parameter', t => {

@@ -4,7 +4,6 @@ const name = 'route'
 const key = `__${name}__`
 
 export default {
-  name,
   init (vuet) {
     utils.set(vuet, key, {})
     Object.keys(vuet.store).forEach(k => {

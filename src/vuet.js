@@ -1,9 +1,7 @@
-import { _Vue } from './install'
+import install, { _Vue } from './install'
 import utils from './utils'
 import debug from './debug'
-import plugins from './plugins/index'
-import mapState from './mapState'
-import mapMixins from './mapMixins'
+import mixins from './mixins/index'
 
 export default class Vuet {
   constructor (options) {
@@ -54,7 +52,7 @@ export default class Vuet {
       })
     }
     initModule([], this.options.modules)
-    Vuet.pluginCallHook('init', this)
+    callMixinHook('init', this)
   }
   getState (path) {
     return this.store[path] || {}
@@ -106,30 +104,70 @@ export default class Vuet {
   }
   destroy () {
     this.vm.$destroy()
-    Vuet.pluginCallHook('destroy', this)
+    callMixinHook('destroy', this)
   }
 }
 
-Vuet.plugins = {
-  ...plugins
-}
+Object.assign(Vuet, {
+  options: {
+    mixins: {}
+  },
+  install,
+  mixin (name, mixin) {
+    if (this.options.mixins[name]) return this
+    this.options.mixins[name] = mixin
+    callMixinHook('install', _Vue, Vuet)
+    return this
+  },
+  mapMixins (...paths) {
+    const opt = utils.getArgMerge.apply(null, arguments)
+    const vueMixins = []
+    Object.keys(opt).forEach(mixinName => {
+      const any = opt[mixinName]
+      if (Array.isArray(any)) {
+        return any.forEach(path => {
+          const mixins = Vuet.options.mixins[mixinName]
+          vueMixins.push(mixins.mixin(path))
+        })
+      }
+      const mixins = Vuet.options.mixins[mixinName]
+      vueMixins.push(mixins.mixin(any))
+    })
+    return vueMixins
+  },
+  mapState () {
+    const opt = utils.getArgMerge.apply(null, arguments)
+    const computed = {}
+    Object.keys(opt).forEach(k => {
+      const path = opt[k]
+      computed[k] = {
+        get () {
+          return this.$vuet.store[path]
+        },
+        set (val) {
+          this.$vuet.store[path] = val
+        }
+      }
+    })
+    return computed
+  },
+  use (plugin, opt) {
+    if (utils.isFunction(plugin)) {
+      plugin(_Vue, Vuet, opt)
+    } else if (utils.isFunction(plugin.install)) {
+      plugin.install(_Vue, Vuet, opt)
+    }
+    return this
+  }
+})
 
-Vuet.pluginCallHook = (hook, ...arg) => {
-  for (let k in Vuet.plugins) {
-    if (utils.isFunction(Vuet.plugins[k][hook])) {
-      Vuet.plugins[k][hook].apply(Vuet.plugins[k], arg)
+function callMixinHook (hook, ...arg) {
+  const { mixins } = Vuet.options
+  for (let k in mixins) {
+    if (utils.isFunction(mixins[k][hook])) {
+      mixins[k][hook].apply(mixins[k], arg)
     }
   }
 }
 
-Vuet.use = (plugin, opt) => {
-  if (utils.isFunction(plugin.install)) {
-    plugin.install(_Vue, Vuet, opt)
-  }
-  if (typeof plugin.name !== 'string' || !plugin.name) return Vuet
-  Vuet.plugins[plugin.name] = plugin
-  return Vuet
-}
-
-Vuet.mapState = mapState
-Vuet.mapMixins = mapMixins
+Vuet.use(mixins)
