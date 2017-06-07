@@ -4,10 +4,10 @@
   </div>
 </template>
 <script>
-  import Vuet, { mapMixins, mapState } from 'vuet'
+  import Vuet, { mapRules, mapModules } from 'vuet'
 
   export default {
-    mixins: mapMixins('need', 'test'),
-    computed: mapState('test')
+    mixins: mapRules('need', 'test'),
+    computed: mapModules('test')
   }
 </script>

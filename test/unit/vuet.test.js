@@ -1,6 +1,6 @@
 import test from 'ava'
 import Vue from 'vue'
-import Vuet, { mapState, mapMixins } from '../../dist/vuet'
+import Vuet, { mapModules, mapRules } from '../../dist/vuet'
 
 Vue.use(Vuet)
 
@@ -237,11 +237,11 @@ test('use mixins', t => {
   t.deepEqual(Object.keys(Vuet.options.mixins), arr)
 })
 
-test('mapState object parameter', t => {
+test('mapModules object parameter', t => {
   const vuet = newVuet(t)
   let vm = new Vue({
     vuet,
-    computed: mapState({
+    computed: mapModules({
       list: `${myModule}/list`,
       detail: `${myModule}/detail`
     })
@@ -252,17 +252,17 @@ test('mapState object parameter', t => {
   t.deepEqual(vm.detail, detailState)
 })
 
-test('mapState string parameter', t => {
+test('mapModules string parameter', t => {
   const vuet = newVuet(t)
   let vm = new Vue({
     vuet,
-    computed: mapState('detail', `${myModule}/detail`)
+    computed: mapModules('detail', `${myModule}/detail`)
   })
   t.is(vm.detail, vuet.getState(detailPath))
   t.deepEqual(vm.detail, detailState)
 })
 
-test('mapMixins', async t => {
+test('mapRules', async t => {
   const test = (mixins) => {
     const vuet = newVuet(t)
     const vm = new Vue({
@@ -279,9 +279,9 @@ test('mapMixins', async t => {
       }, 300)
     })
   }
-  await test(mapMixins('route', `${myModule}/list`))
-  await test(mapMixins('route', [`${myModule}/list`]))
-  await test(mapMixins({ route: `${myModule}/list` }))
+  await test(mapRules('route', `${myModule}/list`))
+  await test(mapRules('route', [`${myModule}/list`]))
+  await test(mapRules({ route: `${myModule}/list` }))
 })
 
 test('pathJoin', t => {

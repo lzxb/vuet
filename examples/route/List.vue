@@ -16,10 +16,10 @@
   </div>
 </template>
 <script>
-  import { mapMixins, mapState } from 'vuet'
+  import { mapRules, mapModules } from 'vuet'
 
   export default {
-    mixins: [...mapMixins({ route: 'topic/list' })],
+    mixins: [...mapRules({ route: 'topic/list' })],
     data () {
       return {
         types: [
@@ -42,6 +42,6 @@
         ]
       }
     },
-    computed: mapState({ list: 'topic/list' })
+    computed: mapModules({ list: 'topic/list' })
   }
 </script>

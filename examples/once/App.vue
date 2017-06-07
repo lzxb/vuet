@@ -8,12 +8,12 @@
   </div>
 </template>
 <script>
-  import { mapState } from 'vuet'
+  import { mapModules } from 'vuet'
   import Update from './Update'
 
   export default {
     components: { Update },
-    computed: mapState('test'),
+    computed: mapModules('test'),
     data () {
       return {
         show: false

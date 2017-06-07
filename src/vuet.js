@@ -119,7 +119,7 @@ Object.assign(Vuet, {
     callMixinHook('install', _Vue, Vuet)
     return this
   },
-  mapMixins (...paths) {
+  mapRules (...paths) {
     const opt = utils.getArgMerge.apply(null, arguments)
     const vueMixins = []
     Object.keys(opt).forEach(mixinName => {
@@ -135,7 +135,7 @@ Object.assign(Vuet, {
     })
     return vueMixins
   },
-  mapState () {
+  mapModules () {
     const opt = utils.getArgMerge.apply(null, arguments)
     const computed = {}
     Object.keys(opt).forEach(k => {

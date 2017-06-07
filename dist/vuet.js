@@ -445,7 +445,7 @@ Object.assign(Vuet$1, {
     callMixinHook('install', _Vue, Vuet$1);
     return this;
   },
-  mapMixins: function mapMixins() {
+  mapRules: function mapRules() {
     for (var _len2 = arguments.length, paths = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
       paths[_key2] = arguments[_key2];
     }
@@ -465,7 +465,7 @@ Object.assign(Vuet$1, {
     });
     return vueMixins;
   },
-  mapState: function mapState() {
+  mapModules: function mapModules() {
     var opt = utils.getArgMerge.apply(null, arguments);
     var computed = {};
     Object.keys(opt).forEach(function (k) {
@@ -507,11 +507,11 @@ function callMixinHook(hook) {
 
 Vuet$1.use(install$1);
 
-var mapMixins = Vuet$1.mapMixins.bind(Vuet$1);
-var mapState = Vuet$1.mapState.bind(Vuet$1);
+var mapRules = Vuet$1.mapRules.bind(Vuet$1);
+var mapModules = Vuet$1.mapModules.bind(Vuet$1);
 
-exports.mapMixins = mapMixins;
-exports.mapState = mapState;
+exports.mapRules = mapRules;
+exports.mapModules = mapModules;
 exports['default'] = Vuet$1;
 
 Object.defineProperty(exports, '__esModule', { value: true });
