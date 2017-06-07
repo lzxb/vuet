@@ -1,13 +1,10 @@
 <template>
-  <div>
-    {{ test.count }}
-  </div>
+  <div>Output:<span class="output-content">{{ test.keyname }}</span></div>
 </template>
 <script>
   import Vuet, { mapRules, mapModules } from 'vuet'
 
   export default {
-    mixins: mapRules('life', 'test'),
     computed: mapModules('test')
   }
 </script>

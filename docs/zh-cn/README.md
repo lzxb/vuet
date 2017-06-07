@@ -11,3 +11,10 @@ Vuet是Vue.js的一种状态管理模式，它以`模块化管理`为核心，�
 - [模块选项](./modules-options.md)
 - [实例属性](./instance-attr.md)
 - [实例方法](./instance-function.md)
+
+### 例子
+- [route](../../examples/route)
+- [once](../../examples/once)
+- [need](../../examples/need)
+- [life](../../examples/life)
+- [兄弟组件通信](../../examples/brothers-communication)

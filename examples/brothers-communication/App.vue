@@ -1,22 +1,23 @@
 <template>
   <div>
-    <h2>life</h2>
-    <div class="count">{{ test.count }}</div>
-    <div class="fetch-count">{{ test.fetchCount }}</div>
+    <h2>brothers-communication</h2>
+    <div>Root:<span class="root-content">{{ test.keyname }}</span></div>
     <button @click="show = !show">switch</button>
+    <input-content></input-content>
     <output-content v-if="show"></output-content>
   </div>
 </template>
 <script>
   import { mapModules } from 'vuet'
   import OutputContent from './OutputContent'
+  import InputContent from './InputContent'
 
   export default {
-    components: { OutputContent },
+    components: { OutputContent, InputContent },
     computed: mapModules('test'),
     data () {
       return {
-        show: false
+        show: true
       }
     }
   }

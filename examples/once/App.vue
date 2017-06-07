@@ -4,15 +4,15 @@
     <div class="count">{{ test.count }}</div>
     <div class="fetch-count">{{ test.fetchCount }}</div>
     <button @click="show = !show">switch</button>
-    <update v-if="show"></update>
+    <output-content v-if="show"></output-content>
   </div>
 </template>
 <script>
   import { mapModules } from 'vuet'
-  import Update from './Update'
+  import OutputContent from './OutputContent'
 
   export default {
-    components: { Update },
+    components: { OutputContent },
     computed: mapModules('test'),
     data () {
       return {

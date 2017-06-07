@@ -7,27 +7,27 @@
 Vuet is aimed at managing the status of Vue.js. Modular management is its core, and you can choose between updating automatically and regularly and updating by hand to update the status of
 the modules. Anyway, it's all up to you.
 
-### Install
-```
-npm install vuet
-```
+### Usage
+- install
+  ```
+  npm install vuet
+  ```
+- example
+  ```javascript
+  import Vue from 'vue'
+  import Vuet from 'vuet'
 
-### Use
-```javascript
-import Vue from 'vue'
-import Vuet from 'vuet'
+  Vue.use(Vuet)
 
-Vue.use(Vuet)
+  const vuet = new Vuet({
+    // ... base options
+  })
 
-const vuet = new Vuet({
-  // ... base options
-})
+  new Vue({
+    // ...
+    vuet
+  })
 
-new Vue({
-  // ...
-  vuet
-})
-
-```
+  ```
 ### Full document
 - [简体中文](./docs/zh-cn/README.md)
