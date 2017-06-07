@@ -1,7 +1,7 @@
 ### 辅助方法
 - mapState 简化组件和Vuet的连接
   ```javascript
-  import { mapState } from 'vuet'
+  import { mapState } from 'vuet' // 等同于 Vuet.mapState
 
   export default {
     // ... 选项
@@ -13,7 +13,7 @@
   ```
 - mapMixins 向组件混入模块更新的逻辑，Vuet内置了`route`，`once`，`need`，`life`这几种常见的数据更新插件
   ```javascript
-  import { mapMixins } from 'vuet'
+  import { mapMixins } from 'vuet' // 等同于 Vuet.mapMixins
 
   export default {
     // ... 选项
