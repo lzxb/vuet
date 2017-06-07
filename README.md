@@ -4,9 +4,8 @@
 [![npm](https://img.shields.io/npm/dt/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet)
 
 ### What is the Vuet?
-Vuet is a agile management mode for Vue.js application development, it is different from vuex, it has no concept of action update, it consists of customized rules to update the status, also can be in any place to manually update the status  
-`state => view `  
-`view[Injection update rule | Manual update] => state`
+Vuet is aimed at managing the status of Vue.js. Modular management is its core, and you can choose between updating automatically and regularly and updating by hand to update the status of
+the modules. Anyway, it's all up to you.
 
 ### Install
 ```
