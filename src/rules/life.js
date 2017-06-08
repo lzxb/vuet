@@ -1,5 +1,5 @@
 export default {
-  rule (path) {
+  rule ({ path }) {
     return {
       beforeCreate () {
         this.$vuet.fetch(path, { current: this })

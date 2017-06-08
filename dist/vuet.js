@@ -76,7 +76,9 @@ var debug = {
 };
 
 var life = {
-  rule: function rule(path) {
+  rule: function rule(_ref) {
+    var path = _ref.path;
+
     return {
       beforeCreate: function beforeCreate() {
         this.$vuet.fetch(path, { current: this });
@@ -89,7 +91,9 @@ var life = {
 };
 
 var need = {
-  rule: function rule(path) {
+  rule: function rule(_ref) {
+    var path = _ref.path;
+
     return {
       beforeCreate: function beforeCreate() {
         this.$vuet.fetch(path, { current: this });
@@ -108,7 +112,9 @@ var once = {
       utils.set(vuet[key], k, false);
     });
   },
-  rule: function rule(path) {
+  rule: function rule(_ref) {
+    var path = _ref.path;
+
     return {
       beforeCreate: function beforeCreate() {
         var _this = this;
@@ -133,7 +139,9 @@ var route = {
       utils.set(vuet[key$1], k, []);
     });
   },
-  rule: function rule(path) {
+  rule: function rule(_ref) {
+    var path = _ref.path;
+
     function getWatchs(obj, list) {
       if (typeof list === 'string') {
         list = [list];
@@ -452,16 +460,22 @@ Object.assign(Vuet$1, {
 
     var opt = utils.getArgMerge.apply(null, arguments);
     var vueRules = [];
+    var addRule = function addRule(ruleName, any) {
+      var rules = Vuet$1.options.rules[ruleName];
+      if (typeof any === 'string') {
+        vueRules.push(rules.rule({ path: any }));
+      } else {
+        vueRules.push(rules.rule(any));
+      }
+    };
     Object.keys(opt).forEach(function (ruleName) {
       var any = opt[ruleName];
       if (Array.isArray(any)) {
-        return any.forEach(function (path) {
-          var rules = Vuet$1.options.rules[ruleName];
-          vueRules.push(rules.rule(path));
+        return any.forEach(function (item) {
+          addRule(ruleName, item);
         });
       }
-      var rules = Vuet$1.options.rules[ruleName];
-      vueRules.push(rules.rule(any));
+      addRule(ruleName, any);
     });
     return {
       mixins: vueRules

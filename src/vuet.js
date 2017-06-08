@@ -122,16 +122,22 @@ Object.assign(Vuet, {
   mapRules (...paths) {
     const opt = utils.getArgMerge.apply(null, arguments)
     const vueRules = []
+    const addRule = (ruleName, any) => {
+      const rules = Vuet.options.rules[ruleName]
+      if (typeof any === 'string') {
+        vueRules.push(rules.rule({ path: any }))
+      } else {
+        vueRules.push(rules.rule(any))
+      }
+    }
     Object.keys(opt).forEach(ruleName => {
       const any = opt[ruleName]
       if (Array.isArray(any)) {
-        return any.forEach(path => {
-          const rules = Vuet.options.rules[ruleName]
-          vueRules.push(rules.rule(path))
+        return any.forEach(item => {
+          addRule(ruleName, item)
         })
       }
-      const rules = Vuet.options.rules[ruleName]
-      vueRules.push(rules.rule(any))
+      addRule(ruleName, any)
     })
     return {
       mixins: vueRules

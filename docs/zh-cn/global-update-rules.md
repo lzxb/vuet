@@ -52,7 +52,7 @@ Vuet.rule('myRule', {
   destroy (vuet) {
     // 销毁vuet实例调用的钩子
   },
-  rule (path) { // 定义数据的更新规则
+  rule ({ path }) { // 定义数据的更新规则
     // path是当前处理的模块路径
     // 需要返回一个Object对象，将会插入到Vue mixins中
     return {

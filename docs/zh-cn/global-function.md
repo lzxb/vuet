@@ -26,12 +26,13 @@
     export default {
       // ... 选项
       mixins: [
-        mapRules({ '规则名称': ['更新模块路径'] })
+        // 完整写法
+        mapRules({ '规则名称': [{ path: '更新模块路径' }] })
       ]
-      // 同时还支持以下几种写法
-      // mapRules('规则名称', '更新的模块路径') 等同于 mapRules({ '规则名称': ['更新模块路径'] })
-      // mapRules('规则名称', ['更新的模块路径']) 等同于 mapRules({ '规则名称': ['更新模块路径'] })
-      // mapRules({ '规则名称': '更新模块路径' }) 等同于 mapRules({ '规则名称': ['更新模块路径'] })
+      // 同时还支持以下几种简写
+      // mapRules('规则名称', '更新的模块路径') 等同于 mapRules({ '规则名称': [{ path: '更新模块路径' }] })
+      // mapRules('规则名称', ['更新的模块路径']) 等同于 mapRules({ '规则名称': [{ path: '更新模块路径' }] })
+      // mapRules({ '规则名称': '更新模块路径' }) 等同于 mapRules({ '规则名称': [{ path: '更新模块路径' }] })
     }
     ```
 - `Vuet.rule(name: String, rule: Object)`
