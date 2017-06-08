@@ -8,7 +8,7 @@
 
   export default {
     mixins: [
-      mapRules('need', 'test'),
+      mapRules({ need: 'test' }),
       mapModules({ test: 'test' })
     ]
   }

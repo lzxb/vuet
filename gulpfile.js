@@ -82,5 +82,5 @@ gulp.task('test', ['lint', 'build', 'unit'])
 gulp.task('default', ['lint', 'build', 'unit', 'e2e'])
 
 if (process.env.NODE_ENV === 'development') {
-  gulp.watch(['**/*.js', '!node_modules/**', '!dist/**'], ['default'])
+  gulp.watch(['**/*.js', '**/*.vue', '!node_modules/**', '!dist/**'], ['default'])
 }
