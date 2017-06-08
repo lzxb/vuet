@@ -34,3 +34,6 @@
       // mapRules({ '规则名称': '更新模块路径' }) 等同于 mapRules({ '规则名称': ['更新模块路径'] })
     }
     ```
+- `Vuet.rule(name: String, rule: Object)`
+  - 描述: 自定义更新规则，[相关的例子请点击这里](./global-update-rules.md#自定义更新规则)
+  - 返回值: `this`
