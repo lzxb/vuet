@@ -17,7 +17,7 @@ npm run dev:test
 ### Usage
 - install
   ```
-  npm install vuet
+  npm install vuet@0.0.1-beta.4 --save
   ```
 - example
   ```javascript
