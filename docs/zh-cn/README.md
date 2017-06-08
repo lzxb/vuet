@@ -23,3 +23,6 @@ Vuet是Vue.js的一种状态管理模式，它以`模块化管理`为核心，�
 npm install
 npm run dev # 本地打开地址: localhost:3000
 ```
+
+### 相关教程
+- [实现简易版vue-cnode，实现列表点击详情返回后显示之前的数据](https://cnodejs.org/topic/592398559e32cc84569a7228)
