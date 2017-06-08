@@ -10,7 +10,7 @@ export default {
       utils.set(vuet[key], k, false)
     })
   },
-  mixin (path) {
+  rule (path) {
     return {
       beforeCreate () {
         if (this.$vuet[key][path] === false) {

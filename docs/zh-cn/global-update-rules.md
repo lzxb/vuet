@@ -36,3 +36,32 @@
   - 描述: 每次都会在组件的`beforeCreate`钩子中调用一次更新
 - life
   - 描述: 每次都会在组件的`beforeCreate`钩子中调用一次更新，组件销毁时调用`destroyed`钩子，状态会被重置，恢复到默认状态
+
+### 自定义更新规则
+```javascript
+import Vuet from 'vuet'
+
+Vuet.rule('myRule', {
+  install (Vue, Vuet) {
+    // 传入一个Vue和Vuet，比如你可以给Vuet.prototype.xxx 添加方法
+  },
+  init (vuet) {
+    // 接收到当前的vuet实例，你可以在这里初始化程序的一些自定义配置，例如：
+    // vuet.__myRule__ = xxx
+  },
+  destroy (vuet) {
+    // 销毁vuet实例调用的钩子
+  },
+  rule (path) { // 定义数据的更新规则
+    // path是当前处理的模块路径
+    // 需要返回一个Object对象，将会插入到Vue mixins中
+    return {
+      beforeCreate () {
+        const vuet = this.$vuet // 取得在Vue实例上挂载的Vuet实例
+        vuet.fetch(path) // 调用vuet的fetch方法来更新数据
+      }
+    }
+  }
+})
+
+```

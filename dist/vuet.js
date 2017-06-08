@@ -76,7 +76,7 @@ var debug = {
 };
 
 var life = {
-  mixin: function mixin(path) {
+  rule: function rule(path) {
     return {
       beforeCreate: function beforeCreate() {
         this.$vuet.fetch(path, { current: this });
@@ -89,7 +89,7 @@ var life = {
 };
 
 var need = {
-  mixin: function mixin(path) {
+  rule: function rule(path) {
     return {
       beforeCreate: function beforeCreate() {
         this.$vuet.fetch(path, { current: this });
@@ -108,7 +108,7 @@ var once = {
       utils.set(vuet[key], k, false);
     });
   },
-  mixin: function mixin(path) {
+  rule: function rule(path) {
     return {
       beforeCreate: function beforeCreate() {
         var _this = this;
@@ -133,7 +133,7 @@ var route = {
       utils.set(vuet[key$1], k, []);
     });
   },
-  mixin: function mixin(path) {
+  rule: function rule(path) {
     function getWatchs(obj, list) {
       if (typeof list === 'string') {
         list = [list];
@@ -452,16 +452,16 @@ Object.assign(Vuet$1, {
 
     var opt = utils.getArgMerge.apply(null, arguments);
     var vueRules = [];
-    Object.keys(opt).forEach(function (mixinName) {
-      var any = opt[mixinName];
+    Object.keys(opt).forEach(function (ruleName) {
+      var any = opt[ruleName];
       if (Array.isArray(any)) {
         return any.forEach(function (path) {
-          var rules = Vuet$1.options.rules[mixinName];
-          vueRules.push(rules.mixin(path));
+          var rules = Vuet$1.options.rules[ruleName];
+          vueRules.push(rules.rule(path));
         });
       }
-      var rules = Vuet$1.options.rules[mixinName];
-      vueRules.push(rules.mixin(any));
+      var rules = Vuet$1.options.rules[ruleName];
+      vueRules.push(rules.rule(any));
     });
     return {
       mixins: vueRules

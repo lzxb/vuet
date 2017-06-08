@@ -122,16 +122,16 @@ Object.assign(Vuet, {
   mapRules (...paths) {
     const opt = utils.getArgMerge.apply(null, arguments)
     const vueRules = []
-    Object.keys(opt).forEach(mixinName => {
-      const any = opt[mixinName]
+    Object.keys(opt).forEach(ruleName => {
+      const any = opt[ruleName]
       if (Array.isArray(any)) {
         return any.forEach(path => {
-          const rules = Vuet.options.rules[mixinName]
-          vueRules.push(rules.mixin(path))
+          const rules = Vuet.options.rules[ruleName]
+          vueRules.push(rules.rule(path))
         })
       }
-      const rules = Vuet.options.rules[mixinName]
-      vueRules.push(rules.mixin(any))
+      const rules = Vuet.options.rules[ruleName]
+      vueRules.push(rules.rule(any))
     })
     return {
       mixins: vueRules

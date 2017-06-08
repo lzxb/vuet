@@ -10,7 +10,7 @@ export default {
       utils.set(vuet[key], k, [])
     })
   },
-  mixin (path) {
+  rule (path) {
     function getWatchs (obj, list) {
       if (typeof list === 'string') {
         list = [list]
