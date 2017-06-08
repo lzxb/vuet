@@ -7,7 +7,9 @@
   import Vuet, { mapRules, mapModules } from 'vuet'
 
   export default {
-    mixins: mapRules('need', 'test'),
-    computed: mapModules({ test: 'test' })
+    mixins: [
+      mapRules('need', 'test'),
+      mapModules({ test: 'test' })
+    ]
   }
 </script>

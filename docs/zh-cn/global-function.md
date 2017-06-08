@@ -1,14 +1,16 @@
 ### 全局方法
 - `Vuet.mapModules(any)`
   - 描述: 组件和Vuet的模块连接起来
-  - 返回值: `Array`
+  - 返回值: `Object`
   - 例子:
     ```javascript
     import { mapModules } from 'vuet' // 等同于 Vuet.mapModules
 
     export default {
       // ... 选项
-      computed: mapModules({ '组件注入的名称': '模块的路径' })
+      mixins: [
+        mapModules({ '组件注入的名称': '模块的路径' })
+      ]
       // 同时还支持以下几种写法
       // mapModules('test') 等同于  mapModules({ test: 'test' })
       // mapModules('test', 'test/chlidren') 等同于  mapModules({ 'test': 'test/chlidren' })
@@ -23,7 +25,9 @@
 
     export default {
       // ... 选项
-      mixins: mapRules({ '规则名称': ['更新模块路径'] })
+      mixins: [
+        mapRules({ '规则名称': ['更新模块路径'] })
+      ]
       // 同时还支持以下几种写法
       // mapRules('规则名称', '更新的模块路径') 等同于 mapRules({ '规则名称': ['更新模块路径'] })
       // mapRules('规则名称', ['更新的模块路径']) 等同于 mapRules({ '规则名称': ['更新模块路径'] })

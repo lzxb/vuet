@@ -19,7 +19,10 @@
   import { mapRules, mapModules } from 'vuet'
 
   export default {
-    mixins: [...mapRules({ route: 'topic/list' })],
+    mixins: [
+      mapRules({ route: 'topic/list' }),
+      mapModules({ list: 'topic/list' })
+    ],
     data () {
       return {
         types: [
@@ -41,7 +44,6 @@
           }
         ]
       }
-    },
-    computed: mapModules({ list: 'topic/list' })
+    }
   }
 </script>

@@ -133,7 +133,9 @@ Object.assign(Vuet, {
       const rules = Vuet.options.rules[mixinName]
       vueRules.push(rules.mixin(any))
     })
-    return vueRules
+    return {
+      mixins: vueRules
+    }
   },
   mapModules () {
     const opt = utils.getArgMerge.apply(null, arguments)
@@ -149,7 +151,7 @@ Object.assign(Vuet, {
         }
       }
     })
-    return computed
+    return { computed }
   },
   use (plugin, opt) {
     if (utils.isFunction(plugin)) {

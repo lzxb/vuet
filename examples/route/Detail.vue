@@ -11,7 +11,9 @@
   import { mapRules, mapModules } from 'vuet'
 
   export default {
-    mixins: [...mapRules({ route: 'topic/detail' })],
-    computed: mapModules({ detail: 'topic/detail' })
+    mixins: [
+      mapRules({ route: 'topic/detail' }),
+      mapModules({ detail: 'topic/detail' })
+    ]
   }
 </script>

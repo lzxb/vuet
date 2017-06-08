@@ -13,7 +13,9 @@
 
   export default {
     components: { OutputContent },
-    computed: mapModules({ test: 'test' }),
+    mixins: [
+      mapModules({ test: 'test' })
+    ],
     data () {
       return {
         show: false

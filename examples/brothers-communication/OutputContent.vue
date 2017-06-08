@@ -5,6 +5,8 @@
   import Vuet, { mapRules, mapModules } from 'vuet'
 
   export default {
-    computed: mapModules({ test: 'test' })
+    mixins: [
+      mapModules({ test: 'test' })
+    ]
   }
 </script>

@@ -241,10 +241,12 @@ test('mapModules object parameter', t => {
   const vuet = newVuet(t)
   let vm = new Vue({
     vuet,
-    computed: mapModules({
-      list: `${myModule}/list`,
-      detail: `${myModule}/detail`
-    })
+    mixins: [
+      mapModules({
+        list: `${myModule}/list`,
+        detail: `${myModule}/detail`
+      })
+    ]
   })
   t.is(vm.list, vuet.getState(listPath))
   t.is(vm.detail, vuet.getState(detailPath))
@@ -256,18 +258,22 @@ test('mapModules string parameter', t => {
   const vuet = newVuet(t)
   let vm = new Vue({
     vuet,
-    computed: mapModules('detail', `${myModule}/detail`)
+    mixins: [
+      mapModules('detail', `${myModule}/detail`)
+    ]
   })
   t.is(vm.detail, vuet.getState(detailPath))
   t.deepEqual(vm.detail, detailState)
 })
 
 test('mapRules', async t => {
-  const test = (mixins) => {
+  const test = (rules) => {
     const vuet = newVuet(t)
     const vm = new Vue({
       vuet,
-      mixins
+      mixins: [
+        rules
+      ]
     })
     return new Promise((resolve, reject) => {
       setTimeout(() => {

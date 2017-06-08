@@ -463,7 +463,9 @@ Object.assign(Vuet$1, {
       var rules = Vuet$1.options.rules[mixinName];
       vueRules.push(rules.mixin(any));
     });
-    return vueRules;
+    return {
+      mixins: vueRules
+    };
   },
   mapModules: function mapModules() {
     var opt = utils.getArgMerge.apply(null, arguments);
@@ -479,7 +481,7 @@ Object.assign(Vuet$1, {
         }
       };
     });
-    return computed;
+    return { computed: computed };
   },
   use: function use(plugin, opt) {
     if (utils.isFunction(plugin)) {
