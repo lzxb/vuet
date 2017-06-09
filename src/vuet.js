@@ -32,9 +32,12 @@ export default class Vuet {
       }
     })
     this._options = {
-      data: this.options.data || function data () { return {} },
-      pathJoin: this.options.pathJoin || '/',
-      modules: {}
+      data: function data () { return {} },
+      pathJoin: '/',
+      ...this.options,
+      ...{
+        modules: {}
+      }
     }
     const { pathJoin } = this._options
     const keys = ['data', 'fetch', 'routeWatch']

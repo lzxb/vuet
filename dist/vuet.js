@@ -389,13 +389,14 @@ var Vuet$1 = function () {
           store: this.store
         }
       });
-      this._options = {
-        data: this.options.data || function data() {
+      this._options = _extends({
+        data: function data() {
           return {};
         },
-        pathJoin: this.options.pathJoin || '/',
+        pathJoin: '/'
+      }, this.options, {
         modules: {}
-      };
+      });
       var pathJoin = this._options.pathJoin;
 
       var keys = ['data', 'fetch', 'routeWatch'];
