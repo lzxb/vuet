@@ -11,6 +11,11 @@ export default new Vuet({
           count: 0
         }
       },
+      async fetch () {
+        return {
+          count: 100
+        }
+      },
       manuals: {
         plus ({ state }) {
           state.count++
@@ -24,6 +29,11 @@ export default new Vuet({
       data () {
         return {
           count: 0
+        }
+      },
+      async fetch () {
+        return {
+          count: 100
         }
       },
       manuals: {
@@ -40,6 +50,11 @@ export default new Vuet({
       data () {
         return {
           count: 0
+        }
+      },
+      async fetch () {
+        return {
+          count: 100
         }
       },
       manuals: {

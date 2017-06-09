@@ -18,6 +18,12 @@ export default {
             }
           }
         })
+        methods.reset = (...arg) => {
+          this.$vuet.reset(path, ...arg)
+        }
+        methods.fetch = (...arg) => {
+          this.$vuet.fetch(path, ...arg)
+        }
         if (name) {
           this[name] = methods
         } else if (manuals.name) {

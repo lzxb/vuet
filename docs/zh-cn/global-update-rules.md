@@ -1,6 +1,46 @@
 ### 全局更新规则
 - life
   - 描述: 每次都会在组件的`beforeCreate`钩子中调用一次更新，组件销毁时调用`destroyed`钩子，状态会被重置，恢复到默认状态
+- manual
+  - 参数:
+    - manuals: `Object{name: String | Function}`
+      - 默认值: `$当前模块名称`
+      - 描述: 在业务中，我们常常需要各种手动更新状态的操作，manual就是将这种更新的操作集中起来。[点我查看完整例子](../../examples/manual)，另外还允许在调用mapRules方法时重定向模块方法
+      - 例子:
+      ```javascript
+        new Vuet({
+          modules: {
+            name: 'myTest', // 设置在组件中混入的名字
+            test: {
+              data () {
+                return {
+                  count: 0
+                }
+              },
+              manuals: {
+                // ... manual会自动加入fetch、reset两个方法，请参照Vuet的实例方法
+                plus ({ state, vm, vuet }) {
+                  state.count++
+                },
+                reduce ({ state, vm, vuet }) {
+                  state.count--
+                }
+              }
+            }
+          }
+        })
+
+        mapRules({
+          manual: 'test' // this.myTest.xx
+
+          // 同时还支持重置名字，在组件中调用: this.Test.xx
+          // manual: [{ path: 'test', name: 'Test' }]
+
+          // 如果模块中没有设置名称，则默认以[`$${模块名称}`]为默认设置，调用: this.$test.xx
+          // manual: 'test'
+        })
+      ```
+  - 描述: 这是一种特殊的规则，它无法自动更新数据，它需要你手动调用时才会更新数据
 - need
   - 描述: 每次都会在组件的`beforeCreate`钩子中调用一次更新
 - once
