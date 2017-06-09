@@ -1,4 +1,10 @@
 ### 全局更新规则
+- life
+  - 描述: 每次都会在组件的`beforeCreate`钩子中调用一次更新，组件销毁时调用`destroyed`钩子，状态会被重置，恢复到默认状态
+- need
+  - 描述: 每次都会在组件的`beforeCreate`钩子中调用一次更新
+- once
+  - 描述: 仅在组件的`beforeCreate`钩子中调用一次更新，之后不会再进行更新
 - route
   - 参数:
     - routeWatch: `String | Array[String]`
@@ -30,12 +36,6 @@
       }
     })
     ```
-- once
-  - 描述: 仅在组件的`beforeCreate`钩子中调用一次更新，之后不会再进行更新
-- need
-  - 描述: 每次都会在组件的`beforeCreate`钩子中调用一次更新
-- life
-  - 描述: 每次都会在组件的`beforeCreate`钩子中调用一次更新，组件销毁时调用`destroyed`钩子，状态会被重置，恢复到默认状态
 
 ### 自定义更新规则
 ```javascript

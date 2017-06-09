@@ -53,22 +53,3 @@
         console.log(store) // { count: 100 }
       })
     ```
-
- - **routeWatch**
-    - 类型: `String | Array`
-    - 描述: `vuet route插件时有效配合vue-router时有效`，定义了页面改变的规则，更多的规则可以插件vue-router的route对象
-    - 例子:
-      ```javascript
-      const vuet = new Vuet({
-        modules: {
-          list: {
-            // ...
-            routeWatch: 'query'
-          },
-          detail: {
-            // ...
-            routeWatch: ['params.id']
-          }
-        }
-      })
-      ```
