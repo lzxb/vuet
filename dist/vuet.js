@@ -487,23 +487,31 @@ var Vuet$1 = function () {
       this._options = _extends({
         data: function data() {
           return {};
-        }
+        },
+        pathJoin: null
       }, this.options, {
         modules: {}
       });
       var keys = ['data', 'fetch', 'routeWatch', 'manuals'];
+      var pathJoin = this._options.pathJoin;
+
       var initModule = function initModule(path, modules) {
         Object.keys(modules).forEach(function (k) {
           var item = modules[k];
           var _path = [].concat(toConsumableArray(path), [k]);
           if (utils.isFunction(item.data)) {
-            var newPath = [_path[0]];
-            for (var i = 1; i < _path.length; i++) {
-              newPath.push(_path[i].replace(/^(\w)/, function (v) {
-                return v.toUpperCase();
-              }));
+            var newPath = null;
+            if (pathJoin) {
+              newPath = _path.join(pathJoin);
+            } else {
+              newPath = [_path[0]];
+              for (var i = 1; i < _path.length; i++) {
+                newPath.push(_path[i].replace(/^(\w)/, function (v) {
+                  return v.toUpperCase();
+                }));
+              }
+              newPath = newPath.join('');
             }
-            newPath = newPath.join('');
             _this._options.modules[newPath] = item;
             _this.reset(newPath);
           }

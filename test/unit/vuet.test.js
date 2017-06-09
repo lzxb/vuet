@@ -315,7 +315,7 @@ test('pathJoin', t => {
   const vm = new Vue({
     vuet
   })
-  t.deepEqual(vuet.getState('test1Test2Test3'), {
+  t.deepEqual(vuet.getState('test1-test2-test3'), {
     ok: true
   })
   t.is(vm.$vuet, vuet)
