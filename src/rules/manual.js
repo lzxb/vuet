@@ -20,9 +20,11 @@ export default {
         })
         methods.reset = (...arg) => {
           this.$vuet.reset(path, ...arg)
+          return methods
         }
         methods.fetch = (...arg) => {
           this.$vuet.fetch(path, ...arg)
+          return methods
         }
         if (name) {
           this[name] = methods

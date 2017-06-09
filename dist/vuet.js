@@ -126,6 +126,7 @@ var manual = {
           }
 
           (_$vuet = _this.$vuet).reset.apply(_$vuet, [path].concat(arg));
+          return methods;
         };
         methods.fetch = function () {
           var _$vuet2;
@@ -135,6 +136,7 @@ var manual = {
           }
 
           (_$vuet2 = _this.$vuet).fetch.apply(_$vuet2, [path].concat(arg));
+          return methods;
         };
         if (name) {
           this[name] = methods;
