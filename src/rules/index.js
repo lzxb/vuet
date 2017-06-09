@@ -2,7 +2,7 @@ import life from './life'
 import manual from './manual'
 import need from './need'
 import once from './once'
-import route from './route'
+import route from './route/index'
 
 export default function install (_Vue, Vuet) {
   Vuet

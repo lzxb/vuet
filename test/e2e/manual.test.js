@@ -3,7 +3,7 @@ import { Selector } from 'testcafe'
 fixture`manual`
 .page`http://localhost:3000/manual/index.html`
 
-test('test-1', async t => {
+test('Reset name', async t => {
   await t
     .expect(Selector('.test-1 .count').textContent).eql('0')
 
@@ -17,7 +17,7 @@ test('test-1', async t => {
     .expect(Selector('.test-1 .count').textContent).eql('0')
 })
 
-test('test-2', async t => {
+test('module set name', async t => {
   await t
     .expect(Selector('.test-2 .count').textContent).eql('0')
 
@@ -31,7 +31,7 @@ test('test-2', async t => {
     .expect(Selector('.test-2 .count').textContent).eql('0')
 })
 
-test('test-3', async t => {
+test('default name', async t => {
   await t
     .expect(Selector('.test-3 .count').textContent).eql('0')
 

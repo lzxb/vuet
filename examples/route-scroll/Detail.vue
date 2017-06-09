@@ -1,8 +1,12 @@
 <template>
-  <div>
+  <div class="inner">
     <button @click="$router.go(-1)">Back</button>
     <h2>{{ detail.title }}</h2>
-    <article>{{ detail.content }}</article>
+    <article id="detail" v-route-scroll="'topicDetail'">
+      <div></div>
+      {{ detail.content }}
+      <div></div>
+    </article>
     <div class="fetch-count">{{ detail.fetchCount }}</div>
     <router-link class="to-one" :to="{ name: 'detail', params: { id: 1 } }">to one</router-link>
   </div>
@@ -17,3 +21,17 @@
     ]
   }
 </script>
+<style scoped>
+  .inner {
+    padding: 100px;
+    background: #999;
+  }
+  article {
+    overflow: auto;
+    height: 200px;
+    background: #fff;
+  }
+  article div {
+    height: 200px;
+  }
+</style>

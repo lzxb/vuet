@@ -16,8 +16,8 @@ Object.defineProperty(Vue.prototype, '$route', {
 })
 
 const myModule = 'myModule'
-const listPath = `${myModule}/list`
-const detailPath = `${myModule}/detail`
+const listPath = `${myModule}List`
+const detailPath = `${myModule}Detail`
 const listState = {
   laoding: true,
   loaded: true,
@@ -102,9 +102,9 @@ test('base', async t => {
     vuet
   })
   t.deepEqual(vuet.store, {
-    [`${myModule}/list`]: listState,
-    [`${myModule}/count`]: countState,
-    [`${myModule}/detail`]: detailState
+    [`${myModule}List`]: listState,
+    [`${myModule}Count`]: countState,
+    [`${myModule}Detail`]: detailState
   })
   t.deepEqual(vuet.getState(listPath), listState)
   t.deepEqual(vuet.getState(detailPath), detailState)
@@ -243,8 +243,8 @@ test('mapModules object parameter', t => {
     vuet,
     mixins: [
       mapModules({
-        list: `${myModule}/list`,
-        detail: `${myModule}/detail`
+        list: `${myModule}List`,
+        detail: `${myModule}Detail`
       })
     ]
   })
@@ -259,7 +259,7 @@ test('mapModules string parameter', t => {
   let vm = new Vue({
     vuet,
     mixins: [
-      mapModules('detail', `${myModule}/detail`)
+      mapModules('detail', `${myModule}Detail`)
     ]
   })
   t.is(vm.detail, vuet.getState(detailPath))
@@ -285,9 +285,9 @@ test('mapRules', async t => {
       }, 300)
     })
   }
-  await test(mapRules('route', `${myModule}/list`))
-  await test(mapRules('route', [`${myModule}/list`]))
-  await test(mapRules({ route: `${myModule}/list` }))
+  await test(mapRules('route', `${myModule}List`))
+  await test(mapRules('route', [`${myModule}List`]))
+  await test(mapRules({ route: `${myModule}List` }))
 })
 
 test('pathJoin', t => {
@@ -315,7 +315,7 @@ test('pathJoin', t => {
   const vm = new Vue({
     vuet
   })
-  t.deepEqual(vuet.getState('test1-test2-test3'), {
+  t.deepEqual(vuet.getState('test1Test2Test3'), {
     ok: true
   })
   t.is(vm.$vuet, vuet)

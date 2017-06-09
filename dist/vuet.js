@@ -37,6 +37,165 @@ typeStrings.forEach(function (type) {
   };
 });
 
+var _name = 'route';
+var _key = '__' + _name + '__';
+
+var route = {
+  init: function init(vuet) {
+    utils.set(vuet, _key, {
+      watchers: {},
+      scrolls: {}
+    });
+    Object.keys(vuet.store).forEach(function (path) {
+      utils.set(vuet[_key].watchers, path, []);
+      utils.set(vuet[_key].scrolls, path, {});
+    });
+  },
+  rule: function rule(_ref) {
+    var path = _ref.path;
+
+    // route-scroll
+    function resetVuetScroll(vuet) {
+      Object.keys(vuet[_key].scrolls[path]).forEach(function (k) {
+        var scrolls = { scrollTop: 0, scrollLeft: 0 };
+        vuet[_key].scrolls[path][k] = scrolls;
+        var el = document.getElementById(k);
+        if (el) {
+          scrollTo(el, scrolls);
+        }
+      });
+    }
+
+    // route-watch
+    function getVuetWatchs(vuet) {
+      return vuet[_key].watchers[path];
+    }
+    function setVuetWatchs(vuet, val) {
+      vuet[_key].watchers[path] = val;
+    }
+    function getWatchs(obj, list) {
+      if (typeof list === 'string') {
+        list = [list];
+      }
+      var getObjVal = function getObjVal(obj, str) {
+        var arr = str.split('.');
+        arr.forEach(function (k) {
+          obj = obj[k];
+        });
+        return obj;
+      };
+      var arr = [];
+      list.forEach(function (val) {
+        var value = getObjVal(obj, val);
+        if (!isNaN(value)) {
+          value = String(value);
+        }
+        arr.push(JSON.stringify(value));
+      });
+      return arr;
+    }
+
+    function diffWatch(to, from) {
+      for (var i = 0; i < to.length; i++) {
+        if (to[i] !== from[i]) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    return {
+      beforeCreate: function beforeCreate() {
+        var _this = this;
+
+        var _$vuet$_options$modul = this.$vuet._options.modules[path].routeWatch,
+            routeWatch = _$vuet$_options$modul === undefined ? 'fullPath' : _$vuet$_options$modul;
+
+        var toWatch = getWatchs(this.$route, routeWatch);
+        if (diffWatch(toWatch, getVuetWatchs(this.$vuet))) {
+          this.$vuet.reset(path);
+          setVuetWatchs(this.$vuet, toWatch);
+          resetVuetScroll(this.$vuet);
+        }
+        this.$vuet.fetch(path, { current: this }, false).then(function (res) {
+          if (diffWatch(toWatch, getWatchs(_this.$route, routeWatch))) return;
+          _this.$vuet.setState(path, res);
+          setVuetWatchs(_this.$vuet, toWatch);
+        });
+      },
+
+      watch: {
+        $route: {
+          deep: true,
+          handler: function handler(to, from) {
+            var _this2 = this;
+
+            var _$vuet$_options$modul2 = this.$vuet._options.modules[path].routeWatch,
+                routeWatch = _$vuet$_options$modul2 === undefined ? 'fullPath' : _$vuet$_options$modul2;
+
+            var toWatch = getWatchs(to, routeWatch);
+            var fromWatch = getWatchs(from, routeWatch);
+            if (!diffWatch(toWatch, fromWatch)) return false;
+            this.$vuet.fetch(path, { current: this }).then(function (res) {
+              if (diffWatch(toWatch, getWatchs(_this2.$route, routeWatch))) return;
+              resetVuetScroll(_this2.$vuet);
+              _this2.$vuet.setState(path, res);
+              setVuetWatchs(_this2.$vuet, toWatch);
+            });
+          }
+        }
+      }
+    };
+  }
+};
+
+function initScroll(el, vnode, path) {
+  var id = el.id;
+  var context = vnode.context;
+
+  var scrollPath = context.$vuet[_key].scrolls[path];
+  if (!id || !context) return;
+  if (!scrollPath[id]) {
+    scrollPath[id] = { scrollTop: 0, scrollLeft: 0 };
+  }
+  var scrolls = scrollPath[id];
+  setTimeout(function () {
+    scrollTo(el, scrolls);
+  }, 0);
+  return scrolls;
+}
+
+function scrollTo(el, scrolls) {
+  if ('scrollTop' in el) {
+    Object.assign(el, scrolls);
+  } else {
+    el.scrollTo(scrolls.scrollTop, scrolls.scrollLeft);
+  }
+}
+
+var routeScroll = {
+  inserted: function inserted(el, _ref, vnode) {
+    var value = _ref.value;
+
+    var scrolls = initScroll(el, vnode, value);
+    el.__routeScroll__ = function (event) {
+      var _event$target = event.target,
+          scrollTop = _event$target.scrollTop,
+          scrollLeft = _event$target.scrollLeft,
+          pageXOffset = _event$target.pageXOffset,
+          pageYOffset = _event$target.pageYOffset;
+
+      scrolls.scrollTop = scrollTop || pageXOffset || scrollTop;
+      scrolls.scrollLeft = scrollLeft || pageYOffset || scrollLeft;
+    };
+    el.addEventListener('scroll', el.__routeScroll__, false);
+  },
+  unbind: function unbind(el) {
+    el.removeEventListener('scroll', el.__routeScroll__, false);
+    delete el.__routeScroll__;
+  }
+};
+
 var _Vue = null;
 
 function install(Vue) {
@@ -62,6 +221,8 @@ function install(Vue) {
       }
     }
   });
+
+  Vue.directive('route-scroll', routeScroll);
 }
 
 var debug = {
@@ -186,92 +347,6 @@ var once = {
           this.$vuet.fetch(path, { current: this }).then(function () {
             _this.$vuet[key][path] = true;
           });
-        }
-      }
-    };
-  }
-};
-
-var name$1 = 'route';
-var key$1 = '__' + name$1 + '__';
-
-var route = {
-  init: function init(vuet) {
-    utils.set(vuet, key$1, {});
-    Object.keys(vuet.store).forEach(function (k) {
-      utils.set(vuet[key$1], k, []);
-    });
-  },
-  rule: function rule(_ref) {
-    var path = _ref.path;
-
-    function getWatchs(obj, list) {
-      if (typeof list === 'string') {
-        list = [list];
-      }
-      var getObjVal = function getObjVal(obj, str) {
-        var arr = str.split('.');
-        arr.forEach(function (k) {
-          obj = obj[k];
-        });
-        return obj;
-      };
-      var arr = [];
-      list.forEach(function (val) {
-        var value = getObjVal(obj, val);
-        if (!isNaN(value)) {
-          value = String(value);
-        }
-        arr.push(JSON.stringify(value));
-      });
-      return arr;
-    }
-
-    function diffWatch(to, from) {
-      for (var i = 0; i < to.length; i++) {
-        if (to[i] !== from[i]) {
-          return true;
-        }
-      }
-      return false;
-    }
-    return {
-      beforeCreate: function beforeCreate() {
-        var _this = this;
-
-        var _$vuet$_options$modul = this.$vuet._options.modules[path].routeWatch,
-            routeWatch = _$vuet$_options$modul === undefined ? 'fullPath' : _$vuet$_options$modul;
-
-        var toWatch = getWatchs(this.$route, routeWatch);
-        if (diffWatch(toWatch, this.$vuet[key$1][path])) {
-          this.$vuet.reset(path);
-          this.$vuet[key$1][path] = toWatch;
-        }
-        this.$vuet.fetch(path, { current: this }, false).then(function (res) {
-          if (diffWatch(toWatch, getWatchs(_this.$route, routeWatch))) return;
-          _this.$vuet.setState(path, res);
-          _this.$vuet[key$1][path] = toWatch;
-        });
-      },
-
-      watch: {
-        $route: {
-          deep: true,
-          handler: function handler(to, from) {
-            var _this2 = this;
-
-            var _$vuet$_options$modul2 = this.$vuet._options.modules[path].routeWatch,
-                routeWatch = _$vuet$_options$modul2 === undefined ? 'fullPath' : _$vuet$_options$modul2;
-
-            var toWatch = getWatchs(to, routeWatch);
-            var fromWatch = getWatchs(from, routeWatch);
-            if (!diffWatch(toWatch, fromWatch)) return false;
-            this.$vuet.fetch(path, { current: this }).then(function (res) {
-              if (diffWatch(toWatch, getWatchs(_this2.$route, routeWatch))) return;
-              _this2.$vuet.setState(path, res);
-              _this2.$vuet[key$1][path] = toWatch;
-            });
-          }
         }
       }
     };
@@ -412,21 +487,25 @@ var Vuet$1 = function () {
       this._options = _extends({
         data: function data() {
           return {};
-        },
-        pathJoin: '/'
+        }
       }, this.options, {
         modules: {}
       });
-      var pathJoin = this._options.pathJoin;
-
       var keys = ['data', 'fetch', 'routeWatch', 'manuals'];
       var initModule = function initModule(path, modules) {
         Object.keys(modules).forEach(function (k) {
           var item = modules[k];
           var _path = [].concat(toConsumableArray(path), [k]);
           if (utils.isFunction(item.data)) {
-            _this._options.modules[_path.join(pathJoin)] = item;
-            _this.reset(_path.join(pathJoin));
+            var newPath = [_path[0]];
+            for (var i = 1; i < _path.length; i++) {
+              newPath.push(_path[i].replace(/^(\w)/, function (v) {
+                return v.toUpperCase();
+              }));
+            }
+            newPath = newPath.join('');
+            _this._options.modules[newPath] = item;
+            _this.reset(newPath);
           }
           if (keys.indexOf(k) === -1 && utils.isObject(item)) {
             initModule(_path, item);

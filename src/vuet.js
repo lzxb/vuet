@@ -33,21 +33,24 @@ export default class Vuet {
     })
     this._options = {
       data: function data () { return {} },
-      pathJoin: '/',
       ...this.options,
       ...{
         modules: {}
       }
     }
-    const { pathJoin } = this._options
     const keys = ['data', 'fetch', 'routeWatch', 'manuals']
     const initModule = (path, modules) => {
       Object.keys(modules).forEach(k => {
         const item = modules[k]
         const _path = [...path, k]
         if (utils.isFunction(item.data)) {
-          this._options.modules[_path.join(pathJoin)] = item
-          this.reset(_path.join(pathJoin))
+          let newPath = [_path[0]]
+          for (let i = 1; i < _path.length; i++) {
+            newPath.push(_path[i].replace(/^(\w)/, (v) => v.toUpperCase()))
+          }
+          newPath = newPath.join('')
+          this._options.modules[newPath] = item
+          this.reset(newPath)
         }
         if (keys.indexOf(k) === -1 && utils.isObject(item)) {
           initModule(_path, item)
