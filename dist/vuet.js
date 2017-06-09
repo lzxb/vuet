@@ -90,6 +90,49 @@ var life = {
   }
 };
 
+var manual = {
+  rule: function rule(_ref) {
+    var path = _ref.path,
+        name = _ref.name;
+
+    return {
+      beforeCreate: function beforeCreate() {
+        var _this = this;
+
+        var manuals = this.$vuet._options.modules[path].manuals;
+
+        var methods = {};
+        Object.keys(manuals).forEach(function (k) {
+          var fn = manuals[k];
+          if (utils.isFunction(fn)) {
+            methods['' + k] = function () {
+              for (var _len = arguments.length, arg = Array(_len), _key = 0; _key < _len; _key++) {
+                arg[_key] = arguments[_key];
+              }
+
+              fn.apply(methods, [{
+                state: _this.$vuet.getState(path),
+                vm: _this,
+                vuet: _this.$vuet
+              }].concat(arg));
+            };
+          }
+        });
+        if (name) {
+          this[name] = methods;
+        } else if (manuals.name) {
+          this[manuals.name] = methods;
+        } else {
+          var arr = path.split(this.$vuet._options.pathJoin);
+          var _name = '$' + arr[arr.length - 1];
+          var $methods = this[_name] = {};
+          Object.assign($methods, methods);
+        }
+      }
+    };
+  }
+};
+
 var need = {
   rule: function rule(_ref) {
     var path = _ref.path;
@@ -216,7 +259,7 @@ var route = {
 };
 
 function install$1(_Vue, Vuet) {
-  Vuet.rule('life', life).rule('need', need).rule('once', once).rule('route', route);
+  Vuet.rule('life', life).rule('manual', manual).rule('need', need).rule('once', once).rule('route', route);
 }
 
 var classCallCheck = function (instance, Constructor) {

@@ -188,7 +188,7 @@ test('base', async t => {
 
 test('use mixins', t => {
   const vuet = newVuet(t)
-  const arr = ['life', 'need', 'once', 'route']
+  const arr = ['life', 'manual', 'need', 'once', 'route']
   t.deepEqual(Object.keys(Vuet.options.rules), arr)
 
   let useCount = 0

@@ -10,7 +10,7 @@
     new Vuet({
       modules: {
         list: {
-          watch: 'query',
+          routeWatch: 'query',
           data () {
             return {
               list: []
@@ -18,7 +18,7 @@
           }
         },
         detail: {
-          watch: ['params.id'],
+          routeWatch: ['params.id'],
           data () {
             return {
               id: null,
