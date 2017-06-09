@@ -419,7 +419,7 @@ var Vuet$1 = function () {
       });
       var pathJoin = this._options.pathJoin;
 
-      var keys = ['data', 'fetch', 'routeWatch'];
+      var keys = ['data', 'fetch', 'routeWatch', 'manuals'];
       var initModule = function initModule(path, modules) {
         Object.keys(modules).forEach(function (k) {
           var item = modules[k];
