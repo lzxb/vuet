@@ -6,7 +6,7 @@
   "scripts": {
     "cross-env": "node_modules/.bin/cross-env",
     "gulp": "node_modules/.bin/gulp",
-    "dev": " node examples/server",
+    "dev": "node examples/server",
     "dev:test": "npm run cross-env NODE_ENV=development npm run gulp",
     "test": "npm run cross-env NODE_ENV=testing npm run gulp"
   },
