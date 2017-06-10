@@ -75,7 +75,7 @@ gulp.task('unit', ['build'], () => {
 const testcafe = require('gulp-testcafe')
 gulp.task('e2e', ['unit'], () => {
   return gulp.src('test/e2e/**.test.js')
-    .pipe(testcafe({ browsers: ['chrome', 'firefox'] }))
+    .pipe(testcafe({ browsers: ['firefox'] }))
 })
 
 gulp.task('test', ['lint', 'build', 'unit', 'e2e'])
