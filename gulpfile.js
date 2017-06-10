@@ -71,9 +71,11 @@ gulp.task('unit', ['build'], () => {
     verbose: true // Enable verbose output
   }))
 })
-
 const testcafe = require('gulp-testcafe')
 gulp.task('e2e', ['unit'], () => {
+  if (process.env.NODE_ENV === 'testing') {
+    require('examples/server')
+  }
   return gulp.src('test/e2e/**.test.js')
     .pipe(testcafe({ browsers: ['chrome', 'firefox'] }))
 })
