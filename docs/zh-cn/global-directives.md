@@ -1,6 +1,6 @@
 ### 全局指令
 - **v-route-scroll**
-  - 描述: 配合[route规则](./global-update-rules.md)使用的指令，可以记录页面中的滚动条，在页面后退时还原滚动条位置，支持`全局滚动条`滚动条和`元素自身滚动条`的记录和还原
+  - 描述: 配合[route规则](./global-update-rules.md)使用的指令，可以记录页面中的滚动条，在页面后退时还原滚动条位置，支持`全局滚动条`滚动条和`元素自身滚动条`的记录和还原。[本地例子请看](../../examples/route-scroll)
   - 例子:
     ```html
     <template>
