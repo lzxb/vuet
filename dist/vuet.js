@@ -172,7 +172,6 @@ function initScroll(el, vnode, _ref) {
   }
   var scrolls = scrollPath[name];
   setTimeout(function () {
-    console.log(scrolls, 'init');
     scrollTo(el, scrolls);
   }, 0);
   return scrolls;
@@ -192,7 +191,6 @@ function updateScroll(scrolls, event) {
 function updateWindowScroll(scrolls, event) {
   scrolls.scrollLeft = window.pageXOffset;
   scrolls.scrollTop = window.pageYOffset;
-  console.log(scrolls, 'change');
 }
 
 function scrollTo(el, scrolls) {
@@ -215,11 +213,14 @@ var routeScroll = {
       if (!utils.isString(value.path)) {
         return debug.error('Ptah is imperative parameter');
       }
-      if (value === '__window__') {
-        return debug.error('name not __window__');
-      }
     }
     if (modifiers.window !== true || modifiers.self) {
+      if (value.name === '__window__') {
+        return debug.error('name not __window__');
+      }
+      if (!value.name) {
+        return debug.error('Name is imperative parameter');
+      }
       var areaScrolls = initScroll(el, vnode, value);
       el.__vuetRouteScroll__ = function (event) {
         updateScroll(areaScrolls, event);
@@ -587,7 +588,8 @@ var Vuet$1 = function () {
       var data = {
         path: path,
         params: _extends({}, params),
-        state: this.getState(path)
+        state: this.getState(path),
+        route: this.app.$route || {}
       };
       var callHook = function callHook(hook) {
         for (var _len = arguments.length, arg = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {

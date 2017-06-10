@@ -11,7 +11,6 @@ function initScroll (el, vnode, { path, name }) {
   }
   const scrolls = scrollPath[name]
   setTimeout(() => {
-    console.log(scrolls, 'init')
     scrollTo(el, scrolls)
   }, 0)
   return scrolls
@@ -26,7 +25,6 @@ function updateScroll (scrolls, event) {
 function updateWindowScroll (scrolls, event) {
   scrolls.scrollLeft = window.pageXOffset
   scrolls.scrollTop = window.pageYOffset
-  console.log(scrolls, 'change')
 }
 
 export function scrollTo (el, scrolls) {

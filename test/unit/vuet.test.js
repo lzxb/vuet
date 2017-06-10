@@ -132,6 +132,7 @@ test('base', async t => {
     t.is(params.path, path)
     t.is(params.state, vuet.getState(path))
     t.is(params.state, vuet.getState(params.path))
+    t.deepEqual(params.route, vuet.app.$route)
     t.deepEqual(params.params, {})
     beforeCount++
     store.laoding = true
@@ -143,6 +144,7 @@ test('base', async t => {
     t.is(params.path, path)
     t.is(params.state, vuet.getState(path))
     t.is(params.state, vuet.getState(params.path))
+    t.deepEqual(params.route, vuet.app.$route)
     t.deepEqual(params.params, {})
     store.loading = false
     store.loaded = (err === null)

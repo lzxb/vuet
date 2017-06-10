@@ -84,7 +84,8 @@ export default class Vuet {
     const data = {
       path,
       params: { ...params },
-      state: this.getState(path)
+      state: this.getState(path),
+      route: this.app.$route || {}
     }
     const callHook = (hook, ...arg) => {
       for (let i = 0; i < this[hook].length; i++) {

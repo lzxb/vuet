@@ -9,10 +9,11 @@
     const vuet = new Vuet({
       // ... 选项
     })
-    vuet.beforeEach(({ path, params, state }) => {
+    vuet.beforeEach(({ path, params, state, route }) => {
       console.log(path) // 当前更新的模块路径
       console.log(params) // 组件实例fetch方法传入的自定义参数
       console.log(state) // 当前更新的模块状态
+      console.log(route) // 当前路由信息
     })
     ```
 - `afterEach(fn: Function)`  
@@ -25,11 +26,12 @@
     const vuet = new Vuet({
       // ... 选项
     })
-    vuet.beforeEach((err, { path, params, state }) => {
+    vuet.beforeEach((err, { path, params, state, route }) => {
       console.log(err) // 如果请求失败，会传入错误的信息
       console.log(path) // 当前更新的模块路径
       console.log(params) // 组件实例fetch方法传入的自定义参数
       console.log(state) // 当前更新的模块状态
+      console.log(route) // 当前路由信息
     })
     ```
 - `getState(path: String)`  
