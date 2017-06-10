@@ -4,7 +4,6 @@ os:
   - linux
   - osx
 addons:
-  chrome: beta
   firefox: latest
 language: node_js
 install: 
