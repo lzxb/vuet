@@ -78,7 +78,7 @@ gulp.task('e2e', ['unit'], () => {
     .pipe(testcafe({ browsers: ['chrome', 'firefox'] }))
 })
 
-gulp.task('test', ['lint', 'build', 'unit'])
+gulp.task('test', ['lint', 'build', 'unit', 'e2e'])
 gulp.task('default', ['lint', 'build', 'unit', 'e2e'])
 
 if (process.env.NODE_ENV === 'development') {
