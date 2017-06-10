@@ -6,7 +6,8 @@ Vuet是Vue.js的一种状态管理模式，它以`模块化管理`为核心，�
 
 ### 全局API
 - [全局方法](./global-function.md)
-- [全局更新规则](./global-update-rules.md)
+- [全局规则](./global-rules.md)
+- [全局指令](./global-directives.md)
 - [基本选项](./base-options.md)
 - [模块选项](./modules-options.md)
 - [实例属性](./instance-attr.md)

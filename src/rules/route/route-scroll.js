@@ -46,11 +46,14 @@ export default {
       if (!utils.isString(value.path)) {
         return debug.error('Ptah is imperative parameter')
       }
-      if (value === '__window__') {
-        return debug.error('name not __window__')
-      }
     }
     if (modifiers.window !== true || modifiers.self) {
+      if (value.name === '__window__') {
+        return debug.error('name not __window__')
+      }
+      if (!value.name) {
+        return debug.error('Name is imperative parameter')
+      }
       const areaScrolls = initScroll(el, vnode, value)
       el.__vuetRouteScroll__ = event => {
         updateScroll(areaScrolls, event)
