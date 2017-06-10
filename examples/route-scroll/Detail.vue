@@ -28,10 +28,12 @@
   }
   article {
     overflow: auto;
+    width: 200px;
     height: 200px;
     background: #fff;
   }
   article div {
+    width: 600px;
     height: 200px;
   }
 </style>

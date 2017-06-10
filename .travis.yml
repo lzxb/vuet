@@ -1,6 +1,13 @@
-language: node_js
 node_js:
-  - "8"
+  - 8
+os:
+  - linux
+  - osx
+addons:
+  chrome: stable
+  firefox: latest
+  safari: latest
+language: node_js
 install: 
   - npm install
 script:
