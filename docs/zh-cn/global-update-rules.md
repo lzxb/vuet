@@ -5,7 +5,7 @@
   - 参数:
     - manuals: `Object{name: String | Function}`
       - 默认值: `$当前模块名称`
-      - 描述: 在业务中，我们常常需要各种手动更新状态的操作，manual就是将这种更新的操作集中起来。[点我查看完整例子](../../examples/manual)，另外还允许在调用mapRules方法时重定向模块方法
+      - 描述: 在业务中，我们常常需要各种手动更新状态的操作，manual就是将这种更新的操作集中起来。[点我查看完整例子](../../examples/manual)，另外还允许在调用mapRules方法时重置名字
       - 例子:
       ```javascript
         new Vuet({
