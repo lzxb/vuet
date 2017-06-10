@@ -6,7 +6,6 @@ os:
 addons:
   chrome: stable
   firefox: latest
-  safari: latest
 language: node_js
 install: 
   - npm install
