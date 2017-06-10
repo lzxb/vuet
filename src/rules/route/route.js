@@ -21,7 +21,7 @@ export default {
       Object.keys(vuet[_key].scrolls[path]).forEach(k => {
         const scrolls = { scrollTop: 0, scrollLeft: 0 }
         vuet[_key].scrolls[path][k] = scrolls
-        const el = document.getElementById(k)
+        const el = (k === '__window__') ? window : document.getElementById(k)
         if (el) {
           scrollTo(el, scrolls)
         }

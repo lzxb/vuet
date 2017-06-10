@@ -10,7 +10,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      name: 'index',
+      name: 'list',
       component: List
     },
     {

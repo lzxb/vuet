@@ -59,7 +59,7 @@ var route = {
       Object.keys(vuet[_key].scrolls[path]).forEach(function (k) {
         var scrolls = { scrollTop: 0, scrollLeft: 0 };
         vuet[_key].scrolls[path][k] = scrolls;
-        var el = document.getElementById(k);
+        var el = k === '__window__' ? window : document.getElementById(k);
         if (el) {
           scrollTo(el, scrolls);
         }
@@ -149,50 +149,100 @@ var route = {
   }
 };
 
-function initScroll(el, vnode, path) {
-  var id = el.id;
+var debug = {
+  error: function error(msg) {
+    throw new Error('[vuet] ' + msg);
+  },
+  warn: function warn(msg) {
+    if (process.env.NODE_ENV !== 'production') {
+      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
+    }
+  }
+};
+
+function initScroll(el, vnode, _ref) {
+  var path = _ref.path,
+      name = _ref.name;
   var context = vnode.context;
 
   var scrollPath = context.$vuet[_key].scrolls[path];
-  if (!id || !context) return;
-  if (!scrollPath[id]) {
-    scrollPath[id] = { scrollTop: 0, scrollLeft: 0 };
+  if (!name || !context) return;
+  if (!scrollPath[name]) {
+    scrollPath[name] = { scrollTop: 0, scrollLeft: 0 };
   }
-  var scrolls = scrollPath[id];
+  var scrolls = scrollPath[name];
   setTimeout(function () {
+    console.log(scrolls, 'init');
     scrollTo(el, scrolls);
   }, 0);
   return scrolls;
 }
 
+function updateScroll(scrolls, event) {
+  var _event$target = event.target,
+      scrollTop = _event$target.scrollTop,
+      scrollLeft = _event$target.scrollLeft,
+      pageXOffset = _event$target.pageXOffset,
+      pageYOffset = _event$target.pageYOffset;
+
+  scrolls.scrollLeft = scrollLeft || pageYOffset || scrollLeft;
+  scrolls.scrollTop = scrollTop || pageXOffset || scrollTop;
+}
+
+function updateWindowScroll(scrolls, event) {
+  scrolls.scrollLeft = window.pageXOffset;
+  scrolls.scrollTop = window.pageYOffset;
+  console.log(scrolls, 'change');
+}
+
 function scrollTo(el, scrolls) {
-  if ('scrollTop' in el) {
+  if ('scrollTop' in el && el !== window) {
     Object.assign(el, scrolls);
   } else {
-    el.scrollTo(scrolls.scrollTop, scrolls.scrollLeft);
+    el.scrollTo(scrolls.scrollLeft, scrolls.scrollTop);
   }
 }
 
 var routeScroll = {
-  inserted: function inserted(el, _ref, vnode) {
-    var value = _ref.value;
+  inserted: function inserted(el, _ref2, vnode) {
+    var modifiers = _ref2.modifiers,
+        value = _ref2.value;
 
-    var scrolls = initScroll(el, vnode, value);
-    el.__routeScroll__ = function (event) {
-      var _event$target = event.target,
-          scrollTop = _event$target.scrollTop,
-          scrollLeft = _event$target.scrollLeft,
-          pageXOffset = _event$target.pageXOffset,
-          pageYOffset = _event$target.pageYOffset;
-
-      scrolls.scrollTop = scrollTop || pageXOffset || scrollTop;
-      scrolls.scrollLeft = scrollLeft || pageYOffset || scrollLeft;
-    };
-    el.addEventListener('scroll', el.__routeScroll__, false);
+    if (process.env.NODE_ENV !== 'production') {
+      if (!utils.isObject(value)) {
+        return debug.error('Parameter is the object type');
+      }
+      if (!utils.isString(value.path)) {
+        return debug.error('Ptah is imperative parameter');
+      }
+      if (value === '__window__') {
+        return debug.error('name not __window__');
+      }
+    }
+    if (modifiers.window !== true || modifiers.self) {
+      var areaScrolls = initScroll(el, vnode, value);
+      el.__vuetRouteScroll__ = function (event) {
+        updateScroll(areaScrolls, event);
+      };
+      el.addEventListener('scroll', el.__vuetRouteScroll__, false);
+    }
+    if (modifiers.window) {
+      var windowScrolls = initScroll(window, vnode, Object.assign({}, value, { name: '__window__' }));
+      el.__vuetRouteScrollWindow__ = function (event) {
+        updateWindowScroll(windowScrolls, event);
+      };
+      window.addEventListener('scroll', el.__vuetRouteScrollWindow__, false);
+    }
   },
   unbind: function unbind(el) {
-    el.removeEventListener('scroll', el.__routeScroll__, false);
-    delete el.__routeScroll__;
+    if (typeof el.__vuetRouteScroll__ === 'function') {
+      el.removeEventListener('scroll', el.__vuetRouteScroll__, false);
+      delete el.__vuetRouteScroll__;
+    }
+    if (typeof el.__vuetRouteScrollWindow__ === 'function') {
+      window.removeEventListener('scroll', el.__vuetRouteScrollWindow__, false);
+      delete el.__vuetRouteScrollWindow__;
+    }
   }
 };
 
@@ -224,17 +274,6 @@ function install(Vue) {
 
   Vue.directive('route-scroll', routeScroll);
 }
-
-var debug = {
-  error: function error(msg) {
-    throw new Error('[vuet] ' + msg);
-  },
-  warn: function warn(msg) {
-    if (process.env.NODE_ENV !== 'production') {
-      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
-    }
-  }
-};
 
 var life = {
   rule: function rule(_ref) {
