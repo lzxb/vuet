@@ -11,7 +11,7 @@
   import { mapModules } from 'vuet'
   import OutputContent from './OutputContent'
   import InputContent from './InputContent'
-
+  
   export default {
     components: { OutputContent, InputContent },
     mixins: [

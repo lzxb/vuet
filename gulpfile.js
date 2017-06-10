@@ -7,7 +7,8 @@ const eslint = require('gulp-eslint')
 const clear = require('clear')
 gulp.task('lint', () => {
   clear()
-  return gulp.src(['**/*.js', '!node_modules/**', '!dist/**'])
+  return gulp
+    .src(['**/*.js', '!node_modules/**', '!dist/**'])
     .pipe(eslint())
     .pipe(eslint.format())
 })
@@ -66,22 +67,29 @@ gulp.task('build', ['lint'], () => {
 
 const ava = require('gulp-ava')
 gulp.task('unit', ['build'], () => {
-  return gulp.src('test/unit/**.test.js')
-  .pipe(ava({
-    verbose: true // Enable verbose output
-  }))
+  return gulp
+    .src('test/unit/**.test.js')
+    .pipe(ava({
+      verbose: true // Enable verbose output
+    }))
 })
+let server = null
+if (process.env.NODE_ENV === 'testing') {
+  server = require('./examples/server')
+}
 const testcafe = require('gulp-testcafe')
 gulp.task('e2e', ['unit'], () => {
-  if (process.env.NODE_ENV === 'testing') {
-    require('examples/server')
-  }
-  return gulp.src('test/e2e/**.test.js')
+  return gulp
+    .src('test/e2e/**.test.js')
     .pipe(testcafe({ browsers: ['chrome', 'firefox'] }))
 })
 
-gulp.task('test', ['lint', 'build', 'unit', 'e2e'])
-gulp.task('default', ['lint', 'build', 'unit', 'e2e'])
+gulp.task('default', ['lint', 'build', 'unit', 'e2e'], () => {
+  if (server) {
+    server.close()
+    process.exit()
+  }
+})
 
 if (process.env.NODE_ENV === 'development') {
   gulp.watch(['**/*.js', '**/*.vue', '!node_modules/**', '!dist/**'], ['default'])
