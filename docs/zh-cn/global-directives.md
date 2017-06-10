@@ -14,7 +14,7 @@
       </div>
     </template>
     <script>
-      import { mapRules }
+      import { mapRules } from 'vuet'
       export default {
         mixins: [
           // 千万不要忘了把模块设置到route规则设置到组件中，否则页面切换滚动条对应的变化不会操作的！！！
