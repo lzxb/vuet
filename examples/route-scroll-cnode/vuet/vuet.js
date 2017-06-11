@@ -12,7 +12,7 @@ const vuet = new Vuet({
       loaderr: false // 请求失败
     }
   },
-  pathJoin: '-',
+  pathJoin: '-', // 父子模块的连接路径
   modules: {
     topic: {
       list: topicList,

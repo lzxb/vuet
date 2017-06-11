@@ -1,5 +1,5 @@
 export default {
-  routeWatch: 'params.id',
+  routeWatch: 'params.id', // 定义页面的更新规则
   data () {
     return {
       data: {

@@ -1,4 +1,5 @@
 <template>
+  <!-- 设置指令监听全局滚动条 -->
   <div v-route-scroll.window="{ path: 'topic-list' }">
     <header>
       <ul>
@@ -19,9 +20,11 @@
 
   export default {
     mixins: [
+      // 设置模块的更新规则
       mapRules({
         route: 'topic-list'
       }),
+      // 连接模块的状态
       mapModules({
         list: 'topic-list'
       })
