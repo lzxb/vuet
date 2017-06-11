@@ -38,3 +38,6 @@ npm run dev:test
   ```
 ### Full document
 - [简体中文](./docs/zh-cn/README.md)
+
+### LICENSE
+MIT
