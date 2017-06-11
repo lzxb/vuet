@@ -55,14 +55,15 @@ var route = {
     var path = _ref.path;
 
     // route-scroll
-    function resetVuetScroll(vuet) {
-      Object.keys(vuet[_key].scrolls[path]).forEach(function (k) {
-        var scrolls = { scrollTop: 0, scrollLeft: 0 };
-        vuet[_key].scrolls[path][k] = scrolls;
-        var el = k === '__window__' ? window : document.getElementById(k);
-        if (el) {
-          scrollTo(el, scrolls);
+    function resetVuetScroll(vm) {
+      var vuet = vm.$vuet;
+      Object.keys(vuet[_key].scrolls[path]).forEach(function (name) {
+        var scrolls = { x: 0, y: 0 };
+        vuet[_key].scrolls[path][name] = scrolls;
+        if (name === '__window__') {
+          return scrollTo(window, scrolls);
         }
+        syncAllNameScroll(vm, { path: path, name: name });
       });
     }
 
@@ -73,7 +74,10 @@ var route = {
     function setVuetWatchs(vuet, val) {
       vuet[_key].watchers[path] = val;
     }
-    function getWatchs(obj, list) {
+    function getWatchs() {
+      var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var list = arguments[1];
+
       if (typeof list === 'string') {
         list = [list];
       }
@@ -115,7 +119,7 @@ var route = {
         if (diffWatch(toWatch, getVuetWatchs(this.$vuet))) {
           this.$vuet.reset(path);
           setVuetWatchs(this.$vuet, toWatch);
-          resetVuetScroll(this.$vuet);
+          resetVuetScroll(this);
         }
         this.$vuet.fetch(path, { current: this }, false).then(function (res) {
           if (diffWatch(toWatch, getWatchs(_this.$route, routeWatch))) return;
@@ -138,7 +142,7 @@ var route = {
             if (!diffWatch(toWatch, fromWatch)) return false;
             this.$vuet.fetch(path, { current: this }).then(function (res) {
               if (diffWatch(toWatch, getWatchs(_this2.$route, routeWatch))) return;
-              resetVuetScroll(_this2.$vuet);
+              resetVuetScroll(_this2);
               _this2.$vuet.setState(path, res);
               setVuetWatchs(_this2.$vuet, toWatch);
             });
@@ -160,7 +164,11 @@ var debug = {
   }
 };
 
-function initScroll(el, vnode, _ref) {
+function mergeScrolls(scrolls) {
+  return Object.assign({ x: 0, y: 0 }, scrolls);
+}
+
+function initScroll(el, vnode, _ref, scrolls) {
   var path = _ref.path,
       name = _ref.name;
   var context = vnode.context;
@@ -168,13 +176,10 @@ function initScroll(el, vnode, _ref) {
   var scrollPath = context.$vuet[_key].scrolls[path];
   if (!name || !context) return;
   if (!scrollPath[name]) {
-    scrollPath[name] = { scrollTop: 0, scrollLeft: 0 };
+    scrollPath[name] = mergeScrolls(scrolls);
   }
-  var scrolls = scrollPath[name];
-  setTimeout(function () {
-    scrollTo(el, scrolls);
-  }, 0);
-  return scrolls;
+  scrollTo(el, scrollPath[name]);
+  return scrollPath[name];
 }
 
 function updateScroll(scrolls, event) {
@@ -184,27 +189,47 @@ function updateScroll(scrolls, event) {
       pageXOffset = _event$target.pageXOffset,
       pageYOffset = _event$target.pageYOffset;
 
-  scrolls.scrollLeft = scrollLeft || pageYOffset || scrollLeft;
-  scrolls.scrollTop = scrollTop || pageXOffset || scrollTop;
+  scrolls.x = scrollLeft || pageYOffset || scrollLeft;
+  scrolls.y = scrollTop || pageXOffset || scrollTop;
+}
+
+function syncAllNameScroll(vm, _ref2) {
+  var path = _ref2.path,
+      name = _ref2.name;
+
+  if (!vm) return;
+  var scrolls = vm.$vuet[_key].scrolls[path][name];
+  document.querySelectorAll('[data-vuet-route-scroll=' + name + ']').forEach(function (el) {
+    scrollTo(el, scrolls);
+  });
 }
 
 function updateWindowScroll(scrolls, event) {
-  scrolls.scrollLeft = window.pageXOffset;
-  scrolls.scrollTop = window.pageYOffset;
+  scrolls.x = window.pageXOffset;
+  scrolls.y = window.pageYOffset;
 }
 
 function scrollTo(el, scrolls) {
   if ('scrollTop' in el && el !== window) {
-    Object.assign(el, scrolls);
+    el.scrollLeft = scrolls.x;
+    el.scrollTop = scrolls.y;
   } else {
-    el.scrollTo(scrolls.scrollLeft, scrolls.scrollTop);
+    el.scrollTo(scrolls.x, scrolls.y);
   }
 }
 
+function isSelf(modifiers) {
+  return modifiers.window !== true || modifiers.self;
+}
+
+function isWindow(modifiers) {
+  return modifiers.window;
+}
+
 var routeScroll = {
-  inserted: function inserted(el, _ref2, vnode) {
-    var modifiers = _ref2.modifiers,
-        value = _ref2.value;
+  inserted: function inserted(el, _ref3, vnode) {
+    var modifiers = _ref3.modifiers,
+        value = _ref3.value;
 
     if (process.env.NODE_ENV !== 'production') {
       if (!utils.isObject(value)) {
@@ -214,35 +239,65 @@ var routeScroll = {
         return debug.error('Ptah is imperative parameter');
       }
     }
-    if (modifiers.window !== true || modifiers.self) {
+    if (isSelf(modifiers)) {
       if (value.name === '__window__') {
         return debug.error('name not __window__');
       }
       if (!value.name) {
         return debug.error('Name is imperative parameter');
       }
-      var areaScrolls = initScroll(el, vnode, value);
-      el.__vuetRouteScroll__ = function (event) {
+      if (utils.isObject(value.self)) {
+        el.__vuetRouteSelfScrolls__ = value.self;
+      }
+      var areaScrolls = initScroll(el, vnode, value, el.__vuetRouteScrolls__);
+      el.dataset.vuetRouteScroll = value.name;
+      el.__vuetRouteSelfScroll__ = function (event) {
         updateScroll(areaScrolls, event);
+        if (utils.isObject(el.__vuetRouteSelfScrolls__)) {
+          updateScroll(el.__vuetRouteSelfScrolls__, event);
+        }
+        syncAllNameScroll(vnode.context, value);
       };
-      el.addEventListener('scroll', el.__vuetRouteScroll__, false);
+      el.addEventListener('scroll', el.__vuetRouteSelfScroll__, false);
     }
-    if (modifiers.window) {
-      var windowScrolls = initScroll(window, vnode, Object.assign({}, value, { name: '__window__' }));
-      el.__vuetRouteScrollWindow__ = function (event) {
+
+    if (isWindow(modifiers)) {
+      if (utils.isObject(value.window)) {
+        el.__vuetRouteWindowScrolls__ = value.window;
+      }
+      var windowScrolls = initScroll(window, vnode, Object.assign({}, value, { name: '__window__' }), el.__vuetRouteWindowScrolls__);
+      el.__vuetRouteWindowScroll__ = function (event) {
         updateWindowScroll(windowScrolls, event);
+        if (utils.isObject(el.__vuetRouteWindowScrolls__)) {
+          updateWindowScroll(el.__vuetRouteWindowScrolls__, event);
+        }
       };
-      window.addEventListener('scroll', el.__vuetRouteScrollWindow__, false);
+      window.addEventListener('scroll', el.__vuetRouteWindowScroll__, false);
+    }
+  },
+  componentUpdated: function componentUpdated(el, _ref4, vnode) {
+    var modifiers = _ref4.modifiers,
+        value = _ref4.value;
+
+    if (isSelf(modifiers) && utils.isObject(value.self)) {
+      el.__vuetRouteSelfScrolls__ = value.self;
+      scrollTo(el, el.__vuetRouteSelfScrolls__);
+    }
+    if (isWindow(modifiers) && utils.isObject(value.window)) {
+      el.__vuetRouteWindowScrolls__ = value.window;
+      scrollTo(window, el.__vuetRouteWindowScrolls__);
     }
   },
   unbind: function unbind(el) {
-    if (typeof el.__vuetRouteScroll__ === 'function') {
-      el.removeEventListener('scroll', el.__vuetRouteScroll__, false);
-      delete el.__vuetRouteScroll__;
+    if (typeof el.__vuetRouteSelfScroll__ === 'function') {
+      el.removeEventListener('scroll', el.__vuetRouteSelfScroll__, false);
+      delete el.__vuetRouteSelfScroll__;
+      delete el.__vuetRouteSelfScrolls__;
     }
-    if (typeof el.__vuetRouteScrollWindow__ === 'function') {
-      window.removeEventListener('scroll', el.__vuetRouteScrollWindow__, false);
-      delete el.__vuetRouteScrollWindow__;
+    if (typeof el.__vuetRouteWindowScroll__ === 'function') {
+      window.removeEventListener('scroll', el.__vuetRouteWindowScroll__, false);
+      delete el.__vuetRouteWindowScroll__;
+      delete el.__vuetRouteWindowScrolls__;
     }
   }
 };

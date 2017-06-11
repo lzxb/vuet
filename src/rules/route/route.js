@@ -1,5 +1,5 @@
 import utils from '../../utils'
-import { scrollTo } from './route-scroll'
+import { scrollTo, syncAllNameScroll } from './route-scroll'
 
 export const _name = 'route'
 export const _key = `__${_name}__`
@@ -17,14 +17,15 @@ export default {
   },
   rule ({ path }) {
     // route-scroll
-    function resetVuetScroll (vuet) {
-      Object.keys(vuet[_key].scrolls[path]).forEach(k => {
-        const scrolls = { scrollTop: 0, scrollLeft: 0 }
-        vuet[_key].scrolls[path][k] = scrolls
-        const el = (k === '__window__') ? window : document.getElementById(k)
-        if (el) {
-          scrollTo(el, scrolls)
+    function resetVuetScroll (vm) {
+      const vuet = vm.$vuet
+      Object.keys(vuet[_key].scrolls[path]).forEach(name => {
+        const scrolls = { x: 0, y: 0 }
+        vuet[_key].scrolls[path][name] = scrolls
+        if (name === '__window__') {
+          return scrollTo(window, scrolls)
         }
+        syncAllNameScroll(vm, { path, name })
       })
     }
 
@@ -35,7 +36,7 @@ export default {
     function setVuetWatchs (vuet, val) {
       vuet[_key].watchers[path] = val
     }
-    function getWatchs (obj, list) {
+    function getWatchs (obj = {}, list) {
       if (typeof list === 'string') {
         list = [list]
       }
@@ -73,7 +74,7 @@ export default {
         if (diffWatch(toWatch, getVuetWatchs(this.$vuet))) {
           this.$vuet.reset(path)
           setVuetWatchs(this.$vuet, toWatch)
-          resetVuetScroll(this.$vuet)
+          resetVuetScroll(this)
         }
         this.$vuet.fetch(path, { current: this }, false).then((res) => {
           if (diffWatch(toWatch, getWatchs(this.$route, routeWatch))) return
@@ -91,7 +92,7 @@ export default {
             if (!diffWatch(toWatch, fromWatch)) return false
             this.$vuet.fetch(path, { current: this }).then((res) => {
               if (diffWatch(toWatch, getWatchs(this.$route, routeWatch))) return
-              resetVuetScroll(this.$vuet)
+              resetVuetScroll(this)
               this.$vuet.setState(path, res)
               setVuetWatchs(this.$vuet, toWatch)
             })

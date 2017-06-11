@@ -1,7 +1,7 @@
 <template>
   <div class="inner">
-    <div class="detail-window-window-scroll-x">{{ pageXOffset }}</div>
-    <div class="detail-window-window-scroll-y">{{ pageYOffset }}</div>
+    <div class="detail-window-window-scroll-x">{{ x }}</div>
+    <div class="detail-window-window-scroll-y">{{ y }}</div>
     <button class="detail-set-window-scroll" @click="setWindowScroll">Set window scroll</button>
     <button class="detail-set-area-scroll" @click="setAreaScroll">Set area scroll</button>
     <hr>
@@ -23,14 +23,14 @@
     ],
     data () {
       return {
-        pageXOffset: window.pageXOffset,
-        pageYOffset: window.pageYOffset
+        x: window.pageXOffset,
+        y: window.pageYOffset
       }
     },
     created () {
       this.windowScroll = () => {
-        this.pageXOffset = window.pageXOffset
-        this.pageYOffset = window.pageYOffset
+        this.x = window.pageXOffset
+        this.y = window.pageYOffset
       }
       window.addEventListener('scroll', this.windowScroll, false)
     },
@@ -40,14 +40,14 @@
     methods: {
       setWindowScroll () {
         scrollTo(window, {
-          scrollTop: 200,
-          scrollLeft: 30
+          x: 30,
+          y: 200
         })
       },
       setAreaScroll () {
         scrollTo(document.querySelector('.detail-view'), {
-          scrollTop: 500,
-          scrollLeft: 500
+          x: 500,
+          y: 500
         })
       }
     }
