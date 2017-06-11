@@ -1,4 +1,5 @@
 export default {
+  routeWatch: 'query',
   data () {
     return {
       data: [],
@@ -26,8 +27,12 @@ export default {
       ]
     }
   },
-  async fetch () {
-    const { data } = await window.fetch('https://cnodejs.org/api/v1/topics?mdrender=false').then(response => response.json())
+  async fetch ({ route }) {
+    const { tab = '' } = route.query
+    const { data } = await window.fetch(`https://cnodejs.org/api/v1/topics?mdrender=false&tab=${tab}`).then(response => response.json())
+    data.forEach(item => {
+      console.log(item.title)
+    })
     return {
       data
     }

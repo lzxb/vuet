@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import vuet from './vuet/'
 import router from './router/'
+import vuet from './vuet/'
 
 export default new Vue({
   el: '#app',

@@ -12,7 +12,7 @@
           <router-link :to="{ name: 'topic-detail', params: { id: item.id } }">{{ item.title }}</router-link>
       </li>
     </ul>
-  </div>  
+  </div>
 </template>
 <script>
   import { mapRules, mapModules } from 'vuet'

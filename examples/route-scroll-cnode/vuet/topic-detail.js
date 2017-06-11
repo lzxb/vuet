@@ -1,4 +1,5 @@
 export default {
+  routeWatch: 'params.id',
   data () {
     return {
       data: {
