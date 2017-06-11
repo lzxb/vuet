@@ -27,3 +27,4 @@ npm run dev # 本地打开地址: localhost:3000
 
 ### 相关教程
 - [实现简易版vue-cnode，实现列表点击详情返回后显示之前的数据](https://cnodejs.org/topic/592398559e32cc84569a7228)
+- [Vue.js轻松实现页面后退时，还原滚动位置](https://juejin.im/post/593cc512128fe1006ae14bd4)
