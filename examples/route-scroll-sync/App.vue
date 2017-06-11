@@ -3,11 +3,15 @@
     <header>
       <h2>route-scroll-sync</h2>
       <hr>
-      <button @click="$test.windowTo">windowTo</button>
-      {{ test.windowScrolls.x }} -- {{ test.windowScrolls.y }}
+      <div class="window">
+        <button @click="$test.windowTo">windowTo</button>
+        <span class="x">{{ test.windowScrolls.x }}</span> -- <span class="y">{{ test.windowScrolls.y }}</span>
+      </div>
       <hr>
-      <button @click="$test.areaTo">areaTo</button>
-      {{ test.areaScrolls.x }} -- {{ test.areaScrolls.y }}
+      <div class="area">
+        <button @click="$test.areaTo">areaTo</button>
+        <span class="x">{{ test.areaScrolls.x }}</span> -- <span class="y">{{ test.areaScrolls.y }}</span>
+      </div>
       <hr>
     </header>
     <div class="view">

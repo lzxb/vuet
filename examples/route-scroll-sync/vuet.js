@@ -25,7 +25,7 @@ export default new Vuet({
         },
         areaTo ({ state }) {
           state.areaScrolls.x = 200
-          state.areaScrolls.y = 500
+          state.areaScrolls.y = 800
         }
       }
     }
