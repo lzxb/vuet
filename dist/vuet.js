@@ -366,7 +366,7 @@ var manual = {
                 arg[_key] = arguments[_key];
               }
 
-              fn.apply(methods, [{
+              return fn.apply(methods, [{
                 state: _this.$vuet.getState(path),
                 vm: _this,
                 vuet: _this.$vuet
@@ -381,8 +381,7 @@ var manual = {
             arg[_key2] = arguments[_key2];
           }
 
-          (_$vuet = _this.$vuet).reset.apply(_$vuet, [path].concat(arg));
-          return methods;
+          return (_$vuet = _this.$vuet).reset.apply(_$vuet, [path].concat(arg));
         };
         methods.fetch = function () {
           var _$vuet2;
@@ -391,8 +390,7 @@ var manual = {
             arg[_key3] = arguments[_key3];
           }
 
-          (_$vuet2 = _this.$vuet).fetch.apply(_$vuet2, [path].concat(arg));
-          return methods;
+          return (_$vuet2 = _this.$vuet).fetch.apply(_$vuet2, [path].concat(arg));
         };
         if (name) {
           this[name] = methods;
@@ -626,6 +624,7 @@ var Vuet$1 = function () {
   }, {
     key: 'setState',
     value: function setState(path, newState) {
+      if (!utils.isObject(newState)) return this;
       if (!this.store[path]) {
         _Vue.set(this.store, path, newState);
         return this;

@@ -10,7 +10,7 @@ export default {
           const fn = manuals[k]
           if (utils.isFunction(fn)) {
             methods[`${k}`] = (...arg) => {
-              fn.apply(methods, [{
+              return fn.apply(methods, [{
                 state: this.$vuet.getState(path),
                 vm: this,
                 vuet: this.$vuet
@@ -19,12 +19,10 @@ export default {
           }
         })
         methods.reset = (...arg) => {
-          this.$vuet.reset(path, ...arg)
-          return methods
+          return this.$vuet.reset(path, ...arg)
         }
         methods.fetch = (...arg) => {
-          this.$vuet.fetch(path, ...arg)
-          return methods
+          return this.$vuet.fetch(path, ...arg)
         }
         if (name) {
           this[name] = methods

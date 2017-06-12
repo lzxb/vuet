@@ -71,6 +71,7 @@ export default class Vuet {
     return this.store[path] || {}
   }
   setState (path, newState) {
+    if (!utils.isObject(newState)) return this
     if (!this.store[path]) {
       _Vue.set(this.store, path, newState)
       return this
