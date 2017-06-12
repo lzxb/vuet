@@ -36,5 +36,5 @@
     }
     ```
 - `Vuet.rule(name: String, rule: Object)`
-  - 描述: 自定义更新规则，[相关的例子请点击这里](./global-update-rules.md#自定义更新规则)
+  - 描述: 自定义更新规则，[相关的例子请点击这里](./global-rules.md#自定义更新规则)
   - 返回值: `this`
