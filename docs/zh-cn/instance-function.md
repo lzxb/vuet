@@ -89,3 +89,23 @@
   - 描述: 向服务器取得数据更新
 - `destroy()`  
   - 描述: 销毁vuet，释放内存
+
+### Vue组件内注入Vuet实例属性
+```javascript
+import Vue from 'vue'
+import Vuet from 'vuet'
+
+Vue.use(Vuet)
+
+const vuet = new Vuet({
+  // ... base options
+})
+
+new Vue({
+  // ...
+  vuet,
+  created () {
+    //this.$vuet.xxx
+  }
+})
+```

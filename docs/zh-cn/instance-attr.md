@@ -26,3 +26,23 @@
 - **vm**
   - 类型: `只读`
   - 描述: Vuet内部的Vue实例
+
+### Vue组件内注入Vuet实例属性
+```javascript
+import Vue from 'vue'
+import Vuet from 'vuet'
+
+Vue.use(Vuet)
+
+const vuet = new Vuet({
+  // ... base options
+})
+
+new Vue({
+  // ...
+  vuet,
+  created () {
+    //this.$vuet.xxx
+  }
+})
+```
