@@ -29,7 +29,7 @@ export default {
   },
   async fetch ({ route }) {
     const { tab = '' } = route.query
-    const { data } = await window.fetch(`https://cnodejs.org/api/v1/topics?mdrender=false&tab=${tab}`).then(response => response.json())
+    const { data } = await window.fetch(`https://cnodejs.org/api/v1/topics?mdrender=false&tab=${tab}&limit=200`).then(response => response.json())
     return {
       data
     }
