@@ -19,6 +19,7 @@ Vuet是Vue.js的一种状态管理模式，它以`模块化管理`为核心，�
 - [need](../../examples/need)
 - [life](../../examples/life)
 - [兄弟组件通信](../../examples/brothers-communication)
+- [页面后退，复原滚动位置](../../examples/route-scroll-cnode)
 运行例子
 ```bash
 npm install
