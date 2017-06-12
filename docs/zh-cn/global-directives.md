@@ -11,6 +11,8 @@
         <div v-route-scroll.window="{ path: '模块路径' }"></div>
         <!-- 如果需要同时记录全局滚动条和元素自身的滚动条，同时设置`self`和`window`修饰符 -->
         <div v-route-scroll.self.window="{ path: '模块路径', name: 'name-2' }"></div>
+        <!-- 滚动条位置和数据进行绑定 -->
+        <div v-route-scroll.self.window="{ path: '模块路径', name: 'name-2', self: { x: 0, y: 0 }, window: { x: 0, y: 0 } }"></div>
       </div>
     </template>
     <script>
