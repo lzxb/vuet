@@ -1,17 +1,23 @@
-import { Selector } from 'testcafe'
+import { Selector, ClientFunction } from 'testcafe'
 
 fixture`route-scroll-sync`
 .page`http://localhost:3000/route-scroll-sync/index.html`
 
 test('window scroll', async t => {
+  const getWindowScrolls = ClientFunction(() => ({
+    x: window.pageXOffset,
+    y: window.pageYOffset
+  }))
   await Selector('.inner', { visibilityCheck: true })
   await t
     .expect(Selector('header .window .x').textContent).eql('200')
     .expect(Selector('header .window .y').textContent).eql('300')
-
+    .expect((await getWindowScrolls())).eql({ x: 200, y: 300 })
     .click(Selector('header .window button'))
+  await t
     .expect(Selector('header .window .x').textContent).eql('100')
     .expect(Selector('header .window .y').textContent).eql('200')
+    .expect((await getWindowScrolls())).eql({ x: 100, y: 200 })
 })
 
 test('area scroll', async t => {
