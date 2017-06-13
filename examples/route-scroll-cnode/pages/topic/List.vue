@@ -32,5 +32,30 @@
   }
 </script>
 <style scoped>
-
+  header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 999;
+    border-bottom: 1px solid #ddd;
+    background: #fff;
+  }
+  header ul {
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  header ul li {
+    flex: auto;
+    list-style: none;
+  }
+  header ul li a {
+    display: block;
+    line-height: 50px;
+    text-align: center;
+  }
+  .list {
+    padding-top: 50px;
+  }
 </style>
