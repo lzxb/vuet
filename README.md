@@ -11,8 +11,8 @@ the modules. Anyway, it's all up to you.
 ### Development and test
 ```bash
 npm install
-npm run dev
-npm run dev:test
+npm run dev # open: http://localhost:3000/
+npm run dev:test # The computer needs to install the firefox and chrome browser
 ```
 
 ### Usage
