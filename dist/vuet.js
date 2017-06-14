@@ -357,7 +357,8 @@ var manual = {
       beforeCreate: function beforeCreate() {
         var _this = this;
 
-        var manuals = this.$vuet._options.modules[path].manuals;
+        var _$vuet$_options$modul = this.$vuet._options.modules[path].manuals,
+            manuals = _$vuet$_options$modul === undefined ? {} : _$vuet$_options$modul;
 
         var methods = {};
         Object.keys(manuals).forEach(function (k) {
