@@ -84,7 +84,7 @@ gulp.task('e2e', ['unit'], () => {
     .pipe(testcafe({ browsers: ['chrome', 'firefox'] }))
 })
 
-gulp.task('default', ['lint', 'build', 'unit', 'e2e'], () => {
+gulp.task('default', ['lint', 'build', 'unit'], () => {
   if (server) {
     server.close()
     process.exit()
