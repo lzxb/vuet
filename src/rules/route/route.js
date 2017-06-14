@@ -77,7 +77,7 @@ export default {
           setVuetWatchs(this.$vuet, toWatch)
           resetVuetScroll(this)
         }
-        this.$vuet.fetch(path, { current: this, watch }, false).then((res) => {
+        this.$vuet.fetch(path, { current: this, routeWatch: watch }, false).then((res) => {
           if (diffWatch(toWatch, getWatchs(this.$route, routeWatch))) return
           this.$vuet.setState(path, res)
           setVuetWatchs(this.$vuet, toWatch)
@@ -92,7 +92,7 @@ export default {
             const fromWatch = getWatchs(from, routeWatch)
             const watch = diffWatch(toWatch, fromWatch)
             if (!watch) return false
-            this.$vuet.fetch(path, { current: this, watch }).then((res) => {
+            this.$vuet.fetch(path, { current: this, routeWatch: watch }).then((res) => {
               if (diffWatch(toWatch, getWatchs(this.$route, routeWatch))) return
               resetVuetScroll(this)
               this.$vuet.setState(path, res)
