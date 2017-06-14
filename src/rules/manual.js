@@ -4,7 +4,7 @@ export default {
   rule ({ path, name }) {
     return {
       beforeCreate () {
-        const { manuals } = this.$vuet._options.modules[path]
+        const { manuals = {} } = this.$vuet._options.modules[path]
         const methods = {}
         Object.keys(manuals).forEach(k => {
           const fn = manuals[k]
