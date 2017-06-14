@@ -116,12 +116,13 @@ var route = {
             routeWatch = _$vuet$_options$modul === undefined ? 'fullPath' : _$vuet$_options$modul;
 
         var toWatch = getWatchs(this.$route, routeWatch);
-        if (diffWatch(toWatch, getVuetWatchs(this.$vuet))) {
+        var watch = diffWatch(toWatch, getVuetWatchs(this.$vuet));
+        if (watch) {
           this.$vuet.reset(path);
           setVuetWatchs(this.$vuet, toWatch);
           resetVuetScroll(this);
         }
-        this.$vuet.fetch(path, { current: this }, false).then(function (res) {
+        this.$vuet.fetch(path, { current: this, watch: watch }, false).then(function (res) {
           if (diffWatch(toWatch, getWatchs(_this.$route, routeWatch))) return;
           _this.$vuet.setState(path, res);
           setVuetWatchs(_this.$vuet, toWatch);
@@ -139,8 +140,9 @@ var route = {
 
             var toWatch = getWatchs(to, routeWatch);
             var fromWatch = getWatchs(from, routeWatch);
-            if (!diffWatch(toWatch, fromWatch)) return false;
-            this.$vuet.fetch(path, { current: this }).then(function (res) {
+            var watch = diffWatch(toWatch, fromWatch);
+            if (!watch) return false;
+            this.$vuet.fetch(path, { current: this, watch: watch }).then(function (res) {
               if (diffWatch(toWatch, getWatchs(_this2.$route, routeWatch))) return;
               resetVuetScroll(_this2);
               _this2.$vuet.setState(path, res);

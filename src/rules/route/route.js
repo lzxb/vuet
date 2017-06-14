@@ -71,12 +71,13 @@ export default {
       beforeCreate () {
         const { routeWatch = 'fullPath' } = this.$vuet._options.modules[path]
         const toWatch = getWatchs(this.$route, routeWatch)
-        if (diffWatch(toWatch, getVuetWatchs(this.$vuet))) {
+        const watch = diffWatch(toWatch, getVuetWatchs(this.$vuet))
+        if (watch) {
           this.$vuet.reset(path)
           setVuetWatchs(this.$vuet, toWatch)
           resetVuetScroll(this)
         }
-        this.$vuet.fetch(path, { current: this }, false).then((res) => {
+        this.$vuet.fetch(path, { current: this, watch }, false).then((res) => {
           if (diffWatch(toWatch, getWatchs(this.$route, routeWatch))) return
           this.$vuet.setState(path, res)
           setVuetWatchs(this.$vuet, toWatch)
@@ -89,8 +90,9 @@ export default {
             const { routeWatch = 'fullPath' } = this.$vuet._options.modules[path]
             const toWatch = getWatchs(to, routeWatch)
             const fromWatch = getWatchs(from, routeWatch)
-            if (!diffWatch(toWatch, fromWatch)) return false
-            this.$vuet.fetch(path, { current: this }).then((res) => {
+            const watch = diffWatch(toWatch, fromWatch)
+            if (!watch) return false
+            this.$vuet.fetch(path, { current: this, watch }).then((res) => {
               if (diffWatch(toWatch, getWatchs(this.$route, routeWatch))) return
               resetVuetScroll(this)
               this.$vuet.setState(path, res)
