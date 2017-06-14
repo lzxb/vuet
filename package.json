@@ -1,13 +1,13 @@
 {
   "name": "vuet",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Vue state management plugin",
   "main": "dist/vuet.js",
   "scripts": {
     "cross-env": "node_modules/.bin/cross-env",
     "gulp": "node_modules/.bin/gulp",
     "dev": "node examples/server",
-    "dev:test": "npm run cross-env NODE_ENV=development npm run gulp",
+    "dev:test": "npm run cross-env NODE_ENV=development npm run gulp test",
     "test": "npm run cross-env NODE_ENV=testing npm run gulp"
   },
   "files": [

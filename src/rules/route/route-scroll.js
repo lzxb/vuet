@@ -73,6 +73,7 @@ export default {
       if (utils.isObject(value.self)) {
         el.__vuetRouteSelfScrolls__ = value.self
       }
+      syncAllNameScroll(vnode.context, value)
       const areaScrolls = initScroll(el, vnode, value, el.__vuetRouteScrolls__)
       el.dataset.vuetRouteScroll = value.name
       el.__vuetRouteSelfScroll__ = event => {
@@ -80,7 +81,6 @@ export default {
         if (utils.isObject(el.__vuetRouteSelfScrolls__)) {
           updateScroll(el.__vuetRouteSelfScrolls__, event)
         }
-        syncAllNameScroll(vnode.context, value)
       }
       el.addEventListener('scroll', el.__vuetRouteSelfScroll__, false)
     }

@@ -84,12 +84,14 @@ gulp.task('e2e', ['unit'], () => {
     .pipe(testcafe({ browsers: ['chrome', 'firefox'] }))
 })
 
-gulp.task('default', ['lint', 'build', 'unit', 'e2e'], () => {
+gulp.task('test', ['lint', 'build', 'unit'], () => {
   if (server) {
     server.close()
     process.exit()
   }
 })
+
+gulp.task('default', ['lint', 'build', 'unit', 'e2e'])
 
 if (process.env.NODE_ENV === 'development') {
   gulp.watch(['**/*.js', '**/*.vue', '!node_modules/**', '!dist/**'], ['default'])
