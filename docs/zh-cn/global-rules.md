@@ -66,7 +66,7 @@
         detail: {
           routeWatch: ['params.id'],
           data ({ params }) {
-            // params.routeWatch
+            // params.routeWatch 是route规则在调用fetch方法时，传入的一个参数，所以在非route规则调用时可能是undefined
             // true 则是路由发生了变化
             // false 路由没有发生变化，比如是从详情返回到列表
             // 可以根据这个特性实现上拉加载
