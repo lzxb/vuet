@@ -32,5 +32,8 @@ npm run dev # 本地打开地址: localhost:3000
 - [Vue.js轻松实现页面后退时，还原滚动位置](https://juejin.im/post/593cc512128fe1006ae14bd4)
 - [Vue.js 实现用户登录退出和 e2e 测试](https://juejin.im/post/593eacb261ff4b006ca188d9)
 
+### 相关项目
+- [vue-cnode](https://github.com/lzxb/vue-cnode)
+
 ### 官方交流群
 [Vuet.js开发交流群](//shang.qq.com/wpa/qunwpa?idkey=cc9b70a903a9df6c86380a6ec03f1488f6386200a2132d7d3a9fab0da37396eb)
