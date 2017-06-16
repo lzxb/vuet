@@ -65,7 +65,11 @@
         },
         detail: {
           routeWatch: ['params.id'],
-          data () {
+          data ({ params }) {
+            // params.routeWatch
+            // true 则是路由发生了变化
+            // false 路由没有发生变化，比如是从详情返回到列表
+            // 可以根据这个特性实现上拉加载
             return {
               id: null,
               title: null,
