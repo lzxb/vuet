@@ -5,6 +5,12 @@ import rules from './rules/index'
 
 export default class Vuet {
   constructor (options) {
+    if (!_Vue) {
+      debug.error('must call Vue.use(Vuet) before creating a store instance')
+    }
+    if (typeof Promise === 'undefined') {
+      debug.error('Vuet requires a Promise polyfill in this browser')
+    }
     if (!utils.isObject(options)) {
       debug.error('Parameter is the object type')
     }

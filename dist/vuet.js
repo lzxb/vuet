@@ -545,6 +545,12 @@ var Vuet$1 = function () {
   function Vuet(options) {
     classCallCheck(this, Vuet);
 
+    if (!_Vue) {
+      debug.error('must call Vue.use(Vuet) before creating a store instance');
+    }
+    if (typeof Promise === 'undefined') {
+      debug.error('Vuet requires a Promise polyfill in this browser');
+    }
     if (!utils.isObject(options)) {
       debug.error('Parameter is the object type');
     }
