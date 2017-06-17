@@ -201,7 +201,8 @@ function syncAllNameScroll(vm, _ref2) {
 
   if (!vm) return;
   var scrolls = vm.$vuet[_key].scrolls[path][name];
-  document.querySelectorAll('[data-vuet-route-scroll=' + name + ']').forEach(function (el) {
+  var list = document.querySelectorAll('[data-vuet-route-scroll=' + name + ']');
+  Array.prototype.slice.call(list).forEach(function (el) {
     scrollTo(el, scrolls);
   });
 }
