@@ -1,6 +1,6 @@
 import test from 'ava'
 import Vue from 'vue'
-import Vuet, { mapModules, mapRules } from '../../dist/vuet'
+import Vuet, { mapModules, mapRules } from '../../src/index'
 
 Vue.use(Vuet)
 

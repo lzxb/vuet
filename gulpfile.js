@@ -4,9 +4,7 @@ const moduleName = 'Vuet'
 const destName = 'vuet'
 
 const eslint = require('gulp-eslint')
-const clear = require('clear')
 gulp.task('lint', () => {
-  clear()
   return gulp
     .src(['**/*.js', '!node_modules/**', '!dist/**'])
     .pipe(eslint())
@@ -24,7 +22,7 @@ const babel = require('rollup-plugin-babel')({
 const uglify = require('rollup-plugin-uglify')
 const { minify } = require('uglify-js')
 const replace = require('rollup-plugin-replace')
-gulp.task('build', ['lint'], () => {
+gulp.task('build', () => {
   // Development environment version
   return rollup({
     entry: 'src/index.js',
@@ -66,7 +64,7 @@ gulp.task('build', ['lint'], () => {
 })
 
 const ava = require('gulp-ava')
-gulp.task('unit', ['build'], () => {
+gulp.task('unit', () => {
   return gulp
     .src('test/unit/**.test.js')
     .pipe(ava({
@@ -78,13 +76,11 @@ if (process.env.NODE_ENV === 'allTesting') {
   server = require('./examples/server')
 }
 const testcafe = require('gulp-testcafe')
-gulp.task('e2e', ['unit'], () => {
+gulp.task('e2e', () => {
   return gulp
     .src('test/e2e/**.test.js')
-    .pipe(testcafe({ browsers: ['chrome', 'firefox'] }))
+    .pipe(testcafe({ browsers: 'all' }))
 })
-
-gulp.task('test', ['lint', 'build', 'unit'])
 
 gulp.task('default', ['lint', 'build', 'unit', 'e2e'], () => {
   if (server) {

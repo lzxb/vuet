@@ -4,12 +4,15 @@
   "description": "Vue state management plugin",
   "main": "dist/vuet.js",
   "scripts": {
-    "cross-env": "node_modules/.bin/cross-env",
+    "env": "node_modules/.bin/cross-env",
     "gulp": "node_modules/.bin/gulp",
     "dev": "node examples/server",
-    "dev:test": "npm run cross-env NODE_ENV=development npm run gulp",
-    "test:all": "npm run cross-env NODE_ENV=allTesting npm run gulp",
-    "test": "npm run cross-env NODE_ENV=testing npm run gulp test"
+    "dev:test": "npm run env NODE_ENV=development npm run gulp",
+    "build": "npm run env NODE_ENV=production npm run gulp build",
+    "lint": "npm run env NODE_ENV=testing npm run gulp lint",
+    "unit": "npm run env NODE_ENV=testing npm run gulp unit",
+    "test": "npm run lint && npm run unit && npm run e2e",
+    "e2e": "testcafe all test/e2e/**.js --app 'node examples/server.js'"
   },
   "files": [
     "dist/",
@@ -39,7 +42,6 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.24.1",
-    "clear": "0.0.1",
     "cross-env": "^5.0.0",
     "css-loader": "^0.28.4",
     "eslint-config-standard": "^10.2.1",
