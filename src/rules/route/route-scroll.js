@@ -26,7 +26,8 @@ function updateScroll (scrolls, event) {
 export function syncAllNameScroll (vm, { path, name }) {
   if (!vm) return
   const scrolls = vm.$vuet[_key].scrolls[path][name]
-  document.querySelectorAll(`[data-vuet-route-scroll=${name}]`).forEach(el => {
+  const list = document.querySelectorAll('[data-vuet-route-scroll=' + name + ']')
+  Array.prototype.slice.call(list).forEach(function (el) {
     scrollTo(el, scrolls)
   })
 }
