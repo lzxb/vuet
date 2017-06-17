@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe'
 
 fixture`user-login-exit`
-.page`http://127.0.0.1:3000/user-login-exit/index.html`
+.page`http://localhost:3000/user-login-exit/index.html`
 
 test('base', async t => {
   await Selector('.inner', { visibilityCheck: true })

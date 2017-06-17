@@ -23,8 +23,7 @@ fs.readdirSync(__dirname).forEach(file => {
 
 app.use(express.static(__dirname))
 
-console.log('test')
 module.exports = app.listen(3000, (err) => {
-  if (err) return console.log('---')
-  console.log('http://127.0.0.1:3000/')
+  if (err) return console.log(err)
+  console.log('http://localhost:3000/')
 })
