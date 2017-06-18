@@ -67,7 +67,8 @@
     "vue-router": "^2.5.3",
     "vue-template-compiler": "^2.3.3",
     "webpack": "^2.6.1",
-    "webpack-dev-middleware": "^1.10.2"
+    "webpack-dev-middleware": "^1.10.2",
+    "whatwg-fetch": "^2.0.3"
   },
   "babel": {
     "presets": [

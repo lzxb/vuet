@@ -27,8 +27,11 @@ export default {
       ]
     }
   },
-  async fetch ({ route }) {
+  async fetch ({ route, params, path }) {
     const { tab = '' } = route.query
+    if (params.routeWatch === true) { // 路由发生了变化，重置模块状态
+      this.reset(path)
+    }
     const { data } = await window.fetch(`https://cnodejs.org/api/v1/topics?mdrender=false&tab=${tab}&limit=200`).then(response => response.json())
     return {
       data

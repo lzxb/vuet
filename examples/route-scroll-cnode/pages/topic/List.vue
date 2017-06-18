@@ -8,7 +8,7 @@
         </li>
       </ul>
     </header>
-    <ul class="list">
+    <ul class="list" v-if="list.data.length">
       <li v-for="item in list.data">
           <router-link :to="{ name: 'topic-detail', params: { id: item.id } }">{{ item.title }}</router-link>
       </li>

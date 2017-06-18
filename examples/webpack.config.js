@@ -7,7 +7,7 @@ module.exports = {
     const fullDir = path.join(__dirname, dir)
     const entry = path.join(fullDir, 'main.js')
     if (fs.statSync(fullDir).isDirectory() && fs.existsSync(entry)) {
-      entries[dir] = ['babel-polyfill', entry]
+      entries[dir] = ['babel-polyfill', 'whatwg-fetch', entry]
     }
     return entries
   }, {}),

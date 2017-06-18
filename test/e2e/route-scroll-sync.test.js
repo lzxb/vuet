@@ -8,7 +8,7 @@ test('window scroll', async t => {
     x: window.pageXOffset,
     y: window.pageYOffset
   }))
-  await Selector('.inner', { visibilityCheck: true })
+  await Selector('.inner', { visibilityCheck: true })()
   await t
     .expect(Selector('header .window .x').textContent).eql('200')
     .expect(Selector('header .window .y').textContent).eql('300')
@@ -21,7 +21,7 @@ test('window scroll', async t => {
 })
 
 test('area scroll', async t => {
-  await Selector('[data-vuet-route-scroll]', { visibilityCheck: true })
+  await Selector('[data-vuet-route-scroll]', { visibilityCheck: true })()
   await t
     .expect(Selector('header .area .x').textContent).eql('100')
     .expect(Selector('header .area .y').textContent).eql('500')

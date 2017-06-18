@@ -4,7 +4,7 @@ fixture`user-login-exit`
 .page`http://localhost:3000/user-login-exit/index.html`
 
 test('base', async t => {
-  await Selector('.inner', { visibilityCheck: true })
+  await Selector('.inner', { visibilityCheck: true })()
   await t
     .expect(Selector('.inner').childNodeCount).eql(1)
     .click('.inner a')
