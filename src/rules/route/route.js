@@ -20,8 +20,9 @@ export default {
     function resetVuetScroll (vm) {
       const vuet = vm.$vuet
       Object.keys(vuet[_key].scrolls[path]).forEach(name => {
-        const scrolls = { x: 0, y: 0 }
-        vuet[_key].scrolls[path][name] = scrolls
+        const scrolls = vuet[_key].scrolls[path][name]
+        scrolls.x = 0
+        scrolls.y = 0
         if (name === '__window__') {
           return scrollTo(window, scrolls)
         }

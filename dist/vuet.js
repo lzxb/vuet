@@ -58,8 +58,9 @@ var route = {
     function resetVuetScroll(vm) {
       var vuet = vm.$vuet;
       Object.keys(vuet[_key].scrolls[path]).forEach(function (name) {
-        var scrolls = { x: 0, y: 0 };
-        vuet[_key].scrolls[path][name] = scrolls;
+        var scrolls = vuet[_key].scrolls[path][name];
+        scrolls.x = 0;
+        scrolls.y = 0;
         if (name === '__window__') {
           return scrollTo(window, scrolls);
         }
@@ -252,7 +253,6 @@ var routeScroll = {
       if (utils.isObject(value.self)) {
         el.__vuetRouteSelfScrolls__ = value.self;
       }
-      syncAllNameScroll(vnode.context, value);
       var areaScrolls = initScroll(el, vnode, value, el.__vuetRouteScrolls__);
       el.dataset.vuetRouteScroll = value.name;
       el.__vuetRouteSelfScroll__ = function (event) {
@@ -261,6 +261,7 @@ var routeScroll = {
           updateScroll(el.__vuetRouteSelfScrolls__, event);
         }
       };
+      syncAllNameScroll(vnode.context, value);
       el.addEventListener('scroll', el.__vuetRouteSelfScroll__, false);
     }
 
