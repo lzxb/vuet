@@ -22,6 +22,12 @@ test.only('base', async t => {
       }
     })()).eql({ x: 0, y: 300 })
     .click('header ul li:nth-child(2) a')
+    .expect(await ClientFunction(() => {
+      return {
+        x: window.pageXOffset,
+        y: window.pageYOffset
+      }
+    })()).eql({ x: 0, y: 0 })
 
   await Selector('.list li', { visibilityCheck: true, timeout: 60000 })()
   await ClientFunction(() => {
