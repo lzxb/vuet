@@ -3,7 +3,7 @@ import { Selector, ClientFunction } from 'testcafe'
 fixture`route-scroll-cnode`
 .page`http://localhost:3000/route-scroll-cnode/index.html`
 
-test.only('base', async t => {
+test('base', async t => {
   await Selector('.list li', { visibilityCheck: true, timeout: 60000 })()
   await ClientFunction(() => {
     window.scrollTo(0, 300)
