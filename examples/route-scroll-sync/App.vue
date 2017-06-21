@@ -25,7 +25,7 @@
           {{ num }}
         </li>
       </ul>
-      <ul v-route-scroll="{ path: 'test', name: 'list-view', self: test.areaScrolls }">
+      <ul v-route-scroll="{ path: 'test', name: 'list-view-2', self: test.areaScrolls }">
         <li v-for="num in 500">
           {{ num }}
           {{ num }}

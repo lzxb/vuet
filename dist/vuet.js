@@ -253,10 +253,10 @@ var routeScroll = {
       if (utils.isObject(value.self)) {
         el.__vuetRouteSelfScrolls__ = value.self;
       }
-      var areaScrolls = initScroll(el, vnode, value, el.__vuetRouteScrolls__);
+      el.__areaScrolls__ = initScroll(el, vnode, value, el.__vuetRouteSelfScrolls__);
       el.dataset.vuetRouteScroll = value.name;
       el.__vuetRouteSelfScroll__ = function (event) {
-        updateScroll(areaScrolls, event);
+        updateScroll(el.__areaScrolls__, event);
         if (utils.isObject(el.__vuetRouteSelfScrolls__)) {
           updateScroll(el.__vuetRouteSelfScrolls__, event);
         }
@@ -654,7 +654,8 @@ var Vuet$1 = function () {
         path: path,
         params: _extends({}, params),
         state: this.getState(path),
-        route: this.app.$route || {}
+        route: this.app.$route || {},
+        app: this.app
       };
       var callHook = function callHook(hook) {
         for (var _len = arguments.length, arg = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
