@@ -1,15 +1,11 @@
 <template>
   <div>
     <header>
-      <button v-for="item in names" @click="test.active = item">{{ item }}</button>
+      <button v-for="item in names" @click="test.active = item" :class="item">{{ item }}</button>
     </header>
-    <span>{{ scrolls.x }}</span>,
-    <span>{{ scrolls.y }}</span>
+    <span class="x">{{ scrolls.x }}</span>,
+    <span class="y">{{ scrolls.y }}</span>
     <div class="view" v-route-scroll="{ path: 'test', name: this.test.active, self: scrolls }">
-      <div class="inner">
-        </div>
-    </div>
-    <div class="view" v-route-scroll="{ path: 'test', name: this.test.active + '-' }">
       <div class="inner">
         </div>
     </div>
@@ -24,7 +20,7 @@
     ],
     data () {
       return {
-        names: ['view-1', 'view-2']
+        names: ['view-1', 'view-2', 'view-3']
       }
     },
     computed: {
