@@ -365,7 +365,7 @@ var manual = {
         var methods = {};
         Object.keys(manuals).forEach(function (k) {
           var fn = manuals[k];
-          if (utils.isFunction(fn)) {
+          if (typeof fn === 'function') {
             methods['' + k] = function () {
               for (var _len = arguments.length, arg = Array(_len), _key = 0; _key < _len; _key++) {
                 arg[_key] = arguments[_key];
@@ -649,7 +649,7 @@ var Vuet$1 = function () {
       var _this2 = this;
 
       var module = this._options.modules[path];
-      if (!utils.isFunction(module.fetch)) return Promise.resolve(this.getState(path));
+      if (typeof module.fetch !== 'function') return Promise.resolve(this.getState(path));
       var data = {
         path: path,
         params: _extends({}, params),

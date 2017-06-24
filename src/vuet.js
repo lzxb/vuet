@@ -87,7 +87,7 @@ export default class Vuet {
   }
   fetch (path, params, setStateBtn) {
     const module = this._options.modules[path]
-    if (!utils.isFunction(module.fetch)) return Promise.resolve(this.getState(path))
+    if (typeof module.fetch !== 'function') return Promise.resolve(this.getState(path))
     const data = {
       path,
       params: { ...params },
