@@ -1,5 +1,3 @@
-import utils from '../utils'
-
 export default {
   rule ({ path, name }) {
     return {
@@ -8,7 +6,7 @@ export default {
         const methods = {}
         Object.keys(manuals).forEach(k => {
           const fn = manuals[k]
-          if (utils.isFunction(fn)) {
+          if (typeof fn === 'function') {
             methods[`${k}`] = (...arg) => {
               return fn.apply(methods, [{
                 state: this.$vuet.getState(path),
