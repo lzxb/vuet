@@ -244,17 +244,10 @@ var scroll = {
     var modifiers = _ref.modifiers,
         value = _ref.value;
 
-
-    if (typeof value.path !== 'string') {
-      return debug.error('path is imperative parameter and is string type');
-    }
-    if (typeof value.path === 'widnow') {
-      return debug.error('name cannot be the window name');
-    }
+    if (typeof value.path !== 'string') return debug.error('path is imperative parameter and is string type');
+    if (value.path === 'window') return debug.error('name cannot be the window name');
     if (isSelf(modifiers)) {
-      if (typeof value.name !== 'string') {
-        return debug.error('name is imperative parameter and is string type');
-      }
+      if (typeof value.name !== 'string') return debug.error('name is imperative parameter and is string type');
       el[_self] = new VuetScroll({
         app: el,
         path: value.path,
