@@ -63,7 +63,6 @@ class VuetScroll {
       clearTimeout(this[key])
       this[key] = setTimeout(() => {
         Object.assign(this.scrolls, newScrolls)
-        clearTimeout(this[key])
         delete this[key]
       }, 30)
     }
