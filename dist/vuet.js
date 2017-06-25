@@ -223,7 +223,7 @@ var VuetScroll = function () {
         _this[key] = setTimeout(function () {
           Object.assign(_this.scrolls, newScrolls);
           delete _this[key];
-        }, 30);
+        }, 10);
       };
       app.addEventListener('scroll', this.subScrolling, false);
     }

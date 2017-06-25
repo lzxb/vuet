@@ -65,7 +65,7 @@ class VuetScroll {
       this[key] = setTimeout(() => {
         Object.assign(this.scrolls, newScrolls)
         delete this[key]
-      }, 30)
+      }, 10)
     }
     app.addEventListener('scroll', this.subScrolling, false)
   }
