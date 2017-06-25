@@ -20,11 +20,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/medevicex/vuet.git"
+    "url": "git+https://github.com/medatc/vuet.git"
   },
-  "homepage": "https://github.com/medevicex/vuet#readme",
+  "homepage": "https://github.com/medatc/vuet#readme",
   "bugs": {
-    "url": "https://github.com/medevicex/vuet/issues"
+    "url": "https://github.com/medatc/vuet/issues"
   },
   "keywords": [
     "vue",
@@ -34,7 +34,7 @@
     "vuet",
     "vuex"
   ],
-  "author": "medevicex",
+  "author": "medatc",
   "license": "MIT",
   "devDependencies": {
     "babel-loader": "^7.0.0",
