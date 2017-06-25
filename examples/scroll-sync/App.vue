@@ -1,7 +1,7 @@
 <template>
-  <div class="inner" v-route-scroll.window="{ path: 'test', window: test.windowScrolls }">
+  <div class="inner" v-vuet-scroll.window="{ path: 'test', window: test.windowScrolls }">
     <header>
-      <h2>route-scroll-sync</h2>
+      <h2>vuet-scroll-sync</h2>
       <hr>
       <div class="window">
         <button @click="$test.windowTo">windowTo</button>
@@ -15,7 +15,7 @@
       <hr>
     </header>
     <div class="view">
-      <ul v-route-scroll="{ path: 'test', name: 'list-view', self: test.areaScrolls }">
+      <ul v-vuet-scroll="{ path: 'test', name: 'list-view', self: test.areaScrolls }">
         <li v-for="num in 500">
           {{ num }}
           {{ num }}
@@ -25,7 +25,7 @@
           {{ num }}
         </li>
       </ul>
-      <ul v-route-scroll="{ path: 'test', name: 'list-view-2', self: test.areaScrolls }">
+      <ul v-vuet-scroll="{ path: 'test', name: 'list-view-2', self: test.areaScrolls }">
         <li v-for="num in 500">
           {{ num }}
           {{ num }}
@@ -44,7 +44,6 @@
   export default {
     mixins: [
       mapRules({
-        route: 'test',
         manual: 'test'
       }),
       mapModules({ test: 'test' })

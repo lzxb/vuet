@@ -1,11 +1,12 @@
 <template>
   <div>
     <header>
+      <h2>{{ this.test.active }}</h2>
       <button v-for="item in names" @click="test.active = item" :class="item">{{ item }}</button>
     </header>
     <span class="x">{{ scrolls.x }}</span>,
     <span class="y">{{ scrolls.y }}</span>
-    <div class="view" v-route-scroll="{ path: 'test', name: this.test.active, self: scrolls }">
+    <div class="view" v-vuet-scroll="{ path: 'test', name: this.test.active, self: scrolls }">
       <div class="inner">
         </div>
     </div>

@@ -37,190 +37,186 @@ typeStrings.forEach(function (type) {
   };
 });
 
-var _name = 'route';
-var _key = '__' + _name + '__';
-
-var route = {
-  init: function init(vuet) {
-    utils.set(vuet, _key, {
-      watchers: {},
-      scrolls: {}
-    });
-    Object.keys(vuet.store).forEach(function (path) {
-      utils.set(vuet[_key].watchers, path, []);
-      utils.set(vuet[_key].scrolls, path, {});
-    });
-  },
-  rule: function rule(_ref) {
-    var path = _ref.path;
-
-    // route-scroll
-    function resetVuetScroll(vm) {
-      var vuet = vm.$vuet;
-      Object.keys(vuet[_key].scrolls[path]).forEach(function (name) {
-        var scrolls = vuet[_key].scrolls[path][name];
-        scrolls.x = 0;
-        scrolls.y = 0;
-        if (name === '__window__') {
-          return scrollTo(window, scrolls);
-        }
-        syncAllNameScroll(vm, { path: path, name: name });
-      });
-    }
-
-    // route-watch
-    function getVuetWatchs(vuet) {
-      return vuet[_key].watchers[path];
-    }
-    function setVuetWatchs(vuet, val) {
-      vuet[_key].watchers[path] = val;
-    }
-    function getWatchs() {
-      var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var list = arguments[1];
-
-      if (typeof list === 'string') {
-        list = [list];
-      }
-      var getObjVal = function getObjVal(obj, str) {
-        var arr = str.split('.');
-        arr.forEach(function (k) {
-          obj = obj[k];
-        });
-        return obj;
-      };
-      var arr = [];
-      list.forEach(function (val) {
-        var value = getObjVal(obj, val);
-        if (!isNaN(value)) {
-          value = String(value);
-        }
-        arr.push(JSON.stringify(value));
-      });
-      return arr;
-    }
-
-    function diffWatch(to, from) {
-      for (var i = 0; i < to.length; i++) {
-        if (to[i] !== from[i]) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    return {
-      beforeCreate: function beforeCreate() {
-        var _this = this;
-
-        var _$vuet$_options$modul = this.$vuet._options.modules[path].routeWatch,
-            routeWatch = _$vuet$_options$modul === undefined ? 'fullPath' : _$vuet$_options$modul;
-
-        var toWatch = getWatchs(this.$route, routeWatch);
-        var watch = diffWatch(toWatch, getVuetWatchs(this.$vuet));
-        if (watch) {
-          this.$vuet.reset(path);
-          setVuetWatchs(this.$vuet, toWatch);
-          resetVuetScroll(this);
-        }
-        this.$vuet.fetch(path, { current: this, routeWatch: watch }, false).then(function (res) {
-          if (diffWatch(toWatch, getWatchs(_this.$route, routeWatch))) return;
-          _this.$vuet.setState(path, res);
-          setVuetWatchs(_this.$vuet, toWatch);
-        });
-      },
-
-      watch: {
-        $route: {
-          deep: true,
-          handler: function handler(to, from) {
-            var _this2 = this;
-
-            var _$vuet$_options$modul2 = this.$vuet._options.modules[path].routeWatch,
-                routeWatch = _$vuet$_options$modul2 === undefined ? 'fullPath' : _$vuet$_options$modul2;
-
-            var toWatch = getWatchs(to, routeWatch);
-            var fromWatch = getWatchs(from, routeWatch);
-            var watch = diffWatch(toWatch, fromWatch);
-            if (!watch) return false;
-            this.$vuet.fetch(path, { current: this, routeWatch: watch }).then(function (res) {
-              if (diffWatch(toWatch, getWatchs(_this2.$route, routeWatch))) return;
-              resetVuetScroll(_this2);
-              _this2.$vuet.setState(path, res);
-              setVuetWatchs(_this2.$vuet, toWatch);
-            });
-          }
-        }
-      }
-    };
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
   }
 };
 
-var debug = {
-  error: function error(msg) {
-    throw new Error('[vuet] ' + msg);
-  },
-  warn: function warn(msg) {
-    if (process.env.NODE_ENV !== 'production') {
-      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
     }
   }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+
+
+
+
+
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
 };
 
-function mergeScrolls(scrolls) {
-  return Object.assign({ x: 0, y: 0 }, scrolls);
-}
 
-function initScroll(el, vnode, _ref, scrolls) {
-  var path = _ref.path,
-      name = _ref.name;
-  var context = vnode.context;
 
-  var scrollPath = context.$vuet[_key].scrolls[path];
-  if (!name || !context) return;
-  if (!scrollPath[name]) {
-    scrollPath[name] = mergeScrolls(scrolls);
-  }
-  scrollTo(el, scrollPath[name]);
-  return scrollPath[name];
-}
 
-function updateScroll(scrolls, event) {
-  var _event$target = event.target,
-      scrollTop = _event$target.scrollTop,
-      scrollLeft = _event$target.scrollLeft,
-      pageXOffset = _event$target.pageXOffset,
-      pageYOffset = _event$target.pageYOffset;
 
-  scrolls.x = scrollLeft || pageYOffset || scrollLeft;
-  scrolls.y = scrollTop || pageXOffset || scrollTop;
-}
 
-function syncAllNameScroll(vm, _ref2) {
-  var path = _ref2.path,
-      name = _ref2.name;
 
-  if (!vm) return;
-  var scrolls = vm.$vuet[_key].scrolls[path][name];
-  var list = document.querySelectorAll('[data-vuet-route-scroll=' + name + ']');
-  Array.prototype.slice.call(list).forEach(function (el) {
-    scrollTo(el, scrolls);
-  });
-}
 
-function updateWindowScroll(scrolls, event) {
-  scrolls.x = window.pageXOffset;
-  scrolls.y = window.pageYOffset;
-}
 
-function scrollTo(el, scrolls) {
-  if ('scrollTop' in el && el !== window) {
-    el.scrollLeft = scrolls.x;
-    el.scrollTop = scrolls.y;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
   } else {
-    el.scrollTo(scrolls.x, scrolls.y);
+    return Array.from(arr);
   }
-}
+};
+
+var _self = '__vuetScrollSelf__';
+var _window = '__vuetScrollWindow__';
+
+var VuetScroll = function () {
+  function VuetScroll(opt) {
+    classCallCheck(this, VuetScroll);
+
+    this.app = null;
+    this.path = null;
+    this.name = null;
+    this.store = null;
+    this.scrolls = null;
+    this.setOption(opt);
+    this.scrollTo();
+    this.subScroll();
+  }
+
+  createClass(VuetScroll, [{
+    key: 'update',
+    value: function update(opt) {
+      this.setOption(opt);
+      this.scrollTo();
+    }
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      this.app.removeEventListener('scroll', this.subScrolling, false);
+    }
+  }, {
+    key: 'setOption',
+    value: function setOption(opt) {
+      this.app = opt.app;
+      this.path = opt.path;
+      this.name = opt.name || null;
+      this.store = opt.store || null;
+      this.scrolls = opt.scrolls || createScroll(opt);
+      function createScroll(opt) {
+        if (!opt.store.$scroll) {
+          _Vue.set(opt.store, '$scroll', {});
+        }
+        if (!opt.store.$scroll[opt.name]) {
+          _Vue.set(opt.store.$scroll, opt.name, { x: 0, y: 0 });
+        }
+
+        return opt.store.$scroll[opt.name];
+      }
+    }
+  }, {
+    key: 'scrollTo',
+    value: function scrollTo() {
+      var app = this.app,
+          scrolls = this.scrolls;
+
+      if ('scrollTop' in app && app !== window) {
+        app.scrollLeft = scrolls.x;
+        app.scrollTop = scrolls.y;
+      } else {
+        app.scrollTo(scrolls.x, scrolls.y);
+      }
+    }
+  }, {
+    key: 'subScroll',
+    value: function subScroll() {
+      var _this = this;
+
+      var app = this.app;
+
+      var newScrolls = {};
+      this.subScrolling = function (event) {
+        if (app === window) {
+          newScrolls.x = window.pageXOffset;
+          newScrolls.y = window.pageYOffset;
+        } else {
+          var _event$target = event.target,
+              scrollTop = _event$target.scrollTop,
+              scrollLeft = _event$target.scrollLeft,
+              pageXOffset = _event$target.pageXOffset,
+              pageYOffset = _event$target.pageYOffset;
+
+          newScrolls.x = scrollLeft || pageYOffset || scrollLeft;
+          newScrolls.y = scrollTop || pageXOffset || scrollTop;
+        }
+        clearTimeout(_this['timer-' + _this.path + '-' + _this.name]);
+        _this['timer-' + _this.path + '-' + _this.name] = setTimeout(function () {
+          Object.assign(_this.scrolls, newScrolls);
+        }, 30);
+      };
+      app.addEventListener('scroll', this.subScrolling, false);
+    }
+  }]);
+  return VuetScroll;
+}();
 
 function isSelf(modifiers) {
   return modifiers.window !== true || modifiers.self;
@@ -230,78 +226,63 @@ function isWindow(modifiers) {
   return modifiers.window;
 }
 
-var routeScroll = {
-  inserted: function inserted(el, _ref3, vnode) {
-    var modifiers = _ref3.modifiers,
-        value = _ref3.value;
+var scroll = {
+  inserted: function inserted(el, _ref, vnode) {
+    var modifiers = _ref.modifiers,
+        value = _ref.value;
 
-    if (process.env.NODE_ENV !== 'production') {
-      if (!utils.isObject(value)) {
-        return debug.error('Parameter is the object type');
-      }
-      if (!utils.isString(value.path)) {
-        return debug.error('Ptah is imperative parameter');
-      }
-    }
     if (isSelf(modifiers)) {
-      if (value.name === '__window__') {
-        return debug.error('name not __window__');
-      }
-      if (!value.name) {
-        return debug.error('Name is imperative parameter');
-      }
-      if (utils.isObject(value.self)) {
-        el.__vuetRouteSelfScrolls__ = value.self;
-      }
-      el.__areaScrolls__ = initScroll(el, vnode, value, el.__vuetRouteSelfScrolls__);
-      el.dataset.vuetRouteScroll = value.name;
-      el.__vuetRouteSelfScroll__ = function (event) {
-        updateScroll(el.__areaScrolls__, event);
-        if (utils.isObject(el.__vuetRouteSelfScrolls__)) {
-          updateScroll(el.__vuetRouteSelfScrolls__, event);
-        }
-      };
-      syncAllNameScroll(vnode.context, value);
-      el.addEventListener('scroll', el.__vuetRouteSelfScroll__, false);
+      el[_self] = new VuetScroll({
+        app: el,
+        path: value.path,
+        name: value.name,
+        store: vnode.context.$vuet.store[value.path],
+        scrolls: value.self
+      });
     }
-
     if (isWindow(modifiers)) {
-      if (utils.isObject(value.window)) {
-        el.__vuetRouteWindowScrolls__ = value.window;
-      }
-      var windowScrolls = initScroll(window, vnode, Object.assign({}, value, { name: '__window__' }), el.__vuetRouteWindowScrolls__);
-      el.__vuetRouteWindowScroll__ = function (event) {
-        updateWindowScroll(windowScrolls, event);
-        if (utils.isObject(el.__vuetRouteWindowScrolls__)) {
-          updateWindowScroll(el.__vuetRouteWindowScrolls__, event);
-        }
-      };
-      window.addEventListener('scroll', el.__vuetRouteWindowScroll__, false);
+      el[_window] = new VuetScroll({
+        app: window,
+        path: value.path,
+        name: 'window',
+        store: vnode.context.$vuet.store[value.path],
+        scrolls: value.window || null
+      });
     }
   },
-  componentUpdated: function componentUpdated(el, _ref4, vnode) {
-    var modifiers = _ref4.modifiers,
-        value = _ref4.value;
+  componentUpdated: function componentUpdated(el, _ref2, vnode) {
+    var modifiers = _ref2.modifiers,
+        value = _ref2.value;
 
-    if (isSelf(modifiers) && utils.isObject(value.self)) {
-      el.__vuetRouteSelfScrolls__ = value.self;
-      scrollTo(el, el.__vuetRouteSelfScrolls__);
+    if (isSelf(modifiers)) {
+      el[_self].update({
+        app: el,
+        path: value.path,
+        name: value.name,
+        store: vnode.context.$vuet.store[value.path],
+        scrolls: value.self
+      });
     }
-    if (isWindow(modifiers) && utils.isObject(value.window)) {
-      el.__vuetRouteWindowScrolls__ = value.window;
-      scrollTo(window, el.__vuetRouteWindowScrolls__);
+    if (isWindow(modifiers)) {
+      el[_window].update({
+        app: window,
+        path: value.path,
+        name: 'window',
+        store: vnode.context.$vuet.store[value.path],
+        scrolls: value.window || null
+      });
     }
   },
-  unbind: function unbind(el) {
-    if (typeof el.__vuetRouteSelfScroll__ === 'function') {
-      el.removeEventListener('scroll', el.__vuetRouteSelfScroll__, false);
-      delete el.__vuetRouteSelfScroll__;
-      delete el.__vuetRouteSelfScrolls__;
+  unbind: function unbind(el, _ref3) {
+    var modifiers = _ref3.modifiers;
+
+    if (isSelf(modifiers)) {
+      el[_self].destroy();
+      delete el[_self];
     }
-    if (typeof el.__vuetRouteWindowScroll__ === 'function') {
-      window.removeEventListener('scroll', el.__vuetRouteWindowScroll__, false);
-      delete el.__vuetRouteWindowScroll__;
-      delete el.__vuetRouteWindowScrolls__;
+    if (isWindow(modifiers)) {
+      el[_window].destroy();
+      delete el[_window];
     }
   }
 };
@@ -331,9 +312,19 @@ function install(Vue) {
       }
     }
   });
-
-  Vue.directive('route-scroll', routeScroll);
+  Vue.directive('vuet-scroll', scroll);
 }
+
+var debug = {
+  error: function error(msg) {
+    throw new Error('[vuet] ' + msg);
+  },
+  warn: function warn(msg) {
+    if (process.env.NODE_ENV !== 'production') {
+      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
+    }
+  }
+};
 
 var life = {
   rule: function rule(_ref) {
@@ -451,97 +442,127 @@ var once = {
   }
 };
 
+var _name = 'route';
+var _key = '__' + _name + '__';
+
+var route = {
+  init: function init(vuet) {
+    utils.set(vuet, _key, {
+      watchers: {},
+      scrolls: {}
+    });
+    Object.keys(vuet.store).forEach(function (path) {
+      utils.set(vuet[_key].watchers, path, []);
+      utils.set(vuet[_key].scrolls, path, {});
+    });
+  },
+  rule: function rule(_ref) {
+    var path = _ref.path;
+
+    // vuet-scroll
+    function resetVuetScroll(vm) {
+      var $scroll = vm.$vuet.store[path].$scroll;
+
+      if ($scroll) {
+        Object.keys($scroll).forEach(function (k) {
+          $scroll[k].x = 0;
+          $scroll[k].y = 0;
+          $scroll[k].count = $scroll[k].count ? ++$scroll[k].count : 0;
+        });
+      }
+    }
+
+    // route-watch
+    function getVuetWatchs(vuet) {
+      return vuet[_key].watchers[path];
+    }
+    function setVuetWatchs(vuet, val) {
+      vuet[_key].watchers[path] = val;
+    }
+    function getWatchs() {
+      var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var list = arguments[1];
+
+      if (typeof list === 'string') {
+        list = [list];
+      }
+      var getObjVal = function getObjVal(obj, str) {
+        var arr = str.split('.');
+        arr.forEach(function (k) {
+          obj = obj[k];
+        });
+        return obj;
+      };
+      var arr = [];
+      list.forEach(function (val) {
+        var value = getObjVal(obj, val);
+        if (!isNaN(value)) {
+          value = String(value);
+        }
+        arr.push(JSON.stringify(value));
+      });
+      return arr;
+    }
+
+    function diffWatch(to, from) {
+      for (var i = 0; i < to.length; i++) {
+        if (to[i] !== from[i]) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    return {
+      beforeCreate: function beforeCreate() {
+        var _this = this;
+
+        var _$vuet$_options$modul = this.$vuet._options.modules[path].routeWatch,
+            routeWatch = _$vuet$_options$modul === undefined ? 'fullPath' : _$vuet$_options$modul;
+
+        var toWatch = getWatchs(this.$route, routeWatch);
+        var watch = diffWatch(toWatch, getVuetWatchs(this.$vuet));
+        if (watch) {
+          this.$vuet.reset(path);
+          setVuetWatchs(this.$vuet, toWatch);
+          resetVuetScroll(this);
+        }
+        this.$vuet.fetch(path, { current: this, routeWatch: watch }, false).then(function (res) {
+          if (diffWatch(toWatch, getWatchs(_this.$route, routeWatch))) return;
+          _this.$vuet.setState(path, res);
+          setVuetWatchs(_this.$vuet, toWatch);
+        });
+      },
+
+      watch: {
+        $route: {
+          deep: true,
+          handler: function handler(to, from) {
+            var _this2 = this;
+
+            var _$vuet$_options$modul2 = this.$vuet._options.modules[path].routeWatch,
+                routeWatch = _$vuet$_options$modul2 === undefined ? 'fullPath' : _$vuet$_options$modul2;
+
+            var toWatch = getWatchs(to, routeWatch);
+            var fromWatch = getWatchs(from, routeWatch);
+            var watch = diffWatch(toWatch, fromWatch);
+            if (!watch) return false;
+            this.$vuet.fetch(path, { current: this, routeWatch: watch }).then(function (res) {
+              if (diffWatch(toWatch, getWatchs(_this2.$route, routeWatch))) return;
+              resetVuetScroll(_this2);
+              _this2.$vuet.setState(path, res);
+              setVuetWatchs(_this2.$vuet, toWatch);
+            });
+          }
+        }
+      }
+    };
+  }
+};
+
 function install$1(_Vue, Vuet) {
   Vuet.rule('life', life).rule('manual', manual).rule('need', need).rule('once', once).rule('route', route);
 }
-
-var classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
-
-var createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-
-
-
-
-
-
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];
-
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  return target;
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var toConsumableArray = function (arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-    return arr2;
-  } else {
-    return Array.from(arr);
-  }
-};
 
 var Vuet$1 = function () {
   function Vuet(options) {

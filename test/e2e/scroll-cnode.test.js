@@ -1,7 +1,7 @@
 import { Selector, ClientFunction } from 'testcafe'
 
-fixture`route-scroll-cnode`
-.page`http://localhost:3000/route-scroll-cnode/index.html`
+fixture`scroll-cnode`
+.page`http://localhost:3000/scroll-cnode/index.html`
 
 test('base', async t => {
   await Selector('.list li', { visibilityCheck: true, timeout: 60000 })()

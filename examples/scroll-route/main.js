@@ -21,6 +21,15 @@ const router = new VueRouter({
   ]
 })
 
+Vue.prototype.$scrollTo = function scrollTo (el, scrolls) {
+  if ('scrollTop' in el && el !== window) {
+    el.scrollLeft = scrolls.x
+    el.scrollTop = scrolls.y
+  } else {
+    el.scrollTo(scrolls.x, scrolls.y)
+  }
+}
+
 export default new Vue({
   el: '#app',
   vuet,
