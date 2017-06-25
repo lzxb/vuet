@@ -1,27 +1,29 @@
 ### 全局指令
 - **v-vuet-scroll**
-  - 描述: 配合[route规则](./global-update-rules.md)使用的指令，可以记录页面中的滚动条，在页面后退时还原滚动条位置，支持`全局滚动条`和`元素自身滚动条`的记录和还原。[本地例子请看](../../examples/vuet-scroll)
-  - 例子:
+  - 描述: Vuet模块系统和Vue深度集成的滚动条双向绑定，可以轻易实现各种复杂的滚动条管理，另外`route`规则在页面切换时，会重置模块的滚动条状态，[cnode社区例子请看](../../examples/scroll-cnode)
+  - 修饰符  
+    `window` 绑定到window滚动条上
     ```html
-    <template>
-      <div>
-        <!-- 默认记录元素自身的滚动条，因为可能会记录多个元素，所以必须要给这个滚动条设置一个名字，不可重复 -->
-        <div v-vuet-scroll="{ path: '模块路径', name: 'name-1' }"></div>
-        <!-- 记录全局滚动条 ，则需要要传入模块路径，并且设置`window`修饰符 -->
-        <div v-vuet-scroll.window="{ path: '模块路径' }"></div>
-        <!-- 如果需要同时记录全局滚动条和元素自身的滚动条，同时设置`self`和`window`修饰符 -->
-        <div v-vuet-scroll.self.window="{ path: '模块路径', name: 'name-2' }"></div>
-        <!-- 滚动条位置和数据进行绑定 -->
-        <div v-vuet-scroll.self.window="{ path: '模块路径', name: 'name-2', self: { x: 0, y: 0 }, window: { x: 0, y: 0 } }"></div>
-      </div>
-    </template>
-    <script>
-      import { mapRules } from 'vuet'
-      export default {
-        mixins: [
-          // 千万不要忘了把模块设置到route规则设置到组件中，否则页面切换滚动条对应的变化不会操作的！！！
-          mapRules({ route: '模块路径' })
-        ]
-      }
-    </script>
+    
+      <div v-vuet-scroll.window="{ path: '....' }"></div>
+
+    ```
+    `self`  绑定到元素自身的内部滚动条，默认绑定元素内部滚动条
+
+    ```html
+
+      <div v-vuet-scroll.self="{ path: '...', name: '...' }"></div>
+
+    ```
+
+    - 参数  
+    `path` Vuet的模块路径，必传参数  
+    `name` 绑定`self`时，为必传参数  
+    `self` 绑定元素内部的滚动条位置
+    `window` 绑定`window`滚动条的位置
+
+    ```html
+
+    <div v-vuet-scroll.window.self="{ path: '...', name: '...', self: { x: 0, y: 0 }, window: { x: 0, y: 0 } }"></div>
+
     ```
