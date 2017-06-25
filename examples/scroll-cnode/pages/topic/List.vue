@@ -1,6 +1,6 @@
 <template>
   <!-- 设置指令监听全局滚动条 -->
-  <div v-route-scroll.window="{ path: 'topic-list' }">
+  <div v-vuet-scroll.window="{ path: 'topic-list' }">
     <header>
       <ul>
         <li v-for="item in list.tabs">

@@ -1,5 +1,5 @@
 import utils from './utils'
-import routeScroll from './rules/route/route-scroll'
+import scroll from './directives/scroll'
 
 export let _Vue = null
 
@@ -24,6 +24,5 @@ export default function install (Vue) {
       }
     }
   })
-
-  Vue.directive('route-scroll', routeScroll)
+  Vue.directive('vuet-scroll', scroll)
 }

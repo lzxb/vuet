@@ -1,20 +1,21 @@
 <template>
   <div class="inner">
-    <div class="detail-window-window-scroll-x">{{ x }}</div>
-    <div class="detail-window-window-scroll-y">{{ y }}</div>
-    <button class="detail-set-window-scroll" @click="setWindowScroll">Set window scroll</button>
-    <button class="detail-set-area-scroll" @click="setAreaScroll">Set area scroll</button>
+    <button class="detail-back" @click="$router.go(-1)">Back</button>
+    <button class="detail-forward" @click="$router.go(1)">Forward</button>
+    <button class="detail-set-window-scroll" @click="setWindowScroll">detail-set-window-scroll</button>
+    <button class="detail-set-area-scroll" @click="setAreaScroll">detail-set-area-scroll</button>
     <hr>
     <router-link class="detail-to-list-1" :to="{ name: 'list' }">detail to list 1</router-link>
     <router-link class="detail-to-list-2" :to="{ name: 'list', query: { tid: 2 } }">detail to list 2</router-link>
-    <div class="detail-view" v-route-scroll.self.window="{ path: 'topicDetail', name: 'detail-view' }">
-      <div></div>
+    <div class="detail-view" v-vuet-scroll.self.window="{ path: 'topicDetail', name: 'detail-view' }">
+      <ul>
+        <li v-for="item in 1000">{{ item }}</li>
+      </ul>
     </div>
   </div>
 </template>
 <script>
   import { mapRules, mapModules } from 'vuet'
-  import { scrollTo } from 'vuet/rules/route/route-scroll'
 
   export default {
     mixins: [
@@ -27,25 +28,15 @@
         y: window.pageYOffset
       }
     },
-    created () {
-      this.windowScroll = () => {
-        this.x = window.pageXOffset
-        this.y = window.pageYOffset
-      }
-      window.addEventListener('scroll', this.windowScroll, false)
-    },
-    beforeDestroy () {
-      window.removeEventListener('scroll', this.windowScroll, false)
-    },
     methods: {
       setWindowScroll () {
-        scrollTo(window, {
+        this.$scrollTo(window, {
           x: 30,
-          y: 200
+          y: 100
         })
       },
       setAreaScroll () {
-        scrollTo(document.querySelector('.detail-view'), {
+        this.$scrollTo(document.querySelector('.detail-view'), {
           x: 500,
           y: 500
         })
@@ -67,7 +58,7 @@
     padding: 0;
     background: #fff;
   }
-  .detail-view div {
+  .detail-view ul {
     width: 1000px;
     height: 1000px;
   }

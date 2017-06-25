@@ -50,7 +50,7 @@
     - routeWatch: `String | Array[String]`
       - 默认值: 'fullPath'
       - 描述: 页面发生变化的规则
-  - 描述：与`vue-router`模块配合使用，负责统一管理页面切换的状态更新，变化返回请选择this.$route里面的字段，如果页面需要记录滚动条位置的请移步查看[v-route-scroll](./global-directives.md)指令配合使用
+  - 描述：与`vue-router`模块配合使用，负责统一管理页面切换的状态更新，变化返回请选择this.$route里面的字段，如果页面需要记录滚动条位置的请移步查看[v-vuet-scroll](./global-directives.md)指令配合使用
   - 例子:
     ```javascript
     new Vuet({

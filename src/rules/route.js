@@ -1,5 +1,4 @@
-import utils from '../../utils'
-import { scrollTo, syncAllNameScroll } from './route-scroll'
+import utils from '../utils'
 
 export const _name = 'route'
 export const _key = `__${_name}__`
@@ -16,18 +15,16 @@ export default {
     })
   },
   rule ({ path }) {
-    // route-scroll
+    // vuet-scroll
     function resetVuetScroll (vm) {
-      const vuet = vm.$vuet
-      Object.keys(vuet[_key].scrolls[path]).forEach(name => {
-        const scrolls = vuet[_key].scrolls[path][name]
-        scrolls.x = 0
-        scrolls.y = 0
-        if (name === '__window__') {
-          return scrollTo(window, scrolls)
-        }
-        syncAllNameScroll(vm, { path, name })
-      })
+      const { $scroll } = vm.$vuet.store[path]
+      if ($scroll) {
+        Object.keys($scroll).forEach(k => {
+          $scroll[k].x = 0
+          $scroll[k].y = 0
+          $scroll[k].count = $scroll[k].count ? ++$scroll[k].count : 0
+        })
+      }
     }
 
     // route-watch
