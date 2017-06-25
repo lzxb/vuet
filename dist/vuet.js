@@ -37,6 +37,17 @@ typeStrings.forEach(function (type) {
   };
 });
 
+var debug = {
+  error: function error(msg) {
+    throw new Error('[vuet] ' + msg);
+  },
+  warn: function warn(msg) {
+    if (process.env.NODE_ENV !== 'production') {
+      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
+    }
+  }
+};
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -211,7 +222,6 @@ var VuetScroll = function () {
         clearTimeout(_this[key]);
         _this[key] = setTimeout(function () {
           Object.assign(_this.scrolls, newScrolls);
-          clearTimeout(_this[key]);
           delete _this[key];
         }, 30);
       };
@@ -234,7 +244,17 @@ var scroll = {
     var modifiers = _ref.modifiers,
         value = _ref.value;
 
+
+    if (typeof value.path !== 'string') {
+      return debug.error('path is imperative parameter and is string type');
+    }
+    if (typeof value.path === 'widnow') {
+      return debug.error('name cannot be the window name');
+    }
     if (isSelf(modifiers)) {
+      if (typeof value.name !== 'string') {
+        return debug.error('name is imperative parameter and is string type');
+      }
       el[_self] = new VuetScroll({
         app: el,
         path: value.path,
@@ -317,17 +337,6 @@ function install(Vue) {
   });
   Vue.directive('vuet-scroll', scroll);
 }
-
-var debug = {
-  error: function error(msg) {
-    throw new Error('[vuet] ' + msg);
-  },
-  warn: function warn(msg) {
-    if (process.env.NODE_ENV !== 'production') {
-      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
-    }
-  }
-};
 
 var life = {
   rule: function rule(_ref) {
