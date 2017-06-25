@@ -207,9 +207,12 @@ var VuetScroll = function () {
           newScrolls.x = scrollLeft || pageYOffset || scrollLeft;
           newScrolls.y = scrollTop || pageXOffset || scrollTop;
         }
-        clearTimeout(_this['timer-' + _this.path + '-' + _this.name]);
-        _this['timer-' + _this.path + '-' + _this.name] = setTimeout(function () {
+        var key = 'timer-' + _this.path + '-' + _this.name;
+        clearTimeout(_this[key]);
+        _this[key] = setTimeout(function () {
           Object.assign(_this.scrolls, newScrolls);
+          clearTimeout(_this[key]);
+          delete _this[key];
         }, 30);
       };
       app.addEventListener('scroll', this.subScrolling, false);

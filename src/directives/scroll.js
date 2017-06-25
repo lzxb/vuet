@@ -59,9 +59,12 @@ class VuetScroll {
         newScrolls.x = scrollLeft || pageYOffset || scrollLeft
         newScrolls.y = scrollTop || pageXOffset || scrollTop
       }
-      clearTimeout(this[`timer-${this.path}-${this.name}`])
-      this[`timer-${this.path}-${this.name}`] = setTimeout(() => {
+      const key = `timer-${this.path}-${this.name}`
+      clearTimeout(this[key])
+      this[key] = setTimeout(() => {
         Object.assign(this.scrolls, newScrolls)
+        clearTimeout(this[key])
+        delete this[key]
       }, 30)
     }
     app.addEventListener('scroll', this.subScrolling, false)
