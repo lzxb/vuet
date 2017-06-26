@@ -1,6 +1,6 @@
 ### 全局更新规则
 - life
-  - 描述: 每次都会在组件的`beforeCreate`钩子中调用一次更新，组件销毁时调用`destroyed`钩子，状态会被重置，恢复到默认状态
+  - 描述: 每次都会在组件的beforeCreate钩子中调用一次更新，组件销毁时在destroyed钩子，状态会被重置，恢复到初始状态
 - manual
   - 参数:
     - manuals: `Object{name: String | Function}`
