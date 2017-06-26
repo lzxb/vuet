@@ -55,12 +55,12 @@
     })
     vuet.getState('myModule') // { count: 0 }
     ```
-- `setState(path: String, newState: Object)`  
+- `setState(path: String, newState: any)`  
   - 参数: 
     - `path` 模块的路径，必选参  
     - `newState` 新的状态，必选参
   - 返回值: `this`
-  - 描述: 设置某个模块的状态
+  - 描述: 设置某个模块的状态，设置的内容必须保证和模块的数据类型一致才有效，`Object`类型比较特殊，会和原来的对象进行浅合并
   - 例子: 
     ```javascript
     const vuet = new Vuet({

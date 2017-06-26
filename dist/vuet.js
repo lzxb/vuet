@@ -393,8 +393,7 @@ var manual = {
 
           return (_$vuet2 = _this.$vuet).fetch.apply(_$vuet2, [path].concat(arg));
         };
-        var newName = name || manuals.name || '$' + this.$vuet.store[path].__name__;
-        console.log(newName);
+        var newName = name || manuals.name || '$' + this.$vuet.names[path];
         this[newName] = methods;
       }
     };
@@ -578,6 +577,7 @@ var Vuet$1 = function () {
     this.options = options || {};
     this.app = null;
     this.store = {};
+    this.names = {};
     this.beforeHooks = []; // Before the request begins
     this.afterHooks = []; // After the request begins
     this.vm = null;
@@ -637,7 +637,7 @@ var Vuet$1 = function () {
             }
             _this._options.modules[newPath] = item;
             _this.reset(newPath);
-            utils.set(_this.store[newPath], '__name__', k);
+            _this.names[newPath] = k;
           }
           if (keys.indexOf(k) === -1 && utils.isObject(item)) {
             initModule(_path, item);
@@ -655,8 +655,8 @@ var Vuet$1 = function () {
   }, {
     key: 'setState',
     value: function setState(path, newState) {
-      if (!utils.isObject(newState)) return this;
-      if (!this.store[path]) {
+      if (this.store[path] && Object.prototype.toString.call(this.store[path]) !== Object.prototype.toString.call(newState)) return this;
+      if (!this.store[path] || !utils.isObject(newState)) {
         _Vue.set(this.store, path, newState);
         return this;
       }
@@ -702,12 +702,18 @@ var Vuet$1 = function () {
   }, {
     key: 'reset',
     value: function reset(path) {
-      var data = this._options.data.call(this);
-      var module = this._options.modules[path];
-      if (utils.isFunction(module.data)) {
-        Object.assign(data, module.data.call(this, path));
+      var baseData = this._options.data.call(this);
+      var data = this._options.modules[path].data;
+
+      if (utils.isFunction(data)) {
+        var any = data.call(this, path);
+        if (utils.isObject(any)) {
+          Object.assign(baseData, any);
+          this.setState(path, baseData);
+        } else {
+          this.setState(path, any);
+        }
       }
-      this.setState(path, data);
       return this;
     }
   }, {

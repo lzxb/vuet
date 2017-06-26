@@ -79,8 +79,8 @@ export default class Vuet {
     return this.store[path] || {}
   }
   setState (path, newState) {
-    if (!utils.isObject(newState)) return this
-    if (!this.store[path]) {
+    if (this.store[path] && Object.prototype.toString.call(this.store[path]) !== Object.prototype.toString.call(newState)) return this
+    if (!this.store[path] || !utils.isObject(newState)) {
       _Vue.set(this.store, path, newState)
       return this
     }
@@ -118,12 +118,17 @@ export default class Vuet {
     })
   }
   reset (path) {
-    const data = this._options.data.call(this)
-    const module = this._options.modules[path]
-    if (utils.isFunction(module.data)) {
-      Object.assign(data, module.data.call(this, path))
+    const baseData = this._options.data.call(this)
+    const { data } = this._options.modules[path]
+    if (utils.isFunction(data)) {
+      const any = data.call(this, path)
+      if (utils.isObject(any)) {
+        Object.assign(baseData, any)
+        this.setState(path, baseData)
+      } else {
+        this.setState(path, any)
+      }
     }
-    this.setState(path, data)
     return this
   }
   destroy () {
