@@ -17,6 +17,7 @@ export default class Vuet {
     this.options = options || {}
     this.app = null
     this.store = {}
+    this.names = {}
     this.beforeHooks = [] // Before the request begins
     this.afterHooks = [] // After the request begins
     this.vm = null
@@ -64,6 +65,7 @@ export default class Vuet {
           }
           this._options.modules[newPath] = item
           this.reset(newPath)
+          this.names[newPath] = k
         }
         if (keys.indexOf(k) === -1 && utils.isObject(item)) {
           initModule(_path, item)

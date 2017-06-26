@@ -22,16 +22,8 @@ export default {
         methods.fetch = (...arg) => {
           return this.$vuet.fetch(path, ...arg)
         }
-        if (name) {
-          this[name] = methods
-        } else if (manuals.name) {
-          this[manuals.name] = methods
-        } else {
-          const arr = path.split(this.$vuet._options.pathJoin)
-          const name = `$${arr[arr.length - 1]}`
-          const $methods = this[name] = {}
-          Object.assign($methods, methods)
-        }
+        const newName = name || manuals.name || `$${this.$vuet.names[path]}`
+        this[newName] = methods
       }
     }
   }

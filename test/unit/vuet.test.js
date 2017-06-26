@@ -322,3 +322,31 @@ test('pathJoin', t => {
   })
   t.is(vm.$vuet, vuet)
 })
+
+test('names', t => {
+  const vuet = new Vuet({
+    modules: {
+      user: {
+        data () {
+          return {}
+        },
+        self: {
+          data () {
+            return {}
+          }
+        }
+      }
+    }
+  })
+  const vm = new Vue({
+    vuet
+  })
+  t.deepEqual(vuet.names, {
+    'user': 'user',
+    'userSelf': 'self'
+  })
+  t.deepEqual(vm.$vuet.names, {
+    'user': 'user',
+    'userSelf': 'self'
+  })
+})

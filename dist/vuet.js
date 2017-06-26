@@ -393,16 +393,9 @@ var manual = {
 
           return (_$vuet2 = _this.$vuet).fetch.apply(_$vuet2, [path].concat(arg));
         };
-        if (name) {
-          this[name] = methods;
-        } else if (manuals.name) {
-          this[manuals.name] = methods;
-        } else {
-          var arr = path.split(this.$vuet._options.pathJoin);
-          var _name = '$' + arr[arr.length - 1];
-          var $methods = this[_name] = {};
-          Object.assign($methods, methods);
-        }
+        var newName = name || manuals.name || '$' + this.$vuet.store[path].__name__;
+        console.log(newName);
+        this[newName] = methods;
       }
     };
   }
@@ -644,6 +637,7 @@ var Vuet$1 = function () {
             }
             _this._options.modules[newPath] = item;
             _this.reset(newPath);
+            utils.set(_this.store[newPath], '__name__', k);
           }
           if (keys.indexOf(k) === -1 && utils.isObject(item)) {
             initModule(_path, item);
