@@ -19,6 +19,12 @@ export default {
         methods.reset = (...arg) => {
           return this.$vuet.reset(path, ...arg)
         }
+        methods.getState = (...arg) => {
+          return this.$vuet.getState(path, ...arg)
+        }
+        methods.setState = (...arg) => {
+          return this.$vuet.setState(path, ...arg)
+        }
         methods.fetch = (...arg) => {
           return this.$vuet.fetch(path, ...arg)
         }

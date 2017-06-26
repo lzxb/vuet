@@ -384,14 +384,32 @@ var manual = {
 
           return (_$vuet = _this.$vuet).reset.apply(_$vuet, [path].concat(arg));
         };
-        methods.fetch = function () {
+        methods.getState = function () {
           var _$vuet2;
 
           for (var _len3 = arguments.length, arg = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
             arg[_key3] = arguments[_key3];
           }
 
-          return (_$vuet2 = _this.$vuet).fetch.apply(_$vuet2, [path].concat(arg));
+          return (_$vuet2 = _this.$vuet).getState.apply(_$vuet2, [path].concat(arg));
+        };
+        methods.setState = function () {
+          var _$vuet3;
+
+          for (var _len4 = arguments.length, arg = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+            arg[_key4] = arguments[_key4];
+          }
+
+          return (_$vuet3 = _this.$vuet).setState.apply(_$vuet3, [path].concat(arg));
+        };
+        methods.fetch = function () {
+          var _$vuet4;
+
+          for (var _len5 = arguments.length, arg = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+            arg[_key5] = arguments[_key5];
+          }
+
+          return (_$vuet4 = _this.$vuet).fetch.apply(_$vuet4, [path].concat(arg));
         };
         var newName = name || manuals.name || '$' + this.$vuet.names[path];
         this[newName] = methods;
@@ -650,7 +668,7 @@ var Vuet$1 = function () {
   }, {
     key: 'getState',
     value: function getState(path) {
-      return this.store[path] || {};
+      return this.store[path];
     }
   }, {
     key: 'setState',

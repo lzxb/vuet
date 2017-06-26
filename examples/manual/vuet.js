@@ -5,64 +5,52 @@ Vue.use(Vuet)
 
 export default new Vuet({
   modules: {
-    test1: {
+    count1: {
       data () {
-        return {
-          count: 0
-        }
+        return 0
       },
       async fetch () {
-        return {
-          count: 100
-        }
+        return 100
       },
       manuals: {
         plus ({ state }) {
-          state.count++
+          this.setState(++state)
         },
         reduce ({ state }) {
-          state.count--
+          this.setState(--state)
         }
       }
     },
-    test2: {
+    count2: {
       data () {
-        return {
-          count: 0
-        }
+        return 0
       },
       async fetch () {
-        return {
-          count: 100
-        }
+        return 100
       },
       manuals: {
-        name: 'test2s',
+        name: 'count2s',
         plus ({ state }) {
-          state.count++
+          this.setState(++state)
         },
         reduce ({ state }) {
-          state.count--
+          this.setState(--state)
         }
       }
     },
-    test3: {
+    count3: {
       data () {
-        return {
-          count: 0
-        }
+        return 0
       },
       async fetch () {
-        return {
-          count: 100
-        }
+        return 100
       },
       manuals: {
         plus ({ state }) {
-          state.count++
+          this.setState(++state)
         },
         reduce ({ state }) {
-          state.count--
+          this.setState(--state)
         }
       }
     }

@@ -18,9 +18,10 @@
                 }
               },
               manuals: {
-                // ... manual会自动加入fetch、reset两个方法，请参照Vuet的实例方法
+                // ... manual会对fetch、reset、getState、setState方法进行一层封装，自动传入path参数，请参照Vuet的实例方法，
                 plus ({ state, vm, vuet }) {
                   state.count++
+                  // 或 this.setState({ count: count })
                 },
                 reduce ({ state, vm, vuet }) {
                   state.count--
@@ -40,7 +41,6 @@
           // manual: 'test'
         })
       ```
-  - 描述: 这是一种特殊的规则，它无法自动更新数据，它需要你手动调用时才会更新数据
 - need
   - 描述: 每次都会在组件的`beforeCreate`钩子中调用一次更新
 - once

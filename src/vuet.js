@@ -76,7 +76,7 @@ export default class Vuet {
     callRuleHook('init', this)
   }
   getState (path) {
-    return this.store[path] || {}
+    return this.store[path]
   }
   setState (path, newState) {
     if (this.store[path] && Object.prototype.toString.call(this.store[path]) !== Object.prototype.toString.call(newState)) return this
