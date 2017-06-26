@@ -384,25 +384,35 @@ var manual = {
 
           return (_$vuet = _this.$vuet).reset.apply(_$vuet, [path].concat(arg));
         };
-        methods.fetch = function () {
+        methods.getState = function () {
           var _$vuet2;
 
           for (var _len3 = arguments.length, arg = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
             arg[_key3] = arguments[_key3];
           }
 
-          return (_$vuet2 = _this.$vuet).fetch.apply(_$vuet2, [path].concat(arg));
+          return (_$vuet2 = _this.$vuet).getState.apply(_$vuet2, [path].concat(arg));
         };
-        if (name) {
-          this[name] = methods;
-        } else if (manuals.name) {
-          this[manuals.name] = methods;
-        } else {
-          var arr = path.split(this.$vuet._options.pathJoin);
-          var _name = '$' + arr[arr.length - 1];
-          var $methods = this[_name] = {};
-          Object.assign($methods, methods);
-        }
+        methods.setState = function () {
+          var _$vuet3;
+
+          for (var _len4 = arguments.length, arg = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+            arg[_key4] = arguments[_key4];
+          }
+
+          return (_$vuet3 = _this.$vuet).setState.apply(_$vuet3, [path].concat(arg));
+        };
+        methods.fetch = function () {
+          var _$vuet4;
+
+          for (var _len5 = arguments.length, arg = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+            arg[_key5] = arguments[_key5];
+          }
+
+          return (_$vuet4 = _this.$vuet).fetch.apply(_$vuet4, [path].concat(arg));
+        };
+        var newName = name || manuals.name || '$' + this.$vuet.names[path];
+        this[newName] = methods;
       }
     };
   }
@@ -585,6 +595,7 @@ var Vuet$1 = function () {
     this.options = options || {};
     this.app = null;
     this.store = {};
+    this.names = {};
     this.beforeHooks = []; // Before the request begins
     this.afterHooks = []; // After the request begins
     this.vm = null;
@@ -644,6 +655,7 @@ var Vuet$1 = function () {
             }
             _this._options.modules[newPath] = item;
             _this.reset(newPath);
+            _this.names[newPath] = k;
           }
           if (keys.indexOf(k) === -1 && utils.isObject(item)) {
             initModule(_path, item);
@@ -656,13 +668,13 @@ var Vuet$1 = function () {
   }, {
     key: 'getState',
     value: function getState(path) {
-      return this.store[path] || {};
+      return this.store[path];
     }
   }, {
     key: 'setState',
     value: function setState(path, newState) {
-      if (!utils.isObject(newState)) return this;
-      if (!this.store[path]) {
+      if (this.store[path] && Object.prototype.toString.call(this.store[path]) !== Object.prototype.toString.call(newState)) return this;
+      if (!this.store[path] || !utils.isObject(newState)) {
         _Vue.set(this.store, path, newState);
         return this;
       }
@@ -708,12 +720,18 @@ var Vuet$1 = function () {
   }, {
     key: 'reset',
     value: function reset(path) {
-      var data = this._options.data.call(this);
-      var module = this._options.modules[path];
-      if (utils.isFunction(module.data)) {
-        Object.assign(data, module.data.call(this, path));
+      var baseData = this._options.data.call(this);
+      var data = this._options.modules[path].data;
+
+      if (utils.isFunction(data)) {
+        var any = data.call(this, path);
+        if (utils.isObject(any)) {
+          Object.assign(baseData, any);
+          this.setState(path, baseData);
+        } else {
+          this.setState(path, any);
+        }
       }
-      this.setState(path, data);
       return this;
     }
   }, {
