@@ -17,7 +17,12 @@ class VuetScroll {
   }
   update (opt) {
     this.setOption(opt)
-    this.scrollTo()
+      const key = `timer-${this.path}-${this.name}`
+      clearTimeout(this[key])
+      this[key] = setTimeout(() => {
+        this.scrollTo()
+        delete this[key]
+      }, 10)
   }
   destroy () {
     this.app.removeEventListener('scroll', this.subScrolling, false)
@@ -60,12 +65,7 @@ class VuetScroll {
         newScrolls.x = scrollLeft || pageYOffset || scrollLeft
         newScrolls.y = scrollTop || pageXOffset || scrollTop
       }
-      const key = `timer-${this.path}-${this.name}`
-      clearTimeout(this[key])
-      this[key] = setTimeout(() => {
-        Object.assign(this.scrolls, newScrolls)
-        delete this[key]
-      }, 10)
+      Object.assign(this.scrolls, newScrolls)
     }
     app.addEventListener('scroll', this.subScrolling, false)
   }

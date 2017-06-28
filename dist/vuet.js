@@ -156,8 +156,15 @@ var VuetScroll = function () {
   createClass(VuetScroll, [{
     key: 'update',
     value: function update(opt) {
+      var _this = this;
+
       this.setOption(opt);
-      this.scrollTo();
+      var key = 'timer-' + this.path + '-' + this.name;
+      clearTimeout(this[key]);
+      this[key] = setTimeout(function () {
+        _this.scrollTo();
+        delete _this[key];
+      }, 10);
     }
   }, {
     key: 'destroy',
@@ -199,7 +206,7 @@ var VuetScroll = function () {
   }, {
     key: 'subScroll',
     value: function subScroll() {
-      var _this = this;
+      var _this2 = this;
 
       var app = this.app;
 
@@ -218,12 +225,7 @@ var VuetScroll = function () {
           newScrolls.x = scrollLeft || pageYOffset || scrollLeft;
           newScrolls.y = scrollTop || pageXOffset || scrollTop;
         }
-        var key = 'timer-' + _this.path + '-' + _this.name;
-        clearTimeout(_this[key]);
-        _this[key] = setTimeout(function () {
-          Object.assign(_this.scrolls, newScrolls);
-          delete _this[key];
-        }, 10);
+        Object.assign(_this2.scrolls, newScrolls);
       };
       app.addEventListener('scroll', this.subScrolling, false);
     }
