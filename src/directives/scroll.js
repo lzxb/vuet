@@ -17,12 +17,12 @@ class VuetScroll {
   }
   update (opt) {
     this.setOption(opt)
-      const key = `timer-${this.path}-${this.name}`
-      clearTimeout(this[key])
-      this[key] = setTimeout(() => {
-        this.scrollTo()
-        delete this[key]
-      }, 10)
+    const key = `timer-${this.path}-${this.name}`
+    clearTimeout(this[key])
+    this[key] = setTimeout(() => {
+      this.scrollTo()
+      delete this[key]
+    }, 10)
   }
   destroy () {
     this.app.removeEventListener('scroll', this.subScrolling, false)
