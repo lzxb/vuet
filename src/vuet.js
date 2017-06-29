@@ -131,6 +131,11 @@ export default class Vuet {
     }
     return this
   }
+  data (path) {
+    if (!utils.isObject(this._options.modules[path])) return null
+    const { data } = this._options.modules[path]
+    return data.call(this)
+  }
   destroy () {
     this.vm.$destroy()
     callRuleHook('destroy', this)
@@ -145,7 +150,9 @@ Object.assign(Vuet, {
   rule (name, rule) {
     if (this.options.rules[name]) return this
     this.options.rules[name] = rule
-    callRuleHook('install', _Vue, Vuet)
+    if (utils.isFunction(rule.install)) {
+      rule.install(_Vue, Vuet)
+    }
     return this
   },
   mapRules (...paths) {
@@ -179,9 +186,15 @@ Object.assign(Vuet, {
       const path = opt[k]
       computed[k] = {
         get () {
+          if (!(path in this.$vuet.store)) {
+            utils.error('The warehouse does not have this module')
+          }
           return this.$vuet.store[path]
         },
         set (val) {
+          if (!(path in this.$vuet.store)) {
+            utils.error('The warehouse does not have this module')
+          }
           this.$vuet.store[path] = val
         }
       }

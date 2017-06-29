@@ -25,6 +25,9 @@ function mapManuals (vuet, path) {
   methods.fetch = (...arg) => {
     return vuet.fetch(path, ...arg)
   }
+  methods.data = (...arg) => {
+    return vuet.data(path, ...arg)
+  }
   methods.mapManuals = path => {
     return mapManuals(vuet, path)
   }
@@ -32,6 +35,11 @@ function mapManuals (vuet, path) {
 }
 
 export default {
+  install (Vue, Vuet) {
+    Vuet.prototype.mapManuals = function (path) {
+      return mapManuals(this, path)
+    }
+  },
   rule ({ path, name }) {
     return {
       beforeCreate () {

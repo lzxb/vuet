@@ -397,6 +397,13 @@ function mapManuals(vuet, path) {
 
     return vuet.fetch.apply(vuet, [path].concat(arg));
   };
+  methods.data = function () {
+    for (var _len6 = arguments.length, arg = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+      arg[_key6] = arguments[_key6];
+    }
+
+    return vuet.data.apply(vuet, [path].concat(arg));
+  };
   methods.mapManuals = function (path) {
     return mapManuals(vuet, path);
   };
@@ -404,6 +411,12 @@ function mapManuals(vuet, path) {
 }
 
 var manual = {
+  install: function install(Vue, Vuet) {
+    Vuet.prototype.mapManuals = function (path) {
+      return mapManuals(this, path);
+    };
+    console.log('--');
+  },
   rule: function rule(_ref) {
     var path = _ref.path,
         name = _ref.name;
@@ -737,6 +750,14 @@ var Vuet$1 = function () {
       return this;
     }
   }, {
+    key: 'data',
+    value: function data(path) {
+      if (!utils.isObject(this._options.modules[path])) return null;
+      var data = this._options.modules[path].data;
+
+      return data.call(this);
+    }
+  }, {
     key: 'destroy',
     value: function destroy() {
       this.vm.$destroy();
@@ -754,7 +775,9 @@ Object.assign(Vuet$1, {
   rule: function rule(name, _rule) {
     if (this.options.rules[name]) return this;
     this.options.rules[name] = _rule;
-    callRuleHook('install', _Vue, Vuet$1);
+    if (utils.isFunction(_rule.install)) {
+      _rule.install(_Vue, Vuet$1);
+    }
     return this;
   },
   mapRules: function mapRules() {
@@ -792,9 +815,15 @@ Object.assign(Vuet$1, {
       var path = opt[k];
       computed[k] = {
         get: function get$$1() {
+          if (!(path in this.$vuet.store)) {
+            utils.error('The warehouse does not have this module');
+          }
           return this.$vuet.store[path];
         },
         set: function set$$1(val) {
+          if (!(path in this.$vuet.store)) {
+            utils.error('The warehouse does not have this module');
+          }
           this.$vuet.store[path] = val;
         }
       };

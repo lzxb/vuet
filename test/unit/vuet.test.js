@@ -350,3 +350,47 @@ test('names', t => {
     'userSelf': 'self'
   })
 })
+
+test('mapManuals', async t => {
+  const vuet = new Vuet({
+    modules: {
+      test: {
+        data () {
+          return 0
+        },
+        async fetch () {
+          return 100
+        },
+        manuals: {
+          plus ({ state, path }) {
+            this.setState(++state)
+          }
+        }
+      }
+    }
+  })
+  const vm = new Vue({
+    vuet
+  })
+  const $test = vuet.mapManuals('test')
+  t.is(vm.$vuet, vuet)
+  t.is(vuet.getState('test'), 0)
+  $test.plus()
+  t.is(vuet.getState('test'), 1)
+  await $test.fetch()
+  t.is(vuet.getState('test'), 100)
+  $test.reset()
+  t.is(vuet.getState('test'), 0)
+})
+
+test('data', t => {
+  const vuet = newVuet(t)
+  const vm = new Vue({ vuet })
+
+  t.is(vm.$vuet, vuet)
+  t.deepEqual(vuet.data(listPath), {
+    list: []
+  })
+  t.is(vuet.data(), null)
+  t.pass()
+})
