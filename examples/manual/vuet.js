@@ -51,6 +51,13 @@ export default new Vuet({
         },
         reduce ({ state }) {
           this.setState(--state)
+        },
+        fetchCountAll () {
+          const count1 = this.mapManuals('count1')
+          const count2 = this.mapManuals('count2')
+          count1.fetch()
+          count2.fetch()
+          this.fetch()
         }
       }
     }

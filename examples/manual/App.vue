@@ -30,6 +30,7 @@
       <button class="reduce" @click="$count3.reduce">$count3.reduce</button>
       <button class="fetch" @click="$count3.fetch">$count3.fetch</button>
       <button class="reset" @click="$count3.reset">$count3.reset</button>
+      <button class="fetch-count-all" @click="$count3.fetchCountAll">$count3.fetchCountAll</button>
     </div>
   </div>
 </template>

@@ -348,6 +348,61 @@ var life = {
   }
 };
 
+function mapManuals(vuet, path) {
+  var _vuet$_options$module = vuet._options.modules[path].manuals,
+      manuals = _vuet$_options$module === undefined ? {} : _vuet$_options$module;
+
+  var methods = {};
+  Object.keys(manuals).forEach(function (k) {
+    var fn = manuals[k];
+    if (typeof fn === 'function') {
+      methods['' + k] = function () {
+        for (var _len = arguments.length, arg = Array(_len), _key = 0; _key < _len; _key++) {
+          arg[_key] = arguments[_key];
+        }
+
+        return fn.apply(methods, [{
+          state: vuet.getState(path),
+          app: vuet.app,
+          vuet: vuet
+        }].concat(arg));
+      };
+    }
+  });
+  methods.reset = function () {
+    for (var _len2 = arguments.length, arg = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      arg[_key2] = arguments[_key2];
+    }
+
+    return vuet.reset.apply(vuet, [path].concat(arg));
+  };
+  methods.getState = function () {
+    for (var _len3 = arguments.length, arg = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      arg[_key3] = arguments[_key3];
+    }
+
+    return vuet.getState.apply(vuet, [path].concat(arg));
+  };
+  methods.setState = function () {
+    for (var _len4 = arguments.length, arg = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+      arg[_key4] = arguments[_key4];
+    }
+
+    return vuet.setState.apply(vuet, [path].concat(arg));
+  };
+  methods.fetch = function () {
+    for (var _len5 = arguments.length, arg = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+      arg[_key5] = arguments[_key5];
+    }
+
+    return vuet.fetch.apply(vuet, [path].concat(arg));
+  };
+  methods.mapManuals = function (path) {
+    return mapManuals(vuet, path);
+  };
+  return methods;
+}
+
 var manual = {
   rule: function rule(_ref) {
     var path = _ref.path,
@@ -355,66 +410,11 @@ var manual = {
 
     return {
       beforeCreate: function beforeCreate() {
-        var _this = this;
-
         var _$vuet$_options$modul = this.$vuet._options.modules[path].manuals,
             manuals = _$vuet$_options$modul === undefined ? {} : _$vuet$_options$modul;
 
-        var methods = {};
-        Object.keys(manuals).forEach(function (k) {
-          var fn = manuals[k];
-          if (typeof fn === 'function') {
-            methods['' + k] = function () {
-              for (var _len = arguments.length, arg = Array(_len), _key = 0; _key < _len; _key++) {
-                arg[_key] = arguments[_key];
-              }
-
-              return fn.apply(methods, [{
-                state: _this.$vuet.getState(path),
-                vm: _this,
-                vuet: _this.$vuet
-              }].concat(arg));
-            };
-          }
-        });
-        methods.reset = function () {
-          var _$vuet;
-
-          for (var _len2 = arguments.length, arg = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-            arg[_key2] = arguments[_key2];
-          }
-
-          return (_$vuet = _this.$vuet).reset.apply(_$vuet, [path].concat(arg));
-        };
-        methods.getState = function () {
-          var _$vuet2;
-
-          for (var _len3 = arguments.length, arg = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-            arg[_key3] = arguments[_key3];
-          }
-
-          return (_$vuet2 = _this.$vuet).getState.apply(_$vuet2, [path].concat(arg));
-        };
-        methods.setState = function () {
-          var _$vuet3;
-
-          for (var _len4 = arguments.length, arg = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-            arg[_key4] = arguments[_key4];
-          }
-
-          return (_$vuet3 = _this.$vuet).setState.apply(_$vuet3, [path].concat(arg));
-        };
-        methods.fetch = function () {
-          var _$vuet4;
-
-          for (var _len5 = arguments.length, arg = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-            arg[_key5] = arguments[_key5];
-          }
-
-          return (_$vuet4 = _this.$vuet).fetch.apply(_$vuet4, [path].concat(arg));
-        };
         var newName = name || manuals.name || '$' + this.$vuet.names[path];
-        this[newName] = methods;
+        this[newName] = mapManuals(this.$vuet, path);
       }
     };
   }

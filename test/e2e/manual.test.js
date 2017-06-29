@@ -44,3 +44,14 @@ test('default name', async t => {
     .click('.test-3 .reset')
     .expect(Selector('.test-3 .count').textContent).eql('0')
 })
+
+test('fetch count all', async t => {
+  await t
+    .expect(Selector('.test-1 .count').textContent).eql('0')
+    .expect(Selector('.test-2 .count').textContent).eql('0')
+    .expect(Selector('.test-3 .count').textContent).eql('0')
+    .click('.test-3 .fetch-count-all')
+    .expect(Selector('.test-2 .count').textContent).eql('100')
+    .expect(Selector('.test-1 .count').textContent).eql('100')
+    .expect(Selector('.test-3 .count').textContent).eql('100')
+})

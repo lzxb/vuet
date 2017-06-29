@@ -19,7 +19,8 @@
               },
               manuals: {
                 // ... manual会对fetch、reset、getState、setState方法进行一层封装，自动传入path参数，请参照Vuet的实例方法，
-                plus ({ state, vm, vuet }) {
+                // 同时还提供了`this.mapManuals(path)`方法，可以取得其他模块的manuals，方便互相调用
+                plus ({ state, app, vuet }) {
                   state.count++
                   // 或 this.setState({ count: count })
                 },
