@@ -415,7 +415,6 @@ var manual = {
     Vuet.prototype.mapManuals = function (path) {
       return mapManuals(this, path);
     };
-    console.log('--');
   },
   rule: function rule(_ref) {
     var path = _ref.path,
