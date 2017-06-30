@@ -24,9 +24,15 @@ const { minify } = require('uglify-js')
 const replace = require('rollup-plugin-replace')
 gulp.task('build', () => {
   // Development environment version
+  const version = require('./package.json').version
   return rollup({
     entry: 'src/index.js',
-    plugins: [babel]
+    plugins: [
+      babel,
+      replace({
+        '__version__': version
+      })
+    ]
   }).then((bundle) => {
     return bundle.write({
       moduleName,
@@ -42,7 +48,8 @@ gulp.task('build', () => {
       plugins: [
         babel,
         replace({
-          'process.env.NODE_ENV': JSON.stringify('production')
+          'process.env.NODE_ENV': JSON.stringify('production'),
+          '__version__': version
         }),
         uglify({
           compress: {

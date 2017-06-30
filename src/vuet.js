@@ -14,6 +14,7 @@ export default class Vuet {
     if (!utils.isObject(options)) {
       debug.error('Parameter is the object type')
     }
+    this.version = '__version__'
     this.options = options || {}
     this.app = null
     this.store = {}
