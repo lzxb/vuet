@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-  import Vuet, { mapRules, mapModules } from 'vuet'
+  import { mapModules } from 'vuet'
 
   export default {
     mixins: [

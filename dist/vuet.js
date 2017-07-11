@@ -42,7 +42,7 @@ var debug = {
     throw new Error('[vuet] ' + msg);
   },
   warn: function warn(msg) {
-    if (process.env.NODE_ENV !== 'production') {
+    {
       typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
     }
   }
@@ -606,7 +606,7 @@ var Vuet$1 = function () {
     if (!utils.isObject(options)) {
       debug.error('Parameter is the object type');
     }
-    this.version = '0.2.4';
+    this.version = '0.2.5';
     this.options = options || {};
     this.app = null;
     this.store = {};
@@ -840,16 +840,12 @@ Object.assign(Vuet$1, {
   }
 });
 
-function callRuleHook(hook) {
+function callRuleHook(hook, vuet) {
   var rules = Vuet$1.options.rules;
-
-  for (var _len3 = arguments.length, arg = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-    arg[_key3 - 1] = arguments[_key3];
-  }
 
   for (var k in rules) {
     if (utils.isFunction(rules[k][hook])) {
-      rules[k][hook].apply(rules[k], arg);
+      rules[k][hook](vuet);
     }
   }
 }

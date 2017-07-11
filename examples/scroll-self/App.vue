@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-  import { mapModules, mapRules } from 'vuet'
+  import { mapModules } from 'vuet'
 
   export default {
     mixins: [

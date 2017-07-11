@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe'
 
 fixture`once`
-.page`http://localhost:3000/once/index.html`
+  .page`http://localhost:3000/once/index.html`
 
 test('base', async t => {
   await t

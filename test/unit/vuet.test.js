@@ -188,7 +188,7 @@ test('base', async t => {
   t.is(afterCount, 1)
 })
 
-test('use mixins', t => {
+test('use mixins', async t => {
   const vuet = newVuet(t)
   const arr = ['life', 'manual', 'need', 'once', 'route']
   t.deepEqual(Object.keys(Vuet.options.rules), arr)
@@ -237,9 +237,14 @@ test('use mixins', t => {
     install () {}
   })
   t.deepEqual(Object.keys(Vuet.options.rules), arr)
+
+  // remove the test rule
+  delete Vuet.options.rules.testRule
+  arr.splice(arr.length - 1, 1)
+  t.deepEqual(Object.keys(Vuet.options.rules), arr)
 })
 
-test('mapModules object parameter', t => {
+test('mapModules object parameter', async t => {
   const vuet = newVuet(t)
   let vm = new Vue({
     vuet,
@@ -256,7 +261,7 @@ test('mapModules object parameter', t => {
   t.deepEqual(vm.detail, detailState)
 })
 
-test('mapModules string parameter', t => {
+test('mapModules string parameter', async t => {
   const vuet = newVuet(t)
   let vm = new Vue({
     vuet,
@@ -292,7 +297,7 @@ test('mapRules', async t => {
   await test(mapRules({ route: `${myModule}List` }))
 })
 
-test('pathJoin', t => {
+test('pathJoin', async t => {
   const vuet = new Vuet({
     pathJoin: '-',
     modules: {
@@ -323,7 +328,7 @@ test('pathJoin', t => {
   t.is(vm.$vuet, vuet)
 })
 
-test('names', t => {
+test('names', async t => {
   const vuet = new Vuet({
     modules: {
       user: {
@@ -383,7 +388,7 @@ test('mapManuals', async t => {
   t.is(vuet.getState('test'), 0)
 })
 
-test('data', t => {
+test('data', async t => {
   const vuet = newVuet(t)
   const vm = new Vue({ vuet })
 

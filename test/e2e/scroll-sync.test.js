@@ -1,7 +1,7 @@
 import { Selector, ClientFunction } from 'testcafe'
 
 fixture`scroll-sync`
-.page`http://localhost:3000/scroll-sync/index.html`
+  .page`http://localhost:3000/scroll-sync/index.html`
 
 test('window scroll', async t => {
   const getWindowScrolls = ClientFunction(() => ({
