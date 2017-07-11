@@ -4,7 +4,7 @@ import { Selector, ClientFunction } from 'testcafe'
 fixture`scroll-cnode`
   .page`http://localhost:3000/scroll-cnode/index.html`
 
-test.only('base', async t => {
+test('base', async t => {
   if (os.type() === 'linux') { // the test not in travis ignore
     return t.pass()
   }
