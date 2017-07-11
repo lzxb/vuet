@@ -56,6 +56,4 @@ const builds = [
   }
 ]
 
-builds.forEach(opts => {
-  build(opts)
-})
+builds.forEach(opts => build(opts))
