@@ -1,9 +1,9 @@
-const fs = require('fs')
 const { rollup } = require('rollup')
 const uglify = require('rollup-plugin-uglify')
 const { minify } = require('uglify-js')
 const replace = require('rollup-plugin-replace')
 const babel = require('rollup-plugin-babel')
+const packages = require('../package.json')
 
 const build = async (opts) => {
   const plugins = [
@@ -15,7 +15,7 @@ const build = async (opts) => {
       ]
     }),
     replace({
-      '__version__': package.version,
+      '__version__': packages.version,
       'process.env.NODE_ENV': JSON.stringify(opts.env)
     })
   ]
@@ -38,17 +38,21 @@ const build = async (opts) => {
   })
 }
 
-const package = require('../package.json')
+const moduleName = packages.name.replace(/(\w)/, (v) => v.toUpperCase())
+const destName = packages.name
+const builds = [
+  {
+    moduleName,
+    destName,
+    entry: 'src/index.js',
+    env: 'development'
+  },
+  {
+    moduleName,
+    destName,
+    entry: 'src/index.js',
+    env: 'production'
+  }
+]
 
-build({
-  moduleName: package.name.replace(/(\w)/, (v) => v.toUpperCase()),
-  destName: package.name,
-  entry: 'src/index.js',
-  env: 'development'
-})
-build({
-  moduleName: package.name.replace(/(\w)/, (v) => v.toUpperCase()),
-  destName: package.name,
-  entry: 'src/index.js',
-  env: 'production'
-})
+builds.forEach(opts => build(opts))
