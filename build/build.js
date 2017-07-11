@@ -39,16 +39,23 @@ const build = async (opts) => {
 }
 
 const package = require('../package.json')
+const moduleName = package.name.replace(/(\w)/, (v) => v.toUpperCase())
+const destName = package.name
+const builds = [
+  {
+    moduleName,
+    destName,
+    entry: 'src/index.js',
+    env: 'development'
+  },
+  {
+    moduleName,
+    destName,
+    entry: 'src/index.js',
+    env: 'production'
+  }
+]
 
-build({
-  moduleName: package.name.replace(/(\w)/, (v) => v.toUpperCase()),
-  destName: package.name,
-  entry: 'src/index.js',
-  env: 'development'
-})
-build({
-  moduleName: package.name.replace(/(\w)/, (v) => v.toUpperCase()),
-  destName: package.name,
-  entry: 'src/index.js',
-  env: 'production'
+builds.forEach(opts => {
+  build(opts)
 })
