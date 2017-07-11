@@ -29,7 +29,6 @@ var utils = {
   }
 };
 
-// Add isXXX function
 typeStrings.forEach(function (type) {
   var typeString = '[object ' + type + ']';
   utils['is' + type] = function (obj) {
