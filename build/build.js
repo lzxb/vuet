@@ -4,6 +4,7 @@ const uglify = require('rollup-plugin-uglify')
 const { minify } = require('uglify-js')
 const replace = require('rollup-plugin-replace')
 const babel = require('rollup-plugin-babel')
+const package = require('../package.json')
 
 const build = async (opts) => {
   const plugins = [
@@ -38,7 +39,6 @@ const build = async (opts) => {
   })
 }
 
-const package = require('../package.json')
 const moduleName = package.name.replace(/(\w)/, (v) => v.toUpperCase())
 const destName = package.name
 const builds = [
