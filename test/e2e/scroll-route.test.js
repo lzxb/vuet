@@ -1,7 +1,7 @@
 import { Selector, ClientFunction } from 'testcafe'
 
 fixture`scroll-route`
-.page`http://localhost:3000/scroll-route/index.html`
+  .page`http://localhost:3000/scroll-route/index.html`
 
 test('area scroll forward and back', async t => {
   await t

@@ -1,7 +1,7 @@
 import { Selector, ClientFunction } from 'testcafe'
 
 fixture`scroll-self`
-.page`http://localhost:3000/scroll-self/index.html`
+  .page`http://localhost:3000/scroll-self/index.html`
 
 const scrollTo = ClientFunction((el, scrolls) => {
   scrollTo(document.querySelector(el), scrolls)

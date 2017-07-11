@@ -107,16 +107,16 @@ export default class Vuet {
     }
     if (callHook('beforeHooks', data) === false) return Promise.resolve(data.state)
     return module.fetch.call(this, data)
-    .then(res => {
-      if (callHook('afterHooks', null, data, res) === false) return data.state
-      if (setStateBtn === false) return res
-      this.setState(path, res)
-      return data.state
-    })
-    .catch(e => {
-      if (callHook('afterHooks', e, data) === false) return Promise.resolve(data.state)
-      return Promise.reject(e)
-    })
+      .then(res => {
+        if (callHook('afterHooks', null, data, res) === false) return data.state
+        if (setStateBtn === false) return res
+        this.setState(path, res)
+        return data.state
+      })
+      .catch(e => {
+        if (callHook('afterHooks', e, data) === false) return Promise.resolve(data.state)
+        return Promise.reject(e)
+      })
   }
   reset (path) {
     const baseData = this._options.data.call(this)
@@ -212,11 +212,11 @@ Object.assign(Vuet, {
   }
 })
 
-function callRuleHook (hook, ...arg) {
+function callRuleHook (hook, vuet) {
   const { rules } = Vuet.options
   for (let k in rules) {
     if (utils.isFunction(rules[k][hook])) {
-      rules[k][hook].apply(rules[k], arg)
+      rules[k][hook](vuet)
     }
   }
 }

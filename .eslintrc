@@ -1,0 +1,5 @@
+{
+  "root": true,
+  "plugins": ["html", "testcafe"],
+  "extends": ["standard", "plugin:testcafe/recommended"]
+}

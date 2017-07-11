@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe'
 
 fixture`manual`
-.page`http://localhost:3000/manual/index.html`
+  .page`http://localhost:3000/manual/index.html`
 
 test('Reset name', async t => {
   await t
