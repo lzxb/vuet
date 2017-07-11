@@ -1,9 +1,13 @@
+import os from 'os'
 import { Selector, ClientFunction } from 'testcafe'
 
 fixture`scroll-cnode`
   .page`http://localhost:3000/scroll-cnode/index.html`
 
 test('base', async t => {
+  if (os.type() === 'linux') { // the test not in travis ignore
+    return t.pass()
+  }
   await Selector('.list li', { visibilityCheck: true, timeout: 60000 })()
   await ClientFunction(() => {
     window.scrollTo(0, 300)
