@@ -1,5 +1,7 @@
+/* @flow */
+
 export default {
-  rule ({ path }) {
+  rule ({ path }: RuleOptions) {
     return {
       beforeCreate () {
         this.$vuet.fetch(path, { current: this })

@@ -504,17 +504,15 @@ var route = {
     function getVuetWatchs(vuet) {
       return vuet[_key].watchers[path];
     }
-    function setVuetWatchs(vuet, val) {
-      vuet[_key].watchers[path] = val;
+    function setVuetWatchs(vuet, arr) {
+      vuet[_key].watchers[path] = arr;
     }
-    function getWatchs() {
-      var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var list = arguments[1];
-
+    function getWatchs(obj, list) {
       if (typeof list === 'string') {
         list = [list];
       }
-      var getObjVal = function getObjVal(obj, str) {
+      var getObjVal = function getObjVal(route, str) {
+        var obj = route;
         var arr = str.split('.');
         arr.forEach(function (k) {
           obj = obj[k];
