@@ -1,27 +1,37 @@
+/* @flow  */
+
 import { _Vue } from '../install'
 import debug from '../debug'
 
-const _self = '__vuetScrollSelf__'
-const _window = '__vuetScrollWindow__'
+const _self: string = '__vuetScrollSelf__'
+const _window: string = '__vuetScrollWindow__'
 
 class VuetScroll {
-  constructor (opt) {
-    this.app = null
-    this.path = null
-    this.name = null
-    this.store = null
-    this.scrolls = null
+  app: Object
+  path: string
+  name: string
+  store: Object
+  timer: Object
+  scrolls: { x: number, y: number }
+  subScrolling: Function
+  constructor (opt: Object) {
+    this.app = {}
+    this.path = ''
+    this.name = ''
+    this.store = {}
+    this.timer = {}
+    this.scrolls = { x: 0, y: 0 }
     this.setOption(opt)
     this.scrollTo()
     this.subScroll()
   }
-  update (opt) {
+  update (opt: Object) {
     this.setOption(opt)
     const key = `timer-${this.path}-${this.name}`
-    clearTimeout(this[key])
-    this[key] = setTimeout(() => {
+    clearTimeout(this.timer[key])
+    this.timer[key] = setTimeout(() => {
       this.scrollTo()
-      delete this[key]
+      delete this.timer[key]
     }, 10)
   }
   destroy () {
@@ -30,8 +40,8 @@ class VuetScroll {
   setOption (opt) {
     this.app = opt.app
     this.path = opt.path
-    this.name = opt.name || null
-    this.store = opt.store || null
+    this.name = opt.name || ''
+    this.store = opt.store || { x: 0, y: 0 }
     this.scrolls = opt.scrolls || createScroll(opt)
     function createScroll (opt) {
       if (!opt.store.$scroll) {
@@ -55,13 +65,13 @@ class VuetScroll {
   }
   subScroll () {
     const { app } = this
-    const newScrolls = {}
-    this.subScrolling = event => {
+    const newScrolls: { x?: number, y?: number } = {}
+    this.subScrolling = (event: Object) => {
       if (app === window) {
         newScrolls.x = window.pageXOffset
         newScrolls.y = window.pageYOffset
       } else {
-        const { scrollTop, scrollLeft, pageXOffset, pageYOffset } = event.target
+        const { scrollTop, scrollLeft, pageXOffset, pageYOffset }: Object = event.target
         newScrolls.x = scrollLeft || pageYOffset || scrollLeft
         newScrolls.y = scrollTop || pageXOffset || scrollTop
       }
@@ -71,16 +81,16 @@ class VuetScroll {
   }
 }
 
-function isSelf (modifiers) {
-  return modifiers.window !== true || modifiers.self
+function isSelf (modifiers: { self?: boolean, window?: boolean }): boolean {
+  return !!(modifiers.window !== true || modifiers.self)
 }
 
-function isWindow (modifiers) {
-  return modifiers.window
+function isWindow (modifiers: { self?: boolean, window?: boolean }): boolean {
+  return !!(modifiers.window)
 }
 
 export default {
-  inserted (el, { modifiers, value }, vnode) {
+  inserted (el: Object, { modifiers, value }: DirectiveParams, vnode: Vnode) {
     if (typeof value.path !== 'string') return debug.error('path is imperative parameter and is string type')
     if (value.path === 'window') return debug.error('name cannot be the window name')
     if (isSelf(modifiers)) {
@@ -103,7 +113,7 @@ export default {
       })
     }
   },
-  componentUpdated (el, { modifiers, value }, vnode) {
+  componentUpdated (el: Object, { modifiers, value }: DirectiveParams, vnode: Vnode) {
     if (isSelf(modifiers)) {
       el[_self].update({
         app: el,
@@ -123,7 +133,7 @@ export default {
       })
     }
   },
-  unbind (el, { modifiers }) {
+  unbind (el: Object, { modifiers }: DirectiveParams) {
     if (isSelf(modifiers)) {
       el[_self].destroy()
       delete el[_self]

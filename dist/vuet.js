@@ -142,11 +142,12 @@ var VuetScroll = function () {
   function VuetScroll(opt) {
     classCallCheck(this, VuetScroll);
 
-    this.app = null;
-    this.path = null;
-    this.name = null;
-    this.store = null;
-    this.scrolls = null;
+    this.app = {};
+    this.path = '';
+    this.name = '';
+    this.store = {};
+    this.timer = {};
+    this.scrolls = { x: 0, y: 0 };
     this.setOption(opt);
     this.scrollTo();
     this.subScroll();
@@ -159,10 +160,10 @@ var VuetScroll = function () {
 
       this.setOption(opt);
       var key = 'timer-' + this.path + '-' + this.name;
-      clearTimeout(this[key]);
-      this[key] = setTimeout(function () {
+      clearTimeout(this.timer[key]);
+      this.timer[key] = setTimeout(function () {
         _this.scrollTo();
-        delete _this[key];
+        delete _this.timer[key];
       }, 10);
     }
   }, {
@@ -175,8 +176,8 @@ var VuetScroll = function () {
     value: function setOption(opt) {
       this.app = opt.app;
       this.path = opt.path;
-      this.name = opt.name || null;
-      this.store = opt.store || null;
+      this.name = opt.name || '';
+      this.store = opt.store || { x: 0, y: 0 };
       this.scrolls = opt.scrolls || createScroll(opt);
       function createScroll(opt) {
         if (!opt.store.$scroll) {
@@ -233,11 +234,11 @@ var VuetScroll = function () {
 }();
 
 function isSelf(modifiers) {
-  return modifiers.window !== true || modifiers.self;
+  return !!(modifiers.window !== true || modifiers.self);
 }
 
 function isWindow(modifiers) {
-  return modifiers.window;
+  return !!modifiers.window;
 }
 
 var scroll = {
