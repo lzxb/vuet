@@ -139,26 +139,21 @@ var _self = '__vuetScrollSelf__';
 var _window = '__vuetScrollWindow__';
 
 var VuetScroll = function () {
-  function VuetScroll(opt) {
+  function VuetScroll(opts) {
     classCallCheck(this, VuetScroll);
 
-    this.app = {};
-    this.path = '';
-    this.name = '';
-    this.store = {};
     this.timer = {};
-    this.scrolls = { x: 0, y: 0 };
-    this.setOption(opt);
+    this.setOption(opts);
     this.scrollTo();
     this.subScroll();
   }
 
   createClass(VuetScroll, [{
     key: 'update',
-    value: function update(opt) {
+    value: function update(opts) {
       var _this = this;
 
-      this.setOption(opt);
+      this.setOption(opts);
       var key = 'timer-' + this.path + '-' + this.name;
       clearTimeout(this.timer[key]);
       this.timer[key] = setTimeout(function () {
@@ -210,7 +205,7 @@ var VuetScroll = function () {
 
       var app = this.app;
 
-      var newScrolls = {};
+      var newScrolls = { x: 0, y: 0 };
       this.subScrolling = function (event) {
         if (app === window) {
           newScrolls.x = window.pageXOffset;
@@ -264,7 +259,7 @@ var scroll = {
         path: value.path,
         name: 'window',
         store: vnode.context.$vuet.store[value.path],
-        scrolls: value.window || null
+        scrolls: value.window
       });
     }
   },

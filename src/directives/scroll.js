@@ -7,26 +7,21 @@ const _self: string = '__vuetScrollSelf__'
 const _window: string = '__vuetScrollWindow__'
 
 class VuetScroll {
-  app: Object
-  path: string
-  name: string
-  store: Object
-  timer: Object
-  scrolls: { x: number, y: number }
-  subScrolling: Function
-  constructor (opt: Object) {
-    this.app = {}
-    this.path = ''
-    this.name = ''
-    this.store = {}
+  app: any;
+  path: string;
+  name: string;
+  store: Object;
+  timer: Object;
+  scrolls: scrolls;
+  subScrolling: Function;
+  constructor (opts: scrollsOptions) {
     this.timer = {}
-    this.scrolls = { x: 0, y: 0 }
-    this.setOption(opt)
+    this.setOption(opts)
     this.scrollTo()
     this.subScroll()
   }
-  update (opt: Object) {
-    this.setOption(opt)
+  update (opts: scrollsOptions) {
+    this.setOption(opts)
     const key = `timer-${this.path}-${this.name}`
     clearTimeout(this.timer[key])
     this.timer[key] = setTimeout(() => {
@@ -37,7 +32,7 @@ class VuetScroll {
   destroy () {
     this.app.removeEventListener('scroll', this.subScrolling, false)
   }
-  setOption (opt) {
+  setOption (opt: scrollsOptions) {
     this.app = opt.app
     this.path = opt.path
     this.name = opt.name || ''
@@ -65,7 +60,7 @@ class VuetScroll {
   }
   subScroll () {
     const { app } = this
-    const newScrolls: { x?: number, y?: number } = {}
+    const newScrolls: scrolls = { x: 0, y: 0 }
     this.subScrolling = (event: Object) => {
       if (app === window) {
         newScrolls.x = window.pageXOffset
@@ -109,7 +104,7 @@ export default {
         path: value.path,
         name: 'window',
         store: vnode.context.$vuet.store[value.path],
-        scrolls: value.window || null
+        scrolls: value.window
       })
     }
   },
