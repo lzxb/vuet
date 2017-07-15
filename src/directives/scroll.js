@@ -1,4 +1,4 @@
-/* @flow  */
+/* @flow */
 
 import { _Vue } from '../install'
 import debug from '../debug'

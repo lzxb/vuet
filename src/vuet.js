@@ -4,6 +4,82 @@ import debug from './debug'
 import rules from './rules/index'
 
 export default class Vuet {
+  static options = {
+    rules: {}
+  }
+  static install () {
+    install.apply(undefined, arguments)
+  }
+  static rule (name, rule) {
+    if (this.options.rules[name]) return this
+    this.options.rules[name] = rule
+    if (utils.isFunction(rule.install)) {
+      rule.install(_Vue, Vuet)
+    }
+    return this
+  }
+  static mapRules (...paths) {
+    const opt = utils.getArgMerge.apply(null, arguments)
+    const vueRules = []
+    const addRule = (ruleName, any) => {
+      const rules = Vuet.options.rules[ruleName]
+      if (typeof any === 'string') {
+        vueRules.push(rules.rule({ path: any }))
+      } else {
+        vueRules.push(rules.rule(any))
+      }
+    }
+    Object.keys(opt).forEach(ruleName => {
+      const any = opt[ruleName]
+      if (Array.isArray(any)) {
+        return any.forEach(item => {
+          addRule(ruleName, item)
+        })
+      }
+      addRule(ruleName, any)
+    })
+    return {
+      mixins: vueRules
+    }
+  }
+  static mapModules () {
+    const opt = utils.getArgMerge.apply(null, arguments)
+    const computed = {}
+    Object.keys(opt).forEach(k => {
+      const path = opt[k]
+      computed[k] = {
+        get () {
+          if (!(path in this.$vuet.store)) {
+            utils.error('The warehouse does not have this module')
+          }
+          return this.$vuet.store[path]
+        },
+        set (val) {
+          if (!(path in this.$vuet.store)) {
+            utils.error('The warehouse does not have this module')
+          }
+          this.$vuet.store[path] = val
+        }
+      }
+    })
+    return { computed }
+  }
+  static use (plugin, opt) {
+    if (utils.isFunction(plugin)) {
+      plugin(_Vue, Vuet, opt)
+    } else if (utils.isFunction(plugin.install)) {
+      plugin.install(_Vue, Vuet, opt)
+    }
+    return this
+  }
+  static callRuleHook (hook, vuet) {
+    const { rules } = Vuet.options
+    for (let k in rules) {
+      if (utils.isFunction(rules[k][hook])) {
+        rules[k][hook](vuet)
+      }
+    }
+  }
   constructor (options) {
     if (!_Vue) {
       debug.error('must call Vue.use(Vuet) before creating a store instance')
@@ -74,7 +150,7 @@ export default class Vuet {
       })
     }
     initModule([], this.options.modules)
-    callRuleHook('init', this)
+    Vuet.callRuleHook('init', this)
   }
   getState (path) {
     return this.store[path]
@@ -139,85 +215,7 @@ export default class Vuet {
   }
   destroy () {
     this.vm.$destroy()
-    callRuleHook('destroy', this)
-  }
-}
-
-Object.assign(Vuet, {
-  options: {
-    rules: {}
-  },
-  install,
-  rule (name, rule) {
-    if (this.options.rules[name]) return this
-    this.options.rules[name] = rule
-    if (utils.isFunction(rule.install)) {
-      rule.install(_Vue, Vuet)
-    }
-    return this
-  },
-  mapRules (...paths) {
-    const opt = utils.getArgMerge.apply(null, arguments)
-    const vueRules = []
-    const addRule = (ruleName, any) => {
-      const rules = Vuet.options.rules[ruleName]
-      if (typeof any === 'string') {
-        vueRules.push(rules.rule({ path: any }))
-      } else {
-        vueRules.push(rules.rule(any))
-      }
-    }
-    Object.keys(opt).forEach(ruleName => {
-      const any = opt[ruleName]
-      if (Array.isArray(any)) {
-        return any.forEach(item => {
-          addRule(ruleName, item)
-        })
-      }
-      addRule(ruleName, any)
-    })
-    return {
-      mixins: vueRules
-    }
-  },
-  mapModules () {
-    const opt = utils.getArgMerge.apply(null, arguments)
-    const computed = {}
-    Object.keys(opt).forEach(k => {
-      const path = opt[k]
-      computed[k] = {
-        get () {
-          if (!(path in this.$vuet.store)) {
-            utils.error('The warehouse does not have this module')
-          }
-          return this.$vuet.store[path]
-        },
-        set (val) {
-          if (!(path in this.$vuet.store)) {
-            utils.error('The warehouse does not have this module')
-          }
-          this.$vuet.store[path] = val
-        }
-      }
-    })
-    return { computed }
-  },
-  use (plugin, opt) {
-    if (utils.isFunction(plugin)) {
-      plugin(_Vue, Vuet, opt)
-    } else if (utils.isFunction(plugin.install)) {
-      plugin.install(_Vue, Vuet, opt)
-    }
-    return this
-  }
-})
-
-function callRuleHook (hook, vuet) {
-  const { rules } = Vuet.options
-  for (let k in rules) {
-    if (utils.isFunction(rules[k][hook])) {
-      rules[k][hook](vuet)
-    }
+    Vuet.callRuleHook('destroy', this)
   }
 }
 

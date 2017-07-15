@@ -1,4 +1,4 @@
-/* @flow  */
+/* @flow */
 
 const toString = Object.prototype.toString
 // Cached type string
