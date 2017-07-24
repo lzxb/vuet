@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/directives/scroll.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">src/directives</a> scroll.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">5.71% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>4/70</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/44</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">5.97% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>4/67</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* @flow */
+&nbsp;
+import { _Vue } from '../install'
+import debug from '../debug'
+&nbsp;
+const _self: string = '__vuetScrollSelf__'
+const _window: string = '__vuetScrollWindow__'
+&nbsp;
+class VuetScroll {
+  app: any;
+  path: string;
+  name: string;
+  store: Object;
+  timer: Object;
+  scrolls: scrolls;
+  subScrolling: Function;
+<span class="fstat-no" title="function not covered" >  constructor (</span>opts: scrollsOptions) <span class="cstat-no" title="statement not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    this.timer = {}</span>
+<span class="cstat-no" title="statement not covered" >    this.setOption(opts)</span>
+<span class="cstat-no" title="statement not covered" >    this.scrollTo()</span>
+<span class="cstat-no" title="statement not covered" >    this.subScroll()</span>
+  }
+  update (opts: scrollsOptions) <span class="cstat-no" title="statement not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    this.setOption(opts)</span>
+    c</span>onst <span class="cstat-no" title="statement not covered" >key = `timer-${this.path}-${this.name}`
+<span class="cstat-no" title="statement not covered" >    clearTimeout(this.timer[key])</span>
+<span class="cstat-no" title="statement not covered" >    this.timer[key] = setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; </span>{</span>
+<span class="cstat-no" title="statement not covered" >      this.scrollTo()</span>
+<span class="cstat-no" title="statement not covered" >      delete this.timer[key]</span>
+    }, 10)
+  }
+  destroy () {
+<span class="cstat-no" title="statement not covered" >    this.app.removeEventListener('scroll', this.subScrolling, false)</span>
+  }
+  setOption (opt: scrollsOptions) {
+<span class="cstat-no" title="statement not covered" >    this.app = opt.app</span>
+<span class="cstat-no" title="statement not covered" >    this.path = opt.path</span>
+<span class="cstat-no" title="statement not covered" >    this.name = opt.name || ''</span>
+<span class="cstat-no" title="statement not covered" >    this.store = opt.store || { x: 0, y: 0 }</span>
+<span class="cstat-no" title="statement not covered" >    this.scrolls = opt.scrolls || createScroll(opt)</span>
+    f</span>unction <span class="fstat-no" title="function not covered" >createScroll (opt) {
+<span class="cstat-no" title="statement not covered" >      if (!opt.store.$scroll) {</span>
+<span class="cstat-no" title="statement not covered" >        _Vue.set(opt.store, '$scroll', {})</span>
+      }
+<span class="cstat-no" title="statement not covered" >      if (!opt.store.$scroll[opt.name]) {</span>
+<span class="cstat-no" title="statement not covered" >        _Vue.set(opt.store.$scroll, opt.name, { x: 0, y: 0 })</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      return opt.store.$scroll[opt.name]</span>
+    }
+  }
+  scrollTo () {
+    const { app, scrolls } = <span class="cstat-no" title="statement not covered" >this</span>
+<span class="cstat-no" title="statement not covered" >    if ('scrollTop' in app &amp;&amp; app !== window) {</span>
+<span class="cstat-no" title="statement not covered" >      app.scrollLeft = scrolls.x</span>
+<span class="cstat-no" title="statement not covered" >      app.scrollTop = scrolls.y</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      app.scrollTo(scrolls.x, scrolls.y)</span>
+    }
+  }
+  subScroll () <span class="cstat-no" title="statement not covered" >{</span>
+    const { app } = <span class="cstat-no" title="statement not covered" >this</span>
+    c</span>onst newScrolls: scrolls = <span class="cstat-no" title="statement not covered" >{ x: 0, y: 0 }
+<span class="cstat-no" title="statement not covered" >    this.subScrolling = <span class="fstat-no" title="function not covered" >(</span>event: Object) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (app === window) {</span>
+<span class="cstat-no" title="statement not covered" >        newScrolls.x = window.pageXOffset</span>
+<span class="cstat-no" title="statement not covered" >        newScrolls.y = window.pageYOffset</span>
+      } else <span class="cstat-no" title="statement not covered" ></span>{
+        const { scrollTop, scrollLeft, pageXOffset, pageYOffset }: Object = <span class="cstat-no" title="statement not covered" >event.target</span>
+<span class="cstat-no" title="statement not covered" >        newScrolls.x = scrollLeft || pageYOffset || scrollLeft</span>
+<span class="cstat-no" title="statement not covered" >        newScrolls.y = scrollTop || pageXOffset || scrollTop</span>
+      }
+<span class="cstat-no" title="statement not covered" >      Object.assign(this.scrolls, newScrolls)</span>
+    }
+<span class="cstat-no" title="statement not covered" >    app.addEventListener('scroll', this.subScrolling, false)</span>
+  }
+}
+&nbsp;
+f</span>unction <span class="fstat-no" title="function not covered" >isSelf (modifiers: { self?: boolean, window?: boolean }): boolean {
+<span class="cstat-no" title="statement not covered" >  return !!(modifiers.window !== true || modifiers.self)</span>
+}
+&nbsp;
+f</span>unction <span class="fstat-no" title="function not covered" >isWindow (modifiers: { self?: boolean, window?: boolean }): boolean {
+<span class="cstat-no" title="statement not covered" >  return !!(modifiers.window)</span>
+}
+&nbsp;
+export default <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >{</span></span></span>
+  inserted (el: Object, { modifiers, value }: DirectiveParams, vnode: Vnode) <span class="cstat-no" title="statement not covered" ></span>{
+<span class="cstat-no" title="statement not covered" >    if (typeof value.path !== 'string') <span class="cstat-no" title="statement not covered" >r</span>eturn debug.error('path is imperative parameter and is string type')</span>
+<span class="cstat-no" title="statement not covered" >    if (value.path === 'window') <span class="cstat-no" title="statement not covered" >r</span>eturn debug.error('name cannot be the window name')</span>
+<span class="cstat-no" title="statement not covered" >    if (isSelf(modifiers)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (typeof value.name !== 'string') <span class="cstat-no" title="statement not covered" >r</span>eturn debug.error('name is imperative parameter and is string type')</span>
+<span class="cstat-no" title="statement not covered" >      el[_self] = new VuetScroll({</span>
+        app: el,
+        path: value.path,
+        name: value.name,
+        store: vnode.context.$vuet.store[value.path],
+        scrolls: value.self
+      })
+    }
+<span class="cstat-no" title="statement not covered" >    if (isWindow(modifiers)) {</span>
+<span class="cstat-no" title="statement not covered" >      el[_window] = new VuetScroll({</span>
+        app: window,
+        path: value.path,
+        name: 'window',
+        store: vnode.context.$vuet.store[value.path],
+        scrolls: value.window
+      })
+    }
+  },
+  componentUpdated (el: Object, { modifiers, value }: DirectiveParams, vnode: Vnode) <span class="cstat-no" title="statement not covered" ></span>{
+<span class="cstat-no" title="statement not covered" >    if (isSelf(modifiers)) {</span>
+<span class="cstat-no" title="statement not covered" >      el[_self].update({</span>
+        app: el,
+        path: value.path,
+        name: value.name,
+        store: vnode.context.$vuet.store[value.path],
+        scrolls: value.self
+      })
+    }
+<span class="cstat-no" title="statement not covered" >    if (isWindow(modifiers)) {</span>
+<span class="cstat-no" title="statement not covered" >      el[_window].update({</span>
+        app: window,
+        path: value.path,
+        name: 'window',
+        store: vnode.context.$vuet.store[value.path],
+        scrolls: value.window || null
+      })
+    }
+  },
+  unbind (el: Object, { modifiers }: DirectiveParams) <span class="cstat-no" title="statement not covered" ></span>{
+<span class="cstat-no" title="statement not covered" >    if (isSelf(modifiers)) {</span>
+<span class="cstat-no" title="statement not covered" >      el[_self].destroy()</span>
+<span class="cstat-no" title="statement not covered" >      delete el[_self]</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (isWindow(modifiers)) {</span>
+<span class="cstat-no" title="statement not covered" >      el[_window].destroy()</span>
+<span class="cstat-no" title="statement not covered" >      delete el[_window]</span>
+    }
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Jul 24 2017 10:17:34 GMT+0800 (CST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

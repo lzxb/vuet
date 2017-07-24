@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/vuet.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">src</a> vuet.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">88.81% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>127/143</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">71.21% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>47/66</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.86% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>13/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">93.08% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>121/130</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">38x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import install, { _Vue } from './install'
+import utils from './utils'
+import debug from './debug'
+import rules from './rules/index'
+&nbsp;
+export default class Vuet {
+  static options = {
+    rules: {}
+  }
+  static install () {
+    install.apply(undefined, arguments)
+  }
+  static rule (name, rule) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.options.rules[name]) <span class="cstat-no" title="statement not covered" >return this</span>
+    this.options.rules[name] = rule
+    if (utils.isFunction(rule.install)) {
+      rule.install(_Vue, Vuet)
+    }
+    return this
+  }
+  static mapRules (...paths) {
+    const opt = utils.getArgMerge.apply(null, arguments)
+    const vueRules = []
+    const addRule = (ruleName, any) =&gt; {
+      const rules = Vuet.options.rules[ruleName]
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof any === 'string') {
+        vueRules.push(rules.rule({ path: any }))
+      } else {
+<span class="cstat-no" title="statement not covered" >        vueRules.push(rules.rule(any))</span>
+      }
+    }
+    Object.keys(opt).forEach(ruleName =&gt; {
+      const any = opt[ruleName]
+      if (Array.isArray(any)) {
+        return any.forEach(item =&gt; {
+          addRule(ruleName, item)
+        })
+      }
+      addRule(ruleName, any)
+    })
+    return {
+      mixins: vueRules
+    }
+  }
+  static mapModules () {
+    const opt = utils.getArgMerge.apply(null, arguments)
+    const computed = {}
+    Object.keys(opt).forEach(k =&gt; {
+      const path = opt[k]
+      computed[k] = <span class="fstat-no" title="function not covered" >{</span>
+        get () {
+          <span class="missing-if-branch" title="if path not taken" >I</span>debug.assertPath(this.$vuet, path)
+          re<span class="cstat-no" title="statement not covered" >turn this.$vuet.store[path]</span>
+        },
+        set (val) {
+          debug.assertPath(this.$vuet, path)
+          this.$vuet.store[path] = val
+        }<span class="cstat-no" title="statement not covered" ></span>
+      }<span class="cstat-no" title="statement not covered" ></span>
+    })
+    return<span class="cstat-no" title="statement not covered" > { computed }</span>
+  }
+  static use (plugin, opt) {
+    if (utils.isFunction(plugin)) {
+      plugin(_Vue, Vuet, opt)
+    } else if (utils.isFunction(plugin.install)) {
+      plugin.install(_Vue, Vuet, opt)
+    }
+    return this
+  }<span class="missing-if-branch" title="else path not taken" >E</span>
+  static callRuleHook (hook, vuet) {
+    const { rules } = Vuet.options
+    for (let k in rules) {
+      if (utils.isFunction(rules[k][hook])) {
+        rules[k][hook](vuet)
+      }
+    }
+  }
+  constructor (options) {
+    if (!_Vue) {
+      debug.error('must call Vue.use(Vuet) before creating a store instance')
+    }
+    if (typeof Promise === 'undefined') {
+    <span class="missing-if-branch" title="if path not taken" >I</span>  debug.error('Vuet requires a Promise polyfill in this browser')
+    }<span class="cstat-no" title="statement not covered" ></span>
+    if (!utils.isObject(options)) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>  debug.error('Parameter is the object type')
+    }<span class="cstat-no" title="statement not covered" ></span>
+    this.version = '__version__'
+    <span class="missing-if-branch" title="if path not taken" >I</span>this.options = options || {}
+    th<span class="cstat-no" title="statement not covered" >is.app = null</span>
+    this.store = {}
+    this.names = {}
+    t</span>his.beforeHooks = [] // B<span class="branch-1 cbranch-no" title="branch not covered" >efore the request begins
+    this.afterHooks = [] // After the request begins
+    this.vm = null
+  }
+  beforeEach (fn) {
+    this.beforeHooks.push(fn)
+    return this
+  }
+  afterEach (fn) {
+    this.afterHooks.push(fn)
+    return this
+  }
+  _init (app) {
+    if (this.app || !app) return
+    this.app = app
+    this.vm = new _Vue({
+      data: {
+    <span class="missing-if-branch" title="if path not taken" >I</span>    store: this.store<span class="cstat-no" title="statement not covered" ></span>
+      }
+    })
+    this._options = {
+      data: function data () { return {} },
+      pathJoin: null,
+      ...this.options,
+      ...{
+        modules: {}
+      }
+    }
+    const keys = ['data', 'fetch', 'routeWatch', 'manuals']
+    const { pathJoin } = this._options
+    const initModule = (path, modules) =&gt; {
+      Object.keys(modules).forEach(k =&gt; {
+        const item = modules[k]
+        const _path = [...path, k]
+        if (utils.isFunction(item.data)) {
+          let newPath = null
+          if (pathJoin) {
+            newPath = _path.join(pathJoin)
+          } else {
+            newPath = [_path[0]]
+            for (let i = 1; i &lt; _path.length; i++) {
+              newPath.push(_path[i].replace(/^(\w)/, (v) =&gt; v.toUpperCase()))
+            }
+            newPath = newPath.join('')
+          }
+          this._options.modules[newPath] = item
+          this.reset(newPath)
+          this.names[newPath] = k
+        }
+        if (keys.indexOf(k) === -1 &amp;&amp; utils.isObject(item)) {
+          initModule(_path, item)
+        }
+      })
+    }
+    initModule([], this.options.modules)
+    Vuet.callRuleHook('init', this)
+  }
+  getState (path) {
+    debug.assertPath(this, path)
+    return this.store[path]
+  }
+  setState (path, newState) {
+    debug.assertPath(this, path)
+    if (this.store[path] &amp;&amp; Object.prototype.toString.call(this.store[path]) !== Object.prototype.toString.call(newState)) return this
+    if (!this.store[path] || !utils.isObject(newState)) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>  _Vue.set(this.store, path, newState)<span class="cstat-no" title="statement not covered" ></span>
+      return this
+    }
+    Object.assign(this.store[path], newState)
+    return this
+  }
+  fetch (path, params, setStateBtn) {
+    debug.assertPath(this, path)
+    const module = this._options.modules[path]
+    if (typeof module.fetch !== 'function') return Promise.resolve(this.getState(path))
+    <span class="missing-if-branch" title="if path not taken" >I</span>const data = {<span class="cstat-no" title="statement not covered" ></span>
+      path,
+      params: { ...params },
+      state: this.getState(path),
+      route: this.app.$route || {},
+      app: this.app<span class="branch-1 cbranch-no" title="branch not covered" ></span>
+    }
+    const callHook = (hook, ...arg) =&gt; {
+      for (let i = 0; i &lt; this[hook].length; i++) {
+        if (this[hook][i].apply(this, arg)) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>  return false
+        }<span class="cstat-no" title="statement not covered" ></span>
+      }
+    }
+    if (callHook('beforeHooks', data) === false) return Promise.resolve(data.state)
+    <span class="missing-if-branch" title="if path not taken" >I</span>return module.fetch.call(this, data)<span class="cstat-no" title="statement not covered" ></span>
+      .then(res =&gt; {
+        if (callHook('afterHooks', null, data, res) === false) return data.state
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (setStateBtn === false) return res<span class="cstat-no" title="statement not covered" ></span>
+        this.setState(path, res)
+        return data.state
+      })
+      .catch(e =&gt; {
+        if (callHook('afterHooks', e, data) === false) return Promise.resolve(data.state)
+        <span class="missing-if-branch" title="if path not taken" >I</span>return Promise.reject(e)<span class="cstat-no" title="statement not covered" ></span>
+      })
+  }
+  reset (path) {
+    debug.assertPath(this, path)
+    const baseData = this._options.data.call(this)
+    const { data } = this._options.modules[path]
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (utils.isFunction(data)) {
+      const any = data.call(this, path)
+      if (utils.isObject(any)) {
+        Object.assign(baseData, any)
+        this.setState(path, baseData)
+      } else {
+        this.setState(path, any)
+      }
+    }
+    return this
+  }
+  data (path) {
+    if (!utils.isObject(this._options.modules[path])) return null
+    const { data } = this._options.modules[path]
+    return data.call(this)
+  }
+  destroy () {
+    this.vm.$destroy()
+    Vuet.callRuleHook('destroy', this)
+  }
+}
+&nbsp;
+Vuet.use(rules)
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Jul 24 2017 10:17:34 GMT+0800 (CST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 /* @flow */
 
 import utils from '../utils'
+import debug from '../debug'
 
 export const _name = 'route'
 export const _key = `__${_name}__`
@@ -70,6 +71,7 @@ export default {
 
     return {
       beforeCreate () {
+        debug.assertPath(this.$vuet, path)
         const { routeWatch = 'fullPath' } = this.$vuet._options.modules[path]
         const toWatch = getWatchs(this.$route, routeWatch)
         const watch = diffWatch(toWatch, getVuetWatchs(this.$vuet))

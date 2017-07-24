@@ -1,5 +1,7 @@
 /* @flow */
 
+import debug from '../debug'
+
 function mapManuals (vuet: Object, path: string) {
   const { manuals = {} } = vuet._options.modules[path]
   const methods = {}
@@ -45,6 +47,7 @@ export default {
   rule ({ path, name }: RuleOptions) {
     return {
       beforeCreate () {
+        debug.assertPath(this.$vuet, path)
         const { manuals = {} } = this.$vuet._options.modules[path]
         const newName = name || manuals.name || `$${this.$vuet.names[path]}`
         this[newName] = mapManuals(this.$vuet, path)

@@ -49,15 +49,11 @@ export default class Vuet {
       const path = opt[k]
       computed[k] = {
         get () {
-          if (!(path in this.$vuet.store)) {
-            utils.error('The warehouse does not have this module')
-          }
+          debug.assertPath(this.$vuet, path)
           return this.$vuet.store[path]
         },
         set (val) {
-          if (!(path in this.$vuet.store)) {
-            utils.error('The warehouse does not have this module')
-          }
+          debug.assertPath(this.$vuet, path)
           this.$vuet.store[path] = val
         }
       }

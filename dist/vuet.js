@@ -44,6 +44,12 @@ var debug = {
     {
       typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
     }
+  },
+  assertPath: function assertPath(vuet, path) {
+    if (path in vuet.store) {
+      return;
+    }
+    this.error('The module does not exist. Call the this.$vuet method in the Vue component to see all module paths');
   }
 };
 
@@ -334,6 +340,7 @@ var life = {
 
     return {
       beforeCreate: function beforeCreate() {
+        debug.assertPath(this.$vuet, path);
         this.$vuet.fetch(path, { current: this });
       },
       destroyed: function destroyed() {
@@ -417,6 +424,7 @@ var manual = {
 
     return {
       beforeCreate: function beforeCreate() {
+        debug.assertPath(this.$vuet, path);
         var _$vuet$_options$modul = this.$vuet._options.modules[path].manuals,
             manuals = _$vuet$_options$modul === undefined ? {} : _$vuet$_options$modul;
 
@@ -433,6 +441,7 @@ var need = {
 
     return {
       beforeCreate: function beforeCreate() {
+        debug.assertPath(this.$vuet, path);
         this.$vuet.fetch(path, { current: this });
       }
     };
@@ -456,6 +465,7 @@ var once = {
       beforeCreate: function beforeCreate() {
         var _this = this;
 
+        debug.assertPath(this.$vuet, path);
         if (this.$vuet[key][path] === false) {
           this.$vuet.fetch(path, { current: this }).then(function () {
             _this.$vuet[key][path] = true;
@@ -539,6 +549,7 @@ var route = {
       beforeCreate: function beforeCreate() {
         var _this = this;
 
+        debug.assertPath(this.$vuet, path);
         var _$vuet$_options$modul = this.$vuet._options.modules[path].routeWatch,
             routeWatch = _$vuet$_options$modul === undefined ? 'fullPath' : _$vuet$_options$modul;
 
@@ -641,15 +652,11 @@ var Vuet$1 = function () {
         var path = opt[k];
         computed[k] = {
           get: function get$$1() {
-            if (!(path in this.$vuet.store)) {
-              utils.error('The warehouse does not have this module');
-            }
+            debug.assertPath(this.$vuet, path);
             return this.$vuet.store[path];
           },
           set: function set$$1(val) {
-            if (!(path in this.$vuet.store)) {
-              utils.error('The warehouse does not have this module');
-            }
+            debug.assertPath(this.$vuet, path);
             this.$vuet.store[path] = val;
           }
         };
