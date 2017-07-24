@@ -6,13 +6,14 @@
   "scripts": {
     "flow": "flow",
     "dev": "node examples/server",
-    "dev:test": "./node_modules/.bin/npm-watch",
+    "dev:test": "npm-watch",
     "build": "node build/build.js",
-    "lint": "./node_modules/.bin/eslint src examples test build --ext .vue --ext .js",
-    "unit": "node_modules/.bin/ava test/unit --verbose",
+    "lint": "eslint src examples test build --ext .vue --ext .js",
+    "unit": "nyc ava test/unit --verbose",
     "test": "npm run lint && npm run unit && npm run e2e && npm run build",
     "test:watch": "npm run lint && npm run flow && npm run build",
-    "e2e": "testcafe all test/e2e/**.js --app 'node examples/server.js'"
+    "e2e": "testcafe all test/e2e/**.js --app 'node examples/server.js'",
+    "report": "nyc report --reporter=html"
   },
   "files": [
     "dist/",
@@ -59,6 +60,7 @@
     "express-urlrewrite": "^1.2.0",
     "flow-bin": "^0.49.1",
     "npm-watch": "^0.2.0",
+    "nyc": "^11.0.3",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-replace": "^1.1.1",
