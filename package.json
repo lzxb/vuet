@@ -1,15 +1,19 @@
 {
   "name": "vuet",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Vue state management plugin",
   "main": "dist/vuet.js",
   "scripts": {
+    "flow": "flow",
     "dev": "node examples/server",
+    "dev:test": "npm-watch",
     "build": "node build/build.js",
-    "lint": "./node_modules/.bin/eslint src examples test build --ext .vue --ext .js --fix",
-    "unit": "node_modules/.bin/ava test/unit --verbose",
-    "test": "npm run lint && npm run unit && npm run e2e && npm run build",
-    "e2e": "testcafe all test/e2e/**.js --app 'node examples/server.js'"
+    "lint": "eslint src examples test build --ext .vue --ext .js",
+    "unit": "nyc ava test/unit --verbose",
+    "test": "npm run lint && npm run unit && npm run e2e && npm run build && npm run coveralls ",
+    "test:watch": "npm run lint && npm run flow && npm run build",
+    "e2e": "testcafe all test/e2e/**.js --app 'node examples/server.js'",
+    "coveralls": "nyc report --reporter=html && nyc report --reporter=text-lcov | coveralls"
   },
   "files": [
     "dist/",
@@ -35,14 +39,18 @@
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.20.0",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "babel-preset-flow": "^6.23.0",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.24.1",
+    "coveralls": "^2.13.1",
     "css-loader": "^0.28.4",
     "eslint": "^4.2.0",
     "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-flowtype": "^2.35.0",
     "eslint-plugin-html": "^3.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-node": "^4.2.2",
@@ -51,6 +59,9 @@
     "eslint-plugin-testcafe": "^0.2.1",
     "express": "^4.15.3",
     "express-urlrewrite": "^1.2.0",
+    "flow-bin": "^0.49.1",
+    "npm-watch": "^0.2.0",
+    "nyc": "^11.0.3",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-replace": "^1.1.1",
@@ -66,6 +77,7 @@
   },
   "babel": {
     "presets": [
+      "flow",
       "es2015",
       "stage-0"
     ]
@@ -74,5 +86,16 @@
     "require": [
       "babel-register"
     ]
+  },
+  "watch": {
+    "test:watch": {
+      "patterns": [
+        "build",
+        "examples",
+        "src",
+        "test"
+      ],
+      "extensions": "js,html,vue"
+    }
   }
 }

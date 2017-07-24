@@ -1,4 +1,8 @@
-function mapManuals (vuet, path) {
+/* @flow */
+
+import debug from '../debug'
+
+function mapManuals (vuet: Object, path: string) {
   const { manuals = {} } = vuet._options.modules[path]
   const methods = {}
   Object.keys(manuals).forEach(k => {
@@ -35,14 +39,15 @@ function mapManuals (vuet, path) {
 }
 
 export default {
-  install (Vue, Vuet) {
+  install (Vue: Function, Vuet: Function) {
     Vuet.prototype.mapManuals = function (path) {
       return mapManuals(this, path)
     }
   },
-  rule ({ path, name }) {
+  rule ({ path, name }: RuleOptions) {
     return {
       beforeCreate () {
+        debug.assertPath(this.$vuet, path)
         const { manuals = {} } = this.$vuet._options.modules[path]
         const newName = name || manuals.name || `$${this.$vuet.names[path]}`
         this[newName] = mapManuals(this.$vuet, path)

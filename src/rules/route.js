@@ -1,10 +1,13 @@
+/* @flow */
+
 import utils from '../utils'
+import debug from '../debug'
 
 export const _name = 'route'
 export const _key = `__${_name}__`
 
 export default {
-  init (vuet) {
+  init (vuet: Object) {
     utils.set(vuet, _key, {
       watchers: {},
       scrolls: {}
@@ -14,7 +17,7 @@ export default {
       utils.set(vuet[_key].scrolls, path, {})
     })
   },
-  rule ({ path }) {
+  rule ({ path }: RuleOptions) {
     // vuet-scroll
     function resetVuetScroll (vm) {
       const { $scroll } = vm.$vuet.store[path]
@@ -28,25 +31,26 @@ export default {
     }
 
     // route-watch
-    function getVuetWatchs (vuet) {
+    function getVuetWatchs (vuet: Object) {
       return vuet[_key].watchers[path]
     }
-    function setVuetWatchs (vuet, val) {
-      vuet[_key].watchers[path] = val
+    function setVuetWatchs (vuet: Object, arr: Array<string>) {
+      vuet[_key].watchers[path] = arr
     }
-    function getWatchs (obj = {}, list) {
+    function getWatchs (obj: Route, list: string | Array<string>): Array<string> {
       if (typeof list === 'string') {
         list = [list]
       }
-      const getObjVal = (obj, str) => {
-        const arr = str.split('.')
+      const getObjVal = (route: Route, str: string) => {
+        let obj: any = route
+        const arr: Array<string> = str.split('.')
         arr.forEach(k => {
           obj = obj[k]
         })
         return obj
       }
       const arr = []
-      list.forEach(val => {
+      list.forEach((val: string) => {
         let value = getObjVal(obj, val)
         if (!isNaN(value)) {
           value = String(value)
@@ -56,7 +60,7 @@ export default {
       return arr
     }
 
-    function diffWatch (to, from) {
+    function diffWatch (to: Array<string>, from: Array<string>): boolean {
       for (let i = 0; i < to.length; i++) {
         if (to[i] !== from[i]) {
           return true
@@ -67,6 +71,7 @@ export default {
 
     return {
       beforeCreate () {
+        debug.assertPath(this.$vuet, path)
         const { routeWatch = 'fullPath' } = this.$vuet._options.modules[path]
         const toWatch = getWatchs(this.$route, routeWatch)
         const watch = diffWatch(toWatch, getVuetWatchs(this.$vuet))
@@ -84,11 +89,11 @@ export default {
       watch: {
         $route: {
           deep: true,
-          handler (to, from) {
+          handler (to: Route, from: Route) {
             const { routeWatch = 'fullPath' } = this.$vuet._options.modules[path]
             const toWatch = getWatchs(to, routeWatch)
             const fromWatch = getWatchs(from, routeWatch)
-            const watch = diffWatch(toWatch, fromWatch)
+            const watch: boolean = diffWatch(toWatch, fromWatch)
             if (!watch) return false
             this.$vuet.fetch(path, { current: this, routeWatch: watch }).then((res) => {
               if (diffWatch(toWatch, getWatchs(this.$route, routeWatch))) return

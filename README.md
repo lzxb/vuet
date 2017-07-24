@@ -1,4 +1,5 @@
 ## Vuet
+[![Coverage Status](https://coveralls.io/repos/github/medatc/vuet/badge.svg?branch=dev)](https://coveralls.io/github/medatc/vuet?branch=dev)
 [![Build Status](https://travis-ci.org/medatc/vuet.svg?branch=master)](https://travis-ci.org/medevicex/vuet)
 [![npm](https://img.shields.io/npm/v/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet) 
 [![npm](https://img.shields.io/npm/dt/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet)

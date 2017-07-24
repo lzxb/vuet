@@ -29,7 +29,6 @@ var utils = {
   }
 };
 
-// Add isXXX function
 typeStrings.forEach(function (type) {
   var typeString = '[object ' + type + ']';
   utils['is' + type] = function (obj) {
@@ -45,6 +44,12 @@ var debug = {
     {
       typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
     }
+  },
+  assertPath: function assertPath(vuet, path) {
+    if (path in vuet.store) {
+      return;
+    }
+    this.error('The module does not exist. Call the this.$vuet method in the Vue component to see all module paths');
   }
 };
 
@@ -140,30 +145,26 @@ var _self = '__vuetScrollSelf__';
 var _window = '__vuetScrollWindow__';
 
 var VuetScroll = function () {
-  function VuetScroll(opt) {
+  function VuetScroll(opts) {
     classCallCheck(this, VuetScroll);
 
-    this.app = null;
-    this.path = null;
-    this.name = null;
-    this.store = null;
-    this.scrolls = null;
-    this.setOption(opt);
+    this.timer = {};
+    this.setOption(opts);
     this.scrollTo();
     this.subScroll();
   }
 
   createClass(VuetScroll, [{
     key: 'update',
-    value: function update(opt) {
+    value: function update(opts) {
       var _this = this;
 
-      this.setOption(opt);
+      this.setOption(opts);
       var key = 'timer-' + this.path + '-' + this.name;
-      clearTimeout(this[key]);
-      this[key] = setTimeout(function () {
+      clearTimeout(this.timer[key]);
+      this.timer[key] = setTimeout(function () {
         _this.scrollTo();
-        delete _this[key];
+        delete _this.timer[key];
       }, 10);
     }
   }, {
@@ -176,8 +177,8 @@ var VuetScroll = function () {
     value: function setOption(opt) {
       this.app = opt.app;
       this.path = opt.path;
-      this.name = opt.name || null;
-      this.store = opt.store || null;
+      this.name = opt.name || '';
+      this.store = opt.store || { x: 0, y: 0 };
       this.scrolls = opt.scrolls || createScroll(opt);
       function createScroll(opt) {
         if (!opt.store.$scroll) {
@@ -210,7 +211,7 @@ var VuetScroll = function () {
 
       var app = this.app;
 
-      var newScrolls = {};
+      var newScrolls = { x: 0, y: 0 };
       this.subScrolling = function (event) {
         if (app === window) {
           newScrolls.x = window.pageXOffset;
@@ -234,11 +235,11 @@ var VuetScroll = function () {
 }();
 
 function isSelf(modifiers) {
-  return modifiers.window !== true || modifiers.self;
+  return !!(modifiers.window !== true || modifiers.self);
 }
 
 function isWindow(modifiers) {
-  return modifiers.window;
+  return !!modifiers.window;
 }
 
 var scroll = {
@@ -264,7 +265,7 @@ var scroll = {
         path: value.path,
         name: 'window',
         store: vnode.context.$vuet.store[value.path],
-        scrolls: value.window || null
+        scrolls: value.window
       });
     }
   },
@@ -339,6 +340,7 @@ var life = {
 
     return {
       beforeCreate: function beforeCreate() {
+        debug.assertPath(this.$vuet, path);
         this.$vuet.fetch(path, { current: this });
       },
       destroyed: function destroyed() {
@@ -422,6 +424,7 @@ var manual = {
 
     return {
       beforeCreate: function beforeCreate() {
+        debug.assertPath(this.$vuet, path);
         var _$vuet$_options$modul = this.$vuet._options.modules[path].manuals,
             manuals = _$vuet$_options$modul === undefined ? {} : _$vuet$_options$modul;
 
@@ -438,6 +441,7 @@ var need = {
 
     return {
       beforeCreate: function beforeCreate() {
+        debug.assertPath(this.$vuet, path);
         this.$vuet.fetch(path, { current: this });
       }
     };
@@ -461,6 +465,7 @@ var once = {
       beforeCreate: function beforeCreate() {
         var _this = this;
 
+        debug.assertPath(this.$vuet, path);
         if (this.$vuet[key][path] === false) {
           this.$vuet.fetch(path, { current: this }).then(function () {
             _this.$vuet[key][path] = true;
@@ -505,17 +510,15 @@ var route = {
     function getVuetWatchs(vuet) {
       return vuet[_key].watchers[path];
     }
-    function setVuetWatchs(vuet, val) {
-      vuet[_key].watchers[path] = val;
+    function setVuetWatchs(vuet, arr) {
+      vuet[_key].watchers[path] = arr;
     }
-    function getWatchs() {
-      var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var list = arguments[1];
-
+    function getWatchs(obj, list) {
       if (typeof list === 'string') {
         list = [list];
       }
-      var getObjVal = function getObjVal(obj, str) {
+      var getObjVal = function getObjVal(route, str) {
+        var obj = route;
         var arr = str.split('.');
         arr.forEach(function (k) {
           obj = obj[k];
@@ -546,6 +549,7 @@ var route = {
       beforeCreate: function beforeCreate() {
         var _this = this;
 
+        debug.assertPath(this.$vuet, path);
         var _$vuet$_options$modul = this.$vuet._options.modules[path].routeWatch,
             routeWatch = _$vuet$_options$modul === undefined ? 'fullPath' : _$vuet$_options$modul;
 
@@ -594,6 +598,94 @@ function install$1(_Vue, Vuet) {
 }
 
 var Vuet$1 = function () {
+  createClass(Vuet, null, [{
+    key: 'install',
+    value: function install$$1() {
+      install.apply(undefined, arguments);
+    }
+  }, {
+    key: 'rule',
+    value: function rule(name, _rule) {
+      if (this.options.rules[name]) return this;
+      this.options.rules[name] = _rule;
+      if (utils.isFunction(_rule.install)) {
+        _rule.install(_Vue, Vuet);
+      }
+      return this;
+    }
+  }, {
+    key: 'mapRules',
+    value: function mapRules() {
+      for (var _len = arguments.length, paths = Array(_len), _key = 0; _key < _len; _key++) {
+        paths[_key] = arguments[_key];
+      }
+
+      var opt = utils.getArgMerge.apply(null, arguments);
+      var vueRules = [];
+      var addRule = function addRule(ruleName, any) {
+        var rules = Vuet.options.rules[ruleName];
+        if (typeof any === 'string') {
+          vueRules.push(rules.rule({ path: any }));
+        } else {
+          vueRules.push(rules.rule(any));
+        }
+      };
+      Object.keys(opt).forEach(function (ruleName) {
+        var any = opt[ruleName];
+        if (Array.isArray(any)) {
+          return any.forEach(function (item) {
+            addRule(ruleName, item);
+          });
+        }
+        addRule(ruleName, any);
+      });
+      return {
+        mixins: vueRules
+      };
+    }
+  }, {
+    key: 'mapModules',
+    value: function mapModules() {
+      var opt = utils.getArgMerge.apply(null, arguments);
+      var computed = {};
+      Object.keys(opt).forEach(function (k) {
+        var path = opt[k];
+        computed[k] = {
+          get: function get$$1() {
+            debug.assertPath(this.$vuet, path);
+            return this.$vuet.store[path];
+          },
+          set: function set$$1(val) {
+            debug.assertPath(this.$vuet, path);
+            this.$vuet.store[path] = val;
+          }
+        };
+      });
+      return { computed: computed };
+    }
+  }, {
+    key: 'use',
+    value: function use(plugin, opt) {
+      if (utils.isFunction(plugin)) {
+        plugin(_Vue, Vuet, opt);
+      } else if (utils.isFunction(plugin.install)) {
+        plugin.install(_Vue, Vuet, opt);
+      }
+      return this;
+    }
+  }, {
+    key: 'callRuleHook',
+    value: function callRuleHook(hook, vuet) {
+      var rules = Vuet.options.rules;
+
+      for (var k in rules) {
+        if (utils.isFunction(rules[k][hook])) {
+          rules[k][hook](vuet);
+        }
+      }
+    }
+  }]);
+
   function Vuet(options) {
     classCallCheck(this, Vuet);
 
@@ -606,7 +698,7 @@ var Vuet$1 = function () {
     if (!utils.isObject(options)) {
       debug.error('Parameter is the object type');
     }
-    this.version = '0.2.5';
+    this.version = '0.2.6';
     this.options = options || {};
     this.app = null;
     this.store = {};
@@ -678,7 +770,7 @@ var Vuet$1 = function () {
         });
       };
       initModule([], this.options.modules);
-      callRuleHook('init', this);
+      Vuet.callRuleHook('init', this);
     }
   }, {
     key: 'getState',
@@ -711,8 +803,8 @@ var Vuet$1 = function () {
         app: this.app
       };
       var callHook = function callHook(hook) {
-        for (var _len = arguments.length, arg = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-          arg[_key - 1] = arguments[_key];
+        for (var _len2 = arguments.length, arg = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+          arg[_key2 - 1] = arguments[_key2];
         }
 
         for (var i = 0; i < _this2[hook].length; i++) {
@@ -761,95 +853,15 @@ var Vuet$1 = function () {
     key: 'destroy',
     value: function destroy() {
       this.vm.$destroy();
-      callRuleHook('destroy', this);
+      Vuet.callRuleHook('destroy', this);
     }
   }]);
   return Vuet;
 }();
 
-Object.assign(Vuet$1, {
-  options: {
-    rules: {}
-  },
-  install: install,
-  rule: function rule(name, _rule) {
-    if (this.options.rules[name]) return this;
-    this.options.rules[name] = _rule;
-    if (utils.isFunction(_rule.install)) {
-      _rule.install(_Vue, Vuet$1);
-    }
-    return this;
-  },
-  mapRules: function mapRules() {
-    for (var _len2 = arguments.length, paths = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      paths[_key2] = arguments[_key2];
-    }
-
-    var opt = utils.getArgMerge.apply(null, arguments);
-    var vueRules = [];
-    var addRule = function addRule(ruleName, any) {
-      var rules = Vuet$1.options.rules[ruleName];
-      if (typeof any === 'string') {
-        vueRules.push(rules.rule({ path: any }));
-      } else {
-        vueRules.push(rules.rule(any));
-      }
-    };
-    Object.keys(opt).forEach(function (ruleName) {
-      var any = opt[ruleName];
-      if (Array.isArray(any)) {
-        return any.forEach(function (item) {
-          addRule(ruleName, item);
-        });
-      }
-      addRule(ruleName, any);
-    });
-    return {
-      mixins: vueRules
-    };
-  },
-  mapModules: function mapModules() {
-    var opt = utils.getArgMerge.apply(null, arguments);
-    var computed = {};
-    Object.keys(opt).forEach(function (k) {
-      var path = opt[k];
-      computed[k] = {
-        get: function get$$1() {
-          if (!(path in this.$vuet.store)) {
-            utils.error('The warehouse does not have this module');
-          }
-          return this.$vuet.store[path];
-        },
-        set: function set$$1(val) {
-          if (!(path in this.$vuet.store)) {
-            utils.error('The warehouse does not have this module');
-          }
-          this.$vuet.store[path] = val;
-        }
-      };
-    });
-    return { computed: computed };
-  },
-  use: function use(plugin, opt) {
-    if (utils.isFunction(plugin)) {
-      plugin(_Vue, Vuet$1, opt);
-    } else if (utils.isFunction(plugin.install)) {
-      plugin.install(_Vue, Vuet$1, opt);
-    }
-    return this;
-  }
-});
-
-function callRuleHook(hook, vuet) {
-  var rules = Vuet$1.options.rules;
-
-  for (var k in rules) {
-    if (utils.isFunction(rules[k][hook])) {
-      rules[k][hook](vuet);
-    }
-  }
-}
-
+Vuet$1.options = {
+  rules: {}
+};
 Vuet$1.use(install$1);
 
 var mapRules = Vuet$1.mapRules.bind(Vuet$1);

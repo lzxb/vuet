@@ -1,8 +1,10 @@
+/* @flow */
+
 const toString = Object.prototype.toString
 // Cached type string
-const typeStrings = ['Object', 'Function', 'String', 'Undefined', 'Null']
+const typeStrings: Array<string> = ['Object', 'Function', 'String', 'Undefined', 'Null']
 
-const utils = {
+const utils: Object = {
   getArgMerge () {
     let opt = {}
     const args = arguments
@@ -13,7 +15,7 @@ const utils = {
     }
     return opt
   },
-  set (obj, key, value) {
+  set (obj: Object, key: string, value: any) {
     Object.defineProperty(obj, key, {
       value,
       enumerable: false,
@@ -23,9 +25,8 @@ const utils = {
   }
 }
 
-// Add isXXX function
-typeStrings.forEach(type => {
-  const typeString = `[object ${type}]`
+typeStrings.forEach((type: string) => {
+  const typeString: string = `[object ${type}]`
   utils[`is${type}`] = obj => {
     return toString.call(obj) === typeString
   }
