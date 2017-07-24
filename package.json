@@ -10,7 +10,7 @@
     "build": "node build/build.js",
     "lint": "eslint src examples test build --ext .vue --ext .js",
     "unit": "nyc ava test/unit --verbose",
-    "test": "npm run lint && npm run unit && npm run e2e && npm run build && npm run coveralls ",
+    "test": "npm run lint && npm run unit && npm run e2e && npm run build",
     "test:watch": "npm run lint && npm run flow && npm run build",
     "e2e": "testcafe all test/e2e/**.js --app 'node examples/server.js'",
     "coveralls": "nyc report --reporter=html && nyc report --reporter=text-lcov | coveralls"
