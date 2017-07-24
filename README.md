@@ -1,5 +1,5 @@
 ## Vuet
-[![Coverage Status](https://coveralls.io/repos/github/medatc/vuet/badge.svg?branch=dev)](https://coveralls.io/github/medatc/vuet?branch=dev)
+[![Coverage Status](https://coveralls.io/repos/github/medatc/vuet/badge.svg?branch=master)](https://coveralls.io/github/medatc/vuet?branch=master)
 [![Build Status](https://travis-ci.org/medatc/vuet.svg?branch=master)](https://travis-ci.org/medatc/vuet)
 [![npm](https://img.shields.io/npm/v/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet) 
 [![npm](https://img.shields.io/npm/dt/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet)
@@ -11,7 +11,7 @@ the modules. Anyway, it's all up to you.
 ### Development and test
 ```bash
 npm install
-npm run dev # open: http://localhost:3000/
+npm run master # open: http://localhost:3000/
 npm run dev:test
 ```
 
