@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/medatc/vuet.svg?branch=master)](https://travis-ci.org/medevicex/vuet)
 [![npm](https://img.shields.io/npm/v/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet) 
 [![npm](https://img.shields.io/npm/dt/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet)
+[![Coverage Status](https://coveralls.io/repos/github/medatc/vuet/badge.svg?branch=dev)](https://coveralls.io/github/medatc/vuet?branch=dev)
 
 ### What is the Vuet?
 Vuet is aimed at managing the status of `Vue.js`. Modular management is its core, and you can choose between updating automatically and regularly and updating by hand to update the status of

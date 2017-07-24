@@ -2,7 +2,7 @@ language: node_js
 node_js: "stable"
 
 after_success:
-  - ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls
+  - npm run report
 
 before_install:
   - stty cols 80

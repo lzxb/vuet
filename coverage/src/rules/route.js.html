@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">69.35% </span>
+        <span class="strong">70.31% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>43/62</span>
+        <span class='fraction'>45/64</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">36.36% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>13/16</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">72.88% </span>
+        <span class="strong">73.77% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>43/59</span>
+        <span class='fraction'>45/61</span>
       </div>
     </div>
   </div>
@@ -155,6 +155,7 @@
 110</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -231,6 +232,7 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -252,8 +254,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -283,12 +283,12 @@ export default {
   rule ({ path }: RuleOptions) {
     // vuet-scroll
     function resetVuetScroll (vm) {
-      <span class="missing-if-branch" title="if path not taken" >I</span>const { $scroll } = vm.$vuet.store[path]
-      if<span class="cstat-no" title="statement not covered" > ($scroll) {<span class="fstat-no" title="function not covered" ></span></span>
-        Ob<span class="cstat-no" title="statement not covered" >ject.keys($scroll).forEach(k =&gt; {</span>
+      const { $scroll } = vm.$vuet.store[path]
+      <span class="missing-if-branch" title="if path not taken" >I</span>if ($scroll) {
+<span class="cstat-no" title="statement not covered" >        Object.keys($scroll).forEach(<span class="fstat-no" title="function not covered" >k =&gt; </span>{</span>
 <span class="cstat-no" title="statement not covered" >          $scroll[k].x = 0</span>
 <span class="cstat-no" title="statement not covered" >          $scroll[k].y = 0</span>
-          $scroll[k].count = $scroll[k].count ? ++$scroll[k].count : 0
+<span class="cstat-no" title="statement not covered" >          $scroll[k].count = $scroll[k].count ? ++$scroll[k].count : 0</span>
         })
       }
     }
@@ -300,8 +300,8 @@ export default {
     function setVuetWatchs (vuet: Object, arr: Array&lt;string&gt;) {
       vuet[_key].watchers[path] = arr
     }
-    fu<span class="missing-if-branch" title="else path not taken" >E</span>nction getWatchs (obj: Route, list: string | Array&lt;string&gt;): Array&lt;string&gt; {
-      if (typeof list === 'string') {
+    function getWatchs (obj: Route, list: string | Array&lt;string&gt;): Array&lt;string&gt; {
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof list === 'string') {
         list = [list]
       }
       const getObjVal = (route: Route, str: string) =&gt; {
@@ -314,9 +314,9 @@ export default {
       }
       const arr = []
       list.forEach((val: string) =&gt; {
-        <span class="missing-if-branch" title="if path not taken" >I</span>let value = getObjVal(obj, val)
-        if<span class="cstat-no" title="statement not covered" > (!isNaN(value)) {</span>
-          value = String(value)
+        let value = getObjVal(obj, val)
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!isNaN(value)) {
+<span class="cstat-no" title="statement not covered" >          value = String(value)</span>
         }
         arr.push(JSON.stringify(value))
       })
@@ -332,37 +332,37 @@ export default {
       return false
     }
 &nbsp;
-    return {<span class="branch-1 cbranch-no" title="branch not covered" ></span>
-      beforeCreate () {
+    return {
+      beforeCreate () <span class="branch-1 cbranch-no" title="branch not covered" >{</span>
         debug.assertPath(this.$vuet, path)
         const { routeWatch = 'fullPath' } = this.$vuet._options.modules[path]
-        <span class="missing-if-branch" title="else path not taken" >E</span>const toWatch = getWatchs(this.$route, routeWatch)
+        const toWatch = getWatchs(this.$route, routeWatch)
         const watch = diffWatch(toWatch, getVuetWatchs(this.$vuet))
-        if (watch) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (watch) {
           this.$vuet.reset(path)
           setVuetWatchs(this.$vuet, toWatch)
           resetVuetScroll(this)
-        }<span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span></span>
+        }
         this.$vuet.fetch(path, { current: this, routeWatch: watch }, false).then((res) =&gt; {
-          if (diffWatch(toWatch, getWatchs(this.$route, routeWatch))) return
+          <span class="missing-if-branch" title="if path not taken" >I</span>if (diffWatch(toWatch, getWatchs(this.$route, routeWatch))) <span class="cstat-no" title="statement not covered" >return</span>
           this.$vuet.setState(path, res)
           setVuetWatchs(this.$vuet, toWatch)
         })
-      },<span class="fstat-no" title="function not covered" ></span>
+      },
       watch: {
-        $route: {<span class="cstat-no" title="statement not covered" ></span>
-          deep: true,<span class="cstat-no" title="statement not covered" ></span>
-          han</span>dler (to: Route<span class="cstat-no" title="statement not covered" >, from: Route) {
-            c</span>onst { routeWatch<span class="cstat-no" title="statement not covered" > = 'fullPath' } = this.$vuet._options.modules[path]
-            c</span>onst toWatch = getWatc<span class="cstat-no" title="statement not covered" >hs(to, routeWatch)
-<span class="cstat-no" title="statement not covered" >            const fromWa<span class="cstat-no" title="statement not covered" >t</span>ch = getWatchs(from, routeWatch)</span>
-<span class="cstat-no" title="statement not covered" >            const watch: boolean = diffWatch(toWatch, fromWatch)<span class="fstat-no" title="function not covered" ></span></span>
-            if<span class="cstat-no" title="statement not covered" > (!watch) return false<span class="cstat-no" title="statement not covered" ></span></span>
-            th<span class="cstat-no" title="statement not covered" >is.$vuet.fetch(path, { current: this, routeWatch: watch }).then((res) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >              if (diffWatch(toWatch, getWatchs(this.$route, routeWatch))) return</span>
+        $route: <span class="fstat-no" title="function not covered" >{</span>
+          deep: true,
+          handler (to: Route, from: Route) <span class="cstat-no" title="statement not covered" >{</span>
+            const { routeWatch = 'fullPath' } = <span class="cstat-no" title="statement not covered" >this.$vuet._options.modules[path]</span>
+            c</span>onst toWatch = <span class="cstat-no" title="statement not covered" >getWatchs(to, routeWatch)
+            c</span>onst fromWatch = <span class="cstat-no" title="statement not covered" >getWatchs(from, routeWatch)
+            c</span>onst watch: boolean = <span class="cstat-no" title="statement not covered" >diffWatch(toWatch, fromWatch)
+<span class="cstat-no" title="statement not covered" >            if (!watch) <span class="cstat-no" title="statement not covered" >r</span>eturn false</span>
+<span class="cstat-no" title="statement not covered" >            this.$vuet.fetch(path, { current: this, routeWatch: watch }).then(<span class="fstat-no" title="function not covered" >(</span>res) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >              if (diffWatch(toWatch, getWatchs(this.$route, routeWatch))) <span class="cstat-no" title="statement not covered" >r</span>eturn</span>
 <span class="cstat-no" title="statement not covered" >              resetVuetScroll(this)</span>
-              this.$vuet.setState(path, res)
-              setVuetWatchs(this.$vuet, toWatch)
+<span class="cstat-no" title="statement not covered" >              this.$vuet.setState(path, res)</span>
+<span class="cstat-no" title="statement not covered" >              setVuetWatchs(this.$vuet, toWatch)</span>
             })
           }
         }
@@ -376,7 +376,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Jul 24 2017 10:17:34 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Jul 24 2017 10:53:32 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

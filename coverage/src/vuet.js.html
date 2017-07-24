@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">88.81% </span>
+        <span class="strong">90.07% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>127/143</span>
+        <span class='fraction'>127/141</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">71.21% </span>
+        <span class="strong">74.19% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>47/66</span>
+        <span class='fraction'>46/62</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">92.86% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>13/14</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">93.08% </span>
+        <span class="strong">94.53% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>121/130</span>
+        <span class='fraction'>121/128</span>
       </div>
     </div>
   </div>
@@ -261,11 +261,7 @@
 216
 217
 218
-219
-220
-221
-222
-223</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+219</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -317,14 +313,10 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -538,25 +530,25 @@ export default class Vuet {
       const path = opt[k]
       computed[k] = <span class="fstat-no" title="function not covered" >{</span>
         get () {
-          <span class="missing-if-branch" title="if path not taken" >I</span>debug.assertPath(this.$vuet, path)
-          re<span class="cstat-no" title="statement not covered" >turn this.$vuet.store[path]</span>
+          debug.assertPath(this.$vuet, path)
+          return this.$vuet.store[path]
         },
         set (val) {
-          debug.assertPath(this.$vuet, path)
-          this.$vuet.store[path] = val
-        }<span class="cstat-no" title="statement not covered" ></span>
-      }<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >          debug.assertPath(this.$vuet, path)</span>
+<span class="cstat-no" title="statement not covered" >          this.$vuet.store[path] = val</span>
+        }
+      }
     })
-    return<span class="cstat-no" title="statement not covered" > { computed }</span>
+    return { computed }
   }
   static use (plugin, opt) {
     if (utils.isFunction(plugin)) {
       plugin(_Vue, Vuet, opt)
-    } else if (utils.isFunction(plugin.install)) {
+    } else <span class="missing-if-branch" title="else path not taken" >E</span>if (utils.isFunction(plugin.install)) {
       plugin.install(_Vue, Vuet, opt)
     }
     return this
-  }<span class="missing-if-branch" title="else path not taken" >E</span>
+  }
   static callRuleHook (hook, vuet) {
     const { rules } = Vuet.options
     for (let k in rules) {
@@ -566,21 +558,21 @@ export default class Vuet {
     }
   }
   constructor (options) {
-    if (!_Vue) {
-      debug.error('must call Vue.use(Vuet) before creating a store instance')
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!_Vue) {
+<span class="cstat-no" title="statement not covered" >      debug.error('must call Vue.use(Vuet) before creating a store instance')</span>
     }
-    if (typeof Promise === 'undefined') {
-    <span class="missing-if-branch" title="if path not taken" >I</span>  debug.error('Vuet requires a Promise polyfill in this browser')
-    }<span class="cstat-no" title="statement not covered" ></span>
-    if (!utils.isObject(options)) {
-    <span class="missing-if-branch" title="if path not taken" >I</span>  debug.error('Parameter is the object type')
-    }<span class="cstat-no" title="statement not covered" ></span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof Promise === 'undefined') {
+<span class="cstat-no" title="statement not covered" >      debug.error('Vuet requires a Promise polyfill in this browser')</span>
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!utils.isObject(options)) {
+<span class="cstat-no" title="statement not covered" >      debug.error('Parameter is the object type')</span>
+    }
     this.version = '__version__'
-    <span class="missing-if-branch" title="if path not taken" >I</span>this.options = options || {}
-    th<span class="cstat-no" title="statement not covered" >is.app = null</span>
+    t</span>his.options = options || <span class="branch-1 cbranch-no" title="branch not covered" >{}
+    this.app = null
     this.store = {}
     this.names = {}
-    t</span>his.beforeHooks = [] // B<span class="branch-1 cbranch-no" title="branch not covered" >efore the request begins
+    this.beforeHooks = [] // Before the request begins
     this.afterHooks = [] // After the request begins
     this.vm = null
   }
@@ -593,11 +585,11 @@ export default class Vuet {
     return this
   }
   _init (app) {
-    if (this.app || !app) return
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.app || !app) <span class="cstat-no" title="statement not covered" >return</span>
     this.app = app
     this.vm = new _Vue({
       data: {
-    <span class="missing-if-branch" title="if path not taken" >I</span>    store: this.store<span class="cstat-no" title="statement not covered" ></span>
+        store: this.store
       }
     })
     this._options = {
@@ -638,52 +630,48 @@ export default class Vuet {
     Vuet.callRuleHook('init', this)
   }
   getState (path) {
-    debug.assertPath(this, path)
     return this.store[path]
   }
   setState (path, newState) {
-    debug.assertPath(this, path)
-    if (this.store[path] &amp;&amp; Object.prototype.toString.call(this.store[path]) !== Object.prototype.toString.call(newState)) return this
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.store[path] &amp;&amp; Object.prototype.toString.call(this.store[path]) !== Object.prototype.toString.call(newState)) <span class="cstat-no" title="statement not covered" >return this</span>
     if (!this.store[path] || !utils.isObject(newState)) {
-    <span class="missing-if-branch" title="if path not taken" >I</span>  _Vue.set(this.store, path, newState)<span class="cstat-no" title="statement not covered" ></span>
+      _Vue.set(this.store, path, newState)
       return this
     }
     Object.assign(this.store[path], newState)
     return this
   }
   fetch (path, params, setStateBtn) {
-    debug.assertPath(this, path)
     const module = this._options.modules[path]
-    if (typeof module.fetch !== 'function') return Promise.resolve(this.getState(path))
-    <span class="missing-if-branch" title="if path not taken" >I</span>const data = {<span class="cstat-no" title="statement not covered" ></span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof module.fetch !== 'function') <span class="cstat-no" title="statement not covered" >return Promise.resolve(this.getState(path))</span>
+    const data = {
       path,
       params: { ...params },
       state: this.getState(path),
-      route: this.app.$route || {},
-      app: this.app<span class="branch-1 cbranch-no" title="branch not covered" ></span>
+      route: this.app.$route || <span class="branch-1 cbranch-no" title="branch not covered" >{},</span>
+      app: this.app
     }
     const callHook = (hook, ...arg) =&gt; {
       for (let i = 0; i &lt; this[hook].length; i++) {
-        if (this[hook][i].apply(this, arg)) {
-        <span class="missing-if-branch" title="if path not taken" >I</span>  return false
-        }<span class="cstat-no" title="statement not covered" ></span>
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (this[hook][i].apply(this, arg)) {
+<span class="cstat-no" title="statement not covered" >          return false</span>
+        }
       }
     }
-    if (callHook('beforeHooks', data) === false) return Promise.resolve(data.state)
-    <span class="missing-if-branch" title="if path not taken" >I</span>return module.fetch.call(this, data)<span class="cstat-no" title="statement not covered" ></span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (callHook('beforeHooks', data) === false) <span class="cstat-no" title="statement not covered" >return Promise.resolve(data.state)</span>
+    return module.fetch.call(this, data)
       .then(res =&gt; {
-        if (callHook('afterHooks', null, data, res) === false) return data.state
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (setStateBtn === false) return res<span class="cstat-no" title="statement not covered" ></span>
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (callHook('afterHooks', null, data, res) === false) <span class="cstat-no" title="statement not covered" >return data.state</span>
+        if (setStateBtn === false) return res
         this.setState(path, res)
         return data.state
       })
       .catch(e =&gt; {
-        if (callHook('afterHooks', e, data) === false) return Promise.resolve(data.state)
-        <span class="missing-if-branch" title="if path not taken" >I</span>return Promise.reject(e)<span class="cstat-no" title="statement not covered" ></span>
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (callHook('afterHooks', e, data) === false) <span class="cstat-no" title="statement not covered" >return Promise.resolve(data.state)</span>
+        return Promise.reject(e)
       })
   }
   reset (path) {
-    debug.assertPath(this, path)
     const baseData = this._options.data.call(this)
     const { data } = this._options.modules[path]
     <span class="missing-if-branch" title="else path not taken" >E</span>if (utils.isFunction(data)) {
@@ -715,7 +703,7 @@ Vuet.use(rules)
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Jul 24 2017 10:17:34 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Jul 24 2017 10:53:32 GMT+0800 (CST)
 </div>
 </div>
 <script src="../prettify.js"></script>

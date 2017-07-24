@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60.98% </span>
+        <span class="strong">60.47% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>25/41</span>
+        <span class='fraction'>26/43</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">22.22% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>8/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">68.97% </span>
+        <span class="strong">67.74% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>20/29</span>
+        <span class='fraction'>21/31</span>
       </div>
     </div>
   </div>
@@ -103,6 +103,8 @@
 58</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -116,15 +118,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -133,6 +126,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -150,9 +152,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -160,56 +160,56 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* @flow */
 &nbsp;
 import debug from '../debug'
-<span class="branch-0 cbranch-no" title="branch not covered" ></span>
+&nbsp;
 function mapManuals (vuet: Object, path: string) {
-  const { manuals = {} } = vuet._options.modules[path]
+  const { manuals = <span class="branch-0 cbranch-no" title="branch not covered" >{} } = vuet._options.modules[path]</span>
   const methods = {}
-  Ob<span class="missing-if-branch" title="else path not taken" >E</span>ject.keys(manuals).forEach(k =&gt; {
-    const fn = manuals[k]<span class="cstat-no" title="statement not covered" ></span>
-    if (typeof fn === 'function') {
-      methods[`${k}`] = (...arg) =&gt; {
+  Object.keys(manuals).forEach(k =&gt; {
+    const fn = manuals[k]
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof fn === 'function') {
+      methods[`${k}`] = (...<span class="cstat-no" title="statement not covered" >arg) =&gt; {</span>
         return fn.apply(methods, [{
           state: vuet.getState(path),
           app: vuet.app,
           vuet: vuet
         }, ...arg])
       }
-    }<span class="cstat-no" title="statement not covered" ></span>
+    }
   })
-  methods.reset = (...arg) =&gt; {
-    return vuet.reset<span class="fstat-no" title="function not covered" >(pat<span class="cstat-no" title="statement not covered" >h, ...ar<span class="cstat-no" title="statement not covered" ></span>g</span>)</span>
-  }<span class="cstat-no" title="statement not covered" ></span>
-  methods.getState = (...arg) =&gt; {
-    return vuet.getState(path, ...arg)
+  methods.reset = (...<span class="cstat-no" title="statement not covered" >arg) =&gt; {</span>
+    return vuet.reset(path, ...arg)
+  }
+  methods.getState = <span class="fstat-no" title="function not covered" >(...<span class="cstat-no" title="statement not covered" >arg) =&gt; <span class="cstat-no" title="statement not covered" ></span>{</span></span>
+<span class="cstat-no" title="statement not covered" >    return vuet.getState(path, ...arg)</span>
   }
   methods.setState = (...arg) =&gt; {
-    return vuet.setSta<span class="cstat-no" title="statement not covered" >te(path, </span>...arg)
+    return vuet.setState(path, ...arg)
   }
-  methods.fetch = (...arg) =&gt; {
-    return vuet.f<span class="fstat-no" title="function not covered" >etch<span class="cstat-no" title="statement not covered" >(path, .<span class="cstat-no" title="statement not covered" ></span>.</span>.arg)</span>
-  }<span class="cstat-no" title="statement not covered" ></span>
-  methods.data = (...arg) =&gt; {
-    return vuet.data(pa<span class="fstat-no" title="function not covered" >th, ...a</span>rg)
-  }<span class="cstat-no" title="statement not covered" ></span>
-  methods.mapManuals = path =&gt; {
-    return mapManuals(vuet, path)
+  methods.fetch = (...<span class="cstat-no" title="statement not covered" >arg) =&gt; {</span>
+    return vuet.fetch(path, ...arg)
+  }
+  methods.data = <span class="fstat-no" title="function not covered" >(...<span class="cstat-no" title="statement not covered" >arg) =&gt; <span class="cstat-no" title="statement not covered" ></span>{</span></span>
+<span class="cstat-no" title="statement not covered" >    return vuet.data(path, ...arg)</span>
+  }
+  methods.mapManuals = <span class="fstat-no" title="function not covered" >path =&gt; </span>{
+<span class="cstat-no" title="statement not covered" >    return mapManuals(vuet, path)</span>
   }
   return methods
-}<span class="fstat-no" title="function not covered" ></span>
+}
 &nbsp;
-export default {
+export default <span class="fstat-no" title="function not covered" >{</span>
   install (Vue: Function, Vuet: Function) {
     Vuet.prototype.mapManuals = function (path) {
       return mapManuals(this, path)
-    }<span class="cstat-no" title="statement not covered" ></span>
-  },<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
-  rule ({ path, name }<span class="cstat-no" title="statement not covered" >: RuleOptions) {</span>
-    return {<span class="cstat-no" title="statement not covered" ></span>
-      bef</span>oreCreate () {<span class="cstat-no" title="statement not covered" >
+    }
+  },
+  rule ({ path, name }: RuleOptions) <span class="cstat-no" title="statement not covered" ></span>{
+<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >{</span></span>
+      beforeCreate () <span class="cstat-no" title="statement not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >        debug.assertPath(this.$vuet, path)</span>
-        const { manuals = {} } = this.$vuet._options.modules[path]
-        const newName = name || manuals.name || `$${this.$vuet.names[path]}`
-        this[newName] = mapManuals(this.$vuet, path)
+        const { manuals = {} } = <span class="cstat-no" title="statement not covered" >this.$vuet._options.modules[path]</span>
+        c</span>onst newName = <span class="cstat-no" title="statement not covered" >name || manuals.name || `$${this.$vuet.names[path]}`
+<span class="cstat-no" title="statement not covered" >        this[newName] = mapManuals(this.$vuet, path)</span>
       }
     }
   }
@@ -220,7 +220,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Jul 24 2017 10:17:34 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Jul 24 2017 10:53:32 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

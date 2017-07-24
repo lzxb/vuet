@@ -13,7 +13,7 @@
     "test": "npm run lint && npm run unit && npm run e2e && npm run build",
     "test:watch": "npm run lint && npm run flow && npm run build",
     "e2e": "testcafe all test/e2e/**.js --app 'node examples/server.js'",
-    "report": "nyc report --reporter=html"
+    "report": "nyc report --reporter=html && nyc report --reporter=text-lcov | coveralls"
   },
   "files": [
     "dist/",
@@ -46,6 +46,7 @@
     "babel-preset-flow": "^6.23.0",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.24.1",
+    "coveralls": "^2.13.1",
     "css-loader": "^0.28.4",
     "eslint": "^4.2.0",
     "eslint-config-standard": "^10.2.1",
