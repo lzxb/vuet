@@ -793,8 +793,8 @@ var Vuet$1 = function () {
     value: function fetch(path, params, setStateBtn) {
       var _this2 = this;
 
-      var module = this._options.modules[path];
-      if (typeof module.fetch !== 'function') return Promise.resolve(this.getState(path));
+      var opts = this._options.modules[path];
+      if (typeof opts.fetch !== 'function') return Promise.resolve(this.getState(path));
       var data = {
         path: path,
         params: _extends({}, params),
@@ -814,7 +814,7 @@ var Vuet$1 = function () {
         }
       };
       if (callHook('beforeHooks', data) === false) return Promise.resolve(data.state);
-      return module.fetch.call(this, data).then(function (res) {
+      return opts.fetch.call(this, data).then(function (res) {
         if (callHook('afterHooks', null, data, res) === false) return data.state;
         if (setStateBtn === false) return res;
         _this2.setState(path, res);

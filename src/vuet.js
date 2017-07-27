@@ -161,8 +161,8 @@ export default class Vuet {
     return this
   }
   fetch (path, params, setStateBtn) {
-    const module = this._options.modules[path]
-    if (typeof module.fetch !== 'function') return Promise.resolve(this.getState(path))
+    const opts = this._options.modules[path]
+    if (typeof opts.fetch !== 'function') return Promise.resolve(this.getState(path))
     const data = {
       path,
       params: { ...params },
@@ -178,7 +178,7 @@ export default class Vuet {
       }
     }
     if (callHook('beforeHooks', data) === false) return Promise.resolve(data.state)
-    return module.fetch.call(this, data)
+    return opts.fetch.call(this, data)
       .then(res => {
         if (callHook('afterHooks', null, data, res) === false) return data.state
         if (setStateBtn === false) return res
