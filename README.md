@@ -11,7 +11,7 @@ the modules. Anyway, it's all up to you.
 ### Development and test
 ```bash
 npm install
-npm run master # open: http://localhost:3000/
+npm run dev # open: http://localhost:3000/
 npm run dev:test
 ```
 
