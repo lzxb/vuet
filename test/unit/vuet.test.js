@@ -56,11 +56,11 @@ const newVuet = (t) => {
               list: []
             }
           },
-          fetch (params) {
+          async fetch (params) {
             t.is(params.path, listPath)
             t.is(params.state, vuet.getState(listPath))
             t.is(vuet, this)
-            return Promise.resolve({ list: [1, 0] })
+            return { list: [1, 0] }
           }
         },
         detail: {
@@ -75,9 +75,9 @@ const newVuet = (t) => {
               }
             }
           },
-          fetch () {
+          async fetch () {
             t.is(vuet, this)
-            return Promise.reject(new Error('Error msg'))
+            return new Error('Error msg')
           }
         },
         count: {
@@ -118,7 +118,6 @@ test('base', async t => {
 
   vuet.reset(listPath)
   t.deepEqual(vuet.getState(listPath), listState)
-
   const store = await vuet.fetch(listPath)
   t.deepEqual(store.list, [1, 0])
   t.deepEqual(vuet.getState(listPath).list, [1, 0])

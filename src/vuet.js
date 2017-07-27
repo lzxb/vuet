@@ -178,7 +178,11 @@ export default class Vuet {
       }
     }
     if (callHook('beforeHooks', data) === false) return Promise.resolve(data.state)
-    return opts.fetch.call(this, data)
+    const fetch = opts.fetch.call(this, data)
+    if (!utils.isPromise(fetch)) {
+      debug.error(`The fetch method of the '${path}' module should return an Promise`)
+    }
+    return fetch
       .then(res => {
         if (callHook('afterHooks', null, data, res) === false) return data.state
         if (setStateBtn === false) return res

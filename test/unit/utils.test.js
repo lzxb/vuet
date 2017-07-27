@@ -14,4 +14,5 @@ test('is type test', t => {
   t.true(utils.isString(''))
   t.true(utils.isUndefined(undefined))
   t.true(utils.isNull(null))
+  t.true(utils.isPromise(Promise.resolve({})))
 })

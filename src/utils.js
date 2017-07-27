@@ -22,6 +22,9 @@ const utils: Object = {
       writable: true,
       configurable: false
     })
+  },
+  isPromise (obj) {
+    return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function'
   }
 }
 

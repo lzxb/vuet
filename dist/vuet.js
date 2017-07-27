@@ -4,54 +4,21 @@
 	(factory((global.Vuet = global.Vuet || {})));
 }(this, (function (exports) { 'use strict';
 
-var toString = Object.prototype.toString;
-// Cached type string
-var typeStrings = ['Object', 'Function', 'String', 'Undefined', 'Null'];
-
-var utils = {
-  getArgMerge: function getArgMerge() {
-    var opt = {};
-    var args = arguments;
-    if (utils.isString(args[0])) {
-      opt[args[0]] = args.length > 1 ? args[1] : args[0];
-    } else if (args[0] && utils.isObject(args[0])) {
-      opt = args[0];
-    }
-    return opt;
-  },
-  set: function set(obj, key, value) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: false,
-      writable: true,
-      configurable: false
-    });
-  }
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
 
-typeStrings.forEach(function (type) {
-  var typeString = '[object ' + type + ']';
-  utils['is' + type] = function (obj) {
-    return toString.call(obj) === typeString;
-  };
-});
 
-var debug = {
-  error: function error(msg) {
-    throw new Error('[vuet] ' + msg);
-  },
-  warn: function warn(msg) {
-    {
-      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
-    }
-  },
-  assertPath: function assertPath(vuet, path) {
-    if (path in vuet.store) {
-      return;
-    }
-    this.error('The module does not exist. Call the this.$vuet method in the Vue component to see all module paths');
-  }
-};
+
+
+
+
+
+
+
+
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -138,6 +105,58 @@ var toConsumableArray = function (arr) {
     return arr2;
   } else {
     return Array.from(arr);
+  }
+};
+
+var toString = Object.prototype.toString;
+// Cached type string
+var typeStrings = ['Object', 'Function', 'String', 'Undefined', 'Null'];
+
+var utils = {
+  getArgMerge: function getArgMerge() {
+    var opt = {};
+    var args = arguments;
+    if (utils.isString(args[0])) {
+      opt[args[0]] = args.length > 1 ? args[1] : args[0];
+    } else if (args[0] && utils.isObject(args[0])) {
+      opt = args[0];
+    }
+    return opt;
+  },
+  set: function set$$1(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: false,
+      writable: true,
+      configurable: false
+    });
+  },
+  isPromise: function isPromise(obj) {
+    return !!obj && ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+  }
+};
+
+typeStrings.forEach(function (type) {
+  var typeString = '[object ' + type + ']';
+  utils['is' + type] = function (obj) {
+    return toString.call(obj) === typeString;
+  };
+});
+
+var debug = {
+  error: function error(msg) {
+    throw new Error('[vuet] ' + msg);
+  },
+  warn: function warn(msg) {
+    {
+      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
+    }
+  },
+  assertPath: function assertPath(vuet, path) {
+    if (path in vuet.store) {
+      return;
+    }
+    this.error('The module does not exist. Call the this.$vuet method in the Vue component to see all module paths');
   }
 };
 
@@ -814,7 +833,11 @@ var Vuet$1 = function () {
         }
       };
       if (callHook('beforeHooks', data) === false) return Promise.resolve(data.state);
-      return opts.fetch.call(this, data).then(function (res) {
+      var fetch = opts.fetch.call(this, data);
+      if (!utils.isPromise(fetch)) {
+        debug.error('The fetch method of the \'' + path + '\' module should return an Promise');
+      }
+      return fetch.then(function (res) {
         if (callHook('afterHooks', null, data, res) === false) return data.state;
         if (setStateBtn === false) return res;
         _this2.setState(path, res);
