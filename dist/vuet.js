@@ -717,7 +717,7 @@ var Vuet$1 = function () {
     if (!utils.isObject(options)) {
       debug.error('Parameter is the object type');
     }
-    this.version = '0.2.7';
+    this.version = '0.2.9';
     this.options = options || {};
     this.app = null;
     this.store = {};

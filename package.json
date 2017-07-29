@@ -1,6 +1,6 @@
 {
   "name": "vuet",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Vue state management plugin",
   "main": "dist/vuet.js",
   "scripts": {
@@ -74,13 +74,6 @@
     "webpack": "^3.0.0",
     "webpack-dev-middleware": "^1.10.2",
     "whatwg-fetch": "^2.0.3"
-  },
-  "babel": {
-    "presets": [
-      "flow",
-      "es2015",
-      "stage-0"
-    ]
   },
   "ava": {
     "require": [
