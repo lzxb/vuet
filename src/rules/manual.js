@@ -35,6 +35,7 @@ function mapManuals (vuet: Object, path: string) {
   methods.mapManuals = path => {
     return mapManuals(vuet, path)
   }
+  methods.vuet = vuet
   return methods
 }
 
