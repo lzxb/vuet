@@ -8,7 +8,8 @@ export default class Vuet {
     rules: {}
   }
   static install () {
-    install.apply(undefined, arguments)
+    let u
+    install.apply(u, arguments)
   }
   static rule (name, rule) {
     if (this.options.rules[name]) return this

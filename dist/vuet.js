@@ -620,7 +620,8 @@ var Vuet$1 = function () {
   createClass(Vuet, null, [{
     key: 'install',
     value: function install$$1() {
-      install.apply(undefined, arguments);
+      var u = void 0;
+      install.apply(u, arguments);
     }
   }, {
     key: 'rule',
