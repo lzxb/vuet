@@ -205,25 +205,20 @@ var VuetStatic = function (Vuet) {
 
 var Vuet$1 = function () {
   function Vuet(opts) {
-    var _this = this;
-
     classCallCheck(this, Vuet);
 
     this.modules = {};
+    this.store = {};
     this.options = {
       pathJoin: '/',
       modules: {}
     };
     this.app = new Vuet.Vue({
       data: {
-        modules: this.modules
+        modules: this.store
       }
     });
     Object.assign(this.options, opts);
-    Object.keys(this.options.modules).forEach(function (name) {
-      _this.register(name, _this.options.modules[name]);
-    });
-    console.log(this);
   }
 
   createClass(Vuet, [{
@@ -233,7 +228,15 @@ var Vuet$1 = function () {
     key: 'register',
     value: function register(name, opts) {
       var vuet = this;
-      opts.state = opts.data();
+      Vuet.Vue.set(vuet.store, name, opts.data());
+      Object.defineProperty(opts, 'state', {
+        get: function get$$1() {
+          return vuet.store[name];
+        },
+        set: function set$$1(val) {
+          vuet.store[name] = val;
+        }
+      });
       Object.assign(opts, {
         reset: function reset() {
           this.state = this.data();
@@ -251,15 +254,15 @@ var Vuet$1 = function () {
         Object.keys(opts.state).forEach(function (k) {
           Object.defineProperty(opts, k, {
             get: function get$$1() {
-              return opts.state[k];
+              return vuet.store[name][k];
             },
             set: function set$$1(val) {
-              opts.state[k] = val;
+              vuet.store[name][k] = val;
             }
           });
         });
       }
-      Vuet.Vue.set(this.modules, name, opts);
+      vuet.modules[name] = opts;
     }
   }, {
     key: 'signin',

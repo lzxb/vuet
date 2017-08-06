@@ -18,6 +18,7 @@ vuet.register('test', {
     this.count++
   },
   reduce () {
+    console.log(this)
     this.count++
   }
 })

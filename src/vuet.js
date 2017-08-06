@@ -3,26 +3,31 @@ import utils from './utils'
 export default class Vuet {
   constructor (opts) {
     this.modules = {}
+    this.store = {}
     this.options = {
       pathJoin: '/',
       modules: {}
     }
     this.app = new Vuet.Vue({
       data: {
-        modules: this.modules
+        modules: this.store
       }
     })
     Object.assign(this.options, opts)
-    Object.keys(this.options.modules).forEach(name => {
-      this.register(name, this.options.modules[name])
-    })
-    console.log(this)
   }
   _init () {
   }
   register (name, opts) {
     const vuet = this
-    opts.state = opts.data()
+    Vuet.Vue.set(vuet.store, name, opts.data())
+    Object.defineProperty(opts, 'state', {
+      get () {
+        return vuet.store[name]
+      },
+      set (val) {
+        vuet.store[name] = val
+      }
+    })
     Object.assign(opts, {
       reset () {
         this.state = this.data()
@@ -40,15 +45,15 @@ export default class Vuet {
       Object.keys(opts.state).forEach(k => {
         Object.defineProperty(opts, k, {
           get () {
-            return opts.state[k]
+            return vuet.store[name][k]
           },
           set (val) {
-            opts.state[k] = val
+            vuet.store[name][k] = val
           }
         })
       })
     }
-    Vuet.Vue.set(this.modules, name, opts)
+    vuet.modules[name] = opts
   }
   signin (name) {
     return this.modules[name]
