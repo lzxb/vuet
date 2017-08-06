@@ -19,7 +19,9 @@ export default class Vuet {
         const newNames = [...names, name]
         const newName = newNames.join(this.options.pathJoin)
         if (!utils.isObject(modules[name])) return
-        this.register(newName, modules[name])
+        if (typeof modules[name].data === 'function') {
+          this.register(newName, modules[name])
+        }
         Object.keys(modules[name]).forEach(chlidName => {
           if (utils.isObject(modules[name][chlidName])) {
             initModule(newNames, modules[name])

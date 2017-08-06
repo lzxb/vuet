@@ -270,7 +270,9 @@ var Vuet$1 = function () {
         var newNames = [].concat(toConsumableArray(names), [name]);
         var newName = newNames.join(_this.options.pathJoin);
         if (!utils.isObject(modules[name])) return;
-        _this.register(newName, modules[name]);
+        if (typeof modules[name].data === 'function') {
+          _this.register(newName, modules[name]);
+        }
         Object.keys(modules[name]).forEach(function (chlidName) {
           if (utils.isObject(modules[name][chlidName])) {
             initModule(newNames, modules[name]);
