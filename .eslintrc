@@ -1,5 +1,5 @@
 {
   "root": true,
-  "plugins": ["flowtype", "testcafe", "html"],
+  "plugins": ["testcafe", "html"],
   "extends": ["plugin:testcafe/recommended", "standard"]
 }

@@ -10,7 +10,6 @@ const build = async (opts) => {
     babel({
       babelrc: false,
       presets: [
-        'flow',
         ['es2015-rollup'],
         'stage-0'
       ]
