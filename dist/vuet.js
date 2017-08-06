@@ -56,7 +56,7 @@ function install(Vuet) {
 
 var utils = {
   isObject: function isObject(obj) {
-    return obj && Object.prototype.toString(obj);
+    return obj && Object.prototype.toString.call(obj) === '[object Object]';
   },
   getArgMerge: function getArgMerge() {
     var opt = {};
@@ -111,6 +111,50 @@ var defineProperty = function (obj, key, value) {
   }
 
   return obj;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
 };
 
 var VuetStatic = function (Vuet) {
@@ -205,6 +249,8 @@ var VuetStatic = function (Vuet) {
 
 var Vuet$1 = function () {
   function Vuet(opts) {
+    var _this = this;
+
     classCallCheck(this, Vuet);
 
     this.modules = {};
@@ -219,6 +265,20 @@ var Vuet$1 = function () {
       }
     });
     Object.assign(this.options, opts);
+    var initModule = function initModule(names, modules) {
+      Object.keys(modules).forEach(function (name) {
+        var newNames = [].concat(toConsumableArray(names), [name]);
+        var newName = newNames.join(_this.options.pathJoin);
+        if (!utils.isObject(modules[name])) return;
+        _this.register(newName, modules[name]);
+        Object.keys(modules[name]).forEach(function (chlidName) {
+          if (utils.isObject(modules[name][chlidName])) {
+            initModule(newNames, modules[name]);
+          }
+        });
+      });
+    };
+    initModule([], this.options.modules);
   }
 
   createClass(Vuet, [{
@@ -263,6 +323,7 @@ var Vuet$1 = function () {
         });
       }
       vuet.modules[name] = opts;
+      return this;
     }
   }, {
     key: 'signin',

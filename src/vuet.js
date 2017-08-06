@@ -14,6 +14,20 @@ export default class Vuet {
       }
     })
     Object.assign(this.options, opts)
+    const initModule = (names, modules) => {
+      Object.keys(modules).forEach(name => {
+        const newNames = [...names, name]
+        const newName = newNames.join(this.options.pathJoin)
+        if (!utils.isObject(modules[name])) return
+        this.register(newName, modules[name])
+        Object.keys(modules[name]).forEach(chlidName => {
+          if (utils.isObject(modules[name][chlidName])) {
+            initModule(newNames, modules[name])
+          }
+        })
+      })
+    }
+    initModule([], this.options.modules)
   }
   _init () {
   }
@@ -54,6 +68,7 @@ export default class Vuet {
       })
     }
     vuet.modules[name] = opts
+    return this
   }
   signin (name) {
     return this.modules[name]
