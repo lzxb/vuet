@@ -20,11 +20,6 @@ export default new Vuet({
           count: ++state.count,
           fetchCount: ++fetchCount
         }
-      },
-      chliid: {
-        data () {
-          return true
-        }
       }
     }
   }

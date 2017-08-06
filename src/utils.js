@@ -1,6 +1,6 @@
 const utils = {
   isObject (obj) {
-    return obj && Object.prototype.toString.call(obj) === '[object Object]'
+    return !!obj && Object.prototype.toString.call(obj) === '[object Object]'
   },
   getArgMerge () {
     let opt = {}

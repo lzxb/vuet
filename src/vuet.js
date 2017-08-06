@@ -73,7 +73,7 @@ export default class Vuet {
     vuet.modules[name] = opts
     return this
   }
-  signin (name) {
+  get (name) {
     return this.modules[name]
   }
   destroy () {

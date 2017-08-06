@@ -9,7 +9,7 @@ export default {
       beforeCreate () {
         debug.assertPath(this.$vuet, name)
         if (this.$vuet.__once__[name]) return
-        this.$vuet.signin(name).fetch().then(res => {
+        this.$vuet.get(name).fetch().then(res => {
           this.$vuet.__once__[name] = true
         })
       }

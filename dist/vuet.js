@@ -28,10 +28,10 @@ var life = {
     return {
       beforeCreate: function beforeCreate() {
         debug.assertPath(this.$vuet, name);
-        this.$vuet.signin(name).fetch();
+        this.$vuet.get(name).fetch();
       },
       destroyed: function destroyed() {
-        this.$vuet.signin(name).reset();
+        this.$vuet.get(name).reset();
       }
     };
   }
@@ -44,7 +44,7 @@ var need = {
     return {
       beforeCreate: function beforeCreate() {
         debug.assertPath(this.$vuet, name);
-        this.$vuet.signin(name).fetch();
+        this.$vuet.get(name).fetch();
       }
     };
   }
@@ -63,7 +63,7 @@ var once = {
 
         debug.assertPath(this.$vuet, name);
         if (this.$vuet.__once__[name]) return;
-        this.$vuet.signin(name).fetch().then(function (res) {
+        this.$vuet.get(name).fetch().then(function (res) {
           _this.$vuet.__once__[name] = true;
         });
       }
@@ -77,7 +77,7 @@ function install(Vuet) {
 
 var utils = {
   isObject: function isObject(obj) {
-    return obj && Object.prototype.toString.call(obj) === '[object Object]';
+    return !!obj && Object.prototype.toString.call(obj) === '[object Object]';
   },
   getArgMerge: function getArgMerge() {
     var opt = {};
@@ -357,8 +357,8 @@ var Vuet$1 = function () {
       return this;
     }
   }, {
-    key: 'signin',
-    value: function signin(name) {
+    key: 'get',
+    value: function get$$1(name) {
       return this.modules[name];
     }
   }, {

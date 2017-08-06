@@ -5,10 +5,10 @@ export default {
     return {
       beforeCreate () {
         debug.assertPath(this.$vuet, name)
-        this.$vuet.signin(name).fetch()
+        this.$vuet.get(name).fetch()
       },
       destroyed () {
-        this.$vuet.signin(name).reset()
+        this.$vuet.get(name).reset()
       }
     }
   }

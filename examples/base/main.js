@@ -17,7 +17,7 @@ vuet.register('test', {
     this.count++
   },
   reduce () {
-    this.count++
+    this.count--
   }
 })
 
@@ -29,7 +29,7 @@ const App = {
   ],
   template: `
     <div>
-      {{ test.count }}
+      <div class="count">{{ test.count }}</div>
       <button @click="$test.plus">plus</button> 
       <button @click="$test.reduce">reduce</button> 
       <button @click="$test.fetch">fetch</button> 
