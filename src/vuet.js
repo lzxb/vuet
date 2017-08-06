@@ -15,8 +15,9 @@ export default class Vuet {
     const vtm = new VuetModule(opts)
     Vuet.Vue.set(this.modules, path, vtm.methods)
     this.modules[path] = vtm
+    return this
   }
   destroy () {
-
+    this.vm.$destroy()
   }
 }

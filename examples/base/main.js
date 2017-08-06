@@ -12,7 +12,7 @@ vuet.register('test', {
     }
   },
   fetch () {
-    this.state.count = 1000
+    this.count = 1000
   },
   plus () {
     this.state.count++

@@ -4,6 +4,12 @@
 	(factory((global.Vuet = global.Vuet || {})));
 }(this, (function (exports) { 'use strict';
 
+var utils = {
+  isObject: function isObject(obj) {
+    return obj && Object.prototype.toString(obj);
+  }
+};
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -47,18 +53,63 @@ var defineProperty = function (obj, key, value) {
   return obj;
 };
 
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
 var VuetModule = function VuetModule(opts) {
   var _this = this;
 
   classCallCheck(this, VuetModule);
 
   this.methods = {};
-  Object.keys(opts).forEach(function (k) {
-    if (typeof opts[k] === 'function') {
-      _this.methods[k] = opts[k].bind(_this);
+  this.options = {};
+
+  var state = _extends({}, opts, {
+    reset: function reset() {
+      this.state = this.data();
+    }
+  });
+
+  Object.keys(state).forEach(function (k) {
+    if (typeof state[k] === 'function') {
+      _this.methods[k] = state[k].bind(state);
+    } else {
+      _this.options[k] = state[k];
     }
   });
   this.state = this.methods.data();
+  var vtm = this;
+  Object.defineProperty(state, 'state', {
+    get: function get$$1() {
+      return vtm.state;
+    },
+    set: function set$$1(val) {
+      vtm.state = val;
+    }
+  });
+  if (utils.isObject(vtm.state)) {
+    Object.keys(vtm.state).forEach(function (k) {
+      Object.defineProperty(state, k, {
+        get: function get$$1() {
+          return vtm.state[k];
+        },
+        set: function set$$1(val) {
+          vtm.state[k] = val;
+        }
+      });
+    });
+  }
 };
 
 var Vuet$1 = function () {
@@ -82,10 +133,13 @@ var Vuet$1 = function () {
       var vtm = new VuetModule(opts);
       Vuet.Vue.set(this.modules, path, vtm.methods);
       this.modules[path] = vtm;
+      return this;
     }
   }, {
     key: 'destroy',
-    value: function destroy() {}
+    value: function destroy() {
+      this.vm.$destroy();
+    }
   }]);
   return Vuet;
 }();
@@ -154,6 +208,11 @@ var VuetStatic = function (Vuet) {
 
 VuetStatic(Vuet$1);
 
+var mapRules = Vuet$1.mapRules.bind(Vuet$1);
+var mapModules = Vuet$1.mapModules.bind(Vuet$1);
+
+exports.mapRules = mapRules;
+exports.mapModules = mapModules;
 exports['default'] = Vuet$1;
 
 Object.defineProperty(exports, '__esModule', { value: true });
