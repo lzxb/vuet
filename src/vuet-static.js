@@ -86,6 +86,13 @@ export default function (Vuet) {
     rule (name, opts) {
       Vuet.options.rules[name] = opts
       return this
+    },
+    callRuleHook (hook, vuet) {
+      Object.keys(Vuet.options.rules).forEach(k => {
+        if (typeof Vuet.options.rules[k][hook] === 'function') {
+          Vuet.options.rules[k][hook](vuet)
+        }
+      })
     }
   })
 }

@@ -30,6 +30,7 @@ export default class Vuet {
       })
     }
     initModule([], this.options.modules)
+    Vuet.callRuleHook('init', this)
   }
   _init () {
   }

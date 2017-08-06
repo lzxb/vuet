@@ -50,8 +50,29 @@ var need = {
   }
 };
 
+var once = {
+  init: function init(vuet) {
+    vuet.__once__ = {};
+  },
+  rule: function rule(_ref) {
+    var name = _ref.name;
+
+    return {
+      beforeCreate: function beforeCreate() {
+        var _this = this;
+
+        debug.assertPath(this.$vuet, name);
+        if (this.$vuet.__once__[name]) return;
+        this.$vuet.signin(name).fetch().then(function (res) {
+          _this.$vuet.__once__[name] = true;
+        });
+      }
+    };
+  }
+};
+
 function install(Vuet) {
-  Vuet.rule('life', life).rule('need', need);
+  Vuet.rule('life', life).rule('need', need).rule('once', once);
 }
 
 var utils = {
@@ -243,6 +264,13 @@ var VuetStatic = function (Vuet) {
     rule: function rule(name, opts) {
       Vuet.options.rules[name] = opts;
       return this;
+    },
+    callRuleHook: function callRuleHook(hook, vuet) {
+      Object.keys(Vuet.options.rules).forEach(function (k) {
+        if (typeof Vuet.options.rules[k][hook] === 'function') {
+          Vuet.options.rules[k][hook](vuet);
+        }
+      });
     }
   });
 };
@@ -281,6 +309,7 @@ var Vuet$1 = function () {
       });
     };
     initModule([], this.options.modules);
+    Vuet.callRuleHook('init', this);
   }
 
   createClass(Vuet, [{
