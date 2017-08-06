@@ -1,5 +1,4 @@
 import utils from './utils'
-import scroll from './directives/scroll'
 
 export let _Vue = null
 
@@ -12,9 +11,9 @@ export default function install (Vue) {
   })
   Vue.mixin({
     beforeCreate () {
-      if (!utils.isUndefined(this.$options.vuet)) {
+      if (typeof this.$options.vuet !== 'undefined') {
         this._vuet = this.$options.vuet
-        this._vuet._init(this)
+        // this._vuet._init(this)
       }
     },
     destroyed () {
@@ -24,5 +23,4 @@ export default function install (Vue) {
       }
     }
   })
-  Vue.directive('vuet-scroll', scroll)
 }
