@@ -1,4 +1,4 @@
-import VuetModule from './vuet-module'
+import utils from './utils'
 
 export default class Vuet {
   constructor () {
@@ -12,10 +12,34 @@ export default class Vuet {
   _init () {
   }
   register (path, opts) {
-    const vtm = new VuetModule(opts)
-    Vuet.Vue.set(this.modules, path, vtm.methods)
-    this.modules[path] = vtm
-    return this
+    const vuet = this
+    opts.state = opts.data()
+    Object.assign(opts, {
+      reset () {
+        this.state = this.data()
+      }
+    })
+    Object.keys(opts).forEach(k => {
+      if (typeof opts[k] === 'function') {
+        const native = opts[k]
+        opts[k] = function proxy () {
+          return native.apply(vuet.modules[path], arguments)
+        }
+      }
+    })
+    if (utils.isObject(opts.state)) {
+      Object.keys(opts.state).forEach(k => {
+        Object.defineProperty(opts, k, {
+          get () {
+            return opts.state[k]
+          },
+          set (val) {
+            opts.state[k] = val
+          }
+        })
+      })
+    }
+    Vuet.Vue.set(this.modules, path, opts)
   }
   destroy () {
     this.vm.$destroy()

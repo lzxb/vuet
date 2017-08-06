@@ -14,9 +14,6 @@
     mixins: [
       Vuet.mapModules({
         test: 'test'
-      }),
-      Vuet.mapRules({
-        test: 'test'
       })
     ]
   }

@@ -4,9 +4,54 @@
 	(factory((global.Vuet = global.Vuet || {})));
 }(this, (function (exports) { 'use strict';
 
+var debug = {
+  error: function error(msg) {
+    throw new Error('[vuet] ' + msg);
+  },
+  warn: function warn(msg) {
+    {
+      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
+    }
+  },
+  assertPath: function assertPath(vuet, path) {
+    if (path in vuet.modules) {
+      return;
+    }
+    this.error('The module does not exist. Call the this.$vuet method in the Vue component to see all module paths');
+  }
+};
+
+var life = {
+  rule: function rule(_ref) {
+    var path = _ref.path;
+
+    return {
+      beforeCreate: function beforeCreate() {
+        debug.assertPath(this.$vuet, path);
+        console.log(this.$vuet);
+      },
+      destroyed: function destroyed() {}
+    };
+  }
+};
+
+function install(Vuet) {
+  Vuet.rule('life', life);
+}
+
 var utils = {
   isObject: function isObject(obj) {
     return obj && Object.prototype.toString(obj);
+  },
+  getArgMerge: function getArgMerge() {
+    var opt = {};
+    var args = arguments;
+    if (typeof args[0] === 'string') {
+      opt[args[0]] = args.length > 1 ? args[1] : args[0];
+    } else if (args[0] && utils.isObject(args[0])) {
+      opt = args[0];
+    }
+    return opt;
   }
 };
 
@@ -52,97 +97,6 @@ var defineProperty = function (obj, key, value) {
 
   return obj;
 };
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];
-
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  return target;
-};
-
-var VuetModule = function VuetModule(opts) {
-  var _this = this;
-
-  classCallCheck(this, VuetModule);
-
-  this.methods = {};
-  this.options = {};
-
-  var state = _extends({}, opts, {
-    reset: function reset() {
-      this.state = this.data();
-    }
-  });
-
-  Object.keys(state).forEach(function (k) {
-    if (typeof state[k] === 'function') {
-      _this.methods[k] = state[k].bind(state);
-    } else {
-      _this.options[k] = state[k];
-    }
-  });
-  this.state = this.methods.data();
-  var vtm = this;
-  Object.defineProperty(state, 'state', {
-    get: function get$$1() {
-      return vtm.state;
-    },
-    set: function set$$1(val) {
-      vtm.state = val;
-    }
-  });
-  if (utils.isObject(vtm.state)) {
-    Object.keys(vtm.state).forEach(function (k) {
-      Object.defineProperty(state, k, {
-        get: function get$$1() {
-          return vtm.state[k];
-        },
-        set: function set$$1(val) {
-          vtm.state[k] = val;
-        }
-      });
-    });
-  }
-};
-
-var Vuet$1 = function () {
-  function Vuet() {
-    classCallCheck(this, Vuet);
-
-    this.modules = {};
-    this.app = new Vuet.Vue({
-      data: {
-        modules: this.modules
-      }
-    });
-  }
-
-  createClass(Vuet, [{
-    key: '_init',
-    value: function _init() {}
-  }, {
-    key: 'register',
-    value: function register(path, opts) {
-      var vtm = new VuetModule(opts);
-      Vuet.Vue.set(this.modules, path, vtm.methods);
-      this.modules[path] = vtm;
-      return this;
-    }
-  }, {
-    key: 'destroy',
-    value: function destroy() {
-      this.vm.$destroy();
-    }
-  }]);
-  return Vuet;
-}();
 
 var VuetStatic = function (Vuet) {
   Object.assign(Vuet, {
@@ -190,7 +144,7 @@ var VuetStatic = function (Vuet) {
             }
           }), defineProperty(_computed, '$' + name, {
             get: function get$$1() {
-              return this.$vuet.modules[path].methods;
+              return this.$vuet.modules[path];
             },
             set: function set$$1() {}
           }), _computed)
@@ -201,12 +155,93 @@ var VuetStatic = function (Vuet) {
       };
     },
     mapRules: function mapRules() {
-      return {};
+      var opts = utils.getArgMerge.apply(null, arguments);
+      var vueRules = [];
+      var addRule = function addRule(ruleName, any) {
+        var rules = Vuet.options.rules[ruleName];
+        if (typeof any === 'string') {
+          vueRules.push(rules.rule({ path: any }));
+        } else {
+          vueRules.push(rules.rule(any));
+        }
+      };
+      Object.keys(opts).forEach(function (ruleName) {
+        var any = opts[ruleName];
+        if (Array.isArray(any)) {
+          return any.forEach(function (item) {
+            addRule(ruleName, item);
+          });
+        }
+        addRule(ruleName, any);
+      });
+      return {
+        mixins: vueRules
+      };
+    },
+    rule: function rule(name, opts) {
+      Vuet.options.rules[name] = opts;
     }
   });
 };
 
+var Vuet$1 = function () {
+  function Vuet() {
+    classCallCheck(this, Vuet);
+
+    this.modules = {};
+    this.app = new Vuet.Vue({
+      data: {
+        modules: this.modules
+      }
+    });
+  }
+
+  createClass(Vuet, [{
+    key: '_init',
+    value: function _init() {}
+  }, {
+    key: 'register',
+    value: function register(path, opts) {
+      var vuet = this;
+      opts.state = opts.data();
+      Object.assign(opts, {
+        reset: function reset() {
+          this.state = this.data();
+        }
+      });
+      Object.keys(opts).forEach(function (k) {
+        if (typeof opts[k] === 'function') {
+          var native = opts[k];
+          opts[k] = function proxy() {
+            return native.apply(vuet.modules[path], arguments);
+          };
+        }
+      });
+      if (utils.isObject(opts.state)) {
+        Object.keys(opts.state).forEach(function (k) {
+          Object.defineProperty(opts, k, {
+            get: function get$$1() {
+              return opts.state[k];
+            },
+            set: function set$$1(val) {
+              opts.state[k] = val;
+            }
+          });
+        });
+      }
+      Vuet.Vue.set(this.modules, path, opts);
+    }
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      this.vm.$destroy();
+    }
+  }]);
+  return Vuet;
+}();
+
 VuetStatic(Vuet$1);
+install(Vuet$1);
 
 var mapRules = Vuet$1.mapRules.bind(Vuet$1);
 var mapModules = Vuet$1.mapModules.bind(Vuet$1);

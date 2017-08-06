@@ -1,3 +1,5 @@
+import utils from './utils'
+
 export default function (Vuet) {
   Object.assign(Vuet, {
     installed: false,
@@ -42,7 +44,7 @@ export default function (Vuet) {
             },
             [`$${name}`]: {
               get () {
-                return this.$vuet.modules[path].methods
+                return this.$vuet.modules[path]
               },
               set () { }
             }
@@ -54,7 +56,31 @@ export default function (Vuet) {
       }
     },
     mapRules () {
-      return {}
+      const opts = utils.getArgMerge.apply(null, arguments)
+      const vueRules = []
+      const addRule = (ruleName, any) => {
+        const rules = Vuet.options.rules[ruleName]
+        if (typeof any === 'string') {
+          vueRules.push(rules.rule({ path: any }))
+        } else {
+          vueRules.push(rules.rule(any))
+        }
+      }
+      Object.keys(opts).forEach(ruleName => {
+        const any = opts[ruleName]
+        if (Array.isArray(any)) {
+          return any.forEach(item => {
+            addRule(ruleName, item)
+          })
+        }
+        addRule(ruleName, any)
+      })
+      return {
+        mixins: vueRules
+      }
+    },
+    rule (name, opts) {
+      Vuet.options.rules[name] = opts
     }
   })
 }

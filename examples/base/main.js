@@ -15,10 +15,10 @@ vuet.register('test', {
     this.count = 1000
   },
   plus () {
-    this.state.count++
+    this.count++
   },
   reduce () {
-    this.state.count++
+    this.count++
   }
 })
 
