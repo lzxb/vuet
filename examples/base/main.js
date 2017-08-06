@@ -1,6 +1,5 @@
 import Vue from 'vue'
-import Vuet from 'vuet'
-import App from './App'
+import Vuet, { mapModules } from 'vuet'
 
 Vue.use(Vuet)
 
@@ -21,6 +20,23 @@ vuet.register('test', {
     this.count++
   }
 })
+
+const App = {
+  mixins: [
+    mapModules({
+      test: 'test'
+    })
+  ],
+  template: `
+    <div>
+      {{ test.count }}
+      <button @click="$test.plus">plus</button> 
+      <button @click="$test.reduce">reduce</button> 
+      <button @click="$test.fetch">fetch</button> 
+      <button @click="$test.reset">reset</button> 
+    </div>
+  `
+}
 
 export default new Vue({
   el: '#app',
