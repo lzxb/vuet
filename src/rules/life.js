@@ -1,13 +1,14 @@
 import debug from '../debug'
 
 export default {
-  rule ({ path }) {
+  rule ({ name }) {
     return {
       beforeCreate () {
-        debug.assertPath(this.$vuet, path)
-        console.log(this.$vuet)
+        debug.assertPath(this.$vuet, name)
+        this.$vuet.signin(name).fetch()
       },
       destroyed () {
+        this.$vuet.signin(name).reset()
       }
     }
   }

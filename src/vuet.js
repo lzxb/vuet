@@ -11,7 +11,7 @@ export default class Vuet {
   }
   _init () {
   }
-  register (path, opts) {
+  register (name, opts) {
     const vuet = this
     opts.state = opts.data()
     Object.assign(opts, {
@@ -23,7 +23,7 @@ export default class Vuet {
       if (typeof opts[k] === 'function') {
         const native = opts[k]
         opts[k] = function proxy () {
-          return native.apply(vuet.modules[path], arguments)
+          return native.apply(vuet.modules[name], arguments)
         }
       }
     })
@@ -39,7 +39,10 @@ export default class Vuet {
         })
       })
     }
-    Vuet.Vue.set(this.modules, path, opts)
+    Vuet.Vue.set(this.modules, name, opts)
+  }
+  signin (name) {
+    return this.modules[name]
   }
   destroy () {
     this.vm.$destroy()

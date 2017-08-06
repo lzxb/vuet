@@ -8,11 +8,11 @@
   </div>
 </template>
 <script>
-  import Vuet from 'vuet'
+  import { mapModules } from 'vuet'
 
   export default {
     mixins: [
-      Vuet.mapModules({
+      mapModules({
         test: 'test'
       })
     ]

@@ -30,21 +30,21 @@ export default function (Vuet) {
       return this
     },
     mapModules (opts) {
-      const mixins = Object.keys(opts).map(name => {
-        const path = opts[name]
+      const mixins = Object.keys(opts).map(alias => {
+        const name = opts[alias]
         return {
           computed: {
-            [name]: {
+            [alias]: {
               get () {
-                return this.$vuet.modules[path].state
+                return this.$vuet.modules[name].state
               },
               set (val) {
-                this.$vuet.modules[path].state = val
+                this.$vuet.modules[name].state = val
               }
             },
-            [`$${name}`]: {
+            [`$${alias}`]: {
               get () {
-                return this.$vuet.modules[path]
+                return this.$vuet.modules[name]
               },
               set () { }
             }
@@ -61,7 +61,7 @@ export default function (Vuet) {
       const addRule = (ruleName, any) => {
         const rules = Vuet.options.rules[ruleName]
         if (typeof any === 'string') {
-          vueRules.push(rules.rule({ path: any }))
+          vueRules.push(rules.rule({ name: any }))
         } else {
           vueRules.push(rules.rule(any))
         }

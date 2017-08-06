@@ -23,14 +23,16 @@ var debug = {
 
 var life = {
   rule: function rule(_ref) {
-    var path = _ref.path;
+    var name = _ref.name;
 
     return {
       beforeCreate: function beforeCreate() {
-        debug.assertPath(this.$vuet, path);
-        console.log(this.$vuet);
+        debug.assertPath(this.$vuet, name);
+        this.$vuet.signin(name).fetch();
       },
-      destroyed: function destroyed() {}
+      destroyed: function destroyed() {
+        this.$vuet.signin(name).reset();
+      }
     };
   }
 };
@@ -130,21 +132,21 @@ var VuetStatic = function (Vuet) {
       return this;
     },
     mapModules: function mapModules(opts) {
-      var mixins = Object.keys(opts).map(function (name) {
+      var mixins = Object.keys(opts).map(function (alias) {
         var _computed;
 
-        var path = opts[name];
+        var name = opts[alias];
         return {
-          computed: (_computed = {}, defineProperty(_computed, name, {
+          computed: (_computed = {}, defineProperty(_computed, alias, {
             get: function get$$1() {
-              return this.$vuet.modules[path].state;
+              return this.$vuet.modules[name].state;
             },
             set: function set$$1(val) {
-              this.$vuet.modules[path].state = val;
+              this.$vuet.modules[name].state = val;
             }
-          }), defineProperty(_computed, '$' + name, {
+          }), defineProperty(_computed, '$' + alias, {
             get: function get$$1() {
-              return this.$vuet.modules[path];
+              return this.$vuet.modules[name];
             },
             set: function set$$1() {}
           }), _computed)
@@ -160,7 +162,7 @@ var VuetStatic = function (Vuet) {
       var addRule = function addRule(ruleName, any) {
         var rules = Vuet.options.rules[ruleName];
         if (typeof any === 'string') {
-          vueRules.push(rules.rule({ path: any }));
+          vueRules.push(rules.rule({ name: any }));
         } else {
           vueRules.push(rules.rule(any));
         }
@@ -201,7 +203,7 @@ var Vuet$1 = function () {
     value: function _init() {}
   }, {
     key: 'register',
-    value: function register(path, opts) {
+    value: function register(name, opts) {
       var vuet = this;
       opts.state = opts.data();
       Object.assign(opts, {
@@ -213,7 +215,7 @@ var Vuet$1 = function () {
         if (typeof opts[k] === 'function') {
           var native = opts[k];
           opts[k] = function proxy() {
-            return native.apply(vuet.modules[path], arguments);
+            return native.apply(vuet.modules[name], arguments);
           };
         }
       });
@@ -229,7 +231,12 @@ var Vuet$1 = function () {
           });
         });
       }
-      Vuet.Vue.set(this.modules, path, opts);
+      Vuet.Vue.set(this.modules, name, opts);
+    }
+  }, {
+    key: 'signin',
+    value: function signin(name) {
+      return this.modules[name];
     }
   }, {
     key: 'destroy',
