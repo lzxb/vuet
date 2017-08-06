@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuet, { mapModules } from 'vuet'
+import Vuet, { mapModules, mapRules } from 'vuet'
 
 Vue.use(Vuet)
 
@@ -24,7 +24,10 @@ vuet.register('test', {
 const App = {
   mixins: [
     mapModules({
-      test: 'test'
+      test: 'test' // { 别名： '模块名称' }
+    }),
+    mapRules({
+      once: 'test' // { 规则: ['模块名称'] }
     })
   ],
   template: `
@@ -32,8 +35,8 @@ const App = {
       <div class="count">{{ test.count }}</div>
       <button @click="$test.plus">plus</button> 
       <button @click="$test.reduce">reduce</button> 
-      <button @click="$test.fetch">fetch</button> 
       <button @click="$test.reset">reset</button> 
+      <button @click="$test.fetch">fetch</button> 
     </div>
   `
 }

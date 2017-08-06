@@ -1,4 +1,5 @@
 import debug from '../debug'
+import utils from '../utils'
 
 export default {
   init (vuet) {
@@ -9,9 +10,13 @@ export default {
       beforeCreate () {
         debug.assertPath(this.$vuet, name)
         if (this.$vuet.__once__[name]) return
-        this.$vuet.get(name).fetch().then(res => {
-          this.$vuet.__once__[name] = true
-        })
+        const back = this.$vuet.get(name).fetch()
+        if (utils.isPromise(back)) {
+          return back.then(res => {
+            this.$vuet.__once__[name] = true
+          })
+        }
+        this.$vuet.__once__[name] = true
       }
     }
   }

@@ -50,46 +50,21 @@ var need = {
   }
 };
 
-var once = {
-  init: function init(vuet) {
-    vuet.__once__ = {};
-  },
-  rule: function rule(_ref) {
-    var name = _ref.name;
-
-    return {
-      beforeCreate: function beforeCreate() {
-        var _this = this;
-
-        debug.assertPath(this.$vuet, name);
-        if (this.$vuet.__once__[name]) return;
-        this.$vuet.get(name).fetch().then(function (res) {
-          _this.$vuet.__once__[name] = true;
-        });
-      }
-    };
-  }
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
 
-function install(Vuet) {
-  Vuet.rule('life', life).rule('need', need).rule('once', once);
-}
 
-var utils = {
-  isObject: function isObject(obj) {
-    return !!obj && Object.prototype.toString.call(obj) === '[object Object]';
-  },
-  getArgMerge: function getArgMerge() {
-    var opt = {};
-    var args = arguments;
-    if (typeof args[0] === 'string') {
-      opt[args[0]] = args.length > 1 ? args[1] : args[0];
-    } else if (args[0] && utils.isObject(args[0])) {
-      opt = args[0];
-    }
-    return opt;
-  }
-};
+
+
+
+
+
+
+
+
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -177,6 +152,54 @@ var toConsumableArray = function (arr) {
     return Array.from(arr);
   }
 };
+
+var utils = {
+  isObject: function isObject(obj) {
+    return !!obj && Object.prototype.toString.call(obj) === '[object Object]';
+  },
+  getArgMerge: function getArgMerge() {
+    var opt = {};
+    var args = arguments;
+    if (typeof args[0] === 'string') {
+      opt[args[0]] = args.length > 1 ? args[1] : args[0];
+    } else if (args[0] && utils.isObject(args[0])) {
+      opt = args[0];
+    }
+    return opt;
+  },
+  isPromise: function isPromise(obj) {
+    return !!obj && ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+  }
+};
+
+var once = {
+  init: function init(vuet) {
+    vuet.__once__ = {};
+  },
+  rule: function rule(_ref) {
+    var name = _ref.name;
+
+    return {
+      beforeCreate: function beforeCreate() {
+        var _this = this;
+
+        debug.assertPath(this.$vuet, name);
+        if (this.$vuet.__once__[name]) return;
+        var back = this.$vuet.get(name).fetch();
+        if (utils.isPromise(back)) {
+          return back.then(function (res) {
+            _this.$vuet.__once__[name] = true;
+          });
+        }
+        this.$vuet.__once__[name] = true;
+      }
+    };
+  }
+};
+
+function install(Vuet) {
+  Vuet.rule('life', life).rule('need', need).rule('once', once);
+}
 
 var VuetStatic = function (Vuet) {
   Object.assign(Vuet, {

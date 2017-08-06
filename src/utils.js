@@ -11,6 +11,9 @@ const utils = {
       opt = args[0]
     }
     return opt
+  },
+  isPromise (obj) {
+    return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function'
   }
 }
 

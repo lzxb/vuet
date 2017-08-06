@@ -12,3 +12,7 @@ test('is object', t => {
   t.true(utils.isObject({}))
   t.false(utils.isObject(null))
 })
+
+test('is promise', t => {
+  t.true(utils.isPromise(Promise.resolve()))
+})
