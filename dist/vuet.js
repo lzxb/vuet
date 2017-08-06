@@ -13,11 +13,11 @@ var debug = {
       typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
     }
   },
-  assertPath: function assertPath(vuet, path) {
-    if (path in vuet.modules) {
+  assertPath: function assertPath(vuet, name) {
+    if (name in vuet.modules) {
       return;
     }
-    this.error('The module does not exist. Call the this.$vuet method in the Vue component to see all module paths');
+    this.error('The \'' + name + '\' module does not exist');
   }
 };
 
@@ -37,8 +37,21 @@ var life = {
   }
 };
 
+var need = {
+  rule: function rule(_ref) {
+    var name = _ref.name;
+
+    return {
+      beforeCreate: function beforeCreate() {
+        debug.assertPath(this.$vuet, name);
+        this.$vuet.signin(name).fetch();
+      }
+    };
+  }
+};
+
 function install(Vuet) {
-  Vuet.rule('life', life);
+  Vuet.rule('life', life).rule('need', need);
 }
 
 var utils = {
@@ -139,13 +152,16 @@ var VuetStatic = function (Vuet) {
         return {
           computed: (_computed = {}, defineProperty(_computed, alias, {
             get: function get$$1() {
+              debug.assertPath(this.$vuet, name);
               return this.$vuet.modules[name].state;
             },
             set: function set$$1(val) {
+              debug.assertPath(this.$vuet, name);
               this.$vuet.modules[name].state = val;
             }
           }), defineProperty(_computed, '$' + alias, {
             get: function get$$1() {
+              debug.assertPath(this.$vuet, name);
               return this.$vuet.modules[name];
             },
             set: function set$$1() {}
@@ -182,20 +198,32 @@ var VuetStatic = function (Vuet) {
     },
     rule: function rule(name, opts) {
       Vuet.options.rules[name] = opts;
+      return this;
     }
   });
 };
 
 var Vuet$1 = function () {
-  function Vuet() {
+  function Vuet(opts) {
+    var _this = this;
+
     classCallCheck(this, Vuet);
 
     this.modules = {};
+    this.options = {
+      pathJoin: '/',
+      modules: {}
+    };
     this.app = new Vuet.Vue({
       data: {
         modules: this.modules
       }
     });
+    Object.assign(this.options, opts);
+    Object.keys(this.options.modules).forEach(function (name) {
+      _this.register(name, _this.options.modules[name]);
+    });
+    console.log(this);
   }
 
   createClass(Vuet, [{

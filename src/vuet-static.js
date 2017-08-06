@@ -1,3 +1,4 @@
+import debug from './debug'
 import utils from './utils'
 
 export default function (Vuet) {
@@ -36,14 +37,17 @@ export default function (Vuet) {
           computed: {
             [alias]: {
               get () {
+                debug.assertPath(this.$vuet, name)
                 return this.$vuet.modules[name].state
               },
               set (val) {
+                debug.assertPath(this.$vuet, name)
                 this.$vuet.modules[name].state = val
               }
             },
             [`$${alias}`]: {
               get () {
+                debug.assertPath(this.$vuet, name)
                 return this.$vuet.modules[name]
               },
               set () { }
@@ -81,6 +85,7 @@ export default function (Vuet) {
     },
     rule (name, opts) {
       Vuet.options.rules[name] = opts
+      return this
     }
   })
 }

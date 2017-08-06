@@ -14,8 +14,9 @@ export default new Vuet({
           fetchCount: 0
         }
       },
-      async fetch ({ state }) {
-        return {
+      async fetch () {
+        const { state } = this
+        this.state = {
           count: ++state.count,
           fetchCount: ++fetchCount
         }

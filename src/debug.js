@@ -8,10 +8,10 @@ export default {
       typeof console !== 'undefined' && console.warn(`[vuet] ${msg}`)
     }
   },
-  assertPath (vuet, path) {
-    if (path in vuet.modules) {
+  assertPath (vuet, name) {
+    if (name in vuet.modules) {
       return
     }
-    this.error('The module does not exist. Call the this.$vuet method in the Vue component to see all module paths')
+    this.error(`The '${name}' module does not exist`)
   }
 }

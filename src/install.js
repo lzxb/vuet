@@ -13,7 +13,7 @@ export default function install (Vue) {
     beforeCreate () {
       if (typeof this.$options.vuet !== 'undefined') {
         this._vuet = this.$options.vuet
-        // this._vuet._init(this)
+        this._vuet._init(this)
       }
     },
     destroyed () {

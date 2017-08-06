@@ -1,13 +1,22 @@
 import utils from './utils'
 
 export default class Vuet {
-  constructor () {
+  constructor (opts) {
     this.modules = {}
+    this.options = {
+      pathJoin: '/',
+      modules: {}
+    }
     this.app = new Vuet.Vue({
       data: {
         modules: this.modules
       }
     })
+    Object.assign(this.options, opts)
+    Object.keys(this.options.modules).forEach(name => {
+      this.register(name, this.options.modules[name])
+    })
+    console.log(this)
   }
   _init () {
   }
