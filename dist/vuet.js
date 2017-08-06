@@ -61,15 +61,45 @@ var VuetModule = function VuetModule(opts) {
   this.state = this.methods.data();
 };
 
-var _Vue = void 0;
-
 var Vuet$1 = function () {
-  createClass(Vuet, null, [{
-    key: 'install',
-    value: function install(Vue) {
+  function Vuet() {
+    classCallCheck(this, Vuet);
+
+    this.modules = {};
+    this.app = new Vuet.Vue({
+      data: {
+        modules: this.modules
+      }
+    });
+  }
+
+  createClass(Vuet, [{
+    key: '_init',
+    value: function _init() {}
+  }, {
+    key: 'register',
+    value: function register(path, opts) {
+      var vtm = new VuetModule(opts);
+      Vuet.Vue.set(this.modules, path, vtm.methods);
+      this.modules[path] = vtm;
+    }
+  }, {
+    key: 'destroy',
+    value: function destroy() {}
+  }]);
+  return Vuet;
+}();
+
+var VuetStatic = function (Vuet) {
+  Object.assign(Vuet, {
+    installed: false,
+    options: {
+      rules: {}
+    },
+    install: function install(Vue) {
       if (this.installed) return this;
       this.installed = true;
-      _Vue = Vue;
+      this.Vue = Vue;
       Object.defineProperty(Vue.prototype, '$vuet', {
         get: function get$$1() {
           return this.$root._vuet;
@@ -90,10 +120,8 @@ var Vuet$1 = function () {
         }
       });
       return this;
-    }
-  }, {
-    key: 'mapModules',
-    value: function mapModules(opts) {
+    },
+    mapModules: function mapModules(opts) {
       var mixins = Object.keys(opts).map(function (name) {
         var _computed;
 
@@ -117,41 +145,14 @@ var Vuet$1 = function () {
       return {
         mixins: mixins
       };
-    }
-  }, {
-    key: 'mapRules',
-    value: function mapRules() {
+    },
+    mapRules: function mapRules() {
       return {};
     }
-  }]);
+  });
+};
 
-  function Vuet() {
-    classCallCheck(this, Vuet);
-
-    this.modules = {};
-    this.app = new _Vue({
-      data: {
-        modules: this.modules
-      }
-    });
-  }
-
-  createClass(Vuet, [{
-    key: '_init',
-    value: function _init() {}
-  }, {
-    key: 'register',
-    value: function register(path, opts) {
-      var vtm = new VuetModule(opts);
-      _Vue.set(this.modules, path, vtm.methods);
-      this.modules[path] = vtm;
-    }
-  }, {
-    key: 'destroy',
-    value: function destroy() {}
-  }]);
-  return Vuet;
-}();
+VuetStatic(Vuet$1);
 
 exports['default'] = Vuet$1;
 
