@@ -92,6 +92,9 @@ export default function (Vuet) {
     },
     rule () {
       Vuet.options.rules[arguments[0]] = arguments[1]
+      if (typeof arguments[1].install === 'function') {
+        arguments[1].install(Vuet)
+      }
       return this
     },
     callRuleHook (hook, vuet) {

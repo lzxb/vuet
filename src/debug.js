@@ -1,3 +1,4 @@
+import { _Vue } from './vuet-static'
 
 export default {
   error (msg) {
@@ -13,5 +14,15 @@ export default {
       return
     }
     this.error(`The '${name}' module does not exist`)
+  },
+  assertVue () {
+    if (!_Vue) {
+      this.error('must call Vue.use(Vuet) before creating a store instance')
+    }
+  },
+  assertPromise () {
+    if (typeof Promise === 'undefined') {
+      this.error('Vuet requires a Promise polyfill in this browser')
+    }
   }
 }

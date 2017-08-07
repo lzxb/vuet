@@ -3,12 +3,8 @@ import util from './util'
 import { _Vue } from './vuet-static'
 export default class Vuet {
   constructor (opts) {
-    if (!_Vue) {
-      debug.error('must call Vue.use(Vuet) before creating a store instance')
-    }
-    if (typeof Promise === 'undefined') {
-      debug.error('Vuet requires a Promise polyfill in this browser')
-    }
+    debug.assertVue()
+    debug.assertPromise()
 
     this.modules = {}
     this.store = {}

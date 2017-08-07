@@ -4,52 +4,6 @@
 	(factory((global.Vuet = global.Vuet || {})));
 }(this, (function (exports) { 'use strict';
 
-var debug = {
-  error: function error(msg) {
-    throw new Error('[vuet] ' + msg);
-  },
-  warn: function warn(msg) {
-    {
-      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
-    }
-  },
-  assertModule: function assertModule(vuet, name) {
-    if (name in vuet.modules) {
-      return;
-    }
-    this.error('The \'' + name + '\' module does not exist');
-  }
-};
-
-var life = {
-  rule: function rule(_ref) {
-    var path = _ref.path;
-
-    return {
-      beforeCreate: function beforeCreate() {
-        debug.assertModule(this.$vuet, path);
-        this.$vuet.getModule(path).fetch();
-      },
-      destroyed: function destroyed() {
-        this.$vuet.getModule(path).reset();
-      }
-    };
-  }
-};
-
-var need = {
-  rule: function rule(_ref) {
-    var path = _ref.path;
-
-    return {
-      beforeCreate: function beforeCreate() {
-        debug.assertModule(this.$vuet, path);
-        this.$vuet.getModule(path).fetch();
-      }
-    };
-  }
-};
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -172,35 +126,6 @@ var util = {
   }
 };
 
-var once = {
-  init: function init(vuet) {
-    vuet.__once__ = {};
-  },
-  rule: function rule(_ref) {
-    var path = _ref.path;
-
-    return {
-      beforeCreate: function beforeCreate() {
-        var _this = this;
-
-        debug.assertModule(this.$vuet, path);
-        if (this.$vuet.__once__[path]) return;
-        var back = this.$vuet.getModule(path).fetch();
-        if (util.isPromise(back)) {
-          return back.then(function (res) {
-            _this.$vuet.__once__[path] = true;
-          });
-        }
-        this.$vuet.__once__[path] = true;
-      }
-    };
-  }
-};
-
-function install(Vuet) {
-  Vuet.rule('life', life).rule('need', need).rule('once', once);
-}
-
 var _Vue = void 0;
 
 var VuetStatic = function (Vuet) {
@@ -293,6 +218,9 @@ var VuetStatic = function (Vuet) {
     },
     rule: function rule() {
       Vuet.options.rules[arguments[0]] = arguments[1];
+      if (typeof arguments[1].install === 'function') {
+        arguments[1].install(Vuet);
+      }
       return this;
     },
     callRuleHook: function callRuleHook(hook, vuet) {
@@ -305,18 +233,99 @@ var VuetStatic = function (Vuet) {
   });
 };
 
+var debug = {
+  error: function error(msg) {
+    throw new Error('[vuet] ' + msg);
+  },
+  warn: function warn(msg) {
+    {
+      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
+    }
+  },
+  assertModule: function assertModule(vuet, name) {
+    if (name in vuet.modules) {
+      return;
+    }
+    this.error('The \'' + name + '\' module does not exist');
+  },
+  assertVue: function assertVue() {
+    if (!_Vue) {
+      this.error('must call Vue.use(Vuet) before creating a store instance');
+    }
+  },
+  assertPromise: function assertPromise() {
+    if (typeof Promise === 'undefined') {
+      this.error('Vuet requires a Promise polyfill in this browser');
+    }
+  }
+};
+
+var life = {
+  rule: function rule(_ref) {
+    var path = _ref.path;
+
+    return {
+      beforeCreate: function beforeCreate() {
+        debug.assertModule(this.$vuet, path);
+        this.$vuet.getModule(path).fetch();
+      },
+      destroyed: function destroyed() {
+        this.$vuet.getModule(path).reset();
+      }
+    };
+  }
+};
+
+var need = {
+  rule: function rule(_ref) {
+    var path = _ref.path;
+
+    return {
+      beforeCreate: function beforeCreate() {
+        debug.assertModule(this.$vuet, path);
+        this.$vuet.getModule(path).fetch();
+      }
+    };
+  }
+};
+
+var once = {
+  init: function init(vuet) {
+    vuet.__once__ = {};
+  },
+  rule: function rule(_ref) {
+    var path = _ref.path;
+
+    return {
+      beforeCreate: function beforeCreate() {
+        var _this = this;
+
+        debug.assertModule(this.$vuet, path);
+        if (this.$vuet.__once__[path]) return;
+        var back = this.$vuet.getModule(path).fetch();
+        if (util.isPromise(back)) {
+          return back.then(function (res) {
+            _this.$vuet.__once__[path] = true;
+          });
+        }
+        this.$vuet.__once__[path] = true;
+      }
+    };
+  }
+};
+
+function install(Vuet) {
+  Vuet.rule('life', life).rule('need', need).rule('once', once);
+}
+
 var Vuet$1 = function () {
   function Vuet(opts) {
     var _this = this;
 
     classCallCheck(this, Vuet);
 
-    if (!_Vue) {
-      debug.error('must call Vue.use(Vuet) before creating a store instance');
-    }
-    if (typeof Promise === 'undefined') {
-      debug.error('Vuet requires a Promise polyfill in this browser');
-    }
+    debug.assertVue();
+    debug.assertPromise();
 
     this.modules = {};
     this.store = {};
