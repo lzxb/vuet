@@ -19,14 +19,17 @@ export default function (Vuet) {
       Vue.mixin({
         beforeCreate () {
           if (typeof this.$options.vuet !== 'undefined') {
-            this._vuet = this.$options.vuet
-            // this._vuet._init(this)
+            if (this.$options.vuet instanceof Vuet) {
+              this._vuet = this.$options.vuet
+              this._vuet._init(this)
+            }
           }
         },
         destroyed () {
           if (typeof this.$options.vuet !== 'undefined') {
-            this._vuet = this.$options.vuet
-            this._vuet.destroy(this)
+            if (this.$options.vuet instanceof Vuet) {
+              this._vuet.destroy(this)
+            }
           }
         }
       })
@@ -52,7 +55,9 @@ export default function (Vuet) {
                 debug.assertModule(this.$vuet, path)
                 return this.$vuet.modules[path]
               },
-              set () { }
+              set () {
+                debug.error('It is read-only')
+              }
             }
           }
         }

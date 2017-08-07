@@ -221,14 +221,17 @@ var VuetStatic = function (Vuet) {
       Vue.mixin({
         beforeCreate: function beforeCreate() {
           if (typeof this.$options.vuet !== 'undefined') {
-            this._vuet = this.$options.vuet;
-            // this._vuet._init(this)
+            if (this.$options.vuet instanceof Vuet) {
+              this._vuet = this.$options.vuet;
+              this._vuet._init(this);
+            }
           }
         },
         destroyed: function destroyed() {
           if (typeof this.$options.vuet !== 'undefined') {
-            this._vuet = this.$options.vuet;
-            this._vuet.destroy(this);
+            if (this.$options.vuet instanceof Vuet) {
+              this._vuet.destroy(this);
+            }
           }
         }
       });
@@ -254,7 +257,9 @@ var VuetStatic = function (Vuet) {
               debug.assertModule(this.$vuet, path);
               return this.$vuet.modules[path];
             },
-            set: function set$$1() {}
+            set: function set$$1() {
+              debug.error('It is read-only');
+            }
           }), _computed)
         };
       });
@@ -319,7 +324,8 @@ var Vuet$1 = function () {
       pathJoin: '/',
       modules: {}
     };
-    this.app = new _Vue({
+    this.app = null;
+    this.vm = new _Vue({
       data: {
         modules: this.store
       }
@@ -346,7 +352,9 @@ var Vuet$1 = function () {
 
   createClass(Vuet, [{
     key: '_init',
-    value: function _init() {}
+    value: function _init(app) {
+      this.app = app;
+    }
   }, {
     key: 'register',
     value: function register(path, opts) {

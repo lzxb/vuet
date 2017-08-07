@@ -16,7 +16,8 @@ export default class Vuet {
       pathJoin: '/',
       modules: {}
     }
-    this.app = new _Vue({
+    this.app = null
+    this.vm = new _Vue({
       data: {
         modules: this.store
       }
@@ -40,7 +41,8 @@ export default class Vuet {
     initModule([], this.options.modules)
     Vuet.callRuleHook('init', this)
   }
-  _init () {
+  _init (app) {
+    this.app = app
   }
   register (path, opts) {
     const vuet = this

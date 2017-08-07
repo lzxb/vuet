@@ -49,7 +49,7 @@ function baseExample (t, pathJoin = '/') {
       this.count++
     }
   })
-
+  t.is(vuet.app, null)
   const vm = new Vue({
     mixins: [
       mapModules({
@@ -61,6 +61,8 @@ function baseExample (t, pathJoin = '/') {
     vuet
   })
   t.is(vuet, vm.$vuet)
+  t.is(vuet.app, vm)
+  t.true(vuet.vm instanceof Vue)
   t.deepEqual(Object.keys(vuet.modules), ['test', `test${pathJoin}chlid`, 'myTest'])
 
   // test => vuet
@@ -132,4 +134,16 @@ test('static attrs', t => {
       }
     })
   t.deepEqual(Object.keys(Vuet.options.rules), ['life', 'need', 'once', 'myRule1', 'myRule2'])
+})
+test('mapModules', t => {
+  const mixin = Vuet.mapModules({
+    list: 'list',
+    detail: 'detail'
+  })
+  const rules = Vuet.mapRules({
+    life: 'list',
+    need: 'detail'
+  })
+  t.is(JSON.stringify(mixin), '{"mixins":[{"computed":{"list":{},"$list":{}}},{"computed":{"detail":{},"$detail":{}}}]}')
+  t.is(JSON.stringify(rules), '{"mixins":[{},{}]}')
 })
