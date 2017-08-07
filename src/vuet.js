@@ -1,14 +1,26 @@
+import debug from './debug'
 import utils from './utils'
+import { _Vue } from './vuet-static'
 
 export default class Vuet {
   constructor (opts) {
+    if (!_Vue) {
+      debug.error('must call Vue.use(Vuet) before creating a store instance')
+    }
+    if (typeof Promise === 'undefined') {
+      debug.error('Vuet requires a Promise polyfill in this browser')
+    }
+    if (!utils.isObject(opts)) {
+      debug.error('Parameter is the object type')
+    }
+
     this.modules = {}
     this.store = {}
     this.options = {
       pathJoin: '/',
       modules: {}
     }
-    this.app = new Vuet.Vue({
+    this.app = new _Vue({
       data: {
         modules: this.store
       }
@@ -36,7 +48,7 @@ export default class Vuet {
   }
   register (path, opts) {
     const vuet = this
-    Vuet.Vue.set(vuet.store, path, opts.data())
+    _Vue.set(vuet.store, path, opts.data())
     Object.defineProperty(opts, 'state', {
       get () {
         return vuet.store[path]
@@ -81,5 +93,6 @@ export default class Vuet {
   }
   destroy () {
     this.vm.$destroy()
+    Vuet.callRuleHook('destroy', this)
   }
 }

@@ -1,6 +1,8 @@
 import debug from './debug'
 import utils from './utils'
 
+export let _Vue
+
 export default function (Vuet) {
   Object.assign(Vuet, {
     installed: false,
@@ -10,7 +12,7 @@ export default function (Vuet) {
     install (Vue) {
       if (this.installed) return this
       this.installed = true
-      this.Vue = Vue
+      _Vue = Vue
       Object.defineProperty(Vue.prototype, '$vuet', {
         get () { return this.$root._vuet }
       })

@@ -201,6 +201,8 @@ function install(Vuet) {
   Vuet.rule('life', life).rule('need', need).rule('once', once);
 }
 
+var _Vue = void 0;
+
 var VuetStatic = function (Vuet) {
   Object.assign(Vuet, {
     installed: false,
@@ -210,7 +212,7 @@ var VuetStatic = function (Vuet) {
     install: function install(Vue) {
       if (this.installed) return this;
       this.installed = true;
-      this.Vue = Vue;
+      _Vue = Vue;
       Object.defineProperty(Vue.prototype, '$vuet', {
         get: function get$$1() {
           return this.$root._vuet;
@@ -304,13 +306,23 @@ var Vuet$1 = function () {
 
     classCallCheck(this, Vuet);
 
+    if (!_Vue) {
+      debug.error('must call Vue.use(Vuet) before creating a store instance');
+    }
+    if (typeof Promise === 'undefined') {
+      debug.error('Vuet requires a Promise polyfill in this browser');
+    }
+    if (!utils.isObject(opts)) {
+      debug.error('Parameter is the object type');
+    }
+
     this.modules = {};
     this.store = {};
     this.options = {
       pathJoin: '/',
       modules: {}
     };
-    this.app = new Vuet.Vue({
+    this.app = new _Vue({
       data: {
         modules: this.store
       }
@@ -342,7 +354,7 @@ var Vuet$1 = function () {
     key: 'register',
     value: function register(path, opts) {
       var vuet = this;
-      Vuet.Vue.set(vuet.store, path, opts.data());
+      _Vue.set(vuet.store, path, opts.data());
       Object.defineProperty(opts, 'state', {
         get: function get$$1() {
           return vuet.store[path];
@@ -393,6 +405,7 @@ var Vuet$1 = function () {
     key: 'destroy',
     value: function destroy() {
       this.vm.$destroy();
+      Vuet.callRuleHook('destroy', this);
     }
   }]);
   return Vuet;
@@ -400,7 +413,6 @@ var Vuet$1 = function () {
 
 VuetStatic(Vuet$1);
 install(Vuet$1);
-
 var mapRules = Vuet$1.mapRules.bind(Vuet$1);
 var mapModules = Vuet$1.mapModules.bind(Vuet$1);
 

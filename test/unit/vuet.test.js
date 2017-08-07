@@ -116,3 +116,20 @@ test('base', t => {
 test('set path join', t => {
   baseExample(t, '-')
 })
+
+test('static attrs', t => {
+  t.deepEqual(Object.keys(Vuet.options), ['rules'])
+  t.deepEqual(Object.keys(Vuet.options.rules), ['life', 'need', 'once'])
+  Vuet
+    .rule('myRule1', {
+      rule ({ path }) {
+        return {}
+      }
+    })
+    .rule('myRule2', {
+      rule ({ path }) {
+        return {}
+      }
+    })
+  t.deepEqual(Object.keys(Vuet.options.rules), ['life', 'need', 'once', 'myRule1', 'myRule2'])
+})
