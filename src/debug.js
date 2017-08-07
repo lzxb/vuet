@@ -8,7 +8,7 @@ export default {
       typeof console !== 'undefined' && console.warn(`[vuet] ${msg}`)
     }
   },
-  assertPath (vuet, name) {
+  assertModule (vuet, name) {
     if (name in vuet.modules) {
       return
     }

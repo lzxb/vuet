@@ -3,7 +3,7 @@ import { Selector } from 'testcafe'
 fixture`base`
   .page`http://localhost:3000/base/index.html`
 
-test.only('base', async t => {
+test('base', async t => {
   await t
     .expect(Selector('.count').textContent).eql('1000')
     .click('button:nth-of-type(1)')

@@ -5,18 +5,18 @@ export default {
   init (vuet) {
     vuet.__once__ = {}
   },
-  rule ({ name }) {
+  rule ({ path }) {
     return {
       beforeCreate () {
-        debug.assertPath(this.$vuet, name)
-        if (this.$vuet.__once__[name]) return
-        const back = this.$vuet.get(name).fetch()
+        debug.assertModule(this.$vuet, path)
+        if (this.$vuet.__once__[path]) return
+        const back = this.$vuet.getModule(path).fetch()
         if (utils.isPromise(back)) {
           return back.then(res => {
-            this.$vuet.__once__[name] = true
+            this.$vuet.__once__[path] = true
           })
         }
-        this.$vuet.__once__[name] = true
+        this.$vuet.__once__[path] = true
       }
     }
   }

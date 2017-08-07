@@ -14,17 +14,17 @@ export default class Vuet {
       }
     })
     Object.assign(this.options, opts)
-    const initModule = (names, modules) => {
-      Object.keys(modules).forEach(name => {
-        const newNames = [...names, name]
+    const initModule = (paths, modules) => {
+      Object.keys(modules).forEach(path => {
+        const newNames = [...paths, path]
         const newName = newNames.join(this.options.pathJoin)
-        if (!utils.isObject(modules[name])) return
-        if (typeof modules[name].data === 'function') {
-          this.register(newName, modules[name])
+        if (!utils.isObject(modules[path])) return
+        if (typeof modules[path].data === 'function') {
+          this.register(newName, modules[path])
         }
-        Object.keys(modules[name]).forEach(chlidName => {
-          if (utils.isObject(modules[name][chlidName])) {
-            initModule(newNames, modules[name])
+        Object.keys(modules[path]).forEach(chlidName => {
+          if (utils.isObject(modules[path][chlidName])) {
+            initModule(newNames, modules[path])
           }
         })
       })
@@ -34,15 +34,15 @@ export default class Vuet {
   }
   _init () {
   }
-  register (name, opts) {
+  register (path, opts) {
     const vuet = this
-    Vuet.Vue.set(vuet.store, name, opts.data())
+    Vuet.Vue.set(vuet.store, path, opts.data())
     Object.defineProperty(opts, 'state', {
       get () {
-        return vuet.store[name]
+        return vuet.store[path]
       },
       set (val) {
-        vuet.store[name] = val
+        vuet.store[path] = val
       }
     })
     Object.assign(opts, {
@@ -54,7 +54,7 @@ export default class Vuet {
       if (typeof opts[k] === 'function') {
         const native = opts[k]
         opts[k] = function proxy () {
-          return native.apply(vuet.modules[name], arguments)
+          return native.apply(vuet.modules[path], arguments)
         }
       }
     })
@@ -62,19 +62,22 @@ export default class Vuet {
       Object.keys(opts.state).forEach(k => {
         Object.defineProperty(opts, k, {
           get () {
-            return vuet.store[name][k]
+            return vuet.store[path][k]
           },
           set (val) {
-            vuet.store[name][k] = val
+            vuet.store[path][k] = val
           }
         })
       })
     }
-    vuet.modules[name] = opts
+    vuet.modules[path] = opts
     return this
   }
-  get (name) {
-    return this.modules[name]
+  getModule (path) {
+    return this.modules[path]
+  }
+  getState (path) {
+    return this.modules[path].state
   }
   destroy () {
     this.vm.$destroy()

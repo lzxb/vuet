@@ -32,23 +32,23 @@ export default function (Vuet) {
     },
     mapModules (opts) {
       const mixins = Object.keys(opts).map(alias => {
-        const name = opts[alias]
+        const path = opts[alias]
         return {
           computed: {
             [alias]: {
               get () {
-                debug.assertPath(this.$vuet, name)
-                return this.$vuet.modules[name].state
+                debug.assertModule(this.$vuet, path)
+                return this.$vuet.modules[path].state
               },
               set (val) {
-                debug.assertPath(this.$vuet, name)
-                this.$vuet.modules[name].state = val
+                debug.assertModule(this.$vuet, path)
+                this.$vuet.modules[path].state = val
               }
             },
             [`$${alias}`]: {
               get () {
-                debug.assertPath(this.$vuet, name)
-                return this.$vuet.modules[name]
+                debug.assertModule(this.$vuet, path)
+                return this.$vuet.modules[path]
               },
               set () { }
             }
@@ -65,7 +65,7 @@ export default function (Vuet) {
       const addRule = (ruleName, any) => {
         const rules = Vuet.options.rules[ruleName]
         if (typeof any === 'string') {
-          vueRules.push(rules.rule({ name: any }))
+          vueRules.push(rules.rule({ path: any }))
         } else {
           vueRules.push(rules.rule(any))
         }
@@ -83,8 +83,8 @@ export default function (Vuet) {
         mixins: vueRules
       }
     },
-    rule (name, opts) {
-      Vuet.options.rules[name] = opts
+    rule () {
+      Vuet.options.rules[arguments[0]] = arguments[1]
       return this
     },
     callRuleHook (hook, vuet) {

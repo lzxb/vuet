@@ -13,7 +13,7 @@ var debug = {
       typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
     }
   },
-  assertPath: function assertPath(vuet, name) {
+  assertModule: function assertModule(vuet, name) {
     if (name in vuet.modules) {
       return;
     }
@@ -23,15 +23,15 @@ var debug = {
 
 var life = {
   rule: function rule(_ref) {
-    var name = _ref.name;
+    var path = _ref.path;
 
     return {
       beforeCreate: function beforeCreate() {
-        debug.assertPath(this.$vuet, name);
-        this.$vuet.get(name).fetch();
+        debug.assertModule(this.$vuet, path);
+        this.$vuet.getModule(path).fetch();
       },
       destroyed: function destroyed() {
-        this.$vuet.get(name).reset();
+        this.$vuet.getModule(path).reset();
       }
     };
   }
@@ -39,12 +39,12 @@ var life = {
 
 var need = {
   rule: function rule(_ref) {
-    var name = _ref.name;
+    var path = _ref.path;
 
     return {
       beforeCreate: function beforeCreate() {
-        debug.assertPath(this.$vuet, name);
-        this.$vuet.get(name).fetch();
+        debug.assertModule(this.$vuet, path);
+        this.$vuet.getModule(path).fetch();
       }
     };
   }
@@ -177,21 +177,21 @@ var once = {
     vuet.__once__ = {};
   },
   rule: function rule(_ref) {
-    var name = _ref.name;
+    var path = _ref.path;
 
     return {
       beforeCreate: function beforeCreate() {
         var _this = this;
 
-        debug.assertPath(this.$vuet, name);
-        if (this.$vuet.__once__[name]) return;
-        var back = this.$vuet.get(name).fetch();
+        debug.assertModule(this.$vuet, path);
+        if (this.$vuet.__once__[path]) return;
+        var back = this.$vuet.getModule(path).fetch();
         if (utils.isPromise(back)) {
           return back.then(function (res) {
-            _this.$vuet.__once__[name] = true;
+            _this.$vuet.__once__[path] = true;
           });
         }
-        this.$vuet.__once__[name] = true;
+        this.$vuet.__once__[path] = true;
       }
     };
   }
@@ -236,21 +236,21 @@ var VuetStatic = function (Vuet) {
       var mixins = Object.keys(opts).map(function (alias) {
         var _computed;
 
-        var name = opts[alias];
+        var path = opts[alias];
         return {
           computed: (_computed = {}, defineProperty(_computed, alias, {
             get: function get$$1() {
-              debug.assertPath(this.$vuet, name);
-              return this.$vuet.modules[name].state;
+              debug.assertModule(this.$vuet, path);
+              return this.$vuet.modules[path].state;
             },
             set: function set$$1(val) {
-              debug.assertPath(this.$vuet, name);
-              this.$vuet.modules[name].state = val;
+              debug.assertModule(this.$vuet, path);
+              this.$vuet.modules[path].state = val;
             }
           }), defineProperty(_computed, '$' + alias, {
             get: function get$$1() {
-              debug.assertPath(this.$vuet, name);
-              return this.$vuet.modules[name];
+              debug.assertModule(this.$vuet, path);
+              return this.$vuet.modules[path];
             },
             set: function set$$1() {}
           }), _computed)
@@ -266,7 +266,7 @@ var VuetStatic = function (Vuet) {
       var addRule = function addRule(ruleName, any) {
         var rules = Vuet.options.rules[ruleName];
         if (typeof any === 'string') {
-          vueRules.push(rules.rule({ name: any }));
+          vueRules.push(rules.rule({ path: any }));
         } else {
           vueRules.push(rules.rule(any));
         }
@@ -284,8 +284,8 @@ var VuetStatic = function (Vuet) {
         mixins: vueRules
       };
     },
-    rule: function rule(name, opts) {
-      Vuet.options.rules[name] = opts;
+    rule: function rule() {
+      Vuet.options.rules[arguments[0]] = arguments[1];
       return this;
     },
     callRuleHook: function callRuleHook(hook, vuet) {
@@ -316,17 +316,17 @@ var Vuet$1 = function () {
       }
     });
     Object.assign(this.options, opts);
-    var initModule = function initModule(names, modules) {
-      Object.keys(modules).forEach(function (name) {
-        var newNames = [].concat(toConsumableArray(names), [name]);
+    var initModule = function initModule(paths, modules) {
+      Object.keys(modules).forEach(function (path) {
+        var newNames = [].concat(toConsumableArray(paths), [path]);
         var newName = newNames.join(_this.options.pathJoin);
-        if (!utils.isObject(modules[name])) return;
-        if (typeof modules[name].data === 'function') {
-          _this.register(newName, modules[name]);
+        if (!utils.isObject(modules[path])) return;
+        if (typeof modules[path].data === 'function') {
+          _this.register(newName, modules[path]);
         }
-        Object.keys(modules[name]).forEach(function (chlidName) {
-          if (utils.isObject(modules[name][chlidName])) {
-            initModule(newNames, modules[name]);
+        Object.keys(modules[path]).forEach(function (chlidName) {
+          if (utils.isObject(modules[path][chlidName])) {
+            initModule(newNames, modules[path]);
           }
         });
       });
@@ -340,15 +340,15 @@ var Vuet$1 = function () {
     value: function _init() {}
   }, {
     key: 'register',
-    value: function register(name, opts) {
+    value: function register(path, opts) {
       var vuet = this;
-      Vuet.Vue.set(vuet.store, name, opts.data());
+      Vuet.Vue.set(vuet.store, path, opts.data());
       Object.defineProperty(opts, 'state', {
         get: function get$$1() {
-          return vuet.store[name];
+          return vuet.store[path];
         },
         set: function set$$1(val) {
-          vuet.store[name] = val;
+          vuet.store[path] = val;
         }
       });
       Object.assign(opts, {
@@ -360,7 +360,7 @@ var Vuet$1 = function () {
         if (typeof opts[k] === 'function') {
           var native = opts[k];
           opts[k] = function proxy() {
-            return native.apply(vuet.modules[name], arguments);
+            return native.apply(vuet.modules[path], arguments);
           };
         }
       });
@@ -368,21 +368,26 @@ var Vuet$1 = function () {
         Object.keys(opts.state).forEach(function (k) {
           Object.defineProperty(opts, k, {
             get: function get$$1() {
-              return vuet.store[name][k];
+              return vuet.store[path][k];
             },
             set: function set$$1(val) {
-              vuet.store[name][k] = val;
+              vuet.store[path][k] = val;
             }
           });
         });
       }
-      vuet.modules[name] = opts;
+      vuet.modules[path] = opts;
       return this;
     }
   }, {
-    key: 'get',
-    value: function get$$1(name) {
-      return this.modules[name];
+    key: 'getModule',
+    value: function getModule(path) {
+      return this.modules[path];
+    }
+  }, {
+    key: 'getState',
+    value: function getState(path) {
+      return this.modules[path].state;
     }
   }, {
     key: 'destroy',
