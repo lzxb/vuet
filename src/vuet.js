@@ -1,7 +1,6 @@
 import debug from './debug'
-import utils from './utils'
+import util from './util'
 import { _Vue } from './vuet-static'
-
 export default class Vuet {
   constructor (opts) {
     if (!_Vue) {
@@ -9,9 +8,6 @@ export default class Vuet {
     }
     if (typeof Promise === 'undefined') {
       debug.error('Vuet requires a Promise polyfill in this browser')
-    }
-    if (!utils.isObject(opts)) {
-      debug.error('Parameter is the object type')
     }
 
     this.modules = {}
@@ -30,12 +26,12 @@ export default class Vuet {
       Object.keys(modules).forEach(path => {
         const newNames = [...paths, path]
         const newName = newNames.join(this.options.pathJoin)
-        if (!utils.isObject(modules[path])) return
+        if (!util.isObject(modules[path])) return
         if (typeof modules[path].data === 'function') {
           this.register(newName, modules[path])
         }
         Object.keys(modules[path]).forEach(chlidName => {
-          if (utils.isObject(modules[path][chlidName])) {
+          if (util.isObject(modules[path][chlidName])) {
             initModule(newNames, modules[path])
           }
         })
@@ -70,7 +66,7 @@ export default class Vuet {
         }
       }
     })
-    if (utils.isObject(opts.state)) {
+    if (util.isObject(opts.state)) {
       Object.keys(opts.state).forEach(k => {
         Object.defineProperty(opts, k, {
           get () {

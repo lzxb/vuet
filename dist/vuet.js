@@ -153,7 +153,7 @@ var toConsumableArray = function (arr) {
   }
 };
 
-var utils = {
+var util = {
   isObject: function isObject(obj) {
     return !!obj && Object.prototype.toString.call(obj) === '[object Object]';
   },
@@ -162,7 +162,7 @@ var utils = {
     var args = arguments;
     if (typeof args[0] === 'string') {
       opt[args[0]] = args.length > 1 ? args[1] : args[0];
-    } else if (args[0] && utils.isObject(args[0])) {
+    } else if (args[0] && util.isObject(args[0])) {
       opt = args[0];
     }
     return opt;
@@ -186,7 +186,7 @@ var once = {
         debug.assertModule(this.$vuet, path);
         if (this.$vuet.__once__[path]) return;
         var back = this.$vuet.getModule(path).fetch();
-        if (utils.isPromise(back)) {
+        if (util.isPromise(back)) {
           return back.then(function (res) {
             _this.$vuet.__once__[path] = true;
           });
@@ -263,7 +263,7 @@ var VuetStatic = function (Vuet) {
       };
     },
     mapRules: function mapRules() {
-      var opts = utils.getArgMerge.apply(null, arguments);
+      var opts = util.getArgMerge.apply(null, arguments);
       var vueRules = [];
       var addRule = function addRule(ruleName, any) {
         var rules = Vuet.options.rules[ruleName];
@@ -312,9 +312,6 @@ var Vuet$1 = function () {
     if (typeof Promise === 'undefined') {
       debug.error('Vuet requires a Promise polyfill in this browser');
     }
-    if (!utils.isObject(opts)) {
-      debug.error('Parameter is the object type');
-    }
 
     this.modules = {};
     this.store = {};
@@ -332,12 +329,12 @@ var Vuet$1 = function () {
       Object.keys(modules).forEach(function (path) {
         var newNames = [].concat(toConsumableArray(paths), [path]);
         var newName = newNames.join(_this.options.pathJoin);
-        if (!utils.isObject(modules[path])) return;
+        if (!util.isObject(modules[path])) return;
         if (typeof modules[path].data === 'function') {
           _this.register(newName, modules[path]);
         }
         Object.keys(modules[path]).forEach(function (chlidName) {
-          if (utils.isObject(modules[path][chlidName])) {
+          if (util.isObject(modules[path][chlidName])) {
             initModule(newNames, modules[path]);
           }
         });
@@ -376,7 +373,7 @@ var Vuet$1 = function () {
           };
         }
       });
-      if (utils.isObject(opts.state)) {
+      if (util.isObject(opts.state)) {
         Object.keys(opts.state).forEach(function (k) {
           Object.defineProperty(opts, k, {
             get: function get$$1() {

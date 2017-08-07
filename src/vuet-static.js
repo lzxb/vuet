@@ -1,5 +1,5 @@
 import debug from './debug'
-import utils from './utils'
+import util from './util'
 
 export let _Vue
 
@@ -62,7 +62,7 @@ export default function (Vuet) {
       }
     },
     mapRules () {
-      const opts = utils.getArgMerge.apply(null, arguments)
+      const opts = util.getArgMerge.apply(null, arguments)
       const vueRules = []
       const addRule = (ruleName, any) => {
         const rules = Vuet.options.rules[ruleName]
