@@ -293,26 +293,31 @@ var need = {
   }
 };
 
+var PATH = '__once__';
+
 var once = {
   init: function init(vuet) {
-    vuet.__once__ = {};
+    vuet.register(PATH, {
+      data: function data() {
+        return [];
+      }
+    });
   },
   rule: function rule(_ref) {
     var path = _ref.path;
 
     return {
       beforeCreate: function beforeCreate() {
-        var _this = this;
-
         debug.assertModule(this.$vuet, path);
-        if (this.$vuet.__once__[path]) return;
+        var once = this.$vuet.getModule(PATH);
+        if (once.state.indexOf(path) > -1) return;
         var back = this.$vuet.getModule(path).fetch();
         if (util.isPromise(back)) {
           return back.then(function (res) {
-            _this.$vuet.__once__[path] = true;
+            once.state.push(path);
           });
         }
-        this.$vuet.__once__[path] = true;
+        once.state.push(path);
       }
     };
   }
@@ -374,6 +379,9 @@ var Vuet$1 = function () {
       var vuet = this;
       opts = _extends({}, opts);
       _Vue.set(vuet.store, path, opts.data());
+      vuet.modules[path] = opts;
+      vuet.modules[path].vuet = this;
+      vuet.modules[path].app = vuet.app;
       Object.defineProperty(opts, 'state', {
         get: function get$$1() {
           return vuet.store[path];
@@ -398,7 +406,7 @@ var Vuet$1 = function () {
       if (util.isObject(opts.state)) {
         Object.keys(opts.state).forEach(function (k) {
           if (k in opts) {
-            return debug.warn('The\'' + k + '\'property cannot override the method');
+            return debug.warn('\'' + k + '\' already exists on the object');
           }
           Object.defineProperty(opts, k, {
             get: function get$$1() {
@@ -410,17 +418,18 @@ var Vuet$1 = function () {
           });
         });
       }
-      vuet.modules[path] = opts;
       return this;
     }
   }, {
     key: 'getModule',
     value: function getModule(path) {
+      debug.assertModule(this, path);
       return this.modules[path];
     }
   }, {
     key: 'getState',
     value: function getState(path) {
+      debug.assertModule(this, path);
       return this.modules[path].state;
     }
   }, {

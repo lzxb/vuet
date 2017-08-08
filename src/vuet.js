@@ -44,6 +44,9 @@ export default class Vuet {
     const vuet = this
     opts = { ...opts }
     _Vue.set(vuet.store, path, opts.data())
+    vuet.modules[path] = opts
+    vuet.modules[path].vuet = this
+    vuet.modules[path].app = vuet.app
     Object.defineProperty(opts, 'state', {
       get () {
         return vuet.store[path]
@@ -68,7 +71,7 @@ export default class Vuet {
     if (util.isObject(opts.state)) {
       Object.keys(opts.state).forEach(k => {
         if (k in opts) {
-          return debug.warn(`The'${k}'property cannot override the method`)
+          return debug.warn(`'${k}' already exists on the object`)
         }
         Object.defineProperty(opts, k, {
           get () {
@@ -80,13 +83,14 @@ export default class Vuet {
         })
       })
     }
-    vuet.modules[path] = opts
     return this
   }
   getModule (path) {
+    debug.assertModule(this, path)
     return this.modules[path]
   }
   getState (path) {
+    debug.assertModule(this, path)
     return this.modules[path].state
   }
   destroy () {

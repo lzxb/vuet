@@ -1,22 +1,29 @@
 import debug from '../debug'
 import util from '../util'
 
+const PATH = '__once__'
+
 export default {
   init (vuet) {
-    vuet.__once__ = {}
+    vuet.register(PATH, {
+      data () {
+        return []
+      }
+    })
   },
   rule ({ path }) {
     return {
       beforeCreate () {
         debug.assertModule(this.$vuet, path)
-        if (this.$vuet.__once__[path]) return
+        const once = this.$vuet.getModule(PATH)
+        if (once.state.indexOf(path) > -1) return
         const back = this.$vuet.getModule(path).fetch()
         if (util.isPromise(back)) {
           return back.then(res => {
-            this.$vuet.__once__[path] = true
+            once.state.push(path)
           })
         }
-        this.$vuet.__once__[path] = true
+        once.state.push(path)
       }
     }
   }

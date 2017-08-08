@@ -63,7 +63,7 @@ function baseExample (t, pathJoin = '/') {
   t.is(vuet, vm.$vuet)
   t.is(vuet.app, vm)
   t.true(vuet.vm instanceof Vue)
-  t.deepEqual(Object.keys(vuet.modules), ['test', `test${pathJoin}chlid`, 'myTest'])
+  t.deepEqual(Object.keys(vuet.modules), ['test', `test${pathJoin}chlid`, '__once__', 'myTest'])
 
   // test => vuet
   const test = vuet.getModule('test')
@@ -283,4 +283,26 @@ test('rules', t => {
   t.is(vm.$vuet.getState('once'), 1)
   t.is(vuet.getState('temp'), 1)
   t.is(vm.$vuet.getState('temp'), 1)
+})
+
+test('attr', t => {
+  const vuet = new Vuet()
+  t.is(vuet.app, null)
+  const vm = new Vue({ vuet })
+  t.is(vuet.app, vm)
+  t.true(vuet.vm instanceof Vue)
+
+  vuet.register('test', {
+    data () {
+      return {
+        count: 0
+      }
+    }
+  })
+  t.deepEqual(vuet.store.test, { count: 0 })
+  t.deepEqual(vuet.getState('test'), { count: 0 })
+  t.is(vuet.store.test, vuet.getState('test'))
+  t.is(vuet.getModule('test').app, vm)
+  t.is(vuet.getModule('test').app, vuet.app)
+  t.is(vuet.getModule('test').vuet, vuet)
 })
