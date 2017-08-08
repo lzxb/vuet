@@ -164,28 +164,18 @@ var VuetStatic = function (Vuet) {
     },
     mapModules: function mapModules(opts) {
       var mixins = Object.keys(opts).map(function (alias) {
-        var _computed;
-
         var path = opts[alias];
         return {
-          computed: (_computed = {}, defineProperty(_computed, alias, {
-            get: function get$$1() {
-              debug.assertModule(this.$vuet, path);
-              return this.$vuet.modules[path].state;
-            },
-            set: function set$$1(val) {
-              debug.assertModule(this.$vuet, path);
-              this.$vuet.modules[path].state = val;
-            }
-          }), defineProperty(_computed, '$' + alias, {
+          computed: defineProperty({}, alias, {
             get: function get$$1() {
               debug.assertModule(this.$vuet, path);
               return this.$vuet.modules[path];
             },
-            set: function set$$1() {
-              debug.error('It is read-only');
+            set: function set$$1(val) {
+              debug.assertModule(this.$vuet, path);
+              this.$vuet.modules[path] = val;
             }
-          }), _computed)
+          })
         };
       });
       return {
@@ -260,7 +250,7 @@ var debug = {
   }
 };
 
-var life = {
+var temp = {
   rule: function rule(_ref) {
     var path = _ref.path;
 
@@ -315,7 +305,7 @@ var once = {
 };
 
 function install(Vuet) {
-  Vuet.rule('life', life).rule('need', need).rule('once', once);
+  Vuet.rule('temp', temp).rule('need', need).rule('once', once);
 }
 
 var Vuet$1 = function () {

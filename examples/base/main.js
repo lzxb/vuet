@@ -33,10 +33,10 @@ const App = {
   template: `
     <div>
       <div class="count">{{ test.count }}</div>
-      <button @click="$test.plus">plus</button> 
-      <button @click="$test.reduce">reduce</button> 
-      <button @click="$test.reset">reset</button> 
-      <button @click="$test.fetch">fetch</button> 
+      <button @click="test.plus">plus</button> 
+      <button @click="test.reduce">reduce</button> 
+      <button @click="test.reset">reset</button> 
+      <button @click="test.fetch">fetch</button> 
     </div>
   `
 }

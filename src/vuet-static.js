@@ -43,20 +43,11 @@ export default function (Vuet) {
             [alias]: {
               get () {
                 debug.assertModule(this.$vuet, path)
-                return this.$vuet.modules[path].state
+                return this.$vuet.modules[path]
               },
               set (val) {
                 debug.assertModule(this.$vuet, path)
-                this.$vuet.modules[path].state = val
-              }
-            },
-            [`$${alias}`]: {
-              get () {
-                debug.assertModule(this.$vuet, path)
-                return this.$vuet.modules[path]
-              },
-              set () {
-                debug.error('It is read-only')
+                this.$vuet.modules[path] = val
               }
             }
           }
