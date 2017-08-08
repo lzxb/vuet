@@ -1,6 +1,6 @@
 ## Vuet
-[![Coverage Status](https://coveralls.io/repos/github/medatc/vuet/badge.svg?branch=master)](https://coveralls.io/github/medatc/vuet?branch=master)
-[![Build Status](https://travis-ci.org/medatc/vuet.svg?branch=master)](https://travis-ci.org/medatc/vuet)
+[![Coverage Status](https://coveralls.io/repos/github/medatc/vuet/badge.svg?branch=1.0)](https://coveralls.io/github/medatc/vuet?branch=1.0)
+[![Build Status](https://travis-ci.org/medatc/vuet.svg?branch=1.0)](https://travis-ci.org/medatc/vuet)
 [![npm](https://img.shields.io/npm/v/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet) 
 [![npm](https://img.shields.io/npm/dt/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet)
 
