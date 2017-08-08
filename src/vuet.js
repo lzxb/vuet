@@ -42,6 +42,7 @@ export default class Vuet {
   }
   register (path, opts) {
     const vuet = this
+    opts = { ...opts }
     _Vue.set(vuet.store, path, opts.data())
     Object.defineProperty(opts, 'state', {
       get () {

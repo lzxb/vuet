@@ -1,6 +1,6 @@
 import test from 'ava'
 import Vue from 'vue'
-import Vuet, { mapModules } from '../../src/index'
+import Vuet, { mapRules, mapModules } from '../../src/index'
 
 test.before(() => {
   Vue.use(Vuet)
@@ -225,4 +225,62 @@ test('callRuleHook', t => {
   t.true(myCallBtn)
 
   t.is(Vuet.options.rules.myRule, myRule)
+})
+
+test('rules', t => {
+  const vuet = new Vuet()
+  const opts = {
+    data () {
+      return 0
+    },
+    fetch () {
+      this.state++
+    }
+  }
+  vuet.register('need', opts)
+  vuet.register('once', opts)
+  vuet.register('temp', opts)
+  let vm = new Vue({
+    mixins: [
+      mapRules({
+        need: 'need',
+        once: 'once',
+        temp: 'temp'
+      })
+    ],
+    vuet
+  })
+
+  t.is(vuet.getState('need'), 1)
+  t.is(vm.$vuet.getState('need'), 1)
+  t.is(vuet.getState('once'), 1)
+  t.is(vm.$vuet.getState('once'), 1)
+  t.is(vuet.getState('temp'), 1)
+  t.is(vm.$vuet.getState('temp'), 1)
+
+  vm.$destroy()
+  t.is(vuet.getState('need'), 1)
+  t.is(vm.$vuet.getState('need'), 1)
+  t.is(vuet.getState('once'), 1)
+  t.is(vm.$vuet.getState('once'), 1)
+  t.is(vuet.getState('temp'), 0)
+  t.is(vm.$vuet.getState('temp'), 0)
+
+  vm = new Vue({
+    mixins: [
+      mapRules({
+        need: 'need',
+        once: 'once',
+        temp: 'temp'
+      })
+    ],
+    vuet
+  })
+
+  t.is(vuet.getState('need'), 2)
+  t.is(vm.$vuet.getState('need'), 2)
+  t.is(vuet.getState('once'), 1)
+  t.is(vm.$vuet.getState('once'), 1)
+  t.is(vuet.getState('temp'), 1)
+  t.is(vm.$vuet.getState('temp'), 1)
 })
