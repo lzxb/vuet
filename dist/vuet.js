@@ -382,6 +382,9 @@ var Vuet$1 = function () {
       });
       if (util.isObject(opts.state)) {
         Object.keys(opts.state).forEach(function (k) {
+          if (k in opts) {
+            return debug.warn('The\'' + k + '\'property cannot override the method');
+          }
           Object.defineProperty(opts, k, {
             get: function get$$1() {
               return vuet.store[path][k];

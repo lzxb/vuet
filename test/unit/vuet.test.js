@@ -174,22 +174,52 @@ test('mapModules', t => {
   })
   t.is(JSON.stringify(mixin), '{"mixins":[{"computed":{"list":{}}},{"computed":{"detail":{}}}]}')
   t.is(JSON.stringify(rules), '{"mixins":[{},{}]}')
-  t.pass()
 })
 
 test('callRuleHook', t => {
   let installed = false
-  // let inited = false
+  let initBtn = false
+  let destroyed = false
+  let myCallBtn = false
   Vuet.rule('myRule', {
     install () {
       t.is(arguments[0], Vuet)
-      installed = true
+      installed = !installed
     },
     init () {
       t.true(arguments[0] instanceof Vuet)
-      // inited = true
+      initBtn = !initBtn
+    },
+    destroy () {
+      t.true(arguments[0] instanceof Vuet)
+      destroyed = !destroyed
+    },
+    myCall () {
+      t.true(arguments[0] instanceof Vuet)
+      myCallBtn = !myCallBtn
     }
   })
+
   t.true(installed)
-  // t.pass()
+  t.false(initBtn)
+  t.false(destroyed)
+  t.false(myCallBtn)
+
+  const vuet = new Vuet()
+  t.true(installed)
+  t.true(initBtn)
+  t.false(destroyed)
+  t.false(myCallBtn)
+
+  new Vue({ vuet }).$destroy()
+  t.true(installed)
+  t.true(initBtn)
+  t.true(destroyed)
+  t.false(myCallBtn)
+
+  Vuet.callRuleHook('myCall', vuet)
+  t.true(installed)
+  t.true(initBtn)
+  t.true(destroyed)
+  t.true(myCallBtn)
 })

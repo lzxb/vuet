@@ -66,6 +66,9 @@ export default class Vuet {
     })
     if (util.isObject(opts.state)) {
       Object.keys(opts.state).forEach(k => {
+        if (k in opts) {
+          return debug.warn(`The'${k}'property cannot override the method`)
+        }
         Object.defineProperty(opts, k, {
           get () {
             return vuet.store[path][k]
