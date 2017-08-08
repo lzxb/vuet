@@ -181,7 +181,7 @@ test('callRuleHook', t => {
   let initBtn = false
   let destroyed = false
   let myCallBtn = false
-  Vuet.rule('myRule', {
+  const myRule = {
     install () {
       t.is(arguments[0], Vuet)
       installed = !installed
@@ -198,7 +198,8 @@ test('callRuleHook', t => {
       t.true(arguments[0] instanceof Vuet)
       myCallBtn = !myCallBtn
     }
-  })
+  }
+  Vuet.rule('myRule', myRule)
 
   t.true(installed)
   t.false(initBtn)
@@ -222,4 +223,6 @@ test('callRuleHook', t => {
   t.true(initBtn)
   t.true(destroyed)
   t.true(myCallBtn)
+
+  t.is(Vuet.options.rules.myRule, myRule)
 })
