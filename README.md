@@ -47,10 +47,10 @@ vuet.register('test', {
 const App = {
   mixins: [
     mapModules({
-      test: 'test' // { 别名： '模块名称' }
+      test: 'test' // { 别名： '模块路径' }
     }),
     mapRules({
-      once: 'test' // { 规则: ['模块名称'] }
+      once: [{ path: 'test' }] // { 规则: ['模块路径'] }
     })
   ],
   template: `
