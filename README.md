@@ -103,6 +103,9 @@ export default new Vue({
 `vuet.getState(path: string)`
   - 描述：只返回模块的状态，不会返回方法
 
+`vuet.destroy()`
+  - 描述：销毁程序，释放内存。vue实例销毁时，也会跟着自动销毁
+
 
 ## LICENSE
 MIT
