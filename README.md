@@ -89,7 +89,7 @@ export default new Vue({
 ## 实例的选项
 
 `options.pathJoin`
-  - 描述：子模块继承父模块时分割父
+  - 描述：子模块继承父模块时分割符
   - 默认值：`/`
 
 `options.modules`
