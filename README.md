@@ -84,10 +84,13 @@ export default new Vue({
   - 默认值：`{}`
 
 ### 实例的方法
+
 `vuet.register(path: string, module: Object)`
   - 描述：注册模块  
+
 `vuet.getModule(path: string)`
   - 描述：返回该模块的状态和方法  
+
 `vuet.getState(path: string)`
   - 描述：只返回模块的状态，不会返回方法
 
