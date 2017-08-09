@@ -28,6 +28,7 @@ export default class Vuet {
     this.app = app
   }
   register (path, opts) {
+    if (typeof opts.data !== 'function') return debug.error(`'data'hooks must be function types`)
     const vuet = this
     opts = { ...opts }
     _Vue.set(vuet.store, path, opts.data())
@@ -72,7 +73,6 @@ export default class Vuet {
     }
     if (util.isObject(opts.modules)) {
       Object.keys(opts.modules).forEach(k => {
-        if (typeof opts.modules[k].data !== 'function') return
         this.register(`${path}${this.options.pathJoin}${k}`, opts.modules[k])
       })
     }

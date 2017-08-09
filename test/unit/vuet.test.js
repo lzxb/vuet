@@ -32,11 +32,6 @@ function baseExample (t, pathJoin = '/') {
             plus () {
               this.count++
             }
-          },
-          modules: {
-            test: {
-              data: false
-            }
           }
         }
       }
@@ -143,6 +138,15 @@ function baseExample (t, pathJoin = '/') {
   t.is(myTest.state.count, 0)
   t.is(vm.myTest.count, 0)
   t.is(vm.myTest.state.count, 0)
+
+  // register error
+  let errMsg = ''
+  try {
+    vuet.register('notData', {})
+  } catch (e) {
+    errMsg = e.toString()
+  }
+  t.is(errMsg, 'Error: [vuet] \'data\'hooks must be function types')
 }
 
 test('base', t => {
