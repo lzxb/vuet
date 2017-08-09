@@ -77,50 +77,6 @@ var _extends = Object.assign || function (target) {
   return target;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var toConsumableArray = function (arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-    return arr2;
-  } else {
-    return Array.from(arr);
-  }
-};
-
 var util = {
   isObject: function isObject(obj) {
     return !!obj && Object.prototype.toString.call(obj) === '[object Object]';
@@ -186,8 +142,7 @@ var VuetStatic = function (Vuet) {
               return this.$vuet.modules[path];
             },
             set: function set$$1(val) {
-              debug.assertModule(this.$vuet, path);
-              this.$vuet.modules[path] = val;
+              debug.error('The\'' + path + '\'module is not allowed to assign');
             }
           })
         };
@@ -223,7 +178,7 @@ var VuetStatic = function (Vuet) {
     rule: function rule() {
       Vuet.options.rules[arguments[0]] = arguments[1];
       if (typeof arguments[1].install === 'function') {
-        arguments[1].install(Vuet);
+        arguments[1].install(Vuet, _Vue);
       }
       return this;
     },
@@ -349,22 +304,9 @@ var Vuet$1 = function () {
       }
     });
     Object.assign(this.options, opts);
-    var initModule = function initModule(paths, modules) {
-      Object.keys(modules).forEach(function (path) {
-        var mde = modules[path];
-        var newNames = [].concat(toConsumableArray(paths), [path]);
-        var newName = newNames.join(_this.options.pathJoin);
-        if (typeof mde.data === 'function') {
-          _this.register(newName, mde);
-        }
-        if (util.isObject(mde.modules)) {
-          initModule(newNames, mde.modules);
-        }
-      });
-    };
-    if (util.isObject(this.options.modules)) {
-      initModule([], this.options.modules);
-    }
+    Object.keys(this.options.modules).forEach(function (k) {
+      _this.register(k, _this.options.modules[k]);
+    });
     Vuet.callRuleHook('init', this);
   }
 
@@ -376,6 +318,9 @@ var Vuet$1 = function () {
   }, {
     key: 'register',
     value: function register(path, opts) {
+      var _this2 = this;
+
+      if (typeof opts.data !== 'function') return debug.error('\'data\'hooks must be function types');
       var vuet = this;
       opts = _extends({}, opts);
       _Vue.set(vuet.store, path, opts.data());
@@ -416,6 +361,11 @@ var Vuet$1 = function () {
               vuet.store[path][k] = val;
             }
           });
+        });
+      }
+      if (util.isObject(opts.modules)) {
+        Object.keys(opts.modules).forEach(function (k) {
+          _this2.register('' + path + _this2.options.pathJoin + k, opts.modules[k]);
         });
       }
       return this;
