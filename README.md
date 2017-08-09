@@ -1,46 +1,10 @@
 ## Vuet
-[![Coverage Status](https://coveralls.io/repos/github/medatc/vuet/badge.svg?branch=1.0)](https://coveralls.io/github/medatc/vuet?branch=1.0)
-[![Build Status](https://travis-ci.org/medatc/vuet.svg?branch=1.0)](https://travis-ci.org/medatc/vuet)
-[![npm](https://img.shields.io/npm/v/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet) 
-[![npm](https://img.shields.io/npm/dt/vuet.svg?style=flat-square)](https://www.npmjs.com/package/vuet)
+[![Coverage Status](https://coveralls.io/repos/github/medatc/vuet/badge.svg?branch=dev)](https://coveralls.io/github/medatc/vuet?branch=dev)
+[![Build Status](https://travis-ci.org/medatc/vuet.svg?branch=dev)](https://travis-ci.org/medatc/vuet)
+[![npm](https://img.shields.io/npm/v/vuet.svg)](https://www.npmjs.com/package/vuet) 
+[![npm](https://img.shields.io/npm/dm/vuet.svg)](https://www.npmjs.com/package/vuet)
+[![npm](https://img.shields.io/npm/dt/vuet.svg)](https://www.npmjs.com/package/vuet)
 
-### What is the Vuet?
-Vuet is aimed at managing the status of `Vue.js`. Modular management is its core, and you can choose between updating automatically and regularly and updating by hand to update the status of
-the modules. Anyway, it's all up to you.
-
-### Development and test
-```bash
-npm install
-npm run dev # open: http://localhost:3000/
-npm run dev:test
-```
-
-### Usage
-- install
-  ```
-  npm install vuet@latest --save
-  ```
-- example
-  ```javascript
-  import Vue from 'vue'
-  import Vuet from 'vuet'
-
-  Vue.use(Vuet)
-
-  const vuet = new Vuet({
-    // ... base options
-  })
-
-  new Vue({
-    // ...
-    vuet
-  })
-
-  ```
-
-
-### Full document
-- [简体中文](./docs/zh-cn/README.md)
 
 ## LICENSE
 MIT
