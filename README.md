@@ -22,12 +22,11 @@
 
 
 ## 0.x版本和1.x版本的区别
-在0.x版本中，我们内置了太多的功能，导致大幅度提升了入门的门槛，1.x版本则是化繁为简，只保留了几个核心的API。  
+在`0.x`版本中，我们内置了太多的功能，导致大幅度提升了入门的门槛，`1.x`版本则是化繁为简，只保留了几个核心的API。  
 `注`：route规则已经从Vuet中删除，后续会以插件的形式进行发布，敬请期待！
 
 
 ## 快速入门
-
 ```javascript
 
 import Vue from 'vue'
@@ -87,7 +86,6 @@ export default new Vue({
 
 
 ## 实例的选项
-
 `options.pathJoin`
   - 描述：子模块继承父模块时分割符
   - 默认值：`/`
@@ -97,7 +95,6 @@ export default new Vue({
   - 默认值：`{}`
 
 ## 实例的方法
-
 `vuet.register(path: string, module: Object)`
   - 描述：注册模块  
 
@@ -112,7 +109,6 @@ export default new Vue({
 
 
 ## 全局API
-
 `Vuet.mapModules(opts: { 别名: '模块路径' })`
   - 描述：在Vue组件中连接模块，这样就可以在组件中使用模块的方法和状态
 
