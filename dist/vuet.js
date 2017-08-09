@@ -351,17 +351,21 @@ var Vuet$1 = function () {
     Object.assign(this.options, opts);
     var initModule = function initModule(paths, modules) {
       Object.keys(modules).forEach(function (path) {
+        var mde = modules[path];
         var newNames = [].concat(toConsumableArray(paths), [path]);
         var newName = newNames.join(_this.options.pathJoin);
-        if (!util.isObject(modules[path])) return;
-        if (typeof modules[path].data === 'function') {
-          _this.register(newName, modules[path]);
+        if (!util.isObject(mde)) return;
+        if (typeof mde.data === 'function') {
+          _this.register(newName, mde);
         }
-        Object.keys(modules[path]).forEach(function (chlidName) {
-          if (util.isObject(modules[path][chlidName])) {
-            initModule(newNames, modules[path]);
-          }
-        });
+        if (util.isObject(mde.modules)) {
+          initModule(newNames, mde.modules);
+        }
+        // Object.keys(mde).forEach(chlidName => {
+        //   if (util.isObject(mde[chlidName])) {
+        //     initModule(newNames, mde)
+        //   }
+        // })
       });
     };
     initModule([], this.options.modules);

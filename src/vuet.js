@@ -21,17 +21,16 @@ export default class Vuet {
     Object.assign(this.options, opts)
     const initModule = (paths, modules) => {
       Object.keys(modules).forEach(path => {
+        const mde = modules[path]
         const newNames = [...paths, path]
         const newName = newNames.join(this.options.pathJoin)
-        if (!util.isObject(modules[path])) return
-        if (typeof modules[path].data === 'function') {
-          this.register(newName, modules[path])
+        if (!util.isObject(mde)) return
+        if (typeof mde.data === 'function') {
+          this.register(newName, mde)
         }
-        Object.keys(modules[path]).forEach(chlidName => {
-          if (util.isObject(modules[path][chlidName])) {
-            initModule(newNames, modules[path])
-          }
-        })
+        if (util.isObject(mde.modules)) {
+          initModule(newNames, mde.modules)
+        }
       })
     }
     initModule([], this.options.modules)

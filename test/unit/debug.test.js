@@ -12,11 +12,20 @@ test.serial('error', t => {
 })
 
 test.serial('warn', t => {
-  try {
-    debug.warn('ok')
-  } catch (e) {
-    t.is(e.toString(), '[vuet] ok')
+  const warn = console.warn
+  let warnCount = 0
+  console.warn = (msg) => {
+    warnCount++
+    warn.call(console, msg)
   }
+  debug.warn('ok')
+  t.is(warnCount, 1)
+  console.warn = warn
+  const env = process.env.NODE_ENV
+  process.env.NODE_ENV = 'production'
+  debug.warn('warn ok')
+  process.env.NODE_ENV = env
+  t.pass()
 })
 
 test.serial('assertVue', t => {

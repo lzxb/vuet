@@ -22,14 +22,16 @@ function baseExample (t, pathJoin = '/') {
         plus () {
           this.count++
         },
-        chlid: {
-          data () {
-            return {
-              count: 0
+        modules: {
+          chlid: {
+            data () {
+              return {
+                count: 0
+              }
+            },
+            plus () {
+              this.count++
             }
-          },
-          plus () {
-            this.count++
           }
         }
       }
@@ -305,4 +307,29 @@ test('attr', t => {
   t.is(vuet.getModule('test').app, vm)
   t.is(vuet.getModule('test').app, vuet.app)
   t.is(vuet.getModule('test').vuet, vuet)
+})
+
+test('already exists on the object', t => {
+  const warn = console.warn
+  let warnCount = 0
+  console.warn = (msg) => {
+    warnCount++
+    warn.call(console, msg)
+  }
+  const vuet = new Vuet({
+    modules: {
+      test: {
+        data () {
+          return {
+            data: []
+          }
+        }
+      }
+    }
+  })
+  t.is(warnCount, 1)
+  console.warn = warn
+
+  t.true(typeof vuet.getModule('test').data === 'function')
+  t.true(Array.isArray(vuet.getModule('test').state.data))
 })
