@@ -205,10 +205,11 @@ test('mapModules', t => {
   })
   const rules = Vuet.mapRules({
     temp: 'list',
-    need: 'detail'
+    need: ['detail', { path: 'myPath' }],
+    once: { path: 'myPath' }
   })
   t.is(JSON.stringify(mixin), '{"mixins":[{"computed":{"list":{}}},{"computed":{"detail":{}}}]}')
-  t.is(JSON.stringify(rules), '{"mixins":[{},{}]}')
+  t.is(JSON.stringify(rules), '{"mixins":[{},{},{},{}]}')
 })
 
 test('callRuleHook', t => {
