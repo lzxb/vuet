@@ -19,22 +19,9 @@ export default class Vuet {
       }
     })
     Object.assign(this.options, opts)
-    const initModule = (paths, modules) => {
-      Object.keys(modules).forEach(path => {
-        const mde = modules[path]
-        const newNames = [...paths, path]
-        const newName = newNames.join(this.options.pathJoin)
-        if (typeof mde.data === 'function') {
-          this.register(newName, mde)
-        }
-        if (util.isObject(mde.modules)) {
-          initModule(newNames, mde.modules)
-        }
-      })
-    }
-    if (util.isObject(this.options.modules)) {
-      initModule([], this.options.modules)
-    }
+    Object.keys(this.options.modules).forEach(k => {
+      this.register(k, this.options.modules[k])
+    })
     Vuet.callRuleHook('init', this)
   }
   _init (app) {
@@ -81,6 +68,12 @@ export default class Vuet {
             vuet.store[path][k] = val
           }
         })
+      })
+    }
+    if (util.isObject(opts.modules)) {
+      Object.keys(opts.modules).forEach(k => {
+        if (typeof opts.modules[k].data !== 'function') return
+        this.register(`${path}${this.options.pathJoin}${k}`, opts.modules[k])
       })
     }
     return this
