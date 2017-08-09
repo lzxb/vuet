@@ -13,9 +13,9 @@ test.serial('error', t => {
 
 test.serial('warn', t => {
   try {
-    debug.error('ok')
+    debug.warn('ok')
   } catch (e) {
-    t.is(e.toString(), 'Error: [vuet] ok')
+    t.is(e.toString(), '[vuet] ok')
   }
 })
 
