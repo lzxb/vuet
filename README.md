@@ -5,11 +5,17 @@
 [![npm](https://img.shields.io/npm/dm/vuet.svg)](https://www.npmjs.com/package/vuet)
 [![npm](https://img.shields.io/npm/dt/vuet.svg)](https://www.npmjs.com/package/vuet)
 
+
+
 ### Vuet.js是什么？
 在`vuex`中更新状态的唯一途径，就是通过提交`mutation`，这个过程是琐碎，而`Vuet`是允许在何时何地进行直接赋值更新的，这个过程它是愉快的。
 
+
+
 ### 0.x版本和1.x版本的区别
 在0.x版本中，我们内置了太多的功能，导致大幅度提升了入门的门槛，1.x版本则是化繁为简，只保留了几个核心的API
+
+
 
 ### 快速入门
 
@@ -67,6 +73,7 @@ export default new Vue({
 })
 
 ```
+
 
 ## LICENSE
 MIT
