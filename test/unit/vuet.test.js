@@ -8,6 +8,10 @@ test.before(() => {
 
 test('is installed', t => {
   t.true(Vuet.installed)
+  Vue.use(Vuet)
+  t.true(Vuet.installed)
+  Vuet.install(Vue)
+  t.true(Vuet.installed)
 })
 
 function baseExample (t, pathJoin = '/') {
@@ -139,6 +143,14 @@ function baseExample (t, pathJoin = '/') {
   t.is(vm.myTest.count, 0)
   t.is(vm.myTest.state.count, 0)
 
+  // set state
+  vm.test.count = 1001
+  vm.chlid.count = 1002
+  vm.myTest.count = 1003
+  t.is(test.count, 1001)
+  t.is(chlid.count, 1002)
+  t.is(myTest.count, 1003)
+
   // register error
   let errMsg = ''
   try {
@@ -147,6 +159,14 @@ function baseExample (t, pathJoin = '/') {
     errMsg = e.toString()
   }
   t.is(errMsg, 'Error: [vuet] \'data\'hooks must be function types')
+
+  // set module value error
+  try {
+    vm.test = 'ok'
+  } catch (e) {
+    errMsg = e.toString()
+  }
+  t.is(errMsg, 'Error: [vuet] The\'test\'module is not allowed to assign')
 }
 
 test('base', t => {
@@ -376,4 +396,23 @@ test('already exists on the object', t => {
 
   t.true(typeof vuet.getModule('test').data === 'function')
   t.true(Array.isArray(vuet.getModule('test').state.data))
+})
+
+test('root vue app', t => {
+  const vuet = new Vuet()
+  const vm = new Vue({
+    vuet
+  })
+  t.is(vm._vuet, vm.$vuet)
+  vm.$destroy()
+  t.is(vm._vuet, vm.$vuet)
+
+  const vm2 = new Vue({
+    vuet: Vuet
+  })
+  t.is(vm2._vuet, undefined)
+  t.is(vm2.$vuet, undefined)
+  vm2.$destroy()
+  t.is(vm2._vuet, undefined)
+  t.is(vm2.$vuet, undefined)
 })

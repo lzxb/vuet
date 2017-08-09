@@ -46,8 +46,7 @@ export default function (Vuet) {
                 return this.$vuet.modules[path]
               },
               set (val) {
-                debug.assertModule(this.$vuet, path)
-                this.$vuet.modules[path] = val
+                debug.error(`The'${path}'module is not allowed to assign`)
               }
             }
           }
