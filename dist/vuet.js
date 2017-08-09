@@ -354,21 +354,17 @@ var Vuet$1 = function () {
         var mde = modules[path];
         var newNames = [].concat(toConsumableArray(paths), [path]);
         var newName = newNames.join(_this.options.pathJoin);
-        if (!util.isObject(mde)) return;
         if (typeof mde.data === 'function') {
           _this.register(newName, mde);
         }
         if (util.isObject(mde.modules)) {
           initModule(newNames, mde.modules);
         }
-        // Object.keys(mde).forEach(chlidName => {
-        //   if (util.isObject(mde[chlidName])) {
-        //     initModule(newNames, mde)
-        //   }
-        // })
       });
     };
-    initModule([], this.options.modules);
+    if (util.isObject(this.options.modules)) {
+      initModule([], this.options.modules);
+    }
     Vuet.callRuleHook('init', this);
   }
 

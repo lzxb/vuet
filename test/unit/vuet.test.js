@@ -32,6 +32,11 @@ function baseExample (t, pathJoin = '/') {
             plus () {
               this.count++
             }
+          },
+          modules: {
+            test: {
+              data: false
+            }
           }
         }
       }
@@ -141,6 +146,10 @@ function baseExample (t, pathJoin = '/') {
 }
 
 test('base', t => {
+  const vuet = new Vuet({
+    modules: false
+  })
+  t.deepEqual(vuet.store, { __once__: [] })
   baseExample(t, '/')
 })
 

@@ -24,7 +24,6 @@ export default class Vuet {
         const mde = modules[path]
         const newNames = [...paths, path]
         const newName = newNames.join(this.options.pathJoin)
-        if (!util.isObject(mde)) return
         if (typeof mde.data === 'function') {
           this.register(newName, mde)
         }
@@ -33,7 +32,9 @@ export default class Vuet {
         }
       })
     }
-    initModule([], this.options.modules)
+    if (util.isObject(this.options.modules)) {
+      initModule([], this.options.modules)
+    }
     Vuet.callRuleHook('init', this)
   }
   _init (app) {
