@@ -139,7 +139,7 @@ var VuetStatic = function (Vuet) {
           computed: defineProperty({}, alias, {
             get: function get$$1() {
               debug.assertModule(this.$vuet, path);
-              return this.$vuet.modules[path];
+              return this.$vuet.getModule(path);
             },
             set: function set$$1(val) {
               debug.error('The\'' + path + '\'module is not allowed to assign');

@@ -43,7 +43,7 @@ export default function (Vuet) {
             [alias]: {
               get () {
                 debug.assertModule(this.$vuet, path)
-                return this.$vuet.modules[path]
+                return this.$vuet.getModule(path)
               },
               set (val) {
                 debug.error(`The'${path}'module is not allowed to assign`)
