@@ -5,6 +5,11 @@
 [![npm](https://img.shields.io/npm/dm/vuet.svg)](https://www.npmjs.com/package/vuet)
 [![npm](https://img.shields.io/npm/dt/vuet.svg)](https://www.npmjs.com/package/vuet)
 
+## 索引
+(Vuet.js是什么？)[#Vuet.js是什么？]
+(快速入门)[#快速入门]
+(实例的选项)[#实例的选项]
+(实例的方法)[#实例的方法]
 
 
 ## Vuet.js是什么？
