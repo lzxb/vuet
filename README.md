@@ -123,8 +123,10 @@ export default new Vue({
 ## 内置规则
 `need`
   - 描述：组件每次初始化时，在`beforeCreate`钩子中调用一次`fetch`方法
+
 `once`
   - 描述：仅第一次在组件的`beforeCreate`钩子中调用一次更新，之后在任何组件都不会再进行更新
+
 `temp`
   - 描述：组件初始化时，在`beforeCreate`钩子中调用一次`fetch`方法，组件销毁时，在`destroyed`钩子中重置模块状态
 
