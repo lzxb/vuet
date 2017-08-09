@@ -5,6 +5,8 @@
 [![npm](https://img.shields.io/npm/dm/vuet.svg)](https://www.npmjs.com/package/vuet)
 [![npm](https://img.shields.io/npm/dt/vuet.svg)](https://www.npmjs.com/package/vuet)
 
+
+
 ## Vuet.js是什么？
 在`vuex`中更新状态的唯一途径，就是通过提交`mutation`，这个过程是琐碎的，而在`Vuet`中是允许在何时何地进行直接赋值更新的，这个过程它是愉快的。
 
@@ -94,6 +96,7 @@ export default new Vue({
 
 `vuet.getState(path: string)`
   - 描述：只返回模块的状态，不会返回方法
+
 
 ## LICENSE
 MIT
