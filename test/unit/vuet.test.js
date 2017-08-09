@@ -238,7 +238,7 @@ test('callRuleHook', t => {
   t.is(Vuet.options.rules.myRule, myRule)
 })
 
-test('rules', t => {
+test.cb('rules', t => {
   const vuet = new Vuet()
   const opts = {
     data () {
@@ -251,11 +251,24 @@ test('rules', t => {
   vuet.register('need', opts)
   vuet.register('once', opts)
   vuet.register('temp', opts)
+  vuet.register('oncePromise', {
+    data () {
+      return 0
+    },
+    async fetch () {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          this.state++
+          resolve()
+        }, 30)
+      })
+    }
+  })
   let vm = new Vue({
     mixins: [
       mapRules({
         need: 'need',
-        once: 'once',
+        once: ['once', 'oncePromise'],
         temp: 'temp'
       })
     ],
@@ -266,6 +279,8 @@ test('rules', t => {
   t.is(vm.$vuet.getState('need'), 1)
   t.is(vuet.getState('once'), 1)
   t.is(vm.$vuet.getState('once'), 1)
+  t.is(vuet.getState('oncePromise'), 0)
+  t.is(vm.$vuet.getState('oncePromise'), 0)
   t.is(vuet.getState('temp'), 1)
   t.is(vm.$vuet.getState('temp'), 1)
 
@@ -274,6 +289,8 @@ test('rules', t => {
   t.is(vm.$vuet.getState('need'), 1)
   t.is(vuet.getState('once'), 1)
   t.is(vm.$vuet.getState('once'), 1)
+  t.is(vuet.getState('oncePromise'), 0)
+  t.is(vm.$vuet.getState('oncePromise'), 0)
   t.is(vuet.getState('temp'), 0)
   t.is(vm.$vuet.getState('temp'), 0)
 
@@ -292,8 +309,22 @@ test('rules', t => {
   t.is(vm.$vuet.getState('need'), 2)
   t.is(vuet.getState('once'), 1)
   t.is(vm.$vuet.getState('once'), 1)
+  t.is(vuet.getState('oncePromise'), 0)
+  t.is(vm.$vuet.getState('oncePromise'), 0)
   t.is(vuet.getState('temp'), 1)
   t.is(vm.$vuet.getState('temp'), 1)
+
+  setTimeout(() => {
+    t.is(vuet.getState('need'), 2)
+    t.is(vm.$vuet.getState('need'), 2)
+    t.is(vuet.getState('once'), 1)
+    t.is(vm.$vuet.getState('once'), 1)
+    t.is(vuet.getState('oncePromise'), 1)
+    t.is(vm.$vuet.getState('oncePromise'), 1)
+    t.is(vuet.getState('temp'), 1)
+    t.is(vm.$vuet.getState('temp'), 1)
+    t.end()
+  }, 100)
 })
 
 test('attr', t => {
