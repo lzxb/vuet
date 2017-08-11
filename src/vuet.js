@@ -33,8 +33,12 @@ export default class Vuet {
     opts = { ...opts }
     _Vue.set(vuet.store, path, opts.data())
     vuet.modules[path] = opts
-    vuet.modules[path].vuet = this
-    vuet.modules[path].app = vuet.app
+    Object.defineProperty(opts, 'vuet', {
+      get: () => (vuet)
+    })
+    Object.defineProperty(opts, 'app', {
+      get: () => (vuet.app)
+    })
     Object.defineProperty(opts, 'state', {
       get () {
         return vuet.store[path]

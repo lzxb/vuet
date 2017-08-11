@@ -325,8 +325,16 @@ var Vuet$1 = function () {
       opts = _extends({}, opts);
       _Vue.set(vuet.store, path, opts.data());
       vuet.modules[path] = opts;
-      vuet.modules[path].vuet = this;
-      vuet.modules[path].app = vuet.app;
+      Object.defineProperty(opts, 'vuet', {
+        get: function get$$1() {
+          return vuet;
+        }
+      });
+      Object.defineProperty(opts, 'app', {
+        get: function get$$1() {
+          return vuet.app;
+        }
+      });
       Object.defineProperty(opts, 'state', {
         get: function get$$1() {
           return vuet.store[path];
