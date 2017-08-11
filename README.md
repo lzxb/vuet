@@ -51,6 +51,9 @@ vuet.register('test', {
   },
   reduce () {
     this.count--
+  },
+  modules: {
+    // 可以添加子模块，会自动继承父模块的名称，路径 = ：父模块名称/子模块名称
   }
 })
 
