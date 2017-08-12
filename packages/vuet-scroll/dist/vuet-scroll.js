@@ -4,6 +4,22 @@
 	(factory((global.VuetScroll = global.VuetScroll || {})));
 }(this, (function (exports) { 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+
+
+
+
+
+
+
+
+
+
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -28,7 +44,26 @@ var createClass = function () {
   };
 }();
 
-var _Vue = void 0;
+var util = {
+  isObject: function isObject(obj) {
+    return !!obj && Object.prototype.toString.call(obj) === '[object Object]';
+  },
+  getArgMerge: function getArgMerge() {
+    var opt = {};
+    var args = arguments;
+    if (typeof args[0] === 'string') {
+      opt[args[0]] = args.length > 1 ? args[1] : args[0];
+    } else if (args[0] && util.isObject(args[0])) {
+      opt = args[0];
+    }
+    return opt;
+  },
+  isPromise: function isPromise(obj) {
+    return !!obj && ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+  }
+};
+
+var _Vue$1 = void 0;
 
 var debug = {
   error: function error(msg) {
@@ -46,7 +81,7 @@ var debug = {
     this.error('The \'' + name + '\' module does not exist');
   },
   assertVue: function assertVue() {
-    if (!_Vue) {
+    if (!_Vue$1) {
       this.error('must call Vue.use(Vuet) before creating a store instance');
     }
   },
@@ -57,6 +92,7 @@ var debug = {
   }
 };
 
+var _Vue = void 0;
 var _self = '__vuetScrollSelf__';
 var _window = '__vuetScrollWindow__';
 
@@ -98,10 +134,10 @@ var VuetScroll = function () {
       this.scrolls = opt.scrolls || createScroll(opt);
       function createScroll(opt) {
         if (!opt.store.$scroll) {
-          // _Vue.set(opt.store, '$scroll', {})
+          _Vue.set(opt.store, '$scroll', {});
         }
         if (!opt.store.$scroll[opt.name]) {
-          // _Vue.set(opt.store.$scroll, opt.name, { x: 0, y: 0 })
+          _Vue.set(opt.store.$scroll, opt.name, { x: 0, y: 0 });
         }
 
         return opt.store.$scroll[opt.name];
@@ -158,20 +194,22 @@ function isWindow(modifiers) {
   return !!modifiers.window;
 }
 
-var VuetScroll$1 = {
+var directive = {
   inserted: function inserted(el, _ref, vnode) {
     var modifiers = _ref.modifiers,
         value = _ref.value;
 
     if (typeof value.path !== 'string') return debug.error('path is imperative parameter and is string type');
     if (value.path === 'window') return debug.error('name cannot be the window name');
+    var store = vnode.context.$vuet.getState(value.path);
+    if (!util.isObject(store)) return debug.error('\'' + value.path + '\' The module is not an object');
     if (isSelf(modifiers)) {
       if (typeof value.name !== 'string') return debug.error('name is imperative parameter and is string type');
       el[_self] = new VuetScroll({
         app: el,
         path: value.path,
         name: value.name,
-        store: vnode.context.$vuet.store[value.path],
+        store: store,
         scrolls: value.self
       });
     }
@@ -180,7 +218,7 @@ var VuetScroll$1 = {
         app: window,
         path: value.path,
         name: 'window',
-        store: vnode.context.$vuet.store[value.path],
+        store: store,
         scrolls: value.window
       });
     }
@@ -189,12 +227,14 @@ var VuetScroll$1 = {
     var modifiers = _ref2.modifiers,
         value = _ref2.value;
 
+    var store = vnode.context.$vuet.getState(value.path);
+    if (!util.isObject(store)) return debug.error('\'' + value.path + '\' The module is not an object');
     if (isSelf(modifiers)) {
       el[_self].update({
         app: el,
         path: value.path,
         name: value.name,
-        store: vnode.context.$vuet.store[value.path],
+        store: store,
         scrolls: value.self
       });
     }
@@ -203,7 +243,7 @@ var VuetScroll$1 = {
         app: window,
         path: value.path,
         name: 'window',
-        store: vnode.context.$vuet.store[value.path],
+        store: store,
         scrolls: value.window || null
       });
     }
@@ -223,8 +263,9 @@ var VuetScroll$1 = {
 };
 
 var index = {
-  install: function install(Vuet, Vue) {
-    Vue.directive('vuet-scroll', VuetScroll$1);
+  install: function install(Vue) {
+    _Vue = Vue;
+    Vue.directive('vuet-scroll', directive);
   }
 };
 
