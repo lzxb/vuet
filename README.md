@@ -133,5 +133,45 @@ export default new Vue({
 `temp`
   - 描述：组件初始化时，在`beforeCreate`钩子中调用一次`fetch`方法，组件销毁时，在`destroyed`钩子中重置模块状态
 
+
+## 自定义规则
+现在我们要尝试定义一个飙车的过程啦，主要的原理就是获取传入的`模块路径`，return一个mixin注入老组件中
+向组件中注入更新模块的规则
+```javascript
+  {
+    mixins: [
+      mapRules({
+        '规则名称': '更新的模块路径'
+      })
+    ]
+    // ...options
+  }
+```
+尝试定义一个规则
+```javascript
+Vuet.rule('规则名称', {
+  install (Vuet, Vue) {
+    // 传入一个Vuet和Vue构造函数。只会调用一次
+  },
+  init (vuet) {
+    // new Vuet() 实例化后，传入实例，你可以在这里添加一些模块、方法之类的。每new一个Vuet实例，都会执行一次钩子
+  },
+  rule ({ path }) {
+    // 传入当前模块的路径，返回一个mixin来注入到组件中。执行Vuet的mapRules方法时会调用
+    return {
+      beforeCreate () {
+        // 用路径，取得当前的模块
+        const vtm = this.$vuet.getModule(path)
+        // 然后调用一次模块的fetch方法
+        vtm.fetch()
+      }
+    }
+  },
+  destroy (vuet) {
+    // 传入当前要销毁的vuet实例
+  }
+})
+```
+
 ## LICENSE
 MIT
