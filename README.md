@@ -18,8 +18,8 @@
 - [什么是规则？](#什么是规则)  
 - [内置的规则](#内置的规则)  
 - [自定义规则](#自定义规则)  
-- [在组件中获取vuet实例](#在组件中获取vuet实例)  
-- [在vuet模块中获取路由对象](#在vuet模块中获取路由对象)  
+- [使用计算属性连接模块](#使用计算属性连接模块)  
+- [在模块中获取路由对象](#在模块中获取路由对象)  
 
 
 ## Vuet.js是什么？
@@ -162,6 +162,57 @@ vuet.register('test', {
 ```
 
 
+## 使用计算属性连接模块
+```javascript
+{
+  computed: {
+    test () { // 虽然可以通过mapModules方法向组件注入模块，但是也可以通过计算属性的方法获取模块
+      return this.$vuet.getModule('模块路径')
+    }
+  },
+  beforeCreate () {
+    // this.$vuet 取得vuet实例，然后就可以愉快的玩耍了
+  }
+}
+```
+
+
+## 在模块中获取路由对象
+```javascript
+const vuet = new Vuet()
+vuet.register('test', {
+  data () {
+    return {}
+  },
+  plus () {
+    this.vuet // 取得vuet实例
+    this.app // 取得vue根实例
+    this.app.$router // 获取路由的方法
+    this.app.$route  // 获取路由的状态
+  }
+})
+```
+
+
+## 重置模块状态
+```javascript
+const vuet = new Vuet()
+vuet.register('test', {
+  data () {
+    return {
+      count: 0
+    }
+  },
+  plus () {
+    this.count = 100 // 等同于 this.state.count
+    setTimeout(() => {
+      this.reset() // 这是vuet内置的一个reset的方法 等同于 this.state = this.data()
+    }, 2000)
+  }
+})
+```
+
+
 ## 什么是规则？
 在`Vuet`中，`规则`在`Vuet`中是一种特殊的存在，它允许你将类似的更新一个模块状态的过程抽象出来，你可以使用`规则`来更新任何一个模块。你可以把`Vuet模块`当成一辆车，而`规则`就是定义这辆车应该怎么行走，到底是直走，还是转弯，还是直走一会，然后转弯，这些都是通过来`规则`来定义它
 
@@ -214,38 +265,6 @@ Vuet.rule('myRule', {
     ]
     // ...options
   }
-```
-
-
-## 在组件中获取vuet实例
-```javascript
-{
-  computed: {
-    test () { // 虽然可以通过mapModules方法向组件注入模块，但是也可以通过计算属性的方法获取模块
-      return this.$vuet.getModule('模块路径')
-    }
-  },
-  beforeCreate () {
-    // this.$vuet 取得vuet实例，然后就可以愉快的玩耍了
-  }
-}
-```
-
-
-## 在vuet模块中获取路由对象
-```javascript
-const vuet = new Vuet()
-vuet.register('test', {
-  data () {
-    return {}
-  },
-  plus () {
-    this.vuet // 取得vuet实例
-    this.app // 取得vue根实例
-    this.app.$router // 获取路由的方法
-    this.app.$route  // 获取路由的状态
-  }
-})
 ```
 
 
