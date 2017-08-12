@@ -18,6 +18,8 @@
 - [什么是规则？](#什么是规则)  
 - [内置的规则](#内置的规则)  
 - [自定义规则](#自定义规则)  
+- [在组件中获取vuet实例](#在组件中获取vuet实例)  
+- [在vuet模块中获取路由对象](#在vuet模块中获取路由对象)  
 
 
 ## Vuet.js是什么？
@@ -212,6 +214,38 @@ Vuet.rule('myRule', {
     ]
     // ...options
   }
+```
+
+
+## 在组件中获取vuet实例
+```javascript
+{
+  computed: {
+    test () { // 虽然可以通过mapModules方法向组件注入模块，但是也可以通过计算属性的方法获取模块
+      return this.$vuet.getModule('模块路径')
+    }
+  },
+  beforeCreate () {
+    // this.$vuet 取得vuet实例，然后就可以愉快的玩耍了
+  }
+}
+```
+
+
+## 在vuet模块中获取路由对象
+```javascript
+const vuet = new Vuet()
+vuet.register('test', {
+  data () {
+    return {}
+  },
+  plus () {
+    this.vuet // 取得vuet实例
+    this.app // 取得vue根实例
+    this.app.$router // 获取路由的方法
+    this.app.$route  // 获取路由的状态
+  }
+})
 ```
 
 
