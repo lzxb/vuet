@@ -180,5 +180,29 @@ Vuet.rule('myRule', {
   }
 ```
 
+
+## 什么是模块？
+模块好比就是一个人的基本骨架，模块的属性就好比人的手、脚、眼睛等等，而模块的方法就好比大脑，操纵着人的行为，比如用手撸代码，用脚走路，看到漂亮的美女眨眨眼睛
+
+
+## 注册模块
+```javascript
+const vuet = new Vuet()
+
+// 注册了一个叫test的模块
+vuet.register('test', {
+  data () {
+    return {
+      count: 0 // 定义了一个count属性
+    }
+  },
+  plus () { // 定义了一个plus方法
+    this.count++
+  }
+})
+
+```
+
+
 ## LICENSE
 MIT
