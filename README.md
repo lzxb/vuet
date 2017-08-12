@@ -28,6 +28,11 @@
 在`0.x`版本中，我们内置了太多的功能，导致大幅度提升了入门的门槛，`1.x`版本则是化繁为简，只保留了几个核心的API。  
 `注`：route规则已经从Vuet中删除，后续会以插件的形式进行发布，敬请期待！[0.x版本地址](https://github.com/medatc/vuet/tree/0.3.0)
 
+## 安装
+```bash
+npm install vuet@latest
+```
+
 ## 快速入门
 ```javascript
 
