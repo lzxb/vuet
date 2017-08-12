@@ -135,21 +135,10 @@ export default new Vue({
 
 
 ## 自定义规则
-现在我们要尝试定义一个飙车的过程啦，主要的原理就是获取传入的`模块路径`，return一个mixin注入老组件中
-向组件中注入更新模块的规则
+现在我们要尝试定义一个飙车的过程啦，主要的原理就是获取传入的`模块路径`，return一个mixin注入老组件中  
+尝试定义一个`myRule`规则
 ```javascript
-  {
-    mixins: [
-      mapRules({
-        '规则名称': '更新的模块路径'
-      })
-    ]
-    // ...options
-  }
-```
-尝试定义一个规则
-```javascript
-Vuet.rule('规则名称', {
+Vuet.rule('myRule', {
   install (Vuet, Vue) {
     // 传入一个Vuet和Vue构造函数。只会调用一次
   },
@@ -168,9 +157,20 @@ Vuet.rule('规则名称', {
     }
   },
   destroy (vuet) {
-    // 传入当前要销毁的vuet实例
+    // 传入当前要销毁的vuet实例，你可以做一些自己使用销毁的东西
   }
 })
+```
+向组件中注入更新模块的规则
+```javascript
+  {
+    mixins: [
+      mapRules({
+        'myRule': '更新的模块路径'
+      })
+    ]
+    // ...options
+  }
 ```
 
 ## LICENSE
