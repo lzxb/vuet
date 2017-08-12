@@ -18,7 +18,6 @@
 - [自定义规则](#自定义规则)  
 - [什么是模块？](#什么是模块)
 - [注册模块](#注册模块)
-- [子模块](#子模块)
 
 
 ## Vuet.js是什么？
@@ -198,6 +197,18 @@ vuet.register('test', {
   },
   plus () { // 定义了一个plus方法
     this.count++
+  },
+  modules: { // 定义子模块
+    chlid: { // 子模块路径 = 父模块/子模块 = test/chlid
+      data () {
+        return {
+          count: 0 // 定义了一个count属性
+        }
+      },
+      plus () { // 定义了一个plus方法
+        this.count++
+      }
+    }
   }
 })
 
