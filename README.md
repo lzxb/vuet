@@ -142,7 +142,7 @@ export default new Vue({
 
 
 ## 自定义规则
-主要的原理就是获取传入的`模块路径`，return一个mixin注入老组件中  
+主要的原理就是获取传入的`模块路径`，`return`一个`mixin`注入到组件中  
 我们现在就开始尝试定义一个飙车的过程，就是在组件每次执行`beforeCreate`钩子时，调用一次模块的`fetch`方法，那我们现在尝试定义一个`myRule`规则
 ```javascript
 Vuet.rule('myRule', {
