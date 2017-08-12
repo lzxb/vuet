@@ -38,19 +38,29 @@ const build = async (opts) => {
   })
 }
 
-const moduleName = packages.name.replace(/(\w)/, (v) => v.toUpperCase())
-const destName = packages.name
 const builds = [
   {
-    moduleName,
-    destName,
+    moduleName: 'Vuet',
+    destName: 'vuet',
     entry: 'src/index.js',
     env: 'development'
   },
   {
-    moduleName,
-    destName,
+    moduleName: 'Vuet',
+    destName: 'vuet',
     entry: 'src/index.js',
+    env: 'production'
+  },
+  {
+    moduleName: 'VuetScroll',
+    destName: '../packages/vuet-scroll/dist/vuet-scroll',
+    entry: 'packages/vuet-scroll/src/index.js',
+    env: 'development'
+  },
+  {
+    moduleName: 'VuetScroll',
+    destName: '../packages/vuet-scroll/dist/vuet-scroll',
+    entry: 'packages/vuet-scroll/src/index.js',
     env: 'production'
   }
 ]

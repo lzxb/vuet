@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>brothers-communication</h2>
+    <h2>v-model</h2>
     <div>Root:<span class="root-content">{{ test.keyname }}</span></div>
     <button @click="show = !show">switch</button>
     <input-content></input-content>

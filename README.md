@@ -240,6 +240,9 @@ Vuet.rule('myRule', {
   init (vuet) {
     // new Vuet() 实例化后，传入实例，你可以在这里添加一些模块、方法之类的。每new一个Vuet实例，都会执行一次钩子
   },
+  register (vuet, path) {
+    // new Vuet().register 每注册一个模块，都会执行一次钩子
+  }
   rule ({ path }) {
     // 传入当前模块的路径，返回一个mixin来注入到组件中。执行Vuet的mapRules方法时会调用
     return {

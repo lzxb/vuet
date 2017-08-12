@@ -33,6 +33,7 @@ export default class Vuet {
     opts = { ...opts }
     _Vue.set(vuet.store, path, opts.data())
     vuet.modules[path] = opts
+    Vuet.callRuleHook('register', this, path)
     Object.defineProperty(opts, 'vuet', {
       get: () => (vuet)
     })

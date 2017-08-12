@@ -8,7 +8,7 @@
     "watch": "npm-watch",
     "watch:test": "clear && npm run lint && npm run unit && npm run build",
     "build": "node build/build.js",
-    "lint": "eslint src examples test build --ext .vue --ext .js",
+    "lint": "eslint ./ --ext .vue --ext .js",
     "unit": "nyc ava test/unit --verbose",
     "test": "npm run lint && npm run unit && npm run e2e && npm run build",
     "e2e": "testcafe all test/e2e/**.js --app 'node examples/server.js'",
