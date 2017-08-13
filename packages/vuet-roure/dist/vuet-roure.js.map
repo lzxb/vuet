@@ -1,0 +1,1 @@
+{"version":3,"file":"vuet-roure.js","sources":["../src/index.js"],"sourcesContent":["console.log('---')\nexport default {}\n"],"names":["console","log"],"mappings":";;;;;;AAAAA,QAAQC,GAAR,CAAY,KAAZ;AACA,YAAe,EAAf;;;;;;"}

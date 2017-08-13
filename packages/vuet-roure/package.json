@@ -1,8 +1,8 @@
 {
-  "name": "vuet-scroll",
+  "name": "vuet-roure",
   "version": "0.0.1",
-  "description": "vuet scroll",
-  "main": "dist/vuet-scroll.js",
+  "description": "vuet route",
+  "main": "dist/vuet-roure.js",  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

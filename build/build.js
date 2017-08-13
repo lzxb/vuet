@@ -62,6 +62,18 @@ const builds = [
     destName: '../packages/vuet-scroll/dist/vuet-scroll',
     entry: 'packages/vuet-scroll/src/index.js',
     env: 'production'
+  },
+  {
+    moduleName: 'VuetRoute',
+    destName: '../packages/vuet-roure/dist/vuet-roure',
+    entry: 'packages/vuet-roure/src/index.js',
+    env: 'development'
+  },
+  {
+    moduleName: 'VuetRoute',
+    destName: '../packages/vuet-roure/dist/vuet-roure',
+    entry: 'packages/vuet-roure/src/index.js',
+    env: 'production'
   }
 ]
 

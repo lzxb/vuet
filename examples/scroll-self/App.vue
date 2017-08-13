@@ -1,31 +1,49 @@
 <template>
   <div>
-    {{ scroll }}
-    <div class="view" v-vuet-scroll="{ path: 'test', name: 'content' }">
-      <div class="content">
-      </div>
+    <header>
+      <h2>{{ this.test.active }}</h2>
+      <button v-for="item in names" @click="test.active = item" :class="item">{{ item }}</button>
+    </header>
+    <span class="x">{{ scrolls.x }}</span>,
+    <span class="y">{{ scrolls.y }}</span>
+    <div class="view" v-vuet-scroll="{ path: 'test', name: this.test.active, self: scrolls }">
+      <div class="inner">
+        </div>
     </div>
   </div>
 </template>
 <script>
+  import { mapModules } from 'vuet'
+
   export default {
+    mixins: [
+      mapModules({ test: 'test' })
+    ],
+    data () {
+      return {
+        names: ['view-1', 'view-2', 'view-3']
+      }
+    },
     computed: {
-      scroll () {
-        return this.$vuet.getState('test')
+      scrolls () {
+        return this.test.scrolls[this.test.active]
       }
     }
   }
 </script>
 <style scoped>
+  header button {
+    margin: 10px;
+  }
   .view {
-    overflow: scroll;
-    width: 300px;
-    height: 300px;
+    overflow: auto;
+    width: 400px;
+    height: 400px;
     border: 1px solid #ddd;
   }
-  .view .content {
-    width: 1000px;
-    height: 3000px;
-    background: #eee;
+  .view .inner {
+    width: 800px;
+    height: 800px;
   }
 </style>
+
