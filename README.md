@@ -172,6 +172,7 @@ vuet.register('test', {
     }
   },
   beforeCreate () {
+    // this.test 取得模块，就可以调用模块的方法和属性了
     // this.$vuet 取得vuet实例，然后就可以愉快的玩耍了
   }
 }
