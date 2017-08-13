@@ -21,6 +21,7 @@
 - [什么是规则？](#什么是规则)  
 - [内置的规则](#内置的规则)  
 - [自定义规则](#自定义规则)  
+- [第三方插件](#第三方插件)  
 
 
 ## Vuet.js是什么？
@@ -271,6 +272,11 @@ Vuet.rule('myRule', {
     // ...options
   }
 ```
+
+
+## 第三方插件
+- [vuet-scroll](./packages/vuet-scroll) 记录滚动条位置
+- [vuet-route](./packages/vuet-route) 根据`vue-router`的变化，来重新请求数据
 
 
 ## LICENSE
