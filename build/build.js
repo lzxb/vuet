@@ -65,14 +65,14 @@ const builds = [
   },
   {
     moduleName: 'VuetRoute',
-    destName: '../packages/vuet-roure/dist/vuet-roure',
-    entry: 'packages/vuet-roure/src/index.js',
+    destName: '../packages/vuet-route/dist/vuet-route',
+    entry: 'packages/vuet-route/src/index.js',
     env: 'development'
   },
   {
     moduleName: 'VuetRoute',
-    destName: '../packages/vuet-roure/dist/vuet-roure',
-    entry: 'packages/vuet-roure/src/index.js',
+    destName: '../packages/vuet-route/dist/vuet-route',
+    entry: 'packages/vuet-route/src/index.js',
     env: 'production'
   }
 ]
