@@ -57,6 +57,7 @@ const vuet = new Vuet({
     test: {
       data () {
         return {
+          page: 1,
           list: []
         }
       },
@@ -66,7 +67,8 @@ const vuet = new Vuet({
         fetch () {
           this.app.$route // 取得路由对象，你可以在这里发起http请求
           setInterval(() => {
-            this.list = [...this.list, ['test']]
+            this.list = [...this.list, [this.page]]
+            this.page++
           }, 1000)
         }
       }
@@ -74,5 +76,5 @@ const vuet = new Vuet({
   }
 })
 // 在组件中，上拉加载事件触发时，调用下面的方法即可
-// this.$vuet.getModule('test').route.fetch()
+// this.$vuet.getModule('cleartest').route.fetch()
 ```
