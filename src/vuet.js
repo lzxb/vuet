@@ -28,7 +28,12 @@ export default class Vuet {
     this.app = app
   }
   register (path, opts) {
-    if (typeof opts.data !== 'function') return debug.error(`'data'hooks must be function types`)
+    if (util.isObject(opts.modules)) {
+      Object.keys(opts.modules).forEach(k => {
+        this.register(`${path}${this.options.pathJoin}${k}`, opts.modules[k])
+      })
+    }
+    if (typeof opts.data !== 'function') return this
     const vuet = this
     opts = { ...opts }
     _Vue.set(vuet.store, path, opts.data())
@@ -74,11 +79,6 @@ export default class Vuet {
             vuet.store[path][k] = val
           }
         })
-      })
-    }
-    if (util.isObject(opts.modules)) {
-      Object.keys(opts.modules).forEach(k => {
-        this.register(`${path}${this.options.pathJoin}${k}`, opts.modules[k])
       })
     }
     return this

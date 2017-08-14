@@ -320,7 +320,12 @@ var Vuet$1 = function () {
     value: function register(path, opts) {
       var _this2 = this;
 
-      if (typeof opts.data !== 'function') return debug.error('\'data\'hooks must be function types');
+      if (util.isObject(opts.modules)) {
+        Object.keys(opts.modules).forEach(function (k) {
+          _this2.register('' + path + _this2.options.pathJoin + k, opts.modules[k]);
+        });
+      }
+      if (typeof opts.data !== 'function') return this;
       var vuet = this;
       opts = _extends({}, opts);
       _Vue.set(vuet.store, path, opts.data());
@@ -370,11 +375,6 @@ var Vuet$1 = function () {
               vuet.store[path][k] = val;
             }
           });
-        });
-      }
-      if (util.isObject(opts.modules)) {
-        Object.keys(opts.modules).forEach(function (k) {
-          _this2.register('' + path + _this2.options.pathJoin + k, opts.modules[k]);
         });
       }
       return this;

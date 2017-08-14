@@ -1,1 +1,1 @@
-{"version":3,"file":"vuet-route.js","sources":["../src/index.js"],"sourcesContent":["console.log('---')\nexport default {}\n"],"names":["console","log"],"mappings":";;;;;;AAAAA,QAAQC,GAAR,CAAY,KAAZ;AACA,YAAe,EAAf;;;;;;"}
+{"version":3,"file":"vuet-route.js","sources":["../src/index.js"],"sourcesContent":["export default {\n  rule ({ path }) {\n    console.log(path)\n    return {}\n  }\n}\n"],"names":["path","log"],"mappings":";;;;;;AAAA,YAAe;MAAA,sBACG;QAARA,IAAQ,QAARA,IAAQ;;YACNC,GAAR,CAAYD,IAAZ;WACO,EAAP;;CAHJ;;;;;;"}

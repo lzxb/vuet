@@ -4,8 +4,14 @@
 	(factory((global.VuetRoute = global.VuetRoute || {})));
 }(this, (function (exports) { 'use strict';
 
-console.log('---');
-var index = {};
+var index = {
+  rule: function rule(_ref) {
+    var path = _ref.path;
+
+    console.log(path);
+    return {};
+  }
+};
 
 exports['default'] = index;
 

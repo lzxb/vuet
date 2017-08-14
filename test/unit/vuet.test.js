@@ -69,7 +69,7 @@ function baseExample (t, pathJoin = '/') {
   t.is(vuet, vm.$vuet)
   t.is(vuet.app, vm)
   t.true(vuet.vm instanceof Vue)
-  t.deepEqual(Object.keys(vuet.modules), ['test', `test${pathJoin}chlid`, '__once__', 'myTest'])
+  t.deepEqual(Object.keys(vuet.modules), [`test${pathJoin}chlid`, 'test', '__once__', 'myTest'])
 
   // test => vuet
   const test = vuet.getModule('test')
@@ -158,7 +158,7 @@ function baseExample (t, pathJoin = '/') {
   } catch (e) {
     errMsg = e.toString()
   }
-  t.is(errMsg, 'Error: [vuet] \'data\'hooks must be function types')
+  t.is(errMsg, '')
 
   // set module value error
   try {

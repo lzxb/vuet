@@ -9,23 +9,25 @@ export default new Vuet({
   },
   modules: {
     topic: {
-      list: {
-        data () {
-          return {}
+      modules: {
+        list: {
+          data () {
+            return {}
+          },
+          async fetch () {
+            return {}
+          },
+          routeWatch: 'query'
         },
-        async fetch () {
-          return {}
-        },
-        routeWatch: 'query'
-      },
-      detail: {
-        data () {
-          return {}
-        },
-        async fetch () {
-          return {}
-        },
-        routeWatch: 'params.id'
+        detail: {
+          data () {
+            return {}
+          },
+          async fetch () {
+            return {}
+          },
+          routeWatch: 'params.id'
+        }
       }
     }
   }
