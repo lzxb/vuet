@@ -318,17 +318,17 @@ var Vuet$1 = function () {
     }
   }, {
     key: 'addModules',
-    value: function addModules(path, opts) {
+    value: function addModules(path, modules) {
       var _this2 = this;
 
-      if (util.isObject(opts.modules)) {
-        Object.keys(opts.modules).forEach(function (k) {
-          _this2.addModules('' + path + _this2.options.pathJoin + k, opts.modules[k]);
+      if (util.isObject(modules.modules)) {
+        Object.keys(modules.modules).forEach(function (k) {
+          _this2.addModules('' + path + _this2.options.pathJoin + k, modules.modules[k]);
         });
       }
-      if (typeof opts.data !== 'function') return this;
+      if (typeof modules.data !== 'function') return this;
       var vuet = this;
-      opts = _extends({}, opts);
+      var opts = _extends({}, modules);
       _Vue.set(vuet.store, path, opts.data());
       vuet.modules[path] = opts;
       Vuet.callRuleHook('addModule', this, path);

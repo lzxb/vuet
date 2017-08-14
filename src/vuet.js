@@ -27,15 +27,15 @@ export default class Vuet {
   _init (app) {
     this.app = app
   }
-  addModules (path, opts) {
-    if (util.isObject(opts.modules)) {
-      Object.keys(opts.modules).forEach(k => {
-        this.addModules(`${path}${this.options.pathJoin}${k}`, opts.modules[k])
+  addModules (path, modules) {
+    if (util.isObject(modules.modules)) {
+      Object.keys(modules.modules).forEach(k => {
+        this.addModules(`${path}${this.options.pathJoin}${k}`, modules.modules[k])
       })
     }
-    if (typeof opts.data !== 'function') return this
+    if (typeof modules.data !== 'function') return this
     const vuet = this
-    opts = { ...opts }
+    const opts = { ...modules }
     _Vue.set(vuet.store, path, opts.data())
     vuet.modules[path] = opts
     Vuet.callRuleHook('addModule', this, path)

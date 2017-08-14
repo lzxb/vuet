@@ -108,7 +108,7 @@ export default new Vue({
   - 默认值：`{}`
 
 ## 实例的方法
-`vuet.addModules(path: string, module: Object)`
+`vuet.addModules(path: string, modules: Object)`
   - 描述：注册模块  
 
 `vuet.getModule(path: string)`
