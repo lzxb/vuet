@@ -4,31 +4,6 @@
 	(factory((global.VuetRoute = global.VuetRoute || {})));
 }(this, (function (exports) { 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-};
-
-var util = {
-  isObject: function isObject(obj) {
-    return !!obj && Object.prototype.toString.call(obj) === '[object Object]';
-  },
-  getArgMerge: function getArgMerge() {
-    var opt = {};
-    var args = arguments;
-    if (typeof args[0] === 'string') {
-      opt[args[0]] = args.length > 1 ? args[1] : args[0];
-    } else if (args[0] && util.isObject(args[0])) {
-      opt = args[0];
-    }
-    return opt;
-  },
-  isPromise: function isPromise(obj) {
-    return !!obj && ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
-  }
-};
-
 var _Vue = void 0;
 
 var debug = {
@@ -58,9 +33,13 @@ var debug = {
   }
 };
 
+// import util from '../../../src/util'
+
 var NAME = '__route__';
 
-function isWatch(vuet, path, route) {
+function isWatch(vuet, path) {
+  var route = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
   var vtm = vuet.getModule(path);
   var watch = vtm.route.watch || ['fullPath'];
   watch = Array.isArray(watch) ? watch : [watch];
@@ -82,13 +61,6 @@ var index = {
   },
   addModule: function addModule(vuet, path) {
     vuet[NAME][path] = [];
-    var vtm = vuet.getModule(path);
-    if (!util.isObject(vuet.route)) return;
-    Object.keys(vtm.route).forEach(function (k) {
-      if (typeof vtm.route[k] === 'function') {
-        vtm.route[k] = vtm.route[k].bind(vtm);
-      }
-    });
   },
   rule: function rule(_ref) {
     var path = _ref.path;
