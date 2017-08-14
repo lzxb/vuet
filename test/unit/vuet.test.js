@@ -376,9 +376,9 @@ test('attr', t => {
 
 test('already exists on the object', t => {
   const warn = console.warn
-  let warnCount = 0
+  let warnMsg = 0
   console.warn = (msg) => {
-    warnCount++
+    warnMsg = msg
     warn.call(console, msg)
   }
   const vuet = new Vuet({
@@ -392,7 +392,7 @@ test('already exists on the object', t => {
       }
     }
   })
-  t.is(warnCount, 1)
+  t.is(warnMsg, '[vuet] \'test\' the \'data\' already exists on the object')
   console.warn = warn
 
   t.true(typeof vuet.getModule('test').data === 'function')

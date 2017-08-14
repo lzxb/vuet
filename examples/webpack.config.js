@@ -26,7 +26,9 @@ module.exports = {
     alias: {
       'vue': 'vue/dist/vue.common.js',
       'vue-router': 'vue-router/dist/vue-router.common.js',
-      'vuet': path.join(__dirname, '..', 'src/')
+      'vuet': path.join(__dirname, '..', 'src/'),
+      'vuet-scroll': path.join(__dirname, '..', 'packages/vuet-scroll/src/index'),
+      'vuet-route': path.join(__dirname, '..', 'packages/vuet-route/src/index')
     },
     extensions: ['.js', '.vue', '.json']
   },

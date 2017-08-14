@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuet from 'vuet'
-import VuetScroll from '../../packages/vuet-scroll/src/index'
+import VuetScroll from 'vuet-scroll'
 
 Vue
   .use(Vuet)

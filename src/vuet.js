@@ -69,7 +69,7 @@ export default class Vuet {
     if (util.isObject(opts.state)) {
       Object.keys(opts.state).forEach(k => {
         if (k in opts) {
-          return debug.warn(`'${k}' already exists on the object`)
+          return debug.warn(`'${path}' the '${k}' already exists on the object`)
         }
         Object.defineProperty(opts, k, {
           get () {
