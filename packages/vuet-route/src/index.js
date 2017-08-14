@@ -1,6 +1,12 @@
+import debug from '../../../src/debug'
+// import util from '../../../src/util'
+
 export default {
   rule ({ path }) {
-    console.log(path)
-    return {}
+    return {
+      beforeCreate () {
+        debug.assertModule(this.$vuet, path)
+      }
+    }
   }
 }

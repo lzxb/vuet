@@ -156,6 +156,7 @@ var VuetStatic = function (Vuet) {
       var vueRules = [];
       var addRule = function addRule(ruleName, any) {
         var rules = Vuet.options.rules[ruleName];
+        if (!util.isObject(rules)) debug.error('The\'' + ruleName + '\'rule does not exist. Please make sure that it executes \'Vuet.rule(\'' + ruleName + '\', opts)\' before all components');
         if (typeof any === 'string') {
           vueRules.push(rules.rule({ path: any }));
         } else {
