@@ -112,17 +112,22 @@ export default new Vue({
 `vuet.app`
   - 描述：`new Vuet({ vuet })`时的`Vue`实例
   - 默认值：`null` 
+
 `vuet.modules`
   - 描述：添加的模块，全部都在这里
   - 默认值：`{}`
+
 `vuet.options`
   - 描述：`new Vuet(options)`实例化时传入的参数
   - 默认值：`{ pathJoin: '/', modules: {} }`
+
 `vuet.store`
   - 描述：每个模块存储的状态
   - 默认值：`{}`
+
 `vuet.vm`
   - 描述：vuet内部的Vue实例
+
 
 ## 实例的方法
 `vuet.addModules(path: string, modules: Object)`
