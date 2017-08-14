@@ -1,4 +1,7 @@
 ## vuet-route
+[![npm](https://img.shields.io/npm/v/vuet-route.svg)](https://www.npmjs.com/package/vuet-route) 
+[![npm](https://img.shields.io/npm/dm/vuet-route.svg)](https://www.npmjs.com/package/vuet-route)
+[![npm](https://img.shields.io/npm/dt/vuet-route.svg)](https://www.npmjs.com/package/vuet-route)
 
 
 ## 它是做什么的？
