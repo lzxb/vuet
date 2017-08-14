@@ -2,8 +2,8 @@
   <!-- 设置指令监听全局滚动条 -->
   <div v-vuet-scroll.window="{ path: 'topic-detail' }">
     <button class="detail-back" @click="$router.go(-1)">Back</button>
-    <h3>{{ detail.data.title }}</h3>
-    <div v-html="detail.data.content"></div>
+    <h3>{{ detail.title }}</h3>
+    <div v-html="detail.content"></div>
   </div>  
 </template>
 <script>

@@ -2,7 +2,7 @@ export default {
   routeWatch: 'query', // 定义页面的更新规则
   data () {
     return {
-      data: [],
+      list: [],
       tabs: [
         {
           label: '全部',

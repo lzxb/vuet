@@ -3,13 +3,13 @@
   <div v-vuet-scroll.window="{ path: 'topic-list' }">
     <header>
       <ul>
-        <li v-for="item in list.tabs">
+        <li v-for="item in data.tabs">
           <router-link :to="{ name: 'topic-list', query: { tab: item.value } }">{{ item.label }}</router-link>
         </li>
       </ul>
     </header>
-    <ul class="list" v-if="list.data.length">
-      <li v-for="item in list.data">
+    <ul class="list" v-if="data.list.length">
+      <li v-for="item in data.list">
           <router-link :to="{ name: 'topic-detail', params: { id: item.id } }">{{ item.title }}</router-link>
       </li>
     </ul>
@@ -26,7 +26,7 @@
       }),
       // 连接模块的状态
       mapModules({
-        list: 'topic-list'
+        data: 'topic-list'
       })
     ]
   }
