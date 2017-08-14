@@ -35,6 +35,12 @@ export default {
   },
   register (vuet, path) {
     vuet[NAME][path] = []
+    const vtm = vuet.getModule(path)
+    Object.keys(vtm.route).forEach(k => {
+      if (typeof vtm.route[k] === 'function') {
+        vtm.route[k] = vtm.route[k].bind(vtm)
+      }
+    })
   },
   rule ({ path }) {
     return {
@@ -45,7 +51,7 @@ export default {
           vtm.reset()
           resetVuetScroll(vtm)
         }
-        vtm.route.fetch.call(vtm)
+        vtm.route.fetch(vtm)
       },
       watch: {
         $route: {
@@ -56,7 +62,7 @@ export default {
               vtm.reset()
               resetVuetScroll(vtm)
             }
-            vtm.route.fetch.call(vtm)
+            vtm.route.fetch(vtm)
           }
         }
       }

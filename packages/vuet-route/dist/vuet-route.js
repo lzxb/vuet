@@ -70,6 +70,12 @@ var index = {
   },
   register: function register(vuet, path) {
     vuet[NAME][path] = [];
+    var vtm = vuet.getModule(path);
+    Object.keys(vtm.route).forEach(function (k) {
+      if (typeof vtm.route[k] === 'function') {
+        vtm.route[k] = vtm.route[k].bind(vtm);
+      }
+    });
   },
   rule: function rule(_ref) {
     var path = _ref.path;
@@ -82,7 +88,7 @@ var index = {
           vtm.reset();
           resetVuetScroll(vtm);
         }
-        vtm.route.fetch.call(vtm);
+        vtm.route.fetch(vtm);
       },
 
       watch: {
@@ -94,7 +100,7 @@ var index = {
               vtm.reset();
               resetVuetScroll(vtm);
             }
-            vtm.route.fetch.call(vtm);
+            vtm.route.fetch(vtm);
           }
         }
       }
