@@ -417,3 +417,15 @@ test('root vue app', t => {
   t.is(vm2._vuet, undefined)
   t.is(vm2.$vuet, undefined)
 })
+
+test('The rule does not exist', t => {
+  let errMsg = ''
+  try {
+    mapRules({
+      notRule: 'test'
+    })
+  } catch (e) {
+    errMsg = e.toString()
+  }
+  t.is(errMsg, 'Error: [vuet] The\'notRule\'rule does not exist. Please make sure that it executes \'Vuet.rule(\'notRule\', opts)\' before all components')
+})
