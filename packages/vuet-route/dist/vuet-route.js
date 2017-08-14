@@ -53,17 +53,6 @@ function isWatch(vuet, path, route) {
   return oldWatch.join() !== vuet[NAME][path].join();
 }
 
-function resetVuetScroll(vtm) {
-  var $scroll = vtm.state.$scroll;
-
-  if ($scroll) {
-    Object.keys($scroll).forEach(function (k) {
-      $scroll[k].x = 0;
-      $scroll[k].y = 0;
-    });
-  }
-}
-
 var index = {
   init: function init(vuet) {
     vuet[NAME] = {};
@@ -86,9 +75,16 @@ var index = {
         var vtm = this.$vuet.getModule(path);
         if (isWatch(this.$vuet, path, this.$route)) {
           vtm.reset();
-          resetVuetScroll(vtm);
+          vtm.state.__routeLoaded__ = true;
+          return vtm.route.fetch(vtm);
         }
-        vtm.route.fetch(vtm);
+        if (vtm.route.once !== false) {
+          // default
+          return vtm.route.fetch(vtm);
+        }
+        if (!vtm.state.__routeLoaded__) {
+          return vtm.route.fetch(vtm);
+        }
       },
 
       watch: {
@@ -98,9 +94,8 @@ var index = {
             var vtm = this.$vuet.getModule(path);
             if (isWatch(this.$vuet, path, to)) {
               vtm.reset();
-              resetVuetScroll(vtm);
+              vtm.route.fetch(vtm);
             }
-            vtm.route.fetch(vtm);
           }
         }
       }

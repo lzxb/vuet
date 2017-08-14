@@ -30,7 +30,8 @@ const vuet = new Vuet({
         }
       },
       route: {
-        watch: ['query'], // 监听路由变化，重置页面状态
+        once: true, // 第一次加载成功后，是否还请求数据，true请求数据，false不请求数据，默认为true
+        watch: ['query'], // 监听路由变化，重置页面状态，默认为fullPath
         fetch () {
           this.app.$route // 取得路由对象，你可以在这里发起http请求
           setInterval(() => {
