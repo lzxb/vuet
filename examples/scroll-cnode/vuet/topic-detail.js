@@ -21,10 +21,11 @@ export default {
       is_collect: false
     }
   },
-  async fetch ({ route }) {
-    const { data } = await window.fetch(`https://cnodejs.org/api/v1/topic/${route.params.id}`).then(response => response.json())
-    return {
-      data
+  route: {
+    async fetch () {
+      const route = this.vuet.app.$route
+      const { data } = await window.fetch(`https://cnodejs.org/api/v1/topic/${route.params.id}`).then(response => response.json())
+      this.state = data
     }
   }
 }

@@ -19,10 +19,10 @@ export default class Vuet {
       }
     })
     Object.assign(this.options, opts)
+    Vuet.callRuleHook('init', this)
     Object.keys(this.options.modules).forEach(k => {
       this.register(k, this.options.modules[k])
     })
-    Vuet.callRuleHook('init', this)
   }
   _init (app) {
     this.app = app

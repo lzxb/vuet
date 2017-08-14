@@ -8,15 +8,31 @@ export default {
     vuet[NAME] = {}
   },
   register (vuet, path) {
-    vuet[NAME][path] = []
+    vuet[NAME][path] = ''
   },
   rule ({ path }) {
     return {
       beforeCreate () {
         debug.assertModule(this.$vuet, path)
-        // const vtm = this.$vuet.getModule(path)
-        // const { routeWatch = 'fullPath' } = vtm
-        // console.log(vtm)
+        const vuet = this.$vuet
+        const vtm = vuet.getModule(path)
+        // let watch = vtm.route.watch
+        // watch = Array.isArray(watch) ? watch : [watch]
+        // watch.forEach(k => {
+        //   vuet[NAME][path] += JSON.stringify(this.$route[k])
+        // })
+        // console.log(vuet[NAME])
+        vtm.route.fetch.call(vtm)
+      },
+      watch: {
+        $route: {
+          deep: true,
+          handler (to, from) {
+            const vtm = this.$vuet.getModule(path)
+            vtm.reset()
+            vtm.route.fetch.call(vtm)
+          }
+        }
       }
     }
   }

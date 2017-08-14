@@ -301,10 +301,10 @@ var Vuet$1 = function () {
       }
     });
     Object.assign(this.options, opts);
+    Vuet.callRuleHook('init', this);
     Object.keys(this.options.modules).forEach(function (k) {
       _this.register(k, _this.options.modules[k]);
     });
-    Vuet.callRuleHook('init', this);
   }
 
   createClass(Vuet, [{

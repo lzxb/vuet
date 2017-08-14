@@ -42,7 +42,7 @@ var index = {
     vuet[NAME] = {};
   },
   register: function register(vuet, path) {
-    vuet[NAME][path] = [];
+    vuet[NAME][path] = '';
   },
   rule: function rule(_ref) {
     var path = _ref.path;
@@ -50,9 +50,26 @@ var index = {
     return {
       beforeCreate: function beforeCreate() {
         debug.assertModule(this.$vuet, path);
-        // const vtm = this.$vuet.getModule(path)
-        // const { routeWatch = 'fullPath' } = vtm
-        // console.log(vtm)
+        var vuet = this.$vuet;
+        var vtm = vuet.getModule(path);
+        // let watch = vtm.route.watch
+        // watch = Array.isArray(watch) ? watch : [watch]
+        // watch.forEach(k => {
+        //   vuet[NAME][path] += JSON.stringify(this.$route[k])
+        // })
+        // console.log(vuet[NAME])
+        vtm.route.fetch.call(vtm);
+      },
+
+      watch: {
+        $route: {
+          deep: true,
+          handler: function handler(to, from) {
+            var vtm = this.$vuet.getModule(path);
+            vtm.reset();
+            vtm.route.fetch.call(vtm);
+          }
+        }
       }
     };
   }

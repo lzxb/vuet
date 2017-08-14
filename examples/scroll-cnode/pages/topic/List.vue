@@ -1,6 +1,6 @@
 <template>
   <!-- 设置指令监听全局滚动条 -->
-  <div v-vuet-scroll.window="{ path: 'topic-list' }">
+  <div v-vuet-scroll.window="{ path: 'topic/list' }">
     <header>
       <ul>
         <li v-for="item in data.tabs">
@@ -22,11 +22,11 @@
     mixins: [
       // 设置模块的更新规则
       mapRules({
-        route: 'topic-list'
+        route: 'topic/list'
       }),
       // 连接模块的状态
       mapModules({
-        data: 'topic-list'
+        data: 'topic/list'
       })
     ]
   }
