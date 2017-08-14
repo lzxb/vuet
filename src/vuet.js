@@ -21,16 +21,16 @@ export default class Vuet {
     Object.assign(this.options, opts)
     Vuet.callRuleHook('init', this)
     Object.keys(this.options.modules).forEach(k => {
-      this.register(k, this.options.modules[k])
+      this.addModules(k, this.options.modules[k])
     })
   }
   _init (app) {
     this.app = app
   }
-  register (path, opts) {
+  addModules (path, opts) {
     if (util.isObject(opts.modules)) {
       Object.keys(opts.modules).forEach(k => {
-        this.register(`${path}${this.options.pathJoin}${k}`, opts.modules[k])
+        this.addModules(`${path}${this.options.pathJoin}${k}`, opts.modules[k])
       })
     }
     if (typeof opts.data !== 'function') return this
@@ -38,7 +38,7 @@ export default class Vuet {
     opts = { ...opts }
     _Vue.set(vuet.store, path, opts.data())
     vuet.modules[path] = opts
-    Vuet.callRuleHook('register', this, path)
+    Vuet.callRuleHook('addModules', this, path)
     Object.defineProperty(opts, 'vuet', {
       get: () => (vuet)
     })

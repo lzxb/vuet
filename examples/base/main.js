@@ -4,7 +4,7 @@ import Vuet, { mapModules, mapRules } from 'vuet'
 Vue.use(Vuet)
 
 const vuet = new Vuet()
-vuet.register('test', {
+vuet.addModules('test', {
   data () {
     return {
       count: 0

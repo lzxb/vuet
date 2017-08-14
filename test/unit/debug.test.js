@@ -40,7 +40,7 @@ test.serial('assertVue', t => {
 
 test.serial('assertModule', t => {
   const vuet = new Vuet()
-  vuet.register('test', {
+  vuet.addModules('test', {
     data () {
       return true
     }

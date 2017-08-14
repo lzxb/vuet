@@ -33,7 +33,7 @@ export default {
   init (vuet) {
     vuet[NAME] = {}
   },
-  register (vuet, path) {
+  addModules (vuet, path) {
     vuet[NAME][path] = []
     const vtm = vuet.getModule(path)
     Object.keys(vtm.route).forEach(k => {

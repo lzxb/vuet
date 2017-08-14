@@ -47,7 +47,7 @@ Vue.use(Vuet)
 const vuet = new Vuet({
   // 实例的选项，详情往下看
 })
-vuet.register('test', {
+vuet.addModules('test', {
   data () {
     return {
       count: 0
@@ -108,7 +108,7 @@ export default new Vue({
   - 默认值：`{}`
 
 ## 实例的方法
-`vuet.register(path: string, module: Object)`
+`vuet.addModules(path: string, module: Object)`
   - 描述：注册模块  
 
 `vuet.getModule(path: string)`
@@ -138,7 +138,7 @@ export default new Vue({
 const vuet = new Vuet()
 
 // 注册了一个叫test的模块
-vuet.register('test', {
+vuet.addModules('test', {
   data () {
     return {
       count: 0 // 定义了一个count属性
@@ -183,7 +183,7 @@ vuet.register('test', {
 ## 在模块中获取路由对象
 ```javascript
 const vuet = new Vuet()
-vuet.register('test', {
+vuet.addModules('test', {
   data () {
     return {}
   },
@@ -200,7 +200,7 @@ vuet.register('test', {
 ## 重置模块状态
 ```javascript
 const vuet = new Vuet()
-vuet.register('test', {
+vuet.addModules('test', {
   data () {
     return {
       count: 0
@@ -242,8 +242,8 @@ Vuet.rule('myRule', { // 注意：规则的注册必须在所有组件执行之�
   init (vuet) {
     // new Vuet() 实例化后，传入实例，你可以在这里添加一些模块、方法之类的。每new一个Vuet实例，都会执行一次钩子
   },
-  register (vuet, path) {
-    // new Vuet().register 每注册一个模块，都会执行一次钩子
+  addModules (vuet, path) {
+    // new Vuet().addModules 每注册一个模块，都会执行一次钩子
   }
   rule ({ path }) {
     // 传入当前模块的路径，返回一个mixin来注入到组件中。执行Vuet的mapRules方法时会调用

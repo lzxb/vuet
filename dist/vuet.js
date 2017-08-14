@@ -307,7 +307,7 @@ var Vuet$1 = function () {
     Object.assign(this.options, opts);
     Vuet.callRuleHook('init', this);
     Object.keys(this.options.modules).forEach(function (k) {
-      _this.register(k, _this.options.modules[k]);
+      _this.addModules(k, _this.options.modules[k]);
     });
   }
 
@@ -317,13 +317,13 @@ var Vuet$1 = function () {
       this.app = app;
     }
   }, {
-    key: 'register',
-    value: function register(path, opts) {
+    key: 'addModules',
+    value: function addModules(path, opts) {
       var _this2 = this;
 
       if (util.isObject(opts.modules)) {
         Object.keys(opts.modules).forEach(function (k) {
-          _this2.register('' + path + _this2.options.pathJoin + k, opts.modules[k]);
+          _this2.addModules('' + path + _this2.options.pathJoin + k, opts.modules[k]);
         });
       }
       if (typeof opts.data !== 'function') return this;
@@ -331,7 +331,7 @@ var Vuet$1 = function () {
       opts = _extends({}, opts);
       _Vue.set(vuet.store, path, opts.data());
       vuet.modules[path] = opts;
-      Vuet.callRuleHook('register', this, path);
+      Vuet.callRuleHook('addModules', this, path);
       Object.defineProperty(opts, 'vuet', {
         get: function get$$1() {
           return vuet;

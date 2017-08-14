@@ -45,7 +45,7 @@ function baseExample (t, pathJoin = '/') {
     opts.pathJoin = pathJoin
   }
   const vuet = new Vuet(opts)
-  vuet.register('myTest', {
+  vuet.addModules('myTest', {
     data () {
       return {
         count: 0
@@ -151,10 +151,10 @@ function baseExample (t, pathJoin = '/') {
   t.is(chlid.count, 1002)
   t.is(myTest.count, 1003)
 
-  // register error
+  // addModules error
   let errMsg = ''
   try {
-    vuet.register('notData', {})
+    vuet.addModules('notData', {})
   } catch (e) {
     errMsg = e.toString()
   }
@@ -273,10 +273,10 @@ test.cb('rules', t => {
       this.state++
     }
   }
-  vuet.register('need', opts)
-  vuet.register('once', opts)
-  vuet.register('temp', opts)
-  vuet.register('oncePromise', {
+  vuet.addModules('need', opts)
+  vuet.addModules('once', opts)
+  vuet.addModules('temp', opts)
+  vuet.addModules('oncePromise', {
     data () {
       return 0
     },
@@ -359,7 +359,7 @@ test('attr', t => {
   t.is(vuet.app, vm)
   t.true(vuet.vm instanceof Vue)
 
-  vuet.register('test', {
+  vuet.addModules('test', {
     data () {
       return {
         count: 0
