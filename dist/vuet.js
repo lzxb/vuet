@@ -249,15 +249,11 @@ var need = {
   }
 };
 
-var PATH = '__once__';
+var NAME = '__once__';
 
 var once = {
   init: function init(vuet) {
-    vuet.register(PATH, {
-      data: function data() {
-        return [];
-      }
-    });
+    vuet[NAME] = [];
   },
   rule: function rule(_ref) {
     var path = _ref.path;
@@ -265,15 +261,15 @@ var once = {
     return {
       beforeCreate: function beforeCreate() {
         debug.assertModule(this.$vuet, path);
-        var once = this.$vuet.getModule(PATH);
-        if (once.state.indexOf(path) > -1) return;
+        var vuet = this.$vuet;
+        if (vuet[NAME].indexOf(path) > -1) return;
         var back = this.$vuet.getModule(path).fetch();
         if (util.isPromise(back)) {
           return back.then(function (res) {
-            once.state.push(path);
+            vuet[NAME].push(path);
           });
         }
-        once.state.push(path);
+        vuet[NAME].push(path);
       }
     };
   }

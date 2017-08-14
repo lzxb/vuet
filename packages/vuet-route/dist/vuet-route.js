@@ -35,13 +35,24 @@ var debug = {
 
 // import util from '../../../src/util'
 
+var NAME = '__route__';
+
 var index = {
+  init: function init(vuet) {
+    vuet[NAME] = {};
+  },
+  register: function register(vuet, path) {
+    vuet[NAME][path] = [];
+  },
   rule: function rule(_ref) {
     var path = _ref.path;
 
     return {
       beforeCreate: function beforeCreate() {
         debug.assertModule(this.$vuet, path);
+        // const vtm = this.$vuet.getModule(path)
+        // const { routeWatch = 'fullPath' } = vtm
+        // console.log(vtm)
       }
     };
   }

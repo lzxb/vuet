@@ -69,7 +69,7 @@ function baseExample (t, pathJoin = '/') {
   t.is(vuet, vm.$vuet)
   t.is(vuet.app, vm)
   t.true(vuet.vm instanceof Vue)
-  t.deepEqual(Object.keys(vuet.modules), [`test${pathJoin}chlid`, 'test', '__once__', 'myTest'])
+  t.deepEqual(Object.keys(vuet.modules), [`test${pathJoin}chlid`, 'test', 'myTest'])
 
   // test => vuet
   const test = vuet.getModule('test')
@@ -173,7 +173,7 @@ test('base', t => {
   const vuet = new Vuet({
     modules: false
   })
-  t.deepEqual(vuet.store, { __once__: [] })
+  t.deepEqual(vuet.__once__, [])
   baseExample(t, '/')
 })
 
