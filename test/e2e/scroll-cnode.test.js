@@ -5,6 +5,7 @@ fixture`scroll-cnode`
   .page`http://localhost:3000/scroll-cnode/index.html`
 
 test('base', async t => {
+  console.log(os.type())
   if (os.type() === 'linux' || os.type() === 'ubuntu') { // the test not in travis ignore
     return t.pass()
   }
