@@ -1,10 +1,15 @@
-## 索引
+## vuet-route
+
 
 ## 它是做什么的？
 它能绑定在路由变化时，自动获取数据，重置页面状态
 
+
 ## 安装
+```bash
 npm install --save vuet-route
+```
+
 
 ## 使用
 ```javascript
