@@ -331,7 +331,7 @@ var Vuet$1 = function () {
       opts = _extends({}, opts);
       _Vue.set(vuet.store, path, opts.data());
       vuet.modules[path] = opts;
-      Vuet.callRuleHook('addModules', this, path);
+      Vuet.callRuleHook('addModule', this, path);
       Object.defineProperty(opts, 'vuet', {
         get: function get$$1() {
           return vuet;

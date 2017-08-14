@@ -68,7 +68,7 @@ var index = {
   init: function init(vuet) {
     vuet[NAME] = {};
   },
-  addModules: function addModules(vuet, path) {
+  addModule: function addModule(vuet, path) {
     vuet[NAME][path] = [];
     var vtm = vuet.getModule(path);
     Object.keys(vtm.route).forEach(function (k) {

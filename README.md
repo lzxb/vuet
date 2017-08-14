@@ -242,7 +242,7 @@ Vuet.rule('myRule', { // 注意：规则的注册必须在所有组件执行之�
   init (vuet) {
     // new Vuet() 实例化后，传入实例，你可以在这里添加一些模块、方法之类的。每new一个Vuet实例，都会执行一次钩子
   },
-  addModules (vuet, path) {
+  addModule (vuet, path) {
     // new Vuet().addModules 每注册一个模块，都会执行一次钩子
   }
   rule ({ path }) {
