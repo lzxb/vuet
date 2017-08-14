@@ -1,11 +1,15 @@
 {
-  "name": "vuet-roure",
+  "name": "vuet-route",
   "version": "0.0.1",
   "description": "vuet route",
-  "main": "dist/vuet-roure.js",  
+  "main": "dist/vuet-route.js",  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "MIT"
+  "author": "medatc",  
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "src/"
+  ]
 }
