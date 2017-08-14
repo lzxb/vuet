@@ -1,12 +1,12 @@
 import debug from '../../../src/debug'
-// import util from '../../../src/util'
+import util from '../../../src/util'
 
 const NAME = '__route__'
 
 function isWatch (vuet, path, route) {
   const vtm = vuet.getModule(path)
   let watch = ['fullPath']
-  if (vtm.route && vtm.route.watch) {
+  if (vtm.route.watch) {
     watch = vtm.route.watch
   }
   watch = Array.isArray(watch) ? watch : [watch]
@@ -28,6 +28,9 @@ export default {
   },
   addModule (vuet, path) {
     vuet[NAME][path] = []
+    if (!util.isObject(vuet.getModule(path).route)) {
+      vuet.getModule(path).route = {}
+    }
   },
   rule ({ path }) {
     return {
