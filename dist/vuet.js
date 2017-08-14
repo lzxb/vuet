@@ -183,10 +183,14 @@ var VuetStatic = function (Vuet) {
       }
       return this;
     },
-    callRuleHook: function callRuleHook(hook, vuet) {
+    callRuleHook: function callRuleHook(hook) {
+      for (var _len = arguments.length, arg = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        arg[_key - 1] = arguments[_key];
+      }
+
       Object.keys(Vuet.options.rules).forEach(function (k) {
         if (typeof Vuet.options.rules[k][hook] === 'function') {
-          Vuet.options.rules[k][hook](vuet);
+          Vuet.options.rules[k][hook].apply(undefined, arg);
         }
       });
     }

@@ -37,12 +37,39 @@ var debug = {
 
 var NAME = '__route__';
 
+function isWatch(vuet, path, route) {
+  var vtm = vuet.getModule(path);
+  var watch = vtm.route.watch || ['fullPath'];
+  watch = Array.isArray(watch) ? watch : [watch];
+  var oldWatch = vuet[NAME][path];
+  vuet[NAME][path] = [];
+  watch.forEach(function (k) {
+    var data = route;
+    k.split('.').forEach(function (chlidKey) {
+      data = data[chlidKey];
+    });
+    vuet[NAME][path].push(JSON.stringify(data));
+  });
+  return oldWatch.join() !== vuet[NAME][path].join();
+}
+
+function resetVuetScroll(vtm) {
+  var $scroll = vtm.state.$scroll;
+
+  if ($scroll) {
+    Object.keys($scroll).forEach(function (k) {
+      $scroll[k].x = 0;
+      $scroll[k].y = 0;
+    });
+  }
+}
+
 var index = {
   init: function init(vuet) {
     vuet[NAME] = {};
   },
   register: function register(vuet, path) {
-    vuet[NAME][path] = '';
+    vuet[NAME][path] = [];
   },
   rule: function rule(_ref) {
     var path = _ref.path;
@@ -50,14 +77,11 @@ var index = {
     return {
       beforeCreate: function beforeCreate() {
         debug.assertModule(this.$vuet, path);
-        var vuet = this.$vuet;
-        var vtm = vuet.getModule(path);
-        // let watch = vtm.route.watch
-        // watch = Array.isArray(watch) ? watch : [watch]
-        // watch.forEach(k => {
-        //   vuet[NAME][path] += JSON.stringify(this.$route[k])
-        // })
-        // console.log(vuet[NAME])
+        var vtm = this.$vuet.getModule(path);
+        if (isWatch(this.$vuet, path, this.$route)) {
+          vtm.reset();
+          resetVuetScroll(vtm);
+        }
         vtm.route.fetch.call(vtm);
       },
 
@@ -66,7 +90,10 @@ var index = {
           deep: true,
           handler: function handler(to, from) {
             var vtm = this.$vuet.getModule(path);
-            vtm.reset();
+            if (isWatch(this.$vuet, path, to)) {
+              vtm.reset();
+              resetVuetScroll(vtm);
+            }
             vtm.route.fetch.call(vtm);
           }
         }

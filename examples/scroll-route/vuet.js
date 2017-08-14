@@ -10,9 +10,6 @@ Vuet
   .rule('route', VuetRoute)
 
 export default new Vuet({
-  data () {
-    return {}
-  },
   modules: {
     topic: {
       modules: {
@@ -20,19 +17,23 @@ export default new Vuet({
           data () {
             return {}
           },
-          async fetch () {
-            return {}
-          },
-          routeWatch: 'query'
+          route: {
+            async fetch () {
+              return {}
+            },
+            watch: 'query'
+          }
         },
         detail: {
           data () {
             return {}
           },
-          async fetch () {
-            return {}
-          },
-          routeWatch: 'params.id'
+          route: {
+            async fetch () {
+              return {}
+            },
+            watch: 'params.id'
+          }
         }
       }
     }

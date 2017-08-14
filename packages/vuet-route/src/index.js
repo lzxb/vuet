@@ -3,25 +3,48 @@ import debug from '../../../src/debug'
 
 const NAME = '__route__'
 
+function isWatch (vuet, path, route) {
+  const vtm = vuet.getModule(path)
+  let watch = vtm.route.watch || ['fullPath']
+  watch = Array.isArray(watch) ? watch : [watch]
+  const oldWatch = vuet[NAME][path]
+  vuet[NAME][path] = []
+  watch.forEach(k => {
+    let data = route
+    k.split('.').forEach(chlidKey => {
+      data = data[chlidKey]
+    })
+    vuet[NAME][path].push(JSON.stringify(data))
+  })
+  return oldWatch.join() !== vuet[NAME][path].join()
+}
+
+function resetVuetScroll (vtm) {
+  const { $scroll } = vtm.state
+  if ($scroll) {
+    Object.keys($scroll).forEach(k => {
+      $scroll[k].x = 0
+      $scroll[k].y = 0
+    })
+  }
+}
+
 export default {
   init (vuet) {
     vuet[NAME] = {}
   },
   register (vuet, path) {
-    vuet[NAME][path] = ''
+    vuet[NAME][path] = []
   },
   rule ({ path }) {
     return {
       beforeCreate () {
         debug.assertModule(this.$vuet, path)
-        const vuet = this.$vuet
-        const vtm = vuet.getModule(path)
-        // let watch = vtm.route.watch
-        // watch = Array.isArray(watch) ? watch : [watch]
-        // watch.forEach(k => {
-        //   vuet[NAME][path] += JSON.stringify(this.$route[k])
-        // })
-        // console.log(vuet[NAME])
+        const vtm = this.$vuet.getModule(path)
+        if (isWatch(this.$vuet, path, this.$route)) {
+          vtm.reset()
+          resetVuetScroll(vtm)
+        }
         vtm.route.fetch.call(vtm)
       },
       watch: {
@@ -29,7 +52,10 @@ export default {
           deep: true,
           handler (to, from) {
             const vtm = this.$vuet.getModule(path)
-            vtm.reset()
+            if (isWatch(this.$vuet, path, to)) {
+              vtm.reset()
+              resetVuetScroll(vtm)
+            }
             vtm.route.fetch.call(vtm)
           }
         }
