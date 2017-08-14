@@ -16,7 +16,7 @@ npm install --save vuet-route
 import Vuet from 'vuet'
 import VuetRoute from 'vuet-route'
 
-Vuet.rule('route', VuetRoute)
+Vuet.rule('route', VuetRoute) // 注意：规则的注册必须在所有组件执行之前
 
 const vuet = new Vuet({
   modules: {
