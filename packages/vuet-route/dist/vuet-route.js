@@ -37,11 +37,12 @@ var debug = {
 
 var NAME = '__route__';
 
-function isWatch(vuet, path) {
-  var route = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
+function isWatch(vuet, path, route) {
   var vtm = vuet.getModule(path);
-  var watch = vtm.route.watch || ['fullPath'];
+  var watch = ['fullPath'];
+  if (vtm.route && vtm.route.watch) {
+    watch = vtm.route.watch;
+  }
   watch = Array.isArray(watch) ? watch : [watch];
   var oldWatch = vuet[NAME][path];
   vuet[NAME][path] = [];

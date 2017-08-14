@@ -3,9 +3,12 @@ import debug from '../../../src/debug'
 
 const NAME = '__route__'
 
-function isWatch (vuet, path, route = {}) {
+function isWatch (vuet, path, route) {
   const vtm = vuet.getModule(path)
-  let watch = vtm.route.watch || ['fullPath']
+  let watch = ['fullPath']
+  if (vtm.route && vtm.route.watch) {
+    watch = vtm.route.watch
+  }
   watch = Array.isArray(watch) ? watch : [watch]
   const oldWatch = vuet[NAME][path]
   vuet[NAME][path] = []
