@@ -17,10 +17,10 @@ export default new Vuet({
           data () {
             return {}
           },
+          async fetch () {
+            return {}
+          },
           route: {
-            async fetch () {
-              return {}
-            },
             watch: 'query'
           }
         },
@@ -28,10 +28,10 @@ export default new Vuet({
           data () {
             return {}
           },
+          async fetch () {
+            return {}
+          },
           route: {
-            async fetch () {
-              return {}
-            },
             watch: 'params.id'
           }
         }

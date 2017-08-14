@@ -1,5 +1,5 @@
 import debug from '../../../src/debug'
-// import util from '../../../src/util'
+import util from '../../../src/util'
 
 const NAME = '__route__'
 
@@ -26,6 +26,7 @@ export default {
   addModule (vuet, path) {
     vuet[NAME][path] = []
     const vtm = vuet.getModule(path)
+    if (!util.isObject(vuet.route)) return
     Object.keys(vtm.route).forEach(k => {
       if (typeof vtm.route[k] === 'function') {
         vtm.route[k] = vtm.route[k].bind(vtm)
@@ -40,13 +41,13 @@ export default {
         if (isWatch(this.$vuet, path, this.$route)) {
           vtm.reset()
           vtm.state.__routeLoaded__ = true
-          return vtm.route.fetch(vtm)
+          return vtm.fetch(vtm)
         }
         if (vtm.route.once !== false) { // default
-          return vtm.route.fetch(vtm)
+          return vtm.fetch(vtm)
         }
         if (!vtm.state.__routeLoaded__) {
-          return vtm.route.fetch(vtm)
+          return vtm.fetch(vtm)
         }
       },
       watch: {
@@ -56,7 +57,7 @@ export default {
             const vtm = this.$vuet.getModule(path)
             if (isWatch(this.$vuet, path, to)) {
               vtm.reset()
-              vtm.route.fetch(vtm)
+              vtm.fetch(vtm)
             }
           }
         }

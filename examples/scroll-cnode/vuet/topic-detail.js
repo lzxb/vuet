@@ -21,11 +21,9 @@ export default {
       is_collect: false
     }
   },
-  route: {
-    async fetch () {
-      const route = this.vuet.app.$route
-      const { data } = await window.fetch(`https://cnodejs.org/api/v1/topic/${route.params.id}`).then(response => response.json())
-      this.state = data
-    }
+  async fetch () {
+    const route = this.vuet.app.$route
+    const { data } = await window.fetch(`https://cnodejs.org/api/v1/topic/${route.params.id}`).then(response => response.json())
+    this.state = data
   }
 }
