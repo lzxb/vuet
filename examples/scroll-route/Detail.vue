@@ -7,7 +7,7 @@
     <hr>
     <router-link class="detail-to-list-1" :to="{ name: 'list' }">detail to list 1</router-link>
     <router-link class="detail-to-list-2" :to="{ name: 'list', query: { tid: 2 } }">detail to list 2</router-link>
-    <div class="detail-view" v-vuet-scroll.self.window="{ path: 'topicDetail', name: 'detail-view' }">
+    <div class="detail-view" v-vuet-scroll.self.window="{ path: 'topic/detail', name: 'detail-view' }">
       <ul>
         <li v-for="item in 1000">{{ item }}</li>
       </ul>
@@ -19,8 +19,8 @@
 
   export default {
     mixins: [
-      mapRules({ route: 'topicDetail' }),
-      mapModules({ detail: 'topicDetail' })
+      mapRules({ route: 'topic/detail' }),
+      mapModules({ detail: 'topic/detail' })
     ],
     data () {
       return {

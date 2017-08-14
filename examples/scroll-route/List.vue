@@ -8,7 +8,7 @@
     <hr>
     <router-link class="list-to-detail-1" :to="{ name: 'detail', params: { id: 1 } }">list-to-detail-1</router-link>
     <router-link class="list-to-detail-2" :to="{ name: 'detail', params: { id: 2 } }">list-to-detail-2</router-link>
-    <div class="list-view" v-vuet-scroll.self.window="{ path: 'topicList', name: 'list-view' }">
+    <div class="list-view" v-vuet-scroll.self.window="{ path: 'topic/list', name: 'list-view' }">
       <ul>
         <li v-for="item in 1000">
             <router-link :to="{ name: 'detail', params: { id: item } }">{{ item }}</router-link>
@@ -22,8 +22,8 @@
 
   export default {
     mixins: [
-      mapRules({ route: 'topicList' }),
-      mapModules({ list: 'topicList' })
+      mapRules({ route: 'topic/list' }),
+      mapModules({ list: 'topic/list' })
     ],
     data () {
       return {
