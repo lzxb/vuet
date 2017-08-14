@@ -27,8 +27,9 @@ const vuet = new Vuet({
         }
       },
       route: {
-        watch: ['query'] // 监听路由变化，重置页面状态
+        watch: ['query'], // 监听路由变化，重置页面状态
         fetch () {
+          this.app.$route // 取得路由对象，你可以在这里发起http请求
           setInterval(() => {
             this.state.list = [...]
           }, 1000)

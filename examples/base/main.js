@@ -40,7 +40,7 @@ const App = {
     </div>
   `
 }
-console.log(vuet)
+
 export default new Vue({
   el: '#app',
   vuet,
