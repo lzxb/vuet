@@ -6,10 +6,8 @@ fixture`scroll-cnode`
 
 test('base', async t => {
   const type = os.type().toLowerCase()
-  console.log(type)
-  if (type === 'linux' || type === 'ubuntu') { // the test not in travis ignore
-    return t.pass()
-  }
+
+  if (type === 'linux' || type === 'ubuntu') return
   await Selector('.list li', { visibilityCheck: true, timeout: 60000 })()
   await ClientFunction(() => {
     window.scrollTo(0, 300)
