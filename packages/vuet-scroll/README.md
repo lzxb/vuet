@@ -5,7 +5,7 @@
 
 
 ## 它是做什么的？
-它可以将`window`和元素内部的滚动条记录在`Vuet`的模块中，将会自动注入`$scroll`对象中
+它可以将`window`和`元素内部`的滚动条记录在`Vuet`的模块中，如果没有传入绑定的对象，将会自动注入模块的`$scroll`对象中
 
 
 ## 安装
@@ -22,7 +22,9 @@ import VuetRoute from 'vuet-route'
 
 Vue.use(VuetScroll)
 
-const vuet = new Vuet({})
+const vuet = new Vuet({
+  // 选项
+})
 
 const app = new App({
   el: '#app',
