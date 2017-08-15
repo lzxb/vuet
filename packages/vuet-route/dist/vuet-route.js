@@ -115,6 +115,7 @@ var index = {
             var vtm = this.$vuet.getModule(path);
             if (isWatch(this.$vuet, path, to)) {
               vtm.reset();
+              vtm.state.__routeLoaded__ = true;
               vtm.fetch(vtm);
             }
           }
