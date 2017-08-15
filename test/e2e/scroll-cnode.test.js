@@ -5,8 +5,8 @@ fixture`scroll-cnode`
   .page`http://localhost:3000/scroll-cnode/index.html`
 
 test('base', async t => {
-  console.log(os.type())
-  if (os.type() === 'linux' || os.type() === 'ubuntu') { // the test not in travis ignore
+  const type = os.type().toLowerCase()
+  if (type === 'linux' || type === 'ubuntu') { // the test not in travis ignore
     return t.pass()
   }
   await Selector('.list li', { visibilityCheck: true, timeout: 60000 })()
