@@ -6,6 +6,7 @@ fixture`scroll-cnode`
 
 test('base', async t => {
   const type = os.type().toLowerCase()
+  console.log(type)
   if (type === 'linux' || type === 'ubuntu') { // the test not in travis ignore
     return t.pass()
   }
