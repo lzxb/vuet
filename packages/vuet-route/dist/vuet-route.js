@@ -101,11 +101,9 @@ var index = {
           vtm.state.__routeLoaded__ = true;
           return vtm.fetch(vtm);
         }
-        if (vtm.route.once !== false) {
+        if (vtm.route.once !== false || !vtm.state.__routeLoaded__) {
           // default
-          return vtm.fetch(vtm);
-        }
-        if (!vtm.state.__routeLoaded__) {
+          vtm.state.__routeLoaded__ = true;
           return vtm.fetch(vtm);
         }
       },
