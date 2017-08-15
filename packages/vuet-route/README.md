@@ -67,7 +67,7 @@ const vuet = new Vuet({
         fetch () {
           this.app.$route // 取得路由对象，你可以在这里发起http请求
           setInterval(() => {
-            this.list = [...this.list, [this.page]]
+            this.list = [...this.list, ...[this.page]]
             this.page++
           }, 1000)
         }
