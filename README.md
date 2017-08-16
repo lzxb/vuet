@@ -320,5 +320,5 @@ Vuet.rule('myRule', { // 注意：规则的注册必须在所有组件执行之�
 - [vue-cnode](https://github.com/medatc/vuet) Vue + Vuet实现的cnode社区
 
 
-## LICENSE
+## 许可证
 MIT
