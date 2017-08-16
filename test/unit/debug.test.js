@@ -54,15 +54,15 @@ test.serial('assertModule', t => {
   }
 })
 
-test.serial('assertPromise', t => {
-  debug.assertPromise()
-  const Promise = global.Promise
-  global.Promise = undefined
-  try {
-    debug.assertPromise()
-  } catch (e) {
-    t.is(e.toString(), 'Error: [vuet] Vuet requires a Promise polyfill in this browser')
-  }
-  global.Promise = Promise
-  debug.assertPromise()
-})
+// test.serial('assertPromise', t => {
+//   debug.assertPromise()
+//   const Promise = global.Promise
+//   global.Promise = undefined
+//   try {
+//     debug.assertPromise()
+//   } catch (e) {
+//     t.is(e.toString(), 'Error: [vuet] Vuet requires a Promise polyfill in this browser')
+//   }
+//   global.Promise = Promise
+//   debug.assertPromise()
+// })

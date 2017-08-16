@@ -84,12 +84,13 @@ var debug = {
     if (!_Vue$1) {
       this.error('must call Vue.use(Vuet) before creating a store instance');
     }
-  },
-  assertPromise: function assertPromise() {
-    if (typeof Promise === 'undefined') {
-      this.error('Vuet requires a Promise polyfill in this browser');
-    }
   }
+  // assertPromise () {
+  //   if (typeof Promise === 'undefined') {
+  //     this.error('Vuet requires a Promise polyfill in this browser')
+  //   }
+  // }
+
 };
 
 var _Vue = void 0;

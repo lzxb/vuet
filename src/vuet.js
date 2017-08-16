@@ -4,7 +4,7 @@ import { _Vue } from './vuet-static'
 export default class Vuet {
   constructor (opts) {
     debug.assertVue()
-    debug.assertPromise()
+    // debug.assertPromise()
 
     this.modules = {}
     this.store = {}

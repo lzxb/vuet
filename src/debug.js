@@ -19,10 +19,10 @@ export default {
     if (!_Vue) {
       this.error('must call Vue.use(Vuet) before creating a store instance')
     }
-  },
-  assertPromise () {
-    if (typeof Promise === 'undefined') {
-      this.error('Vuet requires a Promise polyfill in this browser')
-    }
   }
+  // assertPromise () {
+  //   if (typeof Promise === 'undefined') {
+  //     this.error('Vuet requires a Promise polyfill in this browser')
+  //   }
+  // }
 }
