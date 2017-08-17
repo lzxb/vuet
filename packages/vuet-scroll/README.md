@@ -1,4 +1,6 @@
 ## vuet-scroll
+[![Coverage Status](https://coveralls.io/repos/github/medatc/vuet/badge.svg?branch=dev)](https://coveralls.io/github/medatc/vuet?branch=dev)
+[![Build Status](https://travis-ci.org/medatc/vuet.svg?branch=dev)](https://travis-ci.org/medatc/vuet)
 [![npm](https://img.shields.io/npm/v/vuet-scroll.svg)](https://www.npmjs.com/package/vuet-scroll) 
 [![npm](https://img.shields.io/npm/dm/vuet-scroll.svg)](https://www.npmjs.com/package/vuet-scroll)
 [![npm](https://img.shields.io/npm/dt/vuet-scroll.svg)](https://www.npmjs.com/package/vuet-scroll)
