@@ -323,7 +323,7 @@ Vuet.rule('myRule', { // 注意：规则的注册必须在所有组件执行之�
 
 
 ## 第三方项目
-- [vue-cnode](https://github.com/medatc/vuet) Vue + Vuet实现的cnode社区
+- [vue-cnode](https://github.com/lzxb/vue-cnode) Vue + Vuet实现的cnode社区
 
 
 ## 许可证
