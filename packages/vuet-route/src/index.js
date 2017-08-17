@@ -10,8 +10,8 @@ function isWatch (vuet, path, route) {
     watch = vtm.route.watch
   }
   watch = Array.isArray(watch) ? watch : [watch]
-  const oldWatch = vuet[NAME][path]
-  vuet[NAME][path] = []
+  const oldWatch = vuet[NAME][path] // old
+  vuet[NAME][path] = [] // new
   watch.forEach(k => {
     let data = route
     k.split('.').forEach(chlidKey => {
@@ -36,7 +36,16 @@ export default {
     return {
       beforeCreate () {
         debug.assertModule(this.$vuet, path)
+        if (!this.$route) {
+          debug.error(`The 'vue-router' module is not installed`)
+        }
         const vtm = this.$vuet.getModule(path)
+        if (!util.isObject(vtm.state)) {
+          debug.error(`'${path}' module state must be the object type`)
+        }
+        if (typeof vtm.fetch !== 'function') {
+          debug.error(`'${path}' module 'fetch' must be the function type`)
+        }
         if (isWatch(this.$vuet, path, this.$route)) {
           vtm.reset()
           vtm.state.__routeLoaded__ = true
