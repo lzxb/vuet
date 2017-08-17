@@ -16,7 +16,8 @@
   },
   "files": [
     "dist/",
-    "src/"
+    "src/",
+    "images"
   ],
   "repository": {
     "type": "git",
