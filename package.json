@@ -1,6 +1,6 @@
 {
   "name": "vuet",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.4",
   "description": "Vue state management plugin",
   "main": "dist/vuet.js",
   "scripts": {

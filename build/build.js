@@ -6,6 +6,8 @@ const babel = require('rollup-plugin-babel')
 const packages = require('../package.json')
 
 const build = async (opts) => {
+  let packagesName = opts.destName.split('/')
+  packagesName = packagesName[packagesName.length - 1]
   const plugins = [
     babel({
       babelrc: false,
@@ -16,6 +18,7 @@ const build = async (opts) => {
     }),
     replace({
       '__version__': packages.version,
+      '__name__': packagesName,
       'process.env.NODE_ENV': JSON.stringify(opts.env)
     })
   ]

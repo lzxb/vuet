@@ -51,7 +51,7 @@ export default {
           vtm.state.__routeLoaded__ = true
           return vtm.fetch(vtm)
         }
-        if (vtm.route.once !== false || !vtm.state.__routeLoaded__) { // default
+        if (vtm.route.once !== true || !vtm.state.__routeLoaded__) { // default
           vtm.state.__routeLoaded__ = true
           return vtm.fetch(vtm)
         }

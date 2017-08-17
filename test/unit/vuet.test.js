@@ -166,7 +166,7 @@ function baseExample (t, pathJoin = '/') {
   } catch (e) {
     errMsg = e.toString()
   }
-  t.is(errMsg, 'Error: [vuet] The\'test\'module is not allowed to assign')
+  t.is(errMsg, 'Error: [__name__] The\'test\'module is not allowed to assign')
 }
 
 test('base', t => {
@@ -392,7 +392,7 @@ test('already exists on the object', t => {
       }
     }
   })
-  t.is(warnMsg, '[vuet] \'test\' the \'data\' already exists on the object')
+  t.is(warnMsg, '[__name__] \'test\' the \'data\' already exists on the object')
   console.warn = warn
 
   t.true(typeof vuet.getModule('test').data === 'function')
@@ -427,5 +427,5 @@ test('The rule does not exist', t => {
   } catch (e) {
     errMsg = e.toString()
   }
-  t.is(errMsg, 'Error: [vuet] The\'notRule\'rule does not exist. Please make sure that it executes \'Vuet.rule(\'notRule\', opts)\' before all components')
+  t.is(errMsg, 'Error: [__name__] The\'notRule\'rule does not exist. Please make sure that it executes \'Vuet.rule(\'notRule\', opts)\' before all components')
 })

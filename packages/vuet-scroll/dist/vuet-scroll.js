@@ -65,13 +65,15 @@ var util = {
 
 var _Vue$1 = void 0;
 
+var NAME = 'vuet-scroll';
+
 var debug = {
   error: function error(msg) {
-    throw new Error('[vuet] ' + msg);
+    throw new Error('[' + NAME + '] ' + msg);
   },
   warn: function warn(msg) {
     {
-      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
+      typeof console !== 'undefined' && console.warn('[' + NAME + '] ' + msg);
     }
   },
   assertModule: function assertModule(vuet, name) {

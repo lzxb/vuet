@@ -1,12 +1,14 @@
 import { _Vue } from './vuet-static'
 
+const NAME = '__name__'
+
 export default {
   error (msg) {
-    throw new Error(`[vuet] ${msg}`)
+    throw new Error(`[${NAME}] ${msg}`)
   },
   warn (msg) {
     if (process.env.NODE_ENV !== 'production') {
-      typeof console !== 'undefined' && console.warn(`[vuet] ${msg}`)
+      typeof console !== 'undefined' && console.warn(`[${NAME}] ${msg}`)
     }
   },
   assertModule (vuet, name) {

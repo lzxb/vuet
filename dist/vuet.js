@@ -197,13 +197,15 @@ var VuetStatic = function (Vuet) {
   });
 };
 
+var NAME = 'vuet';
+
 var debug = {
   error: function error(msg) {
-    throw new Error('[vuet] ' + msg);
+    throw new Error('[' + NAME + '] ' + msg);
   },
   warn: function warn(msg) {
     {
-      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
+      typeof console !== 'undefined' && console.warn('[' + NAME + '] ' + msg);
     }
   },
   assertModule: function assertModule(vuet, name) {
@@ -254,11 +256,11 @@ var need = {
   }
 };
 
-var NAME = '__once__';
+var NAME$1 = '__once__';
 
 var once = {
   init: function init(vuet) {
-    vuet[NAME] = [];
+    vuet[NAME$1] = [];
   },
   rule: function rule(_ref) {
     var path = _ref.path;
@@ -267,14 +269,14 @@ var once = {
       beforeCreate: function beforeCreate() {
         debug.assertModule(this.$vuet, path);
         var vuet = this.$vuet;
-        if (vuet[NAME].indexOf(path) > -1) return;
+        if (vuet[NAME$1].indexOf(path) > -1) return;
         var back = this.$vuet.getModule(path).fetch();
         if (util.isPromise(back)) {
           return back.then(function (res) {
-            vuet[NAME].push(path);
+            vuet[NAME$1].push(path);
           });
         }
-        vuet[NAME].push(path);
+        vuet[NAME$1].push(path);
       }
     };
   }

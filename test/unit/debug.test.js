@@ -7,7 +7,7 @@ test.serial('error', t => {
   try {
     debug.error('ok')
   } catch (e) {
-    t.is(e.toString(), 'Error: [vuet] ok')
+    t.is(e.toString(), 'Error: [__name__] ok')
   }
 })
 
@@ -32,7 +32,7 @@ test.serial('assertVue', t => {
   try {
     debug.assertVue()
   } catch (e) {
-    t.is(e.toString(), 'Error: [vuet] must call Vue.use(Vuet) before creating a store instance')
+    t.is(e.toString(), 'Error: [__name__] must call Vue.use(Vuet) before creating a store instance')
   }
   Vue.use(Vuet)
   debug.assertVue()
@@ -50,7 +50,7 @@ test.serial('assertModule', t => {
   try {
     debug.assertModule(vuet, 'ok')
   } catch (e) {
-    t.is(e.toString(), 'Error: [vuet] The \'ok\' module does not exist')
+    t.is(e.toString(), 'Error: [__name__] The \'ok\' module does not exist')
   }
 })
 
@@ -61,7 +61,7 @@ test.serial('assertModule', t => {
 //   try {
 //     debug.assertPromise()
 //   } catch (e) {
-//     t.is(e.toString(), 'Error: [vuet] Vuet requires a Promise polyfill in this browser')
+//     t.is(e.toString(), 'Error: [__name__] Vuet requires a Promise polyfill in this browser')
 //   }
 //   global.Promise = Promise
 //   debug.assertPromise()

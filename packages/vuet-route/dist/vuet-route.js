@@ -31,13 +31,15 @@ var util = {
 
 var _Vue = void 0;
 
+var NAME$1 = 'vuet-route';
+
 var debug = {
   error: function error(msg) {
-    throw new Error('[vuet] ' + msg);
+    throw new Error('[' + NAME$1 + '] ' + msg);
   },
   warn: function warn(msg) {
     {
-      typeof console !== 'undefined' && console.warn('[vuet] ' + msg);
+      typeof console !== 'undefined' && console.warn('[' + NAME$1 + '] ' + msg);
     }
   },
   assertModule: function assertModule(vuet, name) {
@@ -68,8 +70,8 @@ function isWatch(vuet, path, route) {
     watch = vtm.route.watch;
   }
   watch = Array.isArray(watch) ? watch : [watch];
-  var oldWatch = vuet[NAME][path];
-  vuet[NAME][path] = [];
+  var oldWatch = vuet[NAME][path]; // old
+  vuet[NAME][path] = []; // new
   watch.forEach(function (k) {
     var data = route;
     k.split('.').forEach(function (chlidKey) {
@@ -96,13 +98,22 @@ var index = {
     return {
       beforeCreate: function beforeCreate() {
         debug.assertModule(this.$vuet, path);
+        if (!this.$route) {
+          debug.error('The \'vue-router\' module is not installed');
+        }
         var vtm = this.$vuet.getModule(path);
+        if (!util.isObject(vtm.state)) {
+          debug.error('\'' + path + '\' module state must be the object type');
+        }
+        if (typeof vtm.fetch !== 'function') {
+          debug.error('\'' + path + '\' module \'fetch\' must be the function type');
+        }
         if (isWatch(this.$vuet, path, this.$route)) {
           vtm.reset();
           vtm.state.__routeLoaded__ = true;
           return vtm.fetch(vtm);
         }
-        if (vtm.route.once !== false || !vtm.state.__routeLoaded__) {
+        if (vtm.route.once !== true || !vtm.state.__routeLoaded__) {
           // default
           vtm.state.__routeLoaded__ = true;
           return vtm.fetch(vtm);
