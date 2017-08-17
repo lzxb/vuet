@@ -5,6 +5,12 @@
 [![npm](https://img.shields.io/npm/dm/vuet.svg)](https://www.npmjs.com/package/vuet)
 [![npm](https://img.shields.io/npm/dt/vuet.svg)](https://www.npmjs.com/package/vuet)
 
+
+<p align="center">
+  <img width="700px" src="./images/vuet.png">
+</p>
+
+
 ## 索引
 - [Vuet.js是什么？](#vuetjs是什么)  
 - [0.x版本和1.x版本的区别](#0x版本和1x版本的区别) 
