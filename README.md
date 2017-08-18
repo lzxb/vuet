@@ -33,6 +33,7 @@
   - [自定义规则](#自定义规则)  
 - [第三方插件](#第三方插件)  
 - [第三方项目](#第三方项目)
+- [Vuet.js开发交流群](//shang.qq.com/wpa/qunwpa?idkey=cc9b70a903a9df6c86380a6ec03f1488f6386200a2132d7d3a9fab0da37396eb)
 
 
 ## Vuet.js是什么？
