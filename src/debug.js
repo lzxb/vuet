@@ -11,20 +11,21 @@ export default {
       typeof console !== 'undefined' && console.warn(`[${NAME}] ${msg}`)
     }
   },
-  assertModule (vuet, name) {
-    if (name in vuet.modules) {
+  assertModule (vuet, path) {
+    if (path in vuet.modules) {
       return
     }
-    this.error(`The '${name}' module does not exist`)
+    this.error(`The '${path}' module does not exist`)
   },
   assertVue () {
     if (!_Vue) {
       this.error('must call Vue.use(Vuet) before creating a store instance')
     }
+  },
+  assertFetch (vuet, path) {
+    this.assertModule(vuet, path)
+    if (typeof vuet.getModule(path).fetch !== 'function') {
+      this.error(`The '${path}' module 'fetch' method does not exist`)
+    }
   }
-  // assertPromise () {
-  //   if (typeof Promise === 'undefined') {
-  //     this.error('Vuet requires a Promise polyfill in this browser')
-  //   }
-  // }
 }

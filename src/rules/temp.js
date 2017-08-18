@@ -4,7 +4,7 @@ export default {
   rule ({ path }) {
     return {
       beforeCreate () {
-        debug.assertModule(this.$vuet, path)
+        debug.assertFetch(this.$vuet, path)
         this.$vuet.getModule(path).fetch()
       },
       destroyed () {

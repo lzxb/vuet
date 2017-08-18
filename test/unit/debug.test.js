@@ -54,15 +54,30 @@ test.serial('assertModule', t => {
   }
 })
 
-// test.serial('assertPromise', t => {
-//   debug.assertPromise()
-//   const Promise = global.Promise
-//   global.Promise = undefined
-//   try {
-//     debug.assertPromise()
-//   } catch (e) {
-//     t.is(e.toString(), 'Error: [__name__] Vuet requires a Promise polyfill in this browser')
-//   }
-//   global.Promise = Promise
-//   debug.assertPromise()
-// })
+test('assertFetch', t => {
+  const vuet = new Vuet({
+    modules: {
+      test: {
+        data () {
+          return {}
+        }
+      }
+    }
+  })
+  let errMsg = ''
+  let vm = null
+  try {
+    vm = new Vue({
+      mixins: [
+        Vuet.mapRules({
+          need: 'test'
+        })
+      ],
+      vuet
+    })
+  } catch (e) {
+    errMsg = e.toString()
+  }
+  t.is(vm, null)
+  t.is(errMsg, 'Error: [__name__] The \'test\' module \'fetch\' method does not exist')
+})

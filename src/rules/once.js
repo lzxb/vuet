@@ -10,7 +10,7 @@ export default {
   rule ({ path }) {
     return {
       beforeCreate () {
-        debug.assertModule(this.$vuet, path)
+        debug.assertFetch(this.$vuet, path)
         const vuet = this.$vuet
         if (vuet[NAME].indexOf(path) > -1) return
         const back = this.$vuet.getModule(path).fetch()

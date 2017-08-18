@@ -76,23 +76,23 @@ var debug = {
       typeof console !== 'undefined' && console.warn('[' + NAME + '] ' + msg);
     }
   },
-  assertModule: function assertModule(vuet, name) {
-    if (name in vuet.modules) {
+  assertModule: function assertModule(vuet, path) {
+    if (path in vuet.modules) {
       return;
     }
-    this.error('The \'' + name + '\' module does not exist');
+    this.error('The \'' + path + '\' module does not exist');
   },
   assertVue: function assertVue() {
     if (!_Vue$1) {
       this.error('must call Vue.use(Vuet) before creating a store instance');
     }
+  },
+  assertFetch: function assertFetch(vuet, path) {
+    this.assertModule(vuet, path);
+    if (typeof vuet.getModule(path).fetch !== 'function') {
+      this.error('The \'' + path + '\' module \'fetch\' method does not exist');
+    }
   }
-  // assertPromise () {
-  //   if (typeof Promise === 'undefined') {
-  //     this.error('Vuet requires a Promise polyfill in this browser')
-  //   }
-  // }
-
 };
 
 var _Vue = void 0;
