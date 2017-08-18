@@ -222,7 +222,7 @@ var debug = {
   assertFetch: function assertFetch(vuet, path) {
     this.assertModule(vuet, path);
     if (typeof vuet.getModule(path).fetch !== 'function') {
-      this.error('The \'' + path + '\' module \'fetch\' method does not exist');
+      this.error('\'' + path + '\' module \'fetch\' must be the function type');
     }
   }
 };

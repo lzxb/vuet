@@ -56,7 +56,7 @@ var debug = {
   assertFetch: function assertFetch(vuet, path) {
     this.assertModule(vuet, path);
     if (typeof vuet.getModule(path).fetch !== 'function') {
-      this.error('The \'' + path + '\' module \'fetch\' method does not exist');
+      this.error('\'' + path + '\' module \'fetch\' must be the function type');
     }
   }
 };
@@ -97,16 +97,13 @@ var index = {
 
     return {
       beforeCreate: function beforeCreate() {
-        debug.assertModule(this.$vuet, path);
+        debug.assertFetch(this.$vuet, path);
         if (!this.$route) {
           debug.error('The \'vue-router\' module is not installed');
         }
         var vtm = this.$vuet.getModule(path);
         if (!util.isObject(vtm.state)) {
           debug.error('\'' + path + '\' module state must be the object type');
-        }
-        if (typeof vtm.fetch !== 'function') {
-          debug.error('\'' + path + '\' module \'fetch\' must be the function type');
         }
         if (isWatch(this.$vuet, path, this.$route)) {
           vtm.reset();

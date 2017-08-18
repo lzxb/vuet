@@ -35,16 +35,13 @@ export default {
   rule ({ path }) {
     return {
       beforeCreate () {
-        debug.assertModule(this.$vuet, path)
+        debug.assertFetch(this.$vuet, path)
         if (!this.$route) {
           debug.error(`The 'vue-router' module is not installed`)
         }
         const vtm = this.$vuet.getModule(path)
         if (!util.isObject(vtm.state)) {
           debug.error(`'${path}' module state must be the object type`)
-        }
-        if (typeof vtm.fetch !== 'function') {
-          debug.error(`'${path}' module 'fetch' must be the function type`)
         }
         if (isWatch(this.$vuet, path, this.$route)) {
           vtm.reset()

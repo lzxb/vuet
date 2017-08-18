@@ -79,5 +79,5 @@ test('assertFetch', t => {
     errMsg = e.toString()
   }
   t.is(vm, null)
-  t.is(errMsg, 'Error: [__name__] The \'test\' module \'fetch\' method does not exist')
+  t.is(errMsg, 'Error: [__name__] \'test\' module \'fetch\' must be the function type')
 })

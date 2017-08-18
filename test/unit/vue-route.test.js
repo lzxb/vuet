@@ -16,7 +16,8 @@ test.serial('all error msg', t => {
   vuet.addModules('test', {
     data () {
       return 0
-    }
+    },
+    fetch () {}
   })
   let errMsg = ''
   let vm = null
@@ -41,7 +42,8 @@ test.serial('all error msg', t => {
         query: {},
         params: {}
       }
-    }
+    },
+    fetch () {}
   }).$data
   try {
     vm = new Vue({
