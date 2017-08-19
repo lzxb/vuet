@@ -463,7 +463,7 @@ test('add module public function', t => {
     this.count++
   }
 
-  const vuet = new  Vuet({
+  const vuet = new Vuet({
     modules: {
       test: {
         data () {
@@ -479,5 +479,5 @@ test('add module public function', t => {
   vtm.plus()
   t.is(vtm.count, 1)
   vtm.reset()
-  t.is(vtm.count, 0)  
+  t.is(vtm.count, 0)
 })
