@@ -35,7 +35,7 @@ export default class Vuet {
     }
     if (typeof modules.data !== 'function') return this
     const vuet = this
-    const opts = { ...modules }
+    const opts = { ...Vuet.options.module, ...modules }
     _Vue.set(vuet.store, path, opts.data())
     vuet.modules[path] = opts
     Vuet.callRuleHook('addModule', this, path)
@@ -51,11 +51,6 @@ export default class Vuet {
       },
       set (val) {
         vuet.store[path] = val
-      }
-    })
-    Object.assign(opts, {
-      reset () {
-        this.state = this.data()
       }
     })
     Object.keys(opts).forEach(k => {

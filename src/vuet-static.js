@@ -7,7 +7,12 @@ export default function (Vuet) {
   Object.assign(Vuet, {
     installed: false,
     options: {
-      rules: {}
+      rules: {},
+      module: {
+        reset () {
+          this.state = this.data()
+        }
+      }
     },
     install (Vue) {
       if (this.installed) return this

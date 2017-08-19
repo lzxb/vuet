@@ -102,7 +102,12 @@ var VuetStatic = function (Vuet) {
   Object.assign(Vuet, {
     installed: false,
     options: {
-      rules: {}
+      rules: {},
+      module: {
+        reset: function reset() {
+          this.state = this.data();
+        }
+      }
     },
     install: function install(Vue) {
       if (this.installed) return this;
@@ -346,7 +351,7 @@ var Vuet$1 = function () {
       }
       if (typeof modules.data !== 'function') return this;
       var vuet = this;
-      var opts = _extends({}, modules);
+      var opts = _extends({}, Vuet.options.module, modules);
       _Vue.set(vuet.store, path, opts.data());
       vuet.modules[path] = opts;
       Vuet.callRuleHook('addModule', this, path);
@@ -366,11 +371,6 @@ var Vuet$1 = function () {
         },
         set: function set$$1(val) {
           vuet.store[path] = val;
-        }
-      });
-      Object.assign(opts, {
-        reset: function reset() {
-          this.state = this.data();
         }
       });
       Object.keys(opts).forEach(function (k) {

@@ -182,7 +182,7 @@ test('set path join', t => {
 })
 
 test('static attrs', t => {
-  t.deepEqual(Object.keys(Vuet.options), ['rules'])
+  t.deepEqual(Object.keys(Vuet.options), ['rules', 'module'])
   t.deepEqual(Object.keys(Vuet.options.rules), ['need', 'once', 'temp', 'reset'])
   Vuet
     .rule('myRule1', {
