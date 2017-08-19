@@ -160,6 +160,7 @@ export default new Vue({
 ### 静态属性
 `Vuet.options.rules`
   - 描述：存储了`Vuet`内置的规则，以及`Vuet.rule`添加的规则
+
 `Vuet.options.module`
   - 描述：存储了`Vuet`模块公共的方法
 
