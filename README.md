@@ -29,6 +29,7 @@
   - [使用计算属性连接模块](#使用计算属性连接模块)  
   - [在模块中获取路由对象](#在模块中获取路由对象)  
   - [重置模块状态](#重置模块状态)  
+  - [添加模块公共方法或属性](#添加模块公共方法或属性)  
 - [规则](#规则)
   - [什么是规则？](#什么是规则)  
   - [内置的规则](#内置的规则)  
@@ -260,6 +261,29 @@ vuet.addModules('test', {
     setTimeout(() => {
       this.reset() // 这是vuet内置的一个reset的方法 等同于 this.state = this.data()
     }, 2000)
+  }
+})
+```
+
+
+### 添加模块公共方法或属性
+有时候，在Vuet模块中，我们期望能添加一些公共的方法或属性，以便在模块中能够使用`this.xxxx`的形式访问，来减少很多代码量
+```javascript
+import Vuet from 'vuet'
+Vuet.options.module.isFunction = (any) => (typeof any === 'function')
+const vuet = new Vuet({
+  modules: {
+    test: {
+      data () {
+        return {
+          count: 0
+        }
+      },
+      plus () {
+        // 这样就可以访问到我们公共的方法了
+        this.isFunction()
+      }
+    }
   }
 })
 ```

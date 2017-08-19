@@ -11,6 +11,7 @@ export default function (Vuet) {
       module: {
         reset () {
           this.state = this.data()
+          return this
         }
       }
     },

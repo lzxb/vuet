@@ -106,6 +106,7 @@ var VuetStatic = function (Vuet) {
       module: {
         reset: function reset() {
           this.state = this.data();
+          return this;
         }
       }
     },
