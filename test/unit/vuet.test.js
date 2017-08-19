@@ -183,7 +183,7 @@ test('set path join', t => {
 
 test('static attrs', t => {
   t.deepEqual(Object.keys(Vuet.options), ['rules'])
-  t.deepEqual(Object.keys(Vuet.options.rules), ['temp', 'need', 'once'])
+  t.deepEqual(Object.keys(Vuet.options.rules), ['need', 'once', 'temp', 'reset'])
   Vuet
     .rule('myRule1', {
       rule ({ path }) {
@@ -195,7 +195,7 @@ test('static attrs', t => {
         return {}
       }
     })
-  t.deepEqual(Object.keys(Vuet.options.rules), ['temp', 'need', 'once', 'myRule1', 'myRule2'])
+  t.deepEqual(Object.keys(Vuet.options.rules), ['need', 'once', 'temp', 'reset', 'myRule1', 'myRule2'])
 })
 
 test('mapModules', t => {
@@ -276,6 +276,7 @@ test.cb('rules', t => {
   vuet.addModules('need', opts)
   vuet.addModules('once', opts)
   vuet.addModules('temp', opts)
+  vuet.addModules('reset', opts)
   vuet.addModules('oncePromise', {
     data () {
       return 0
@@ -290,14 +291,18 @@ test.cb('rules', t => {
     }
   })
   let vm = new Vue({
+    vuet,
     mixins: [
       mapRules({
         need: 'need',
         once: ['once', 'oncePromise'],
-        temp: 'temp'
+        temp: 'temp',
+        reset: 'reset'
       })
     ],
-    vuet
+    beforeCreate () {
+      this.$vuet.getModule('reset').fetch()
+    }
   })
 
   t.is(vuet.getState('need'), 1)
@@ -308,6 +313,8 @@ test.cb('rules', t => {
   t.is(vm.$vuet.getState('oncePromise'), 0)
   t.is(vuet.getState('temp'), 1)
   t.is(vm.$vuet.getState('temp'), 1)
+  t.is(vuet.getState('reset'), 1)
+  t.is(vm.$vuet.getState('reset'), 1)
 
   vm.$destroy()
   t.is(vuet.getState('need'), 1)
@@ -318,17 +325,22 @@ test.cb('rules', t => {
   t.is(vm.$vuet.getState('oncePromise'), 0)
   t.is(vuet.getState('temp'), 0)
   t.is(vm.$vuet.getState('temp'), 0)
+  t.is(vuet.getState('reset'), 0)
+  t.is(vm.$vuet.getState('reset'), 0)
 
   vm = new Vue({
     mixins: [
       mapRules({
         need: 'need',
         once: 'once',
-        temp: 'temp'
+        temp: 'temp',
+        reset: 'reset'
       })
     ],
     vuet
   })
+
+  vm.$vuet.getModule('reset').fetch()
 
   t.is(vuet.getState('need'), 2)
   t.is(vm.$vuet.getState('need'), 2)
@@ -338,6 +350,8 @@ test.cb('rules', t => {
   t.is(vm.$vuet.getState('oncePromise'), 0)
   t.is(vuet.getState('temp'), 1)
   t.is(vm.$vuet.getState('temp'), 1)
+  t.is(vuet.getState('reset'), 1)
+  t.is(vm.$vuet.getState('reset'), 1)
 
   setTimeout(() => {
     t.is(vuet.getState('need'), 2)
@@ -348,6 +362,20 @@ test.cb('rules', t => {
     t.is(vm.$vuet.getState('oncePromise'), 1)
     t.is(vuet.getState('temp'), 1)
     t.is(vm.$vuet.getState('temp'), 1)
+    t.is(vuet.getState('reset'), 1)
+    t.is(vm.$vuet.getState('reset'), 1)
+
+    vm.$destroy()
+    t.is(vuet.getState('need'), 2)
+    t.is(vm.$vuet.getState('need'), 2)
+    t.is(vuet.getState('once'), 1)
+    t.is(vm.$vuet.getState('once'), 1)
+    t.is(vuet.getState('oncePromise'), 1)
+    t.is(vm.$vuet.getState('oncePromise'), 1)
+    t.is(vuet.getState('temp'), 0)
+    t.is(vm.$vuet.getState('temp'), 0)
+    t.is(vuet.getState('reset'), 0)
+    t.is(vm.$vuet.getState('reset'), 0)
     t.end()
   }, 100)
 })

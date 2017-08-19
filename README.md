@@ -274,6 +274,8 @@ vuet.addModules('test', {
 
 `temp`
   - 描述：组件初始化时，在`beforeCreate`钩子中调用一次`fetch`方法，组件销毁时，在`destroyed`钩子中重置模块状态
+`reset`
+  - 描述：组件销毁时，在`destroyed`钩子中重置模块状态，这个能有效的减少对内存的占用
 
 
 ### 自定义规则

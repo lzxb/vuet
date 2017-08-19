@@ -227,22 +227,6 @@ var debug = {
   }
 };
 
-var temp = {
-  rule: function rule(_ref) {
-    var path = _ref.path;
-
-    return {
-      beforeCreate: function beforeCreate() {
-        debug.assertFetch(this.$vuet, path);
-        this.$vuet.getModule(path).fetch();
-      },
-      destroyed: function destroyed() {
-        this.$vuet.getModule(path).reset();
-      }
-    };
-  }
-};
-
 var need = {
   rule: function rule(_ref) {
     var path = _ref.path;
@@ -282,8 +266,39 @@ var once = {
   }
 };
 
+var reset = {
+  rule: function rule(_ref) {
+    var path = _ref.path;
+
+    return {
+      beforeCreate: function beforeCreate() {
+        debug.assertFetch(this.$vuet, path);
+      },
+      destroyed: function destroyed() {
+        this.$vuet.getModule(path).reset();
+      }
+    };
+  }
+};
+
+var temp = {
+  rule: function rule(_ref) {
+    var path = _ref.path;
+
+    return {
+      beforeCreate: function beforeCreate() {
+        debug.assertFetch(this.$vuet, path);
+        this.$vuet.getModule(path).fetch();
+      },
+      destroyed: function destroyed() {
+        this.$vuet.getModule(path).reset();
+      }
+    };
+  }
+};
+
 function install(Vuet) {
-  Vuet.rule('temp', temp).rule('need', need).rule('once', once);
+  Vuet.rule('need', need).rule('once', once).rule('temp', temp).rule('reset', reset);
 }
 
 var Vuet$1 = function () {

@@ -1,10 +1,12 @@
-import temp from './temp'
 import need from './need'
 import once from './once'
+import reset from './reset'
+import temp from './temp'
 
 export default function install (Vuet) {
   Vuet
-    .rule('temp', temp)
     .rule('need', need)
     .rule('once', once)
+    .rule('temp', temp)
+    .rule('reset', reset)
 }
