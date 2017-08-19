@@ -5,7 +5,7 @@ export default class Vuet {
   constructor (opts) {
     debug.assertVue()
     // debug.assertPromise()
-
+    this.version = '__version__'
     this.modules = {}
     this.store = {}
     this.options = {

@@ -125,6 +125,9 @@ export default new Vue({
   - 默认值：`{}`
 
 ### 实例的属性
+`vuet.version`
+  - 描述：当前的版本号
+
 `vuet.app`
   - 描述：`new Vuet({ vuet })`时的`Vue`实例
   - 默认值：`null` 

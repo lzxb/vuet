@@ -315,7 +315,7 @@ var Vuet$1 = function () {
 
     debug.assertVue();
     // debug.assertPromise()
-
+    this.version = '1.0.1';
     this.modules = {};
     this.store = {};
     this.options = {
