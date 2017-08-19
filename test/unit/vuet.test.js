@@ -457,3 +457,27 @@ test('The rule does not exist', t => {
   }
   t.is(errMsg, 'Error: [__name__] The\'notRule\'rule does not exist. Please make sure that it executes \'Vuet.rule(\'notRule\', opts)\' before all components')
 })
+
+test('add module public function', t => {
+  Vuet.options.module.plus = function () {
+    this.count++
+  }
+
+  const vuet = new  Vuet({
+    modules: {
+      test: {
+        data () {
+          return {
+            count: 0
+          }
+        }
+      }
+    }
+  })
+  const vtm = vuet.getModule('test')
+  t.is(vtm.count, 0)
+  vtm.plus()
+  t.is(vtm.count, 1)
+  vtm.reset()
+  t.is(vtm.count, 0)  
+})
