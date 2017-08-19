@@ -270,7 +270,9 @@ vuet.addModules('test', {
 有时候，在Vuet模块中，我们期望能添加一些公共的方法或属性，以便在模块中能够使用`this.xxxx`的形式访问，来减少很多代码量
 ```javascript
 import Vuet from 'vuet'
+
 Vuet.options.module.isFunction = (any) => (typeof any === 'function')
+
 const vuet = new Vuet({
   modules: {
     test: {
