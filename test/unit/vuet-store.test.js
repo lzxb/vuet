@@ -13,7 +13,6 @@ global.localStorage = {
     return this.store[key] || null
   },
   setItem (key, data) {
-    console.log(key, data, '======')
     this.store[key] = data
   }
 }
@@ -159,6 +158,13 @@ test.serial('two', async t => {
   vtm.fetch()
   t.is(vtm.count, 1000)
   t.is(vm.test.count, 1000)
+  await delay(20)
+  t.is(localStorage.getItem('__vuet_store_test__'), '{"count":1000}')
+
+  vm.$destroy()
+  vtm.reset()
+  t.is(vtm.count, 0)
+  t.is(vm.test.count, 0)
   await delay(20)
   t.is(localStorage.getItem('__vuet_store_test__'), '{"count":1000}')
 })
