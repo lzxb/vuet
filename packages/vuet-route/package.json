@@ -1,6 +1,6 @@
 {
   "name": "vuet-route",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "vuet route",
   "main": "dist/vuet-route.js",  
   "scripts": {

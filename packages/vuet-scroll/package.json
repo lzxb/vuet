@@ -1,6 +1,6 @@
 {
   "name": "vuet-scroll",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "vuet scroll",
   "main": "dist/vuet-scroll.js",
   "scripts": {
