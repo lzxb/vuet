@@ -13,7 +13,15 @@ const util = {
     return opt
   },
   isPromise (obj) {
-    return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function'
+    // return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function'
+    if (!!obj) {
+      if (typeof obj === 'object' || typeof obj === 'function') {
+        if (typeof obj.then === 'function') {
+          return true
+        }
+      }
+    }
+    return false
   }
 }
 
