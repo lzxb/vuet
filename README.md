@@ -310,6 +310,7 @@ const vuet = new Vuet({
 
 `temp`
   - 描述：组件初始化时，在`beforeCreate`钩子中调用一次`fetch`方法，组件销毁时，在`destroyed`钩子中重置模块状态
+
 `reset`
   - 描述：组件销毁时，在`destroyed`钩子中重置模块状态，这个能有效的减少对内存的占用
 
@@ -326,7 +327,7 @@ Vuet.rule('myRule', { // 注意：规则的注册必须在所有组件执行之�
     // new Vuet() 实例化后，传入实例，你可以在这里添加一些模块、方法之类的。每new一个Vuet实例，都会执行一次钩子
   },
   addModule (vuet, path) {
-    // new Vuet().addModules 每注册一个模块，都会执行一次钩子
+    // new Vuet().addModules 每注册一个模块，都会执行一次钩子，此时模块已经创建完成
   }
   rule ({ path }) {
     // 传入当前模块的路径，返回一个mixin来注入到组件中。执行Vuet的mapRules方法时会调用

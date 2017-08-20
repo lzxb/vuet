@@ -278,7 +278,7 @@ var reset = {
 
     return {
       beforeCreate: function beforeCreate() {
-        debug.assertFetch(this.$vuet, path);
+        debug.assertModule(this.$vuet, path);
       },
       destroyed: function destroyed() {
         this.$vuet.getModule(path).reset();
@@ -355,7 +355,6 @@ var Vuet$1 = function () {
       var opts = _extends({}, Vuet.options.module, modules);
       _Vue.set(vuet.store, path, opts.data());
       vuet.modules[path] = opts;
-      Vuet.callRuleHook('addModule', this, path);
       Object.defineProperty(opts, 'vuet', {
         get: function get$$1() {
           return vuet;
@@ -397,6 +396,7 @@ var Vuet$1 = function () {
           });
         });
       }
+      Vuet.callRuleHook('addModule', this, path);
       return this;
     }
   }, {

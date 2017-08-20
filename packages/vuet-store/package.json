@@ -1,0 +1,15 @@
+{
+  "name": "vuet-store",
+  "version": "0.0.1",
+  "description": "vuet route",
+  "main": "dist/vuet-store.js",  
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "medatc",  
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "src/"
+  ]
+}

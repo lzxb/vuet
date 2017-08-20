@@ -1,5 +1,14 @@
 {
   "root": true,
-  "plugins": ["testcafe", "html"],
-  "extends": ["plugin:testcafe/recommended", "standard"]
+  "plugins": [
+    "testcafe",
+    "html"
+  ],
+  "extends": [
+    "plugin:testcafe/recommended",
+    "standard"
+  ],
+  "env": {
+    "browser": true
+  }
 }

@@ -77,6 +77,18 @@ const builds = [
     destName: '../packages/vuet-route/dist/vuet-route',
     entry: 'packages/vuet-route/src/index.js',
     env: 'production'
+  },
+  {
+    moduleName: 'VuetStore',
+    destName: '../packages/vuet-store/dist/vuet-store',
+    entry: 'packages/vuet-store/src/index.js',
+    env: 'development'
+  },
+  {
+    moduleName: 'VuetStore',
+    destName: '../packages/vuet-store/dist/vuet-store',
+    entry: 'packages/vuet-store/src/index.js',
+    env: 'production'
   }
 ]
 

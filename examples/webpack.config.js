@@ -28,7 +28,8 @@ module.exports = {
       'vue-router': 'vue-router/dist/vue-router.common.js',
       'vuet': path.join(__dirname, '..', 'src/'),
       'vuet-scroll': path.join(__dirname, '..', 'packages/vuet-scroll/src/index'),
-      'vuet-route': path.join(__dirname, '..', 'packages/vuet-route/src/index')
+      'vuet-route': path.join(__dirname, '..', 'packages/vuet-route/src/index'),
+      'vuet-store': path.join(__dirname, '..', 'packages/vuet-store/src/index')
     },
     extensions: ['.js', '.vue', '.json']
   },
