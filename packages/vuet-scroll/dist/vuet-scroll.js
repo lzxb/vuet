@@ -59,7 +59,7 @@ var util = {
     return opt;
   },
   isPromise: function isPromise(obj) {
-    return !!obj && ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+    return ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' || typeof obj === 'function') && !!obj && typeof obj.then === 'function';
   }
 };
 
