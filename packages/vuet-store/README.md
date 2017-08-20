@@ -49,8 +49,7 @@ const App = {
       test: 'test' // { 别名： '模块路径' }
     }),
     mapRules({
-      store: [{ path: 'test' }], // { 规则: ['模块路径'] }
-      once: [{ path: 'test' }]
+      store: [{ path: 'test' }] // { 规则: ['模块路径'] }
     })
   ],
   template: `
