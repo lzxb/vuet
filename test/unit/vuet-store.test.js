@@ -167,4 +167,5 @@ test.serial('two', async t => {
   t.is(vm.test.count, 0)
   await delay(20)
   t.is(localStorage.getItem('__vuet_store_test__'), '{"count":1000}')
+  t.is(vm['__vuet_store_test__'], undefined)
 })

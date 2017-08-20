@@ -30,8 +30,8 @@ export default {
           deep: true
         })
       },
-      destroy () {
-        this[getName(path)].unwatch()
+      destroyed () {
+        this[getName(path)]()
         delete this[getName(path)]
       }
     }

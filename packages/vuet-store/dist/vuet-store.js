@@ -69,7 +69,7 @@ var index = {
         });
       },
       destroyed: function destroyed() {
-        this[getName(path)].unwatch();
+        this[getName(path)]();
         delete this[getName(path)];
       }
     };
