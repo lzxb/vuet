@@ -20,8 +20,8 @@
 
   export default {
     mixins: [
-      mapRules({ route: 'topicList' }),
-      mapModules({ list: 'topicList' })
+      mapRules({ route: 'topic/list' }),
+      mapModules({ list: 'topic/list' })
     ],
     data () {
       return {

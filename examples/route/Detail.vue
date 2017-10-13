@@ -12,8 +12,8 @@
 
   export default {
     mixins: [
-      mapRules({ route: 'topicDetail' }),
-      mapModules({ detail: 'topicDetail' })
+      mapRules({ route: 'topic/detail' }),
+      mapModules({ detail: 'topic/detail' })
     ]
   }
 </script>
