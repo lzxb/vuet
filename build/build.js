@@ -14,7 +14,8 @@ const build = async (opts) => {
       presets: [
         ['es2015-rollup'],
         'stage-0'
-      ]
+      ],
+      plugins: ['transform-object-assign']
     }),
     replace({
       '__version__': packages.version,

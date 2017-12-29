@@ -99,7 +99,7 @@ var util = {
 var _Vue = void 0;
 
 var VuetStatic = function (Vuet) {
-  Object.assign(Vuet, {
+  _extends(Vuet, {
     installed: false,
     options: {
       rules: {},
@@ -315,7 +315,7 @@ var Vuet$1 = function () {
 
     debug.assertVue();
     // debug.assertPromise()
-    this.version = '1.0.1';
+    this.version = '1.0.2';
     this.modules = {};
     this.store = {};
     this.options = {
@@ -328,7 +328,7 @@ var Vuet$1 = function () {
         modules: this.store
       }
     });
-    Object.assign(this.options, opts);
+    _extends(this.options, opts);
     Vuet.callRuleHook('init', this);
     Object.keys(this.options.modules).forEach(function (k) {
       _this.addModules(k, _this.options.modules[k]);

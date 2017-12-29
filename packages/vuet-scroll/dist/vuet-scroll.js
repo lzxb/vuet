@@ -44,6 +44,26 @@ var createClass = function () {
   };
 }();
 
+
+
+
+
+
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
 var util = {
   isObject: function isObject(obj) {
     return !!obj && Object.prototype.toString.call(obj) === '[object Object]';
@@ -181,7 +201,7 @@ var VuetScroll = function () {
           newScrolls.x = scrollLeft || pageYOffset || scrollLeft;
           newScrolls.y = scrollTop || pageXOffset || scrollTop;
         }
-        Object.assign(_this2.scrolls, newScrolls);
+        _extends(_this2.scrolls, newScrolls);
       };
       app.addEventListener('scroll', this.subScrolling, false);
     }
