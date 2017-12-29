@@ -1,6 +1,6 @@
 {
   "name": "vuet-store",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "vuet store",
   "main": "dist/vuet-store.js",  
   "scripts": {
