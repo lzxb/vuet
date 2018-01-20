@@ -76,7 +76,7 @@ export default class Vuet {
       })
     }
     Vuet.callRuleHook('addModule', this, path)
-    return this
+    return this.getModule(path)
   }
   getModule (path) {
     debug.assertModule(this, path)
@@ -85,6 +85,10 @@ export default class Vuet {
   getState (path) {
     debug.assertModule(this, path)
     return this.modules[path].state
+  }
+  replaceStore (store) {
+    this.store = this.vm.$data.modules = store
+    return this
   }
   destroy () {
     this.vm.$destroy()

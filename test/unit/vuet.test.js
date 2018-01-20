@@ -481,3 +481,26 @@ test('add module public function', t => {
   vtm.reset()
   t.is(vtm.count, 0)
 })
+
+test('replaceStore', t => {
+  const vuet = new Vuet()
+  const vm = new Vue({
+    vuet
+  })
+  const test = vuet.addModules('test', {
+    data () {
+      return {
+        count: 0
+      }
+    }
+  })
+  t.is(test.count, 0)
+  vuet.replaceStore({
+    test: {
+      count: 100
+    }
+  })
+  console.log(JSON.stringify(vuet.store))
+  t.is(test.count, 100)
+  t.is(vm.$vuet, vuet)
+})

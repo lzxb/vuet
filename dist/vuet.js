@@ -315,7 +315,7 @@ var Vuet$1 = function () {
 
     debug.assertVue();
     // debug.assertPromise()
-    this.version = '1.0.2';
+    this.version = '1.0.3';
     this.modules = {};
     this.store = {};
     this.options = {
@@ -397,7 +397,7 @@ var Vuet$1 = function () {
         });
       }
       Vuet.callRuleHook('addModule', this, path);
-      return this;
+      return this.getModule(path);
     }
   }, {
     key: 'getModule',
@@ -410,6 +410,12 @@ var Vuet$1 = function () {
     value: function getState(path) {
       debug.assertModule(this, path);
       return this.modules[path].state;
+    }
+  }, {
+    key: 'replaceStore',
+    value: function replaceStore(store) {
+      this.store = this.vm.$data.modules = store;
+      return this;
     }
   }, {
     key: 'destroy',

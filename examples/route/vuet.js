@@ -39,7 +39,7 @@ export default new Vuet({
   },
   modules: {
     topic: {
-      modules: {        
+      modules: {
         list: {
           data () {
             return {
@@ -62,7 +62,7 @@ export default new Vuet({
               }, 1000)
             })
             this.list = list
-            this.fetchCount++ 
+            this.fetchCount++
           }
         },
         detail: {

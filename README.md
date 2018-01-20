@@ -150,7 +150,10 @@ export default new Vue({
 
 ### 实例的方法
 `vuet.addModules(path: string, modules: Object)`
-  - 描述：注册模块  
+  - 描述：注册模块，并返回添加的模块（1.0.3及以上版本支持）  
+
+`vuet.replaceStore(store: Object)`
+  - 描述：替换整个vuet的store，服务器端渲染时会用到（1.0.3及以上版本支持）  
 
 `vuet.getModule(path: string)`
   - 描述：返回该模块的状态和方法  
