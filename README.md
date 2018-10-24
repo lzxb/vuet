@@ -5,6 +5,8 @@
 [![npm](https://img.shields.io/npm/dm/vuet.svg)](https://www.npmjs.com/package/vuet)
 [![npm](https://img.shields.io/npm/dt/vuet.svg)](https://www.npmjs.com/package/vuet)
 
+## 此项目除了正常的bug修复，不再进行功能更新
+如果对状态管理感兴趣，可以看下 [Tms](https://github.com/FollowmeTech/tms)，文档更齐全
 
 <p align="center">
   <img width="700px" src="./images/vuet.png">
